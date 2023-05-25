@@ -434,7 +434,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: VS Player mode
+  m_text: VS Player mode\n(delete me and copy AI\nmake ajustemnts to\nsupport PVP)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
   m_sharedMaterial: {fileID: 2899596700994449933, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}

@@ -9,14 +9,18 @@ public class Initialization : MonoBehaviour
 
     void InitPhoton()
     {
-        PhotonManager.OnFinishedInit += FinishInit;
+        PhotonManager.OnFinishedInit += InitDataManager;
         PhotonManager.Instance.Init();
+    }
+
+    void InitDataManager()
+    {
+        PhotonManager.OnFinishedInit -= InitDataManager;
+        DataManager.Instance.Init(FinishInit);
     }
 
     void FinishInit()
     {
-        PhotonManager.OnFinishedInit -= FinishInit;
-
         SceneManager.LoadMainMenu();
     }
 }
