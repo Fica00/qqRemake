@@ -74,7 +74,6 @@ public class TableHandler : MonoBehaviour
                 default:
                     break;
             }
-            Debug.Log($"Add {_command.Card.Details.Name} to {_command.Location}");
             AddCardOnLane(_command.Card, _cardsOnLane);
         }
 

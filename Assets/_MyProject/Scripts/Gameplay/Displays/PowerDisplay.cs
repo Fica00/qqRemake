@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class PowerDisplay : MonoBehaviour
 {
@@ -17,17 +18,47 @@ public class PowerDisplay : MonoBehaviour
         if (_myPower == _opponentPower)
         {
             myPower.font = drawFontAsset;
+            Normal(myPower);
             opponentPower.font = drawFontAsset;
+            Normal(opponentPower);
         }
         else if (_myPower > _opponentPower)
         {
             myPower.font = winningFontAsset;
+            Increase(myPower);
             opponentPower.font = lossingFontAsset;
+            Decrease(opponentPower);
         }
         else
         {
             myPower.font = lossingFontAsset;
+            Decrease(myPower);
             opponentPower.font = winningFontAsset;
+            Increase(opponentPower);
         }
+    }
+
+    public void Increase(TextMeshProUGUI _text)
+    {
+        float _currentSize = _text.fontSize;
+        float _increasedSize = 90;
+        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 0.5f)
+    .OnUpdate(() => _text.fontSize = _currentSize);
+    }
+
+    public void Decrease(TextMeshProUGUI _text)
+    {
+        float _currentSize = _text.fontSize;
+        float _increasedSize = 70;
+        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 0.5f)
+    .OnUpdate(() => _text.fontSize = _currentSize);
+    }
+
+    public void Normal(TextMeshProUGUI _text)
+    {
+        float _currentSize = _text.fontSize;
+        float _increasedSize = 80;
+        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 0.5f)
+    .OnUpdate(() => _text.fontSize = _currentSize);
     }
 }

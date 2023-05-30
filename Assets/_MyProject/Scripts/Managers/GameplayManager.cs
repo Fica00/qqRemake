@@ -141,7 +141,6 @@ public class GameplayManager : MonoBehaviour
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);
 
-            Debug.Log("Both players finished their turns");
             GameplayState = GameplayState.ResolvingEndOfRound;
             StartCoroutine(RevealCards());
             yield return new WaitUntil(() => resolvedEndOfTheRound);
