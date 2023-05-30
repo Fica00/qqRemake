@@ -42,6 +42,8 @@ public class UIPlayPanel : MonoBehaviour
 
     void ShowPVPPanel()
     {
+        UIManager.Instance.OkDialog.Setup("PVP is not ready yet");
+        return;
         ManageInteractables(false);
         PhotonManager.Instance.JoinRandomRoom();
     }

@@ -1421,12 +1421,12 @@ MonoBehaviour:
   <Location>k__BackingField: 0
   powerDisplay: {fileID: 4207833359414954411}
   <AbilityDisplay>k__BackingField: {fileID: 3611794505880891207}
-  MyPlaces:
+  myPlaces:
   - {fileID: 7891819842368379061}
   - {fileID: 1405707981319818115}
   - {fileID: 1000801878380317267}
   - {fileID: 7984298143317706435}
-  OpponentPlaces:
+  opponentPlaces:
   - {fileID: 1573259181458161604}
   - {fileID: 929179103248372863}
   - {fileID: 6481201980197314994}

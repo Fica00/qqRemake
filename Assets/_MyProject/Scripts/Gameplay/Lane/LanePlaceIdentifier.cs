@@ -10,13 +10,12 @@ public class LanePlaceIdentifier : MonoBehaviour
     {
         foreach (Transform _child in transform)
         {
-            CardDisplay _display = _child.GetComponent<CardDisplay>();
-            if (_display != null)
+            CardObject _cardObject = _child.GetComponent<CardObject>();
+            if (_cardObject != null)
             {
                 return false;
             }
         }
-
         return true;
     }
 }

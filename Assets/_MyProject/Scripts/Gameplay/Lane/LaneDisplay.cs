@@ -7,8 +7,8 @@ public class LaneDisplay : MonoBehaviour
     [SerializeField] PowerDisplay powerDisplay;
     [field: SerializeField] public LocationAbilityDisplay AbilityDisplay { get; private set; }
 
-    [SerializeField] List<LanePlaceIdentifier> MyPlaces;
-    [SerializeField] List<LanePlaceIdentifier> OpponentPlaces;
+    [SerializeField] List<LanePlaceIdentifier> myPlaces;
+    [SerializeField] List<LanePlaceIdentifier> opponentPlaces;
 
     private void OnEnable()
     {
@@ -34,11 +34,11 @@ public class LaneDisplay : MonoBehaviour
 
         if (_isMine)
         {
-            _place = CheckForMathicngPlace(MyPlaces, _command.PlaceId);
+            _place = CheckForMathicngPlace(myPlaces, _command.PlaceId);
         }
         else
         {
-            _place = CheckForMathicngPlace(OpponentPlaces, _command.PlaceId);
+            _place = CheckForMathicngPlace(opponentPlaces, _command.PlaceId);
         }
 
         if (_place == null)
@@ -70,6 +70,20 @@ public class LaneDisplay : MonoBehaviour
             if (_place.Id == _id)
             {
                 return _place;
+            }
+        }
+
+        return null;
+    }
+
+    public LanePlaceIdentifier GetPlaceLocation(bool _isMyPlayer)
+    {
+        List<LanePlaceIdentifier> _lanePlaces = _isMyPlayer ? myPlaces : opponentPlaces;
+        foreach (var _lane in _lanePlaces)
+        {
+            if (_lane.CanPlace())
+            {
+                return _lane;
             }
         }
 

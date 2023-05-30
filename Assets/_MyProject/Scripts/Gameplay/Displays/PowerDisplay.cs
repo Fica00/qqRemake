@@ -42,7 +42,7 @@ public class PowerDisplay : MonoBehaviour
     {
         float _currentSize = _text.fontSize;
         float _increasedSize = 90;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 0.5f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 1f)
     .OnUpdate(() => _text.fontSize = _currentSize);
     }
 
@@ -50,7 +50,7 @@ public class PowerDisplay : MonoBehaviour
     {
         float _currentSize = _text.fontSize;
         float _increasedSize = 70;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 0.5f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 1f)
     .OnUpdate(() => _text.fontSize = _currentSize);
     }
 
@@ -58,7 +58,7 @@ public class PowerDisplay : MonoBehaviour
     {
         float _currentSize = _text.fontSize;
         float _increasedSize = 80;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 0.5f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 1f)
     .OnUpdate(() => _text.fontSize = _currentSize);
     }
 }

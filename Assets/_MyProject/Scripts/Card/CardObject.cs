@@ -100,7 +100,10 @@ public class CardObject : MonoBehaviour
         {
             return;
         }
-        if (!_placeIdentifier.CanPlace())
+        LaneDisplay _laneDisplay = _placeIdentifier.gameObject.GetComponentInParent<LaneDisplay>();
+        _placeIdentifier = _laneDisplay.GetPlaceLocation(IsMy);
+
+        if (_placeIdentifier == null)
         {
             return;
         }

@@ -12,7 +12,7 @@ public class OkDialog : MonoBehaviour
     public void Setup(string _message)
     {
         messageDisplay.text = _message;
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     private void OnEnable()

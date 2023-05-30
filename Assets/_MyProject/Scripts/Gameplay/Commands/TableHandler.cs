@@ -152,4 +152,34 @@ public class TableHandler : MonoBehaviour
                 throw new Exception("Cant handle lane: " + _location);
         }
     }
+
+    public GameResult CalculateWinner()
+    {
+        int _myAmountOfWinningLocations = 0;
+        int _opponentAmountOfWinningLocations = 0;
+        for (int i = 0; i < myPower.Length; i++)
+        {
+            if (myPower[i] > opponentPower[i])
+            {
+                _myAmountOfWinningLocations++;
+            }
+            else if (myPower[i] < opponentPower[i])
+            {
+                _opponentAmountOfWinningLocations++;
+            }
+        }
+
+        if (_myAmountOfWinningLocations > _opponentAmountOfWinningLocations)
+        {
+            return GameResult.IWon;
+        }
+        else if (_myAmountOfWinningLocations == _opponentAmountOfWinningLocations)
+        {
+            return GameResult.Draw;
+        }
+        else
+        {
+            return GameResult.ILost;
+        }
+    }
 }

@@ -8,6 +8,7 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager Instance;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
+    public static Action<GameResult> GameEnded;
     public GameplayPlayer MyPlayer;
     public GameplayPlayer BotPlayer;
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
@@ -95,10 +96,9 @@ public class GameplayManager : MonoBehaviour
 
     void InitialDraw()
     {
-        int _startingAmountOfCards = 7;
+        int _startingAmountOfCards = 3;
         Draw(MyPlayer);
         Draw(BotPlayer);
-        //todo let bot also draw
 
         void Draw(GameplayPlayer _player)
         {
@@ -115,7 +115,6 @@ public class GameplayManager : MonoBehaviour
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
         if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)
         {
-            Debug.Log($"Player(isMy:{_player.IsMy}) has max amount of cards");
             return;
         }
 
@@ -126,7 +125,7 @@ public class GameplayManager : MonoBehaviour
     IEnumerator GameplayRoutine()
     {
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
-        while (CurrentRound <= maxRounds)
+        while (CurrentRound < maxRounds)
         {
             opponentFinished = false;
             iFinished = false;
@@ -136,7 +135,8 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitForSeconds(1f); //duration of round animation
             yield return RevealLocation();
             yield return StartCoroutine(CheckForCardsThatShouldMoveToHand());
-            DrawCard();
+            DrawCard(MyPlayer);
+            DrawCard(BotPlayer);
 
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);
@@ -144,16 +144,15 @@ public class GameplayManager : MonoBehaviour
             GameplayState = GameplayState.ResolvingEndOfRound;
             StartCoroutine(RevealCards());
             yield return new WaitUntil(() => resolvedEndOfTheRound);
-            DrawCard(MyPlayer);
             yield return new WaitForSeconds(0.5f);
         }
 
+        GameResult _result = TableHandler.CalculateWinner();
+        GameEnded?.Invoke(_result);
+
     }
 
-    void DrawCard()
-    {
-        MyPlayer.DrawCard();
-    }
+
 
     IEnumerator RevealLocation()
     {
