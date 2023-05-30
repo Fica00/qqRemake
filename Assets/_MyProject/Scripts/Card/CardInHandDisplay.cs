@@ -17,6 +17,7 @@ public class CardInHandDisplay : MonoBehaviour
     [SerializeField] Image qommonDisplay;
     [SerializeField] GameObject manaHolder;
     [SerializeField] GameObject powerHolder;
+    [SerializeField] GameObject borderShadow;
 
     public void Setup(CardObject _cardObject)
     {
@@ -29,11 +30,41 @@ public class CardInHandDisplay : MonoBehaviour
         cardObject.Stats.UpdatedPower += ShowPower;
     }
 
+    private void OnEnable()
+    {
+        GameplayManager.Instance.MyPlayer.UpdatedEnergy += ShowIfPlayerHasEnaughtEnergy;
+    }
+
+    private void OnDisable()
+    {
+        cardObject.Stats.UpdatedMana -= ShowMana;
+        cardObject.Stats.UpdatedPower -= ShowPower;
+        GameplayManager.Instance.MyPlayer.UpdatedEnergy -= ShowIfPlayerHasEnaughtEnergy;
+    }
+
     public void Show()
     {
         ShowMana(ChangeStatus.Same);
         ShowPower(ChangeStatus.Same);
+        ShowIfPlayerHasEnaughtEnergy();
         gameObject.SetActive(true);
+    }
+
+    void ShowIfPlayerHasEnaughtEnergy()
+    {
+        Color _color = qommonDisplay.color;
+        if (GameplayManager.Instance.MyPlayer.Energy < cardObject.Stats.Energy)
+        {
+            _color.a = 0.3f;
+            borderShadow.SetActive(false);
+        }
+        else
+        {
+            _color.a = 1f;
+            borderShadow.SetActive(true);
+        }
+
+        qommonDisplay.color = _color;
     }
 
     public void Hide()
@@ -41,15 +72,9 @@ public class CardInHandDisplay : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
-    {
-        cardObject.Stats.UpdatedMana -= ShowMana;
-        cardObject.Stats.UpdatedPower -= ShowPower;
-    }
-
     void ShowMana(ChangeStatus _status)
     {
-        manaDisplay.text = cardObject.Stats.Mana.ToString();
+        manaDisplay.text = cardObject.Stats.Energy.ToString();
         switch (_status)
         {
             case ChangeStatus.Same:

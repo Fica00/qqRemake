@@ -35,7 +35,7 @@ public class CardStats
         }
     }
 
-    public int Mana
+    public int Energy
     {
         get
         {

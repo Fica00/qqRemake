@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 0_Bambooda
       objectReference: {fileID: 0}
+    - target: {fileID: 1320126881876742923, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

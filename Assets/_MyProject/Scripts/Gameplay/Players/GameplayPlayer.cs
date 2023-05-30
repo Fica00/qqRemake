@@ -1,22 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameplayPlayer : MonoBehaviour
 {
-
+    public static Action<PlaceCommand> AddedCardToTable;
+    public static Action<PlaceCommand> RemovedCardFromTable;
     public Action<CardObject> AddedCardToHand;
     public Action<CardObject> RemovedCardFromHand;
     public Action UpdatedEnergy;
-    public bool IsMy { get; private set; }
+
+    [field: SerializeField] public bool IsMy { get; private set; }
 
     [SerializeField] CardsInHandHandler cardsInHandHandler = null;
     [SerializeField] EnergyDisplayHandler energyDisplayHandler = null;
 
-    List<int> cardsInDeck;
-    List<CardObject> cardsInHand;
-    int energy;
+    protected List<int> cardsInDeck;
+    protected List<CardObject> cardsInHand;
+    protected int energy;
+
+    public List<CardObject> CardsOnTop;
+    public List<CardObject> CardsOnMid;
+    public List<CardObject> CardsOnBot;
 
     public int AmountOfCardsInHand => cardsInHand.Count;
     public int Energy
@@ -32,18 +39,15 @@ public class GameplayPlayer : MonoBehaviour
         }
     }
 
-    public void Setup()
+    public virtual void Setup()
     {
         cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsIndeck);
         cardsInHand = new List<CardObject>();
-        if (cardsInHandHandler != null)
-        {
-            cardsInHandHandler.Setup(this);
-        }
-        if (energyDisplayHandler != null)
-        {
-            energyDisplayHandler.Setup(this);
-        }
+        CardsOnTop = new List<CardObject>();
+        CardsOnMid = new List<CardObject>();
+        CardsOnBot = new List<CardObject>();
+        cardsInHandHandler.Setup(this);
+        energyDisplayHandler.Setup(this);
     }
 
     private void OnEnable()
@@ -116,5 +120,68 @@ public class GameplayPlayer : MonoBehaviour
 
             _callback?.Invoke();
         }
+    }
+
+    public void AddCardToTable(PlaceCommand _command)
+    {
+        CardObject _card = _command.Card;
+        switch (_command.Location)
+        {
+            case LaneLocation.Top:
+                CardsOnTop.Add(_card);
+                break;
+            case LaneLocation.Mid:
+                CardsOnMid.Add(_card);
+                break;
+            case LaneLocation.Bot:
+                CardsOnBot.Add(_card);
+                break;
+            default:
+                throw new Exception("Cant handle Location: " + _command.Location);
+        }
+        _card.SetCardLocation(CardLocation.Table);
+        AddedCardToTable?.Invoke(_command);
+    }
+
+    public void RemoveCardFromTable(PlaceCommand _command)
+    {
+        CardObject _card = _command.Card;
+        switch (_command.Location)
+        {
+            case LaneLocation.Top:
+                CardsOnTop.Remove(_card);
+                break;
+            case LaneLocation.Mid:
+                CardsOnMid.Remove(_card);
+                break;
+            case LaneLocation.Bot:
+                CardsOnBot.Remove(_card);
+                break;
+            default:
+                throw new Exception("Cant handle Location: " + _command.Location);
+        }
+    }
+
+    public void CancelCommand(CardObject _cardObject)
+    {
+        PlaceCommand _command = GameplayManager.Instance.CommandsHandler.GetCommand(_cardObject);
+        CancelCommand(_command);
+    }
+
+    public void CancelAllCommands()
+    {
+        List<PlaceCommand> _commands = GameplayManager.Instance.CommandsHandler.MyCommands;
+        foreach (var _command in _commands.ToList())
+        {
+            CancelCommand(_command);
+        }
+    }
+
+    void CancelCommand(PlaceCommand _command)
+    {
+        Energy += _command.Card.Stats.Energy;
+        AddCardToHand(_command.Card);
+        RemoveCardFromTable(_command);
+        RemovedCardFromTable?.Invoke(_command);
     }
 }

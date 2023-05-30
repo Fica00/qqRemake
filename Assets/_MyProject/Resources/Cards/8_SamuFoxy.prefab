@@ -102,19 +102,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 260.653
+      value: 59.804
       objectReference: {fileID: 0}
     - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 259.1824
+      value: 59.5212
       objectReference: {fileID: 0}
     - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 16
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37
+      value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Id>k__BackingField
@@ -164,6 +164,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d15f25c2a0f6e44d848d372eb2a8091, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

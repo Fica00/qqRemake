@@ -7,17 +7,39 @@ public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager Instance;
     public static Action UpdatedRound;
-    public GameplayPlayer myPlayer;
+    public static Action UpdatedGameState;
+    public GameplayPlayer MyPlayer;
+    public GameplayPlayer BotPlayer;
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
+    [field: SerializeField] public int DurationOfRound { get; private set; }
 
+    public CommandsHandler CommandsHandler;
+
+    [SerializeField] EndTurnHandler endTurnHandler;
     [SerializeField] int maxRounds = 6;
     [SerializeField] List<LaneDisplay> lanes;
+    [field: SerializeField] public TableHandler TableHandler { get; private set; }
+    [SerializeField] GameObject[] flags;
 
     GameplayState gameplayState;
     int currentRound;
 
-    public GameplayState GameplayState => gameplayState;
+    bool opponentFinished;
+    bool iFinished;
+    bool resolvedEndOfTheRound;
 
+    public GameplayState GameplayState
+    {
+        get
+        {
+            return gameplayState;
+        }
+        set
+        {
+            gameplayState = value;
+            UpdatedGameState?.Invoke();
+        }
+    }
 
     public int CurrentRound
     {
@@ -32,6 +54,23 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        EndTurnHandler.OnEndTurn += EndTurn;
+    }
+
+    private void OnDisable()
+    {
+        CommandsHandler.Close();
+        EndTurnHandler.OnEndTurn -= EndTurn;
+    }
+
+    void EndTurn()
+    {
+        GameplayState = GameplayState.Waiting;
+        iFinished = true;
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -39,21 +78,26 @@ public class GameplayManager : MonoBehaviour
 
     private void Start()
     {
+        CommandsHandler = new CommandsHandler();
+        CommandsHandler.Setup();
         CurrentRound = 0;
         SetupPlayers();
+        TableHandler.Setup();
         InitialDraw();
         StartCoroutine(GameplayRoutine());
     }
 
     void SetupPlayers()
     {
-        myPlayer.Setup();
+        MyPlayer.Setup();
+        BotPlayer.Setup();
     }
 
     void InitialDraw()
     {
-        int _startingAmountOfCards = 3;
-        Draw(myPlayer);
+        int _startingAmountOfCards = 7;
+        Draw(MyPlayer);
+        Draw(BotPlayer);
         //todo let bot also draw
 
         void Draw(GameplayPlayer _player)
@@ -84,23 +128,32 @@ public class GameplayManager : MonoBehaviour
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound <= maxRounds)
         {
-            gameplayState = GameplayState.ResolvingBeginingOfRound;
+            opponentFinished = false;
+            iFinished = false;
+            resolvedEndOfTheRound = false;
+            GameplayState = GameplayState.ResolvingBeginingOfRound;
             CurrentRound++;
             yield return new WaitForSeconds(1f); //duration of round animation
             yield return RevealLocation();
             yield return StartCoroutine(CheckForCardsThatShouldMoveToHand());
             DrawCard();
 
-            gameplayState = GameplayState.Playing;
-            //wait until both players finished their turns
-            break;
+            GameplayState = GameplayState.Playing;
+            yield return new WaitUntil(() => iFinished && opponentFinished);
+
+            Debug.Log("Both players finished their turns");
+            GameplayState = GameplayState.ResolvingEndOfRound;
+            StartCoroutine(RevealCards());
+            yield return new WaitUntil(() => resolvedEndOfTheRound);
+            DrawCard(MyPlayer);
+            yield return new WaitForSeconds(0.5f);
         }
 
     }
 
     void DrawCard()
     {
-        myPlayer.DrawCard();
+        MyPlayer.DrawCard();
     }
 
     IEnumerator RevealLocation()
@@ -137,12 +190,49 @@ public class GameplayManager : MonoBehaviour
     IEnumerator CheckForCardsThatShouldMoveToHand()
     {
         bool _finished = false;
-        myPlayer.CheckForCardsThatShouldMoveToHand(Finished);
+        MyPlayer.CheckForCardsThatShouldMoveToHand(Finished);
         yield return new WaitUntil(() => _finished);
 
         void Finished()
         {
             _finished = true;
         }
+    }
+
+    IEnumerator RevealCards()
+    {
+        int _whoPlaysFirst = TableHandler.WhichCardsToRevealFrist();
+        ShowFlag(_whoPlaysFirst);
+        yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
+        yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
+        resolvedEndOfTheRound = true;
+    }
+
+    void ShowFlag(int _whoPlaysFirst)
+    {
+        if (_whoPlaysFirst == -1)
+        {
+            flags[0].SetActive(true);
+            flags[1].SetActive(false);
+        }
+        else
+        {
+            flags[0].SetActive(false);
+            flags[1].SetActive(true);
+        }
+    }
+
+    public void ReturnToWaitingState()
+    {
+        if (endTurnHandler.TimeLeft > 2)
+        {
+            GameplayState = GameplayState.Playing;
+        }
+        iFinished = false;
+    }
+
+    public void OpponentFinished()
+    {
+        opponentFinished = true;
     }
 }

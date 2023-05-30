@@ -26,13 +26,13 @@ public class CardDetailsPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        CardInputInteractions.OnClicked += ShowCardDetails;
+        CardInteractions.OnClicked += ShowCardDetails;
         closeButton.onClick.AddListener(Close);
     }
 
     private void OnDisable()
     {
-        CardInputInteractions.OnClicked -= ShowCardDetails;
+        CardInteractions.OnClicked -= ShowCardDetails;
         closeButton.onClick.RemoveListener(Close);
     }
 
@@ -60,7 +60,9 @@ public class CardDetailsPanel : MonoBehaviour
             manaHolder.SetActive(true);
             powerHolder.SetActive(true);
             nameDispaly.text = _cardDetails.Name;
-            descDisplay.text = _cardDetails.Description;
+            string _desc = _cardDetails.Description;
+            _desc = _desc.Replace("\\n", "\n");
+            descDisplay.text = _desc;
             manaDisplay.text = _cardDetails.Mana.ToString();
             powerDisplay.text = _cardDetails.Power.ToString();
         });
