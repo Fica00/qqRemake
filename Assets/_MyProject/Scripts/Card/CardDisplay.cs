@@ -3,12 +3,16 @@ using UnityEngine;
 public class CardDisplay : MonoBehaviour
 {
     [SerializeField] CardInHandDisplay cardInHandDisplay;
-    [SerializeField] CardOnTableDisplay cardOnTableDisplay;
+    [SerializeField] CardOnTableDisplay cardOnTableMyDisplay;
+    [SerializeField] CardOnTableDisplay cardOnTableOpponentDisplay;
+
+    CardOnTableDisplay cardOnTableHandler;
 
     public void Setup(CardObject _cardObject)
     {
+        cardOnTableHandler = _cardObject.IsMy ? cardOnTableMyDisplay : cardOnTableOpponentDisplay;
         cardInHandDisplay.Setup(_cardObject);
-        cardOnTableDisplay.Setup(_cardObject);
+        cardOnTableHandler.Setup(_cardObject);
     }
 
     public void ShowDrawnAnimation()
@@ -20,17 +24,17 @@ public class CardDisplay : MonoBehaviour
     public void ShowCardInHand()
     {
         cardInHandDisplay.Show();
-        cardOnTableDisplay.Hide();
+        cardOnTableHandler.Hide();
     }
 
     public void ShowCardOnTable()
     {
-        cardOnTableDisplay.Show();
+        cardOnTableHandler.Show();
         cardInHandDisplay.Hide();
     }
 
     public void HideCardOnTable()
     {
-        cardOnTableDisplay.Hide();
+        cardOnTableHandler.Hide();
     }
 }

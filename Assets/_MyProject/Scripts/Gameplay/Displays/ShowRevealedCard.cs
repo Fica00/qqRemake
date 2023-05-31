@@ -28,6 +28,9 @@ public class ShowRevealedCard : MonoBehaviour
 
     void ShowCardDetails(CardObject _cardObject)
     {
+        Vector3 _rotation = new Vector3(0, 0, 0);
+        _rotation.y = _cardObject.IsMy ? 180 : 0;
+        qommonDisplay.transform.eulerAngles = _rotation;
         RectTransform _rectTransform = qommonDisplay.GetComponent<RectTransform>();
         RectTransform _cardRect = _cardObject.GetComponent<RectTransform>();
         float _animationDuration = 0.5f;
@@ -41,9 +44,11 @@ public class ShowRevealedCard : MonoBehaviour
         sequence = DOTween.Sequence();
         sequence.Append(_rectTransform.DOSizeDelta(startingRect, _animationDuration));
         sequence.Join(_rectTransform.DOLocalMove(Vector3.zero, _animationDuration));
+        sequence.Append(_rectTransform.DOSizeDelta(_rectTransform.sizeDelta, _animationDuration));
+        sequence.Join(_rectTransform.DOLocalMove(_rectTransform.anchoredPosition, _animationDuration));
         sequence.OnComplete(() =>
         {
-            Invoke("Close", 0.5f);
+            Close();
         });
 
         detailsHolder.SetActive(true);

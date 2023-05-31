@@ -38,6 +38,9 @@ public class CardDetailsPanel : MonoBehaviour
 
     void ShowCardDetails(CardObject _cardObject)
     {
+        Vector3 _rotation = new Vector3(0, 0, 0);
+        _rotation.y = _cardObject.IsMy ? 180 : 0;
+        qommonDisplay.transform.eulerAngles = _rotation;
         RectTransform _rectTransform = qommonDisplay.GetComponent<RectTransform>();
         RectTransform _cardRect = _cardObject.GetComponent<RectTransform>();
         float _animationDuration = 1f;

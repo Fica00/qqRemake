@@ -60,18 +60,32 @@ public class GameplayManager : MonoBehaviour
     private void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
+        FlagClickHandler.OnClick += Forfiet;
     }
 
     private void OnDisable()
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
+        FlagClickHandler.OnClick -= Forfiet;
     }
 
     void EndTurn()
     {
         GameplayState = GameplayState.Waiting;
         iFinished = true;
+    }
+
+    void Forfiet()
+    {
+        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesForfiet);
+        UIManager.Instance.YesNoDialog.Setup("Do you want to forfeit the match?");
+    }
+
+    void YesForfiet()
+    {
+        StopAllCoroutines();
+        GameEnded?.Invoke(GameResult.ILost);
     }
 
     private void Awake()

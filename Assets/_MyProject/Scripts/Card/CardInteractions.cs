@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     public static Action<CardObject> OnClicked;
+    public static Action DragStarted;
+    public static Action DragEnded;
 
     protected CardObject cardObject;
     CardDisplay cardDisplay;
@@ -66,6 +68,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void HandleDragEnded(PointerEventData _eventData)
     {
+        DragEnded?.Invoke();
         cardDisplay.transform.localPosition = Vector3.zero;
 
         List<RaycastResult> _results = new List<RaycastResult>();
@@ -105,6 +108,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 if (dragDelta.magnitude >= dragThreshold)
                 {
                     isDragging = true;
+                    DragStarted?.Invoke();
                     // Additional actions when the drag gesture is confirmed
                 }
             }

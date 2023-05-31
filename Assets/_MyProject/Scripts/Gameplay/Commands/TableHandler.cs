@@ -28,7 +28,7 @@ public class TableHandler : MonoBehaviour
         }
     }
 
-    public int WhichCardsToRevealFrist() //-1 mine, 1 opponents, show mine if I am winning show opponents if it is draw or he is winning
+    public int WhichCardsToRevealFrist() //-1 mine, 1 opponents, show mine if I am winning show opponents if he is winnig,show random if it is draw
     {
         int _myAmountOfWinningLocations = 0;
         int _opponentAmountOfWinningLocations = 0;
@@ -48,9 +48,13 @@ public class TableHandler : MonoBehaviour
         {
             return -1;
         }
-        else
+        else if (_myAmountOfWinningLocations < _opponentAmountOfWinningLocations)
         {
             return 1;
+        }
+        else
+        {
+            return UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
         }
     }
 
@@ -58,7 +62,7 @@ public class TableHandler : MonoBehaviour
     {
         foreach (var _command in _commands)
         {
-            yield return _command.Card.RevealCard();
+            yield return StartCoroutine(_command.Card.RevealCard());
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
             {

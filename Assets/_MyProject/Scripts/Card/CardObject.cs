@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -7,8 +8,9 @@ public class CardObject : MonoBehaviour
 {
     [field: SerializeField] public CardDetails Details { get; private set; }
     [field: SerializeField] public CardDisplay Display { get; private set; }
-
     [field: SerializeField] public CardReveal Reveal { get; private set; }
+    [field: SerializeField] public List<CardSpecialEffectBase> SpecialEffects { get; private set; }
+
     public CardStats Stats { get; private set; }
 
     [HideInInspector] public bool IsMy;
@@ -35,6 +37,12 @@ public class CardObject : MonoBehaviour
         {
             cardInputInteractions = gameObject.AddComponent<CardOpponentInteractions>();
         }
+
+        foreach (var _specialEffect in SpecialEffects)
+        {
+            _specialEffect.Setup(this);
+        }
+
         cardInputInteractions.Setup(this);
         Reveal.Setup(this);
         Display.Setup(this);
@@ -137,6 +145,9 @@ public class CardObject : MonoBehaviour
     public IEnumerator RevealCard()
     {
         yield return StartCoroutine(Reveal.Reveal());
-
+        foreach (var _specialEffect in SpecialEffects)
+        {
+            _specialEffect.Subscribe();
+        }
     }
 }
