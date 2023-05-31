@@ -13,13 +13,13 @@ public class GameplayManager : MonoBehaviour
     public GameplayPlayer BotPlayer;
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
     [field: SerializeField] public int DurationOfRound { get; private set; }
+    [field: SerializeField] public TableHandler TableHandler { get; private set; }
 
     public CommandsHandler CommandsHandler;
 
     [SerializeField] EndTurnHandler endTurnHandler;
     [SerializeField] int maxRounds = 6;
     [SerializeField] List<LaneDisplay> lanes;
-    [field: SerializeField] public TableHandler TableHandler { get; private set; }
     [SerializeField] GameObject[] flags;
 
     GameplayState gameplayState;
@@ -54,6 +54,8 @@ public class GameplayManager : MonoBehaviour
             UpdatedRound?.Invoke();
         }
     }
+
+    public List<LaneDisplay> Lanes => lanes;
 
     private void OnEnable()
     {
@@ -151,8 +153,6 @@ public class GameplayManager : MonoBehaviour
         GameEnded?.Invoke(_result);
 
     }
-
-
 
     IEnumerator RevealLocation()
     {

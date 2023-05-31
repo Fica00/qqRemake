@@ -96,6 +96,12 @@ public class TableHandler : MonoBehaviour
     {
         CalculatePower(myCardsOnTable, myPower);
         CalculatePower(opponentCardsOnTable, opponentPower);
+        string _opponentPower = "OpponentPower:";
+        foreach (var _power in opponentPower)
+        {
+            _opponentPower += $"{_power},";
+        }
+        Debug.Log(_opponentPower);
 
         void CalculatePower(List<CardObject>[] _cardsOnTable, int[] _powerHolder)
         {
@@ -180,6 +186,18 @@ public class TableHandler : MonoBehaviour
         else
         {
             return GameResult.ILost;
+        }
+    }
+
+    public int[] GetAllPower(bool _getPlayers)
+    {
+        if (_getPlayers)
+        {
+            return myPower;
+        }
+        else
+        {
+            return opponentPower;
         }
     }
 }
