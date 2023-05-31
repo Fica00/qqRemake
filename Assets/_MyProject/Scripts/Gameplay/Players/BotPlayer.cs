@@ -60,6 +60,8 @@ public class BotPlayer : GameplayPlayer
         _canPlaceCard[1] = GameplayManager.Instance.Lanes[1].GetPlaceLocation(false);
         _canPlaceCard[2] = GameplayManager.Instance.Lanes[2].GetPlaceLocation(false);
 
+        _canPlaceCard = _canPlaceCard.OrderBy(element => Guid.NewGuid()).ToArray();
+
         for (int i = 0; i < 3; i++)
         {
             //i==0 first time when going through try to place card that would change power scale in bots favor

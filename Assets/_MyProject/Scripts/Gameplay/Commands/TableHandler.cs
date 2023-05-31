@@ -96,19 +96,13 @@ public class TableHandler : MonoBehaviour
     {
         CalculatePower(myCardsOnTable, myPower);
         CalculatePower(opponentCardsOnTable, opponentPower);
-        string _opponentPower = "OpponentPower:";
-        foreach (var _power in opponentPower)
-        {
-            _opponentPower += $"{_power},";
-        }
-        Debug.Log(_opponentPower);
+
 
         void CalculatePower(List<CardObject>[] _cardsOnTable, int[] _powerHolder)
         {
             for (int i = 0; i < _cardsOnTable.Length; i++)
             {
                 int _power = 0;
-                bool _shouldUpdatePower = false;
                 LaneLocation _location = LaneLocation.Bot;
 
                 foreach (var _cardOnLane in _cardsOnTable[i])
@@ -116,29 +110,22 @@ public class TableHandler : MonoBehaviour
                     _power += _cardOnLane.Stats.Power;
                 }
 
-                if (_powerHolder[i] != _power)
+                switch (i)
                 {
-                    switch (i)
-                    {
-                        case 0:
-                            _location = LaneLocation.Top;
-                            break;
-                        case 1:
-                            _location = LaneLocation.Mid;
-                            break;
-                        case 2:
-                            _location = LaneLocation.Bot;
-                            break;
-                    }
-                    _shouldUpdatePower = true;
+                    case 0:
+                        _location = LaneLocation.Top;
+                        break;
+                    case 1:
+                        _location = LaneLocation.Mid;
+                        break;
+                    case 2:
+                        _location = LaneLocation.Bot;
+                        break;
                 }
+
                 _powerHolder[i] = _power;
 
-                if (_shouldUpdatePower)
-                {
-                    Debug.Log("Gonna update power for location: " + _location);
-                    UpdatedPower?.Invoke(_location);
-                }
+                UpdatedPower?.Invoke(_location);
             }
         }
     }
