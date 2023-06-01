@@ -150,7 +150,8 @@ public class GameplayManager : MonoBehaviour
             CurrentRound++;
             yield return new WaitForSeconds(1f); //duration of round animation
             yield return RevealLocation();
-            yield return StartCoroutine(CheckForCardsThatShouldMoveToHand());
+            yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(MyPlayer));
+            yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(BotPlayer));
             DrawCard(MyPlayer);
             DrawCard(BotPlayer);
 
@@ -199,10 +200,10 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    IEnumerator CheckForCardsThatShouldMoveToHand()
+    IEnumerator CheckForCardsThatShouldMoveToHand(GameplayPlayer _player)
     {
         bool _finished = false;
-        MyPlayer.CheckForCardsThatShouldMoveToHand(Finished);
+        _player.CheckForCardsThatShouldMoveToHand(Finished);
         yield return new WaitUntil(() => _finished);
 
         void Finished()
@@ -217,6 +218,12 @@ public class GameplayManager : MonoBehaviour
         ShowFlag(_whoPlaysFirst);
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
+
+        yield return new WaitForSeconds(1);//some delay
+
+        CommandsHandler.MyCommands.Clear();
+        CommandsHandler.OpponentCommands.Clear();
+
         resolvedEndOfTheRound = true;
     }
 

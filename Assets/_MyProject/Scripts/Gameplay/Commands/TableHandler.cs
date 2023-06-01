@@ -6,6 +6,7 @@ using UnityEngine;
 public class TableHandler : MonoBehaviour
 {
     public static Action<LaneLocation> UpdatedPower;
+    public static Action<CardObject> OnRevealdCard;
     int[] myPower = new int[3];//top,mid,bot
     int[] opponentPower = new int[3];//top,mid,bot
 
@@ -79,9 +80,8 @@ public class TableHandler : MonoBehaviour
                     break;
             }
             AddCardOnLane(_command.Card, _cardsOnLane);
+            OnRevealdCard?.Invoke(_command.Card);
         }
-
-        _commands.Clear();
     }
 
     void AddCardOnLane(CardObject _card, List<CardObject> _cardsOnLane)
@@ -189,6 +189,21 @@ public class TableHandler : MonoBehaviour
         else
         {
             return opponentPower;
+        }
+    }
+
+    public List<CardObject> GetCards(bool _getForPlayer, LaneLocation _location)
+    {
+        switch (_location)
+        {
+            case LaneLocation.Top:
+                return _getForPlayer ? myCardsOnTable[0] : opponentCardsOnTable[0];
+            case LaneLocation.Mid:
+                return _getForPlayer ? myCardsOnTable[1] : opponentCardsOnTable[1];
+            case LaneLocation.Bot:
+                return _getForPlayer ? myCardsOnTable[2] : opponentCardsOnTable[2];
+            default:
+                throw new Exception("Dont know how to handle location: " + _location);
         }
     }
 }

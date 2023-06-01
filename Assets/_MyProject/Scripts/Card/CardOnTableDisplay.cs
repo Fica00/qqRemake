@@ -19,7 +19,6 @@ public class CardOnTableDisplay : MonoBehaviour
         cardObject = _cardObject;
         qommonDisplay.sprite = cardObject.Details.Sprite;
         powerDisplay.font = normalFont;
-
         cardObject.Stats.UpdatedPower += ShowPower;
     }
 
@@ -34,7 +33,7 @@ public class CardOnTableDisplay : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         cardObject.Stats.UpdatedPower -= ShowPower;
     }

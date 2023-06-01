@@ -147,7 +147,23 @@ public class CardObject : MonoBehaviour
         yield return StartCoroutine(Reveal.Reveal());
         foreach (var _specialEffect in SpecialEffects)
         {
-            _specialEffect.Subscribe();
+            if (_specialEffect != null)
+            {
+                _specialEffect.Subscribe();
+            }
+        }
+    }
+
+    public LaneLocation LaneLocation
+    {
+        get
+        {
+            LaneDisplay _laneDisplay = GetComponentInParent<LaneDisplay>();
+            if (_laneDisplay == null)
+            {
+                throw new Exception("Cant find lane display for to determin lain location");
+            }
+            return _laneDisplay.Location;
         }
     }
 }

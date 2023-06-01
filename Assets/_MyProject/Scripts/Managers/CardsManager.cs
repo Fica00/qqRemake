@@ -23,6 +23,20 @@ public class CardsManager : MonoBehaviour
 
     public CardObject CreateCard(int _cardId, bool _isMy)
     {
+        CardObject _desiredCard = GetCardObject(_cardId);
+        CardObject _cardObject = Instantiate(_desiredCard);
+        _cardObject.Setup(_isMy);
+        return _cardObject;
+    }
+
+    public List<CardSpecialEffectBase> GetCardEffects(int _cardId)
+    {
+        CardObject _desiredCard = GetCardObject(_cardId);
+        return _desiredCard.SpecialEffects;
+    }
+
+    CardObject GetCardObject(int _cardId)
+    {
         CardObject _desiredCard = null;
         foreach (var _card in allCards)
         {
@@ -38,8 +52,6 @@ public class CardsManager : MonoBehaviour
             throw new System.Exception("Cant find prefab for card with id: " + _cardId);
         }
 
-        CardObject _cardObject = Instantiate(_desiredCard);
-        _cardObject.Setup(_isMy);
-        return _cardObject;
+        return _desiredCard;
     }
 }

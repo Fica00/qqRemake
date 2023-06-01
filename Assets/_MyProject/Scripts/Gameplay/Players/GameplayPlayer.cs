@@ -42,12 +42,33 @@ public class GameplayPlayer : MonoBehaviour
     public virtual void Setup()
     {
         cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsIndeck);
+        ShuffleDeck();
         cardsInHand = new List<CardObject>();
         CardsOnTop = new List<CardObject>();
         CardsOnMid = new List<CardObject>();
         CardsOnBot = new List<CardObject>();
         cardsInHandHandler.Setup(this);
         energyDisplayHandler.Setup(this);
+    }
+
+    protected void ShuffleDeck()
+    {
+        cardsInDeck = cardsInDeck.OrderBy(element => Guid.NewGuid()).ToList();
+
+        //check for cards that should get in hand in certain runds and send them on bottom of the deck
+        for (int i = cardsInDeck.Count - 1; i >= 0; i--)
+        {
+            var _specialEffects = CardsManager.Instance.GetCardEffects(cardsInDeck[i]);
+            foreach (var _specialEffect in _specialEffects)
+            {
+                if (_specialEffect is AddCardToHandOnRound)
+                {
+                    int _cardId = cardsInDeck[i];
+                    cardsInDeck.RemoveAt(i);
+                    cardsInDeck.Add(_cardId);
+                }
+            }
+        }
     }
 
     private void OnEnable()
@@ -67,8 +88,7 @@ public class GameplayPlayer : MonoBehaviour
 
     public CardObject DrawCard()
     {
-        int _randomIndex = UnityEngine.Random.Range(0, cardsInDeck.Count);
-        int _cardId = cardsInDeck[_randomIndex];
+        int _cardId = cardsInDeck[0];
         return DrawCard(_cardId, true);
     }
 
@@ -106,15 +126,28 @@ public class GameplayPlayer : MonoBehaviour
         IEnumerator CheckForCardsThatShouldMoveToHandRoutine()
         {
             List<int> _idsOfCardsThatShouldBeAddedToHand = new List<int>();
-            foreach (var _card in cardsInDeck)
+            foreach (var _cardId in cardsInDeck)
             {
-                //go thue special effects and
-                //check if card should be added this round to the hand;
+                var _specialEffects = CardsManager.Instance.GetCardEffects(_cardId);
+                foreach (var _specialEffect in _specialEffects)
+                {
+                    if (!(_specialEffect is AddCardToHandOnRound))
+                    {
+                        continue;
+                    }
+
+                    AddCardToHandOnRound _addCardEffect = _specialEffect as AddCardToHandOnRound;
+                    if (_addCardEffect.Round == GameplayManager.Instance.CurrentRound)
+                    {
+                        _idsOfCardsThatShouldBeAddedToHand.Add(_cardId);
+                    }
+                }
             }
 
             foreach (var _id in _idsOfCardsThatShouldBeAddedToHand)
             {
-                DrawCard(_id, true);
+                CardObject _drawnCard = DrawCard(_id, true);
+                AddCardToHand(_drawnCard);
                 yield return new WaitForSeconds(0.3f);
             }
 

@@ -11,7 +11,8 @@ public class BotPlayer : GameplayPlayer
 
     public override void Setup()
     {
-        cardsInDeck = GenerateDeck();
+        cardsInDeck = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        ShuffleDeck();
         cardsInHand = new List<CardObject>();
         GameplayManager.UpdatedGameState += ManageGameState;
     }
@@ -116,11 +117,5 @@ public class BotPlayer : GameplayPlayer
         _card.TryToPlace(GameplayManager.Instance.Lanes[_index].GetPlaceLocation(false));
         _card.Display.HideCardOnTable();
         _power[_index] += _card.Stats.Power;
-    }
-
-    List<int> GenerateDeck()
-    {
-        //todo generate deck
-        return new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     }
 }
