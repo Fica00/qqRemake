@@ -137,17 +137,34 @@ public class TableHandler : MonoBehaviour
     public int GetPower(bool _my, LaneLocation _location)
     {
         int[] _powers = _my ? myPower : opponentPower;
+        int _power;
         switch (_location)
         {
             case LaneLocation.Top:
-                return _powers[0];
+                _power = _powers[0];
+                break;
             case LaneLocation.Mid:
-                return _powers[1];
+                _power = _powers[1];
+                break;
             case LaneLocation.Bot:
-                return _powers[2];
+                _power = _powers[2];
+                break;
             default:
                 throw new Exception("Cant handle lane: " + _location);
         }
+
+        foreach (var _card in GetCards(_my, _location))
+        {
+            foreach (var _specialEffect in _card.SpecialEffects)
+            {
+                if (_specialEffect is DoublePowerOnCurrentLane)
+                {
+                    _power *= 2;
+                }
+            }
+        }
+
+        return _power;
     }
 
     public GameResult CalculateWinner()
@@ -156,11 +173,13 @@ public class TableHandler : MonoBehaviour
         int _opponentAmountOfWinningLocations = 0;
         for (int i = 0; i < myPower.Length; i++)
         {
-            if (myPower[i] > opponentPower[i])
+            int _myPowerOnLane = GetPower(true, (LaneLocation)(i));
+            int _opponentPowerOnLane = GetPower(false, (LaneLocation)(i));
+            if (_myPowerOnLane > _opponentPowerOnLane)
             {
                 _myAmountOfWinningLocations++;
             }
-            else if (myPower[i] < opponentPower[i])
+            else if (_myPowerOnLane < _opponentPowerOnLane)
             {
                 _opponentAmountOfWinningLocations++;
             }

@@ -164,6 +164,7 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        yield return new WaitForSeconds(2);//wait for a bit, allow user to also see the result
         GameResult _result = TableHandler.CalculateWinner();
         GameEnded?.Invoke(_result);
 
