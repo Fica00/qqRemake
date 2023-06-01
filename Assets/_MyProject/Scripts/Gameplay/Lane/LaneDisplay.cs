@@ -4,25 +4,29 @@ using UnityEngine;
 public class LaneDisplay : MonoBehaviour
 {
     [field: SerializeField] public LaneLocation Location { get; private set; }
-    [SerializeField] PowerDisplay powerDisplay;
     [field: SerializeField] public LocationAbilityDisplay AbilityDisplay { get; private set; }
+    [field: SerializeField] public LaneVizualizator Visualizator { get; private set; }
 
+    [HideInInspector] public LaneSpecifics LaneSpecifics = new LaneSpecifics();
+
+    [SerializeField] PowerDisplay powerDisplay;
     [SerializeField] List<LanePlaceIdentifier> myPlaces;
     [SerializeField] List<LanePlaceIdentifier> opponentPlaces;
 
+
     private void OnEnable()
     {
-        GameplayPlayer.AddedCardToTable += TryToPlaceCard;
+        GameplayPlayer.AddedCardToTable += CheckIfCardShouldBePlacedOnThisLane;
         TableHandler.UpdatedPower += ShowPower;
     }
 
     private void OnDisable()
     {
-        GameplayPlayer.AddedCardToTable -= TryToPlaceCard;
+        GameplayPlayer.AddedCardToTable -= CheckIfCardShouldBePlacedOnThisLane;
         TableHandler.UpdatedPower -= ShowPower;
     }
 
-    private void TryToPlaceCard(PlaceCommand _command)
+    private void CheckIfCardShouldBePlacedOnThisLane(PlaceCommand _command)
     {
         LanePlaceIdentifier _place = null;
         bool _isMine = _command.Player.IsMy;
@@ -88,5 +92,18 @@ public class LaneDisplay : MonoBehaviour
         }
 
         return null;
+    }
+
+    public bool CanPlace(CardObject _cardObject)
+    {
+        if (LaneSpecifics.CantPlaceCommonsThatCost.Contains(_cardObject.Stats.Energy))
+        {
+            return false;
+        }
+        if (LaneSpecifics.CantPlaceCommonsOnRound.Contains(GameplayManager.Instance.CurrentRound))
+        {
+            return false;
+        }
+        return true;
     }
 }

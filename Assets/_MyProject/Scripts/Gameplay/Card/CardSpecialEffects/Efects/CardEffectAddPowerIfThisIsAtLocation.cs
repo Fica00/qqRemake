@@ -1,0 +1,48 @@
+using UnityEngine;
+
+public class CardEffectAddPowerIfThisIsAtLocation : CardEffectBase
+{
+    [SerializeField] int powerToAdd;
+    [SerializeField] LaneLocation location;
+    [SerializeField] Color colorEffect;
+
+    public override void Subscribe()
+    {
+        TableHandler.OnRevealdCard += CheckLocation;
+        GameplayManager.UpdatedGameState += Destroy;
+    }
+
+    void Destroy()
+    {
+        switch (GameplayManager.Instance.GameplayState)
+        {
+            case GameplayState.ResolvingBeginingOfRound:
+                GameplayManager.UpdatedGameState -= Destroy;
+                TableHandler.OnRevealdCard -= CheckLocation;
+                Destroy(gameObject);
+                break;
+            case GameplayState.Playing:
+                break;
+            case GameplayState.Waiting:
+                break;
+            case GameplayState.ResolvingEndOfRound:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void CheckLocation(CardObject _cardObject)
+    {
+        if (_cardObject != cardObject)
+        {
+            return;
+        }
+
+        if (cardObject.LaneLocation == location)
+        {
+            cardObject.Stats.Power += powerToAdd;
+            GameplayManager.Instance.FlashWholeLocation(location, cardObject.IsMy, colorEffect, 2);
+        }
+    }
+}

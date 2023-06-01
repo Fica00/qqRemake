@@ -7,10 +7,12 @@ public class LanePlaceIdentifier : MonoBehaviour
     [field: SerializeField] public LaneLocation Location { get; private set; }
     [field: SerializeField] public bool IsMine { get; private set; }
 
+    LaneDisplay laneDisplay;
     Image image;
 
     private void Awake()
     {
+        laneDisplay = GetComponentInParent<LaneDisplay>();
         image = GetComponent<Image>();
     }
 
@@ -26,7 +28,7 @@ public class LanePlaceIdentifier : MonoBehaviour
         CardInteractions.DragEnded -= TurnOffAvailableColor;
     }
 
-    void CheckIfTileIsAvailable()
+    void CheckIfTileIsAvailable(CardObject _cardObject)
     {
         if (!IsMine)
         {
@@ -34,6 +36,11 @@ public class LanePlaceIdentifier : MonoBehaviour
         }
 
         if (!CanPlace())
+        {
+            return;
+        }
+
+        if (!laneDisplay.CanPlace(_cardObject))
         {
             return;
         }

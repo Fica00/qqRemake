@@ -65,6 +65,9 @@ public class CardsInHandHandler : MonoBehaviour
             _rectTransform.sizeDelta = new Vector2(_size, _size);
         }
 
-        horizontalLayoutGroup.spacing = _spacing;
+        if (horizontalLayoutGroup != null)
+        {
+            horizontalLayoutGroup.spacing = _spacing;
+        }
     }
 }

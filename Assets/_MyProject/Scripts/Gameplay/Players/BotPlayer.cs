@@ -11,7 +11,14 @@ public class BotPlayer : GameplayPlayer
 
     public override void Setup()
     {
-        cardsInDeck = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        List<int> _cardsInDeck = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        cardsInDeck = new List<CardObject>();
+        foreach (var _cardInDeck in _cardsInDeck)
+        {
+            CardObject _cardObject = CardsManager.Instance.CreateCard(_cardInDeck, IsMy);
+            _cardObject.transform.SetParent(transform);
+            cardsInDeck.Add(_cardObject);
+        }
         ShuffleDeck();
         cardsInHand = new List<CardObject>();
         GameplayManager.UpdatedGameState += ManageGameState;
@@ -114,8 +121,17 @@ public class BotPlayer : GameplayPlayer
         {
             return;
         }
-        _card.TryToPlace(GameplayManager.Instance.Lanes[_index].GetPlaceLocation(false));
-        _card.Display.HideCardOnTable();
-        _power[_index] += _card.Stats.Power;
+
+        LanePlaceIdentifier _place = GameplayManager.Instance.Lanes[_index].GetPlaceLocation(false);
+        if (_place == null)
+        {
+            return;
+        }
+
+        if (_card.TryToPlace(_place))
+        {
+            _card.Display.HideCardOnTable();
+            _power[_index] += _card.Stats.Power;
+        }
     }
 }

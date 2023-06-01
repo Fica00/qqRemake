@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerToAdd: 20
   location: 1
+  colorEffect: {r: 0.7294118, g: 0.8705883, b: 0.83921576, a: 1}
 --- !u!1001 &7943796220825949538
 PrefabInstance:
   m_ObjectHideFlags: 0

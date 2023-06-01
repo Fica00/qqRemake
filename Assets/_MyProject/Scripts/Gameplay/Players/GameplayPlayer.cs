@@ -17,7 +17,7 @@ public class GameplayPlayer : MonoBehaviour
     [SerializeField] CardsInHandHandler cardsInHandHandler = null;
     [SerializeField] EnergyDisplayHandler energyDisplayHandler = null;
 
-    protected List<int> cardsInDeck;
+    protected List<CardObject> cardsInDeck;
     protected List<CardObject> cardsInHand;
     protected int energy;
 
@@ -41,7 +41,14 @@ public class GameplayPlayer : MonoBehaviour
 
     public virtual void Setup()
     {
-        cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsIndeck);
+        List<int> _cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsIndeck);
+        cardsInDeck = new List<CardObject>();
+        foreach (var _cardInDeck in _cardsInDeck)
+        {
+            CardObject _cardObject = CardsManager.Instance.CreateCard(_cardInDeck, IsMy);
+            _cardObject.transform.SetParent(transform);
+            cardsInDeck.Add(_cardObject);
+        }
         ShuffleDeck();
         cardsInHand = new List<CardObject>();
         CardsOnTop = new List<CardObject>();
@@ -58,14 +65,14 @@ public class GameplayPlayer : MonoBehaviour
         //check for cards that should get in hand in certain runds and send them on bottom of the deck
         for (int i = cardsInDeck.Count - 1; i >= 0; i--)
         {
-            var _specialEffects = CardsManager.Instance.GetCardEffects(cardsInDeck[i]);
+            var _specialEffects = CardsManager.Instance.GetCardEffects(cardsInDeck[i].Details.Id);
             foreach (var _specialEffect in _specialEffects)
             {
-                if (_specialEffect is AddCardToHandOnRound)
+                if (_specialEffect is CardEffectAddCardToHandOnRound)
                 {
-                    int _cardId = cardsInDeck[i];
+                    var _card = cardsInDeck[i];
                     cardsInDeck.RemoveAt(i);
-                    cardsInDeck.Add(_cardId);
+                    cardsInDeck.Add(_card);
                 }
             }
         }
@@ -88,21 +95,20 @@ public class GameplayPlayer : MonoBehaviour
 
     public CardObject DrawCard()
     {
-        int _cardId = cardsInDeck[0];
-        return DrawCard(_cardId, true);
+        CardObject _card = cardsInDeck[0];
+        return DrawCard(_card, true);
     }
 
-    public CardObject DrawCard(int _id, bool _updateDeck)
+    public CardObject DrawCard(CardObject _card, bool _updateDeck)
     {
         if (_updateDeck)
         {
-            if (cardsInDeck.Contains(_id))
+            if (cardsInDeck.Contains(_card))
             {
-                cardsInDeck.Remove(_id);
+                cardsInDeck.Remove(_card);
             }
         }
 
-        CardObject _card = CardsManager.Instance.CreateCard(_id, IsMy);
         return _card;
     }
 
@@ -125,28 +131,28 @@ public class GameplayPlayer : MonoBehaviour
 
         IEnumerator CheckForCardsThatShouldMoveToHandRoutine()
         {
-            List<int> _idsOfCardsThatShouldBeAddedToHand = new List<int>();
+            List<CardObject> _cardsThatShouldStartInHand = new List<CardObject>();
             foreach (var _cardId in cardsInDeck)
             {
-                var _specialEffects = CardsManager.Instance.GetCardEffects(_cardId);
+                var _specialEffects = CardsManager.Instance.GetCardEffects(_cardId.Details.Id);
                 foreach (var _specialEffect in _specialEffects)
                 {
-                    if (!(_specialEffect is AddCardToHandOnRound))
+                    if (!(_specialEffect is CardEffectAddCardToHandOnRound))
                     {
                         continue;
                     }
 
-                    AddCardToHandOnRound _addCardEffect = _specialEffect as AddCardToHandOnRound;
+                    CardEffectAddCardToHandOnRound _addCardEffect = _specialEffect as CardEffectAddCardToHandOnRound;
                     if (_addCardEffect.Round == GameplayManager.Instance.CurrentRound)
                     {
-                        _idsOfCardsThatShouldBeAddedToHand.Add(_cardId);
+                        _cardsThatShouldStartInHand.Add(_cardId);
                     }
                 }
             }
 
-            foreach (var _id in _idsOfCardsThatShouldBeAddedToHand)
+            foreach (var _card in _cardsThatShouldStartInHand)
             {
-                CardObject _drawnCard = DrawCard(_id, true);
+                CardObject _drawnCard = DrawCard(_card, true);
                 AddCardToHand(_drawnCard);
                 yield return new WaitForSeconds(0.3f);
             }
@@ -216,5 +222,18 @@ public class GameplayPlayer : MonoBehaviour
         AddCardToHand(_command.Card);
         RemoveCardFromTable(_command);
         RemovedCardFromTable?.Invoke(_command);
+    }
+
+    public void UpdateQommonCost(int _amount)
+    {
+        foreach (var _card in cardsInHand)
+        {
+            _card.Stats.Energy += _amount;
+        }
+
+        foreach (var _card in cardsInDeck)
+        {
+            _card.Stats.Energy += _amount;
+        }
     }
 }

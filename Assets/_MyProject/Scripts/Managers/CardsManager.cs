@@ -29,7 +29,7 @@ public class CardsManager : MonoBehaviour
         return _cardObject;
     }
 
-    public List<CardSpecialEffectBase> GetCardEffects(int _cardId)
+    public List<CardEffectBase> GetCardEffects(int _cardId)
     {
         CardObject _desiredCard = GetCardObject(_cardId);
         return _desiredCard.SpecialEffects;

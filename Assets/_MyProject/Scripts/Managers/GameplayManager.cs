@@ -9,6 +9,10 @@ public class GameplayManager : MonoBehaviour
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
     public static Action<GameResult> GameEnded;
+    public static Action<int, Color, int> FlashPlace;
+    public static Action<LaneLocation, bool, Color, int> FlashWholePlace;
+    public static Action<LaneLocation, bool, Color> HighlihtWholePlace;
+    public static Action<LaneLocation, bool, Color> HideHighlihtWholePlace;
     public GameplayPlayer MyPlayer;
     public GameplayPlayer BotPlayer;
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
@@ -126,6 +130,12 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+    public void DrawCard()
+    {
+        DrawCard(MyPlayer);
+        DrawCard(BotPlayer);
+    }
+
     void DrawCard(GameplayPlayer _player)
     {
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
@@ -173,23 +183,18 @@ public class GameplayManager : MonoBehaviour
     IEnumerator RevealLocation()
     {
         bool _canContinue = false;
-        switch (currentRound)
+
+        if (currentRound <= 3)
         {
-            case 1:
-                //todo generate ability
-                lanes[0].AbilityDisplay.Reveal("Ability 1", Reveald);
-                break;
-            case 2:
-                //todo generate ability
-                lanes[1].AbilityDisplay.Reveal("Ability 2", Reveald);
-                break;
-            case 3:
-                //todo generate ability
-                lanes[2].AbilityDisplay.Reveal("Ability 3", Reveald);
-                break;
-            default:
-                _canContinue = true;
-                break;
+            LaneAbility _laneAbility = LaneAbilityManager.Instance.GetLaneAbility();
+            int _laneIndex = currentRound - 1;
+            _laneAbility.Setup(lanes[_laneIndex]);
+            lanes[_laneIndex].AbilityDisplay.Reveal(_laneAbility.Description, Reveald);
+            _canContinue = false;
+        }
+        else
+        {
+            _canContinue = true;
         }
 
         yield return new WaitUntil(() => _canContinue);
@@ -254,5 +259,31 @@ public class GameplayManager : MonoBehaviour
     public void OpponentFinished()
     {
         opponentFinished = true;
+    }
+
+    public void UpdateQommonCosts(int _amount)
+    {
+        MyPlayer.UpdateQommonCost(_amount);
+        BotPlayer.UpdateQommonCost(_amount);
+    }
+
+    public void FlashLocation(int _locationId, Color _color, int _amount)
+    {
+        FlashPlace?.Invoke(_locationId, _color, _amount);
+    }
+
+    public void FlashWholeLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
+    {
+        FlashWholePlace?.Invoke(_location, _mySide, _color, _amount);
+    }
+
+    public void HighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
+    {
+        HighlihtWholePlace?.Invoke(_location, _mySide, _color);
+    }
+
+    public void HideHighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
+    {
+        HideHighlihtWholePlace?.Invoke(_location, _mySide, _color);
     }
 }

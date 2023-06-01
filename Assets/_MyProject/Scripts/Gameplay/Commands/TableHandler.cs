@@ -27,6 +27,13 @@ public class TableHandler : MonoBehaviour
             myCardsOnTable[i] = new List<CardObject>();
             opponentCardsOnTable[i] = new List<CardObject>();
         }
+
+        LaneSpecifics.UpdatedExtraPower += CalculatePower;
+    }
+
+    private void OnDestroy()
+    {
+        LaneSpecifics.UpdatedExtraPower -= CalculatePower;
     }
 
     public int WhichCardsToRevealFrist() //-1 mine, 1 opponents, show mine if I am winning show opponents if he is winnig,show random if it is draw
@@ -98,16 +105,20 @@ public class TableHandler : MonoBehaviour
 
     void CalculatePower()
     {
-        CalculatePower(myCardsOnTable, myPower);
-        CalculatePower(opponentCardsOnTable, opponentPower);
+        CalculatePower(true);
+        CalculatePower(false);
 
 
-        void CalculatePower(List<CardObject>[] _cardsOnTable, int[] _powerHolder)
+        void CalculatePower(bool _isMy)
         {
+            List<CardObject>[] _cardsOnTable = _isMy ? myCardsOnTable : opponentCardsOnTable;
+            int[] _powerHolder = _isMy ? myPower : opponentPower;
+            int _playerIndex = _isMy ? 0 : 1;
             for (int i = 0; i < _cardsOnTable.Length; i++)
             {
                 int _power = 0;
                 LaneLocation _location = LaneLocation.Bot;
+                LaneDisplay _laneDisplay = null;
 
                 foreach (var _cardOnLane in _cardsOnTable[i])
                 {
@@ -118,14 +129,19 @@ public class TableHandler : MonoBehaviour
                 {
                     case 0:
                         _location = LaneLocation.Top;
+                        _laneDisplay = GameplayManager.Instance.Lanes[0];
                         break;
                     case 1:
                         _location = LaneLocation.Mid;
+                        _laneDisplay = GameplayManager.Instance.Lanes[1];
                         break;
                     case 2:
                         _location = LaneLocation.Bot;
+                        _laneDisplay = GameplayManager.Instance.Lanes[2];
                         break;
                 }
+
+                _power += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];
 
                 _powerHolder[i] = _power;
 
@@ -157,7 +173,7 @@ public class TableHandler : MonoBehaviour
         {
             foreach (var _specialEffect in _card.SpecialEffects)
             {
-                if (_specialEffect is DoublePowerOnCurrentLane)
+                if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
                 {
                     _power *= 2;
                 }
