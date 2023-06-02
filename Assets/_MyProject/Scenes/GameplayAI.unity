@@ -595,8 +595,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 482681876}
   BotPlayer: {fileID: 1839096917}
-  <MaxAmountOfCardsInHand>k__BackingField: 7
-  <DurationOfRound>k__BackingField: 20
+  <MaxAmountOfCardsInHand>k__BackingField: 12
+  <DurationOfRound>k__BackingField: 120
   <TableHandler>k__BackingField: {fileID: 2065879261}
   endTurnHandler: {fileID: 204213062}
   maxRounds: 6
@@ -1297,6 +1297,7 @@ GameObject:
   - component: {fileID: 338593955}
   - component: {fileID: 338593954}
   - component: {fileID: 338593953}
+  - component: {fileID: 338593957}
   m_Layer: 5
   m_Name: GameplayUI
   m_TagString: Untagged
@@ -1391,6 +1392,18 @@ RectTransform:
   m_AnchoredPosition: {x: 589.5, y: 1278}
   m_SizeDelta: {x: 1179, y: 2556}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &338593957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338593952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d66d978ec5838c4e8c2c1f17f3d154a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &377661284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,7 +1877,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Next Bet: 02'
+  m_text: 'Next : 02'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
   m_sharedMaterial: {fileID: 2899596700994449933, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
@@ -5050,7 +5063,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 218697539373890245, guid: 4566981114cc4dd449b3105d0409dd01, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2605240325611389697, guid: 4566981114cc4dd449b3105d0409dd01, type: 3}
       propertyPath: m_text
@@ -5058,7 +5071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3219204970574606422, guid: 4566981114cc4dd449b3105d0409dd01, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4934215213951804693, guid: 4566981114cc4dd449b3105d0409dd01, type: 3}
       propertyPath: m_Name

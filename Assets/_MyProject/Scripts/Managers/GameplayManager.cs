@@ -21,17 +21,18 @@ public class GameplayManager : MonoBehaviour
 
     public CommandsHandler CommandsHandler;
 
-    [SerializeField] EndTurnHandler endTurnHandler;
-    [SerializeField] int maxRounds = 6;
-    [SerializeField] List<LaneDisplay> lanes;
-    [SerializeField] GameObject[] flags;
+    [SerializeField] protected EndTurnHandler endTurnHandler;
+    [SerializeField] protected int maxRounds = 6;
+    [SerializeField] protected List<LaneDisplay> lanes;
+    [SerializeField] protected GameObject[] flags;
 
     GameplayState gameplayState;
     int currentRound;
 
-    bool opponentFinished;
-    bool iFinished;
-    bool resolvedEndOfTheRound;
+    protected bool opponentFinished;
+    protected bool iFinished;
+    protected bool resolvedEndOfTheRound;
+    protected int startingAmountOfCards = 3;
 
     public GameplayState GameplayState
     {
@@ -61,43 +62,43 @@ public class GameplayManager : MonoBehaviour
 
     public List<LaneDisplay> Lanes => lanes;
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
         FlagClickHandler.OnClick += Forfiet;
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
         FlagClickHandler.OnClick -= Forfiet;
     }
 
-    void EndTurn()
+    protected void EndTurn()
     {
         GameplayState = GameplayState.Waiting;
         iFinished = true;
     }
 
-    void Forfiet()
+    protected void Forfiet()
     {
         UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesForfiet);
         UIManager.Instance.YesNoDialog.Setup("Do you want to forfeit the match?");
     }
 
-    void YesForfiet()
+    protected void YesForfiet()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.ILost);
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
+    protected void Start()
     {
         CommandsHandler = new CommandsHandler();
         CommandsHandler.Setup();
@@ -108,35 +109,34 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(GameplayRoutine());
     }
 
-    void SetupPlayers()
+    protected virtual void SetupPlayers()
     {
         MyPlayer.Setup();
         BotPlayer.Setup();
     }
 
-    void InitialDraw()
+    protected virtual void InitialDraw()
     {
-        int _startingAmountOfCards = 3;
-        Draw(MyPlayer);
-        Draw(BotPlayer);
+        InitialDraw(MyPlayer, startingAmountOfCards);
+        InitialDraw(BotPlayer, startingAmountOfCards);
+    }
 
-        void Draw(GameplayPlayer _player)
+    protected void InitialDraw(GameplayPlayer _player, int _startingAmountOfCards)
+    {
+        int _amountOfCardsInHand = _player.AmountOfCardsInHand;
+        for (int i = _amountOfCardsInHand; i < _startingAmountOfCards; i++)
         {
-            int _amountOfCardsInHand = _player.AmountOfCardsInHand;
-            for (int i = _amountOfCardsInHand; i < _startingAmountOfCards; i++)
-            {
-                DrawCard(_player);
-            }
+            DrawCard(_player);
         }
     }
 
-    public void DrawCard()
+    public virtual void DrawCard()
     {
         DrawCard(MyPlayer);
         DrawCard(BotPlayer);
     }
 
-    void DrawCard(GameplayPlayer _player)
+    protected void DrawCard(GameplayPlayer _player)
     {
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
         if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)
@@ -247,7 +247,7 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    public void ReturnToWaitingState()
+    public virtual void ReturnToWaitingState()
     {
         if (endTurnHandler.TimeLeft > 2)
         {

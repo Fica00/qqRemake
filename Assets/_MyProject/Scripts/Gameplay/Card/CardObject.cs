@@ -71,6 +71,7 @@ public class CardObject : MonoBehaviour
                 cardInputInteractions.enabled = true;
                 break;
             case GameplayState.Waiting:
+                cardInputInteractions.CancelDrag();
                 cardInputInteractions.enabled = false;
                 if (CardLocation == CardLocation.Table && CanChangePlace)
                 {
@@ -78,6 +79,7 @@ public class CardObject : MonoBehaviour
                 }
                 break;
             case GameplayState.ResolvingEndOfRound:
+                cardInputInteractions.CancelDrag();
                 cardInputInteractions.enabled = false;
                 break;
             default:

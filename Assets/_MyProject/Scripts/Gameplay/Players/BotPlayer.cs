@@ -57,7 +57,10 @@ public class BotPlayer : GameplayPlayer
 
     IEnumerator PlayCards()
     {
-        int _waitRandomTime = UnityEngine.Random.Range(0, GameplayManager.Instance.DurationOfRound - 2);
+        //todoo uncomment me
+        //int _waitRandomTime = UnityEngine.Random.Range(0, GameplayManager.Instance.DurationOfRound - 2);
+        int _waitRandomTime = UnityEngine.Random.Range(10, 20);
+
         yield return new WaitForSeconds(_waitRandomTime);
 
         int[] _playerPower = GameplayManager.Instance.TableHandler.GetAllPower(true).ToArray();

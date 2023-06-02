@@ -466,7 +466,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'After turn 3. Qoommon cannot be placed '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
   m_sharedMaterial: {fileID: 2899596700994449933, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
@@ -493,10 +493,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.9
-  m_fontSizeBase: 36
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1420,8 +1420,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Location>k__BackingField: 0
-  powerDisplay: {fileID: 4207833359414954411}
   <AbilityDisplay>k__BackingField: {fileID: 3611794505880891207}
+  <Visualizator>k__BackingField: {fileID: 3547572324800197840}
+  powerDisplay: {fileID: 4207833359414954411}
   myPlaces:
   - {fileID: 7891819842368379061}
   - {fileID: 1405707981319818115}
@@ -1432,7 +1433,6 @@ MonoBehaviour:
   - {fileID: 929179103248372863}
   - {fileID: 6481201980197314994}
   - {fileID: 8801683089788131172}
-  <Visualizator>k__BackingField: {fileID: 3547572324800197840}
 --- !u!114 &3547572324800197840
 MonoBehaviour:
   m_ObjectHideFlags: 0

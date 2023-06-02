@@ -11,6 +11,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     protected CardObject cardObject;
     CardDisplay cardDisplay;
+    RectTransform cardRectTransform;
     bool isDragging = false;
     Vector2 pointerDownPosition;
     const float dragThreshold = 5f;
@@ -20,6 +21,17 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         cardObject = _cardObject;
         cardDisplay = cardObject.Display;
+        cardRectTransform = cardDisplay.GetComponent<RectTransform>();
+    }
+
+    public void CancelDrag()
+    {
+        Debug.Log("Cancel drag detected");
+        if (isDragging)
+        {
+            Debug.Log("Card is being draged");
+            EndDrag();
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -68,8 +80,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void HandleDragEnded(PointerEventData _eventData)
     {
-        DragEnded?.Invoke();
-        cardDisplay.transform.localPosition = Vector3.zero;
+        EndDrag();
 
         List<RaycastResult> _results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(_eventData, _results);
@@ -87,6 +98,13 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 return;
             }
         }
+    }
+
+    void EndDrag()
+    {
+        Debug.Log("Ending drag");
+        DragEnded?.Invoke();
+        cardDisplay.transform.localPosition = Vector3.zero;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -115,7 +133,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
             if (isDragging)
             {
-                Vector2 dragDelta = eventData.delta;
+                Vector2 dragDelta = Camera.main.ScreenToWorldPoint(eventData.delta) - Camera.main.ScreenToWorldPoint(Vector2.zero);
                 cardDisplay.transform.position += (Vector3)dragDelta;
             }
         }

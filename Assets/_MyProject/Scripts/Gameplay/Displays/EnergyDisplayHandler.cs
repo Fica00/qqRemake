@@ -20,6 +20,11 @@ public class EnergyDisplayHandler : MonoBehaviour
         gameplayPlayer.UpdatedEnergy -= ShowEnergy;
     }
 
+    private void Start()
+    {
+        ShowEnergy();
+    }
+
     void ShowEnergy()
     {
         for (int i = 0; i < gameplayPlayer.Energy; i++)

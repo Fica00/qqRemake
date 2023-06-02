@@ -45,18 +45,40 @@ public class CardsInHandHandler : MonoBehaviour
     void CheckForCardSizeChange()
     {
         int _amountOfCardsInHand = cardsInHand.Count;
+
+        // these percentages should be adjusted based on your design
+        float maxCardSizePercent = 0.08f; // 8% of the screen width
+        float minCardSizePercent = 0.06f; // 6% of the screen width
+        float maxSpacingPercent = 0.01f; // 1% of the screen width
+        float minSpacingPercent = 0.005f; // 0.5% of the screen width
+
+        // calculate the maximum size and spacing based on screen width
+        float maxSize = Screen.width * maxCardSizePercent;
+        float maxSpacing = Screen.width * maxSpacingPercent;
+
+        // calculate the total width of the cards and spacing if at maximum size
+        float totalWidth = (_amountOfCardsInHand * maxSize) + ((_amountOfCardsInHand - 1) * maxSpacing);
+
         int _size = 0;
         int _spacing = 0;
 
-        if (_amountOfCardsInHand >= GameplayManager.Instance.MaxAmountOfCardsInHand)
+        // if the total width is less than or equal to the screen width
+        if (totalWidth <= Screen.width)
         {
-            _size = 154;
-            _spacing = 8;
+            // use maximum size and spacing
+            _size = Mathf.FloorToInt(maxSize);
+            _spacing = Mathf.FloorToInt(maxSpacing);
         }
         else
         {
-            _size = 174;
-            _spacing = 12;
+            // otherwise, calculate a smaller size and spacing
+            float minSize = Screen.width * minCardSizePercent;
+            float minSpacing = Screen.width * minSpacingPercent;
+
+            // calculate the size and spacing based on the screen width and the number of cards
+            float sizeF = (Screen.width - (_amountOfCardsInHand - 1) * minSpacing) / _amountOfCardsInHand;
+            _size = Mathf.FloorToInt(sizeF);
+            _spacing = Mathf.FloorToInt(minSpacing);
         }
 
         foreach (var _card in cardsInHand)
