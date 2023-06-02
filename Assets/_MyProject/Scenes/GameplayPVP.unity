@@ -622,9 +622,52 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3441719200709168214, guid: 268d7edc3a74ff8458eb67e20ba110f7, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 268d7edc3a74ff8458eb67e20ba110f7, type: 3}
+--- !u!1 &3441719200825644171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3441719200709168209, guid: 268d7edc3a74ff8458eb67e20ba110f7, type: 3}
+  m_PrefabInstance: {fileID: 3441719200825644170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3441719200825644172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3441719200441713751, guid: 268d7edc3a74ff8458eb67e20ba110f7, type: 3}
+  m_PrefabInstance: {fileID: 3441719200825644170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 159e70c55dc37284385dadc87b6ef351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3441719200825644173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3441719200825644171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f39a2f942bee72f4d807307a8289aa9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyPlayer: {fileID: 482681876}
+  BotPlayer: {fileID: 0}
+  <MaxAmountOfCardsInHand>k__BackingField: 12
+  <DurationOfRound>k__BackingField: 120
+  <TableHandler>k__BackingField: {fileID: 3441719200825644172}
+  endTurnHandler: {fileID: 204213062}
+  maxRounds: 6
+  lanes:
+  - {fileID: 6934228532677659356}
+  - {fileID: 9206825966072280794}
+  - {fileID: 1340756263}
+  flags:
+  - {fileID: 328226553}
+  - {fileID: 1461862250}
 --- !u!1001 &5686523579364797513
 PrefabInstance:
   m_ObjectHideFlags: 0

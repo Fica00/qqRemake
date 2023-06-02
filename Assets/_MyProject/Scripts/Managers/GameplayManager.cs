@@ -8,6 +8,7 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager Instance;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
+    public static Action UpdatedBet;
     public static Action<GameResult> GameEnded;
     public static Action<int, Color, int> FlashPlace;
     public static Action<LaneLocation, bool, Color, int> FlashWholePlace;
@@ -33,6 +34,7 @@ public class GameplayManager : MonoBehaviour
     protected bool iFinished;
     protected bool resolvedEndOfTheRound;
     protected int startingAmountOfCards = 3;
+    protected int currentBet = 1;
 
     public GameplayState GameplayState
     {
@@ -62,6 +64,8 @@ public class GameplayManager : MonoBehaviour
 
     public List<LaneDisplay> Lanes => lanes;
 
+    public int CurrentBet => currentBet;
+
     protected void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
@@ -75,7 +79,7 @@ public class GameplayManager : MonoBehaviour
         FlagClickHandler.OnClick -= Forfiet;
     }
 
-    protected void EndTurn()
+    protected virtual void EndTurn()
     {
         GameplayState = GameplayState.Waiting;
         iFinished = true;
@@ -87,7 +91,7 @@ public class GameplayManager : MonoBehaviour
         UIManager.Instance.YesNoDialog.Setup("Do you want to forfeit the match?");
     }
 
-    protected void YesForfiet()
+    protected virtual void YesForfiet()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.ILost);
@@ -107,6 +111,7 @@ public class GameplayManager : MonoBehaviour
         TableHandler.Setup();
         InitialDraw();
         StartCoroutine(GameplayRoutine());
+
     }
 
     protected virtual void SetupPlayers()
@@ -148,7 +153,7 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
-    IEnumerator GameplayRoutine()
+    protected IEnumerator GameplayRoutine()
     {
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
@@ -180,7 +185,7 @@ public class GameplayManager : MonoBehaviour
 
     }
 
-    IEnumerator RevealLocation()
+    protected IEnumerator RevealLocation()
     {
         bool _canContinue = false;
 
@@ -206,7 +211,7 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    IEnumerator CheckForCardsThatShouldMoveToHand(GameplayPlayer _player)
+    protected IEnumerator CheckForCardsThatShouldMoveToHand(GameplayPlayer _player)
     {
         bool _finished = false;
         _player.CheckForCardsThatShouldMoveToHand(Finished);
@@ -218,7 +223,7 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    IEnumerator RevealCards()
+    protected IEnumerator RevealCards()
     {
         int _whoPlaysFirst = TableHandler.WhichCardsToRevealFrist();
         ShowFlag(_whoPlaysFirst);
@@ -254,6 +259,12 @@ public class GameplayManager : MonoBehaviour
             GameplayState = GameplayState.Playing;
         }
         iFinished = false;
+    }
+
+    public virtual void IncreaseBet()
+    {
+        currentBet *= 2;
+        UpdatedBet?.Invoke();
     }
 
     public void OpponentFinished()

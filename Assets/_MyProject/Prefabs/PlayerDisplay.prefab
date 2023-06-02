@@ -296,6 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5892351877779648565}
+  - component: {fileID: 3864773286940130710}
   m_Layer: 5
   m_Name: PlayerDisplay
   m_TagString: Untagged
@@ -325,6 +326,22 @@ RectTransform:
   m_AnchoredPosition: {x: 302.02753, y: 0}
   m_SizeDelta: {x: 604.0551, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3864773286940130710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4934215213951804693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa138a6b10e63e4fae7bc6ba6d8677e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameDisplay: {fileID: 2605240325611389697}
+  glows:
+  - {fileID: 218697539373890245}
+  - {fileID: 3219204970574606422}
 --- !u!1 &6190867672281119629
 GameObject:
   m_ObjectHideFlags: 0

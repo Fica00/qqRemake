@@ -4,7 +4,8 @@ public class Initialization : MonoBehaviour
 {
     private void Start()
     {
-        InitPhoton();
+        //InitPhoton();
+        InitDataManager();
     }
 
     void InitPhoton()
@@ -15,7 +16,7 @@ public class Initialization : MonoBehaviour
 
     void InitDataManager()
     {
-        PhotonManager.OnFinishedInit -= InitDataManager;
+        //PhotonManager.OnFinishedInit -= InitDataManager;
         DataManager.Instance.Init(FinishInit);
     }
 

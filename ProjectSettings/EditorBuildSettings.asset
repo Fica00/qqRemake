@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_MyProject/Scenes/GameplayAI.unity
     guid: 502f7049c0b555a469e06c163c5ba5e1
+  - enabled: 1
+    path: Assets/_MyProject/Scenes/GameplayPVP.unity
+    guid: 2c8e4cf36c9f3a84785a3ff27f4c7739
   m_configObjects: {}

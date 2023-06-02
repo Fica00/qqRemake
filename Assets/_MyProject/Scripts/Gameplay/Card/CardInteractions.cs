@@ -26,10 +26,8 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void CancelDrag()
     {
-        Debug.Log("Cancel drag detected");
         if (isDragging)
         {
-            Debug.Log("Card is being draged");
             EndDrag();
         }
     }
@@ -102,7 +100,6 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void EndDrag()
     {
-        Debug.Log("Ending drag");
         DragEnded?.Invoke();
         cardDisplay.transform.localPosition = Vector3.zero;
     }
