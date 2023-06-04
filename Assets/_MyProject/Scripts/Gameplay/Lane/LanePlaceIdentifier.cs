@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,12 +21,14 @@ public class LanePlaceIdentifier : MonoBehaviour
     {
         CardInteractions.DragStarted += CheckIfTileIsAvailable;
         CardInteractions.DragEnded += TurnOffAvailableColor;
+        GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
     private void OnDisable()
     {
         CardInteractions.DragStarted -= CheckIfTileIsAvailable;
         CardInteractions.DragEnded -= TurnOffAvailableColor;
+        GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
     void CheckIfTileIsAvailable(CardObject _cardObject)
@@ -55,6 +58,35 @@ public class LanePlaceIdentifier : MonoBehaviour
         Color _color = image.color;
         _color.a = 0f;
         image.color = _color;
+    }
+
+    void CheckIfShouldDestroyChild(PlaceCommand _command)
+    {
+        if (Id!=_command.PlaceId)
+        {
+            return;
+        }
+
+        if (transform.childCount==0)
+        {
+            Debug.Log("I dont have children");
+            return;
+        }
+
+        CardObject _cardObject = GetComponentInChildren<CardObject>();
+        if (_cardObject == null)
+        {
+            Debug.Log("I have children but they are not card");
+            return;
+        }
+
+        if (_cardObject.Details.Id!=_command.Card.Details.Id)
+        {
+            Debug.Log("I have card as child but not desired one");
+            return;
+        }
+
+        Destroy(_cardObject.gameObject);
     }
 
     public bool CanPlace()

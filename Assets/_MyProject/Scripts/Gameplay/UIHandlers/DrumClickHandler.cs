@@ -6,7 +6,6 @@ public class DrumClickHandler : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI betDisplay;
     [SerializeField] TextMeshProUGUI nextBetDisplay;
-    [SerializeField] PlayerDisplay myPlayer;
 
     Button button;
     int timeCanIncreaseBet = 2;
@@ -55,6 +54,6 @@ public class DrumClickHandler : MonoBehaviour
     {
         timeCanIncreaseBet--;
         GameplayManager.Instance.IncreaseBet();
-        myPlayer.RemoveGlow();
+        GameplayManager.Instance.MyPlayerDisplay.RemoveGlow();
     }
 }

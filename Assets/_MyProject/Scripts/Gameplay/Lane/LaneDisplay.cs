@@ -17,19 +17,21 @@ public class LaneDisplay : MonoBehaviour
     private void OnEnable()
     {
         GameplayPlayer.AddedCardToTable += CheckIfCardShouldBePlacedOnThisLane;
+        GameplayManagerPVP.OpponentAddedCommand += CheckIfCardShouldBePlacedOnThisLane;
         TableHandler.UpdatedPower += ShowPower;
     }
 
     private void OnDisable()
     {
         GameplayPlayer.AddedCardToTable -= CheckIfCardShouldBePlacedOnThisLane;
+        GameplayManagerPVP.OpponentAddedCommand -= CheckIfCardShouldBePlacedOnThisLane;
         TableHandler.UpdatedPower -= ShowPower;
     }
 
-    private void CheckIfCardShouldBePlacedOnThisLane(PlaceCommand _command)
+    public void CheckIfCardShouldBePlacedOnThisLane(PlaceCommand _command)
     {
         LanePlaceIdentifier _place = null;
-        bool _isMine = _command.Player.IsMy;
+        bool _isMine = _command.IsMyPlayer;
 
         if (_command.Location != Location)
         {
@@ -52,7 +54,6 @@ public class LaneDisplay : MonoBehaviour
 
         _command.Card.transform.SetParent(_place.transform);
         _command.Card.transform.localPosition = Vector3.zero;
-
     }
 
     void ShowPower(LaneLocation _location)

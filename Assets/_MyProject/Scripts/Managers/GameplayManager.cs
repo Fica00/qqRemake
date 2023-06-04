@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +16,15 @@ public class GameplayManager : MonoBehaviour
     public static Action<LaneLocation, bool, Color> HighlihtWholePlace;
     public static Action<LaneLocation, bool, Color> HideHighlihtWholePlace;
     public GameplayPlayer MyPlayer;
-    public GameplayPlayer BotPlayer;
+    public GameplayPlayer OpponentPlayer;
+
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
     [field: SerializeField] public int DurationOfRound { get; private set; }
     [field: SerializeField] public TableHandler TableHandler { get; private set; }
+    [field: SerializeField] public PlayerDisplay MyPlayerDisplay { get; private set; }
+    [field: SerializeField] public PlayerDisplay OpponentPlayerDisplay { get; private set; }
 
-    public CommandsHandler CommandsHandler;
+    public CommandsHandler CommandsHandler = new CommandsHandler();
 
     [SerializeField] protected EndTurnHandler endTurnHandler;
     [SerializeField] protected int maxRounds = 6;
@@ -35,6 +39,8 @@ public class GameplayManager : MonoBehaviour
     protected bool resolvedEndOfTheRound;
     protected int startingAmountOfCards = 3;
     protected int currentBet = 1;
+    protected List<int> excludeLaneAbilities = new List<int>();
+    protected bool locationRevealed;
 
     public GameplayState GameplayState
     {
@@ -66,13 +72,13 @@ public class GameplayManager : MonoBehaviour
 
     public int CurrentBet => currentBet;
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
         FlagClickHandler.OnClick += Forfiet;
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
@@ -102,9 +108,8 @@ public class GameplayManager : MonoBehaviour
         Instance = this;
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
-        CommandsHandler = new CommandsHandler();
         CommandsHandler.Setup();
         CurrentRound = 0;
         SetupPlayers();
@@ -117,13 +122,13 @@ public class GameplayManager : MonoBehaviour
     protected virtual void SetupPlayers()
     {
         MyPlayer.Setup();
-        BotPlayer.Setup();
+        OpponentPlayer.Setup();
     }
 
     protected virtual void InitialDraw()
     {
         InitialDraw(MyPlayer, startingAmountOfCards);
-        InitialDraw(BotPlayer, startingAmountOfCards);
+        InitialDraw(OpponentPlayer, startingAmountOfCards);
     }
 
     protected void InitialDraw(GameplayPlayer _player, int _startingAmountOfCards)
@@ -138,7 +143,7 @@ public class GameplayManager : MonoBehaviour
     public virtual void DrawCard()
     {
         DrawCard(MyPlayer);
-        DrawCard(BotPlayer);
+        DrawCard(OpponentPlayer);
     }
 
     protected void DrawCard(GameplayPlayer _player)
@@ -155,6 +160,7 @@ public class GameplayManager : MonoBehaviour
 
     protected IEnumerator GameplayRoutine()
     {
+        yield return new WaitUntil(ReadyToStart);
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
         {
@@ -163,12 +169,15 @@ public class GameplayManager : MonoBehaviour
             resolvedEndOfTheRound = false;
             GameplayState = GameplayState.ResolvingBeginingOfRound;
             CurrentRound++;
+            if (currentRound <= 3)
+            {
+                locationRevealed = false;
+            }
             yield return new WaitForSeconds(1f); //duration of round animation
-            yield return RevealLocation();
-            yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(MyPlayer));
-            yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(BotPlayer));
-            DrawCard(MyPlayer);
-            DrawCard(BotPlayer);
+            StartCoroutine(RevealLocation());
+            yield return new WaitUntil(()=> locationRevealed);
+            yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
+            RoundDrawCard();
 
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);
@@ -185,25 +194,52 @@ public class GameplayManager : MonoBehaviour
 
     }
 
-    protected IEnumerator RevealLocation()
+    protected virtual bool ReadyToStart()
+    {
+        return true;
+    }
+
+    protected virtual IEnumerator RoundCheckForCardsThatShouldMoveToHand()
+    {
+        yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(MyPlayer));
+        yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(OpponentPlayer));
+    }
+
+    protected virtual void RoundDrawCard()
+    {
+        DrawCard(MyPlayer);
+        DrawCard(OpponentPlayer);
+    }
+
+    protected virtual IEnumerator RevealLocation()
+    {
+        if (currentRound > 3)
+        {
+            yield break;
+        }
+
+        LaneAbility _laneAbility = GetLaneAbility();
+        yield return RevealLocation(_laneAbility.Id);
+    }
+
+    protected virtual LaneAbility GetLaneAbility()
+    {
+        return LaneAbilityManager.Instance.GetLaneAbility(excludeLaneAbilities);
+    }
+
+    protected IEnumerator RevealLocation(int _abilityID)
     {
         bool _canContinue = false;
-
-        if (currentRound <= 3)
-        {
-            LaneAbility _laneAbility = LaneAbilityManager.Instance.GetLaneAbility();
-            int _laneIndex = currentRound - 1;
-            _laneAbility.Setup(lanes[_laneIndex]);
-            lanes[_laneIndex].AbilityDisplay.Reveal(_laneAbility.Description, Reveald);
-            _canContinue = false;
-        }
-        else
-        {
-            _canContinue = true;
-        }
+        LaneAbility _laneAbility = LaneAbilityManager.Instance.GetLaneAbility(_abilityID);
+        excludeLaneAbilities.Add(_abilityID);
+        int _laneIndex = currentRound - 1;
+        _laneAbility.Setup(lanes[_laneIndex]);
+        lanes[_laneIndex].AbilityDisplay.Reveal(_laneAbility.Description, Reveald);
+        _canContinue = false;
 
         yield return new WaitUntil(() => _canContinue);
         yield return new WaitForSeconds(0.5f); //add small delay
+        locationRevealed = true;
 
         void Reveald()
         {
@@ -225,6 +261,11 @@ public class GameplayManager : MonoBehaviour
 
     protected IEnumerator RevealCards()
     {
+        foreach (var _command in CommandsHandler.OpponentCommands)
+        {
+            _command.Card.PrepareForReveal();
+        }
+
         int _whoPlaysFirst = TableHandler.WhichCardsToRevealFrist();
         ShowFlag(_whoPlaysFirst);
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
@@ -272,10 +313,10 @@ public class GameplayManager : MonoBehaviour
         opponentFinished = true;
     }
 
-    public void UpdateQommonCosts(int _amount)
+    public virtual void UpdateQommonCosts(int _amount)
     {
         MyPlayer.UpdateQommonCost(_amount);
-        BotPlayer.UpdateQommonCost(_amount);
+        OpponentPlayer.UpdateQommonCost(_amount);
     }
 
     public void FlashLocation(int _locationId, Color _color, int _amount)

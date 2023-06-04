@@ -39,16 +39,16 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
         switch (laneDisplay.Location)
         {
             case LaneLocation.Top:
-                _amountOfMyCardsOnLane = GameplayManager.Instance.MyPlayer.CardsOnTop.Count;
-                _amountOfOpponentCardsOnLane = GameplayManager.Instance.BotPlayer.CardsOnTop.Count;
+                _amountOfMyCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true,LaneLocation.Top).Count;
+                _amountOfOpponentCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(false, LaneLocation.Top).Count;
                 break;
             case LaneLocation.Mid:
-                _amountOfMyCardsOnLane = GameplayManager.Instance.MyPlayer.CardsOnMid.Count;
-                _amountOfOpponentCardsOnLane = GameplayManager.Instance.BotPlayer.CardsOnMid.Count;
+                _amountOfMyCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, LaneLocation.Mid).Count;
+                _amountOfOpponentCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(false, LaneLocation.Mid).Count;
                 break;
             case LaneLocation.Bot:
-                _amountOfMyCardsOnLane = GameplayManager.Instance.MyPlayer.CardsOnBot.Count;
-                _amountOfOpponentCardsOnLane = GameplayManager.Instance.BotPlayer.CardsOnBot.Count;
+                _amountOfMyCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, LaneLocation.Bot).Count;
+                _amountOfOpponentCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(false, LaneLocation.Bot).Count;
                 break;
             default:
                 break;

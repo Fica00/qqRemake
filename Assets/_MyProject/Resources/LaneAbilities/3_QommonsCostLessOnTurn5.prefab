@@ -13,11 +13,31 @@ PrefabInstance:
       value: On turn 5, Qoomons cost 1 more
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: abilities.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: abilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 7354304466989214166}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: On turn 5, Qoomons cost 1 more
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 7354304466989214166}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.data[1]
       value: 
       objectReference: {fileID: 7354304466989214166}
     - target: {fileID: 3996993568058973520, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}

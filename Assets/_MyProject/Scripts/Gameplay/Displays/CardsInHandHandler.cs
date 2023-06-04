@@ -62,6 +62,7 @@ public class CardsInHandHandler : MonoBehaviour
         {
             RectTransform _rectTransform = _card.GetComponent<RectTransform>();
             _rectTransform.sizeDelta = new Vector2(_size, _size);
+            _card.transform.localScale = Vector3.one;
         }
 
         if (horizontalLayoutGroup != null)

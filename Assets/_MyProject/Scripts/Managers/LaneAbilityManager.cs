@@ -14,13 +14,38 @@ public class LaneAbilityManager : MonoBehaviour
         allLaneAbilities = Resources.LoadAll<LaneAbility>("LaneAbilities").ToList();
     }
 
-    public LaneAbility GetLaneAbility()
+    public LaneAbility GetLaneAbility(List<int> _excludeAbilities)
     {
-        LaneAbility _selectedAbility = allLaneAbilities[Random.Range(0, allLaneAbilities.Count)];
+        List<LaneAbility> _abilities = new List<LaneAbility>(allLaneAbilities);
+        foreach (var _excludeId in _excludeAbilities)
+        {
+            foreach (var _ability in _abilities.ToList()) 
+            {
+                if (_ability.Id==_excludeId)
+                {
+                    _abilities.Remove(_ability);
+                    break;
+                }
+            }
+        }
+
+        LaneAbility _selectedAbility = _abilities[Random.Range(0, _abilities.Count)];
         LaneAbility _laneAbility = CreateLaneAbility(_selectedAbility);
-        allLaneAbilities.Remove(_selectedAbility);
 
         return _laneAbility;
+    }
+
+    public LaneAbility GetLaneAbility(int _id)
+    {
+        foreach (var _laneAbility in allLaneAbilities)
+        {
+            if (_laneAbility.Id==_id)
+            {
+                return _laneAbility;
+            }
+        }
+
+        throw new System.Exception("Cant find laneAbility with id: "+_id);
     }
 
     LaneAbility CreateLaneAbility(LaneAbility _laneAbility)

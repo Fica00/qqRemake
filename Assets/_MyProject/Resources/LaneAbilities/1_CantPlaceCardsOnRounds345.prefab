@@ -13,6 +13,10 @@ PrefabInstance:
       value: On turn 3,4, and 5, no Qoomons can be added here
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: abilities.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -20,9 +24,21 @@ PrefabInstance:
       propertyPath: abilities.Array.data[0]
       value: 
       objectReference: {fileID: 3960100409286748840}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: On turn 3,4, and 5, no Qoomons can be added here
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 3960100409286748840}
     - target: {fileID: 3996993568058973520, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: m_Name
-      value: 1_CantPlaceCardsOnRound
+      value: 1_CantPlaceCardsOnRounds345
       objectReference: {fileID: 0}
     - target: {fileID: 6103397167715187461, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: m_RootOrder

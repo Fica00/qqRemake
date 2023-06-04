@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class LaneAbility : MonoBehaviour
 {
-    [field: SerializeField] public List<LaneAbilityBase> abilities;
-    [field: SerializeField] public string Description;
+    [field: SerializeField] public int Id { get; private set; }
+    [field: SerializeField] public List<LaneAbilityBase> Abilities { get; private set; }
+    [field: SerializeField] public string Description { get; private set; }
 
     public void Setup(LaneDisplay _laneDisplay)
     {
-        foreach (var _ability in abilities)
+        foreach (var _ability in Abilities)
         {
             _ability.Setup(_laneDisplay);
         }

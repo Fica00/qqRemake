@@ -105,7 +105,7 @@ public class CardObject : MonoBehaviour
 
     public bool TryToPlace(LanePlaceIdentifier _placeIdentifier)
     {
-        GameplayPlayer _player = IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.BotPlayer;
+        GameplayPlayer _player = IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
         if (_player.Energy < Stats.Energy)
         {
             return false;
@@ -127,7 +127,7 @@ public class CardObject : MonoBehaviour
         {
             PlaceId = _placeIdentifier.Id,
             Card = this,
-            Player = _player,
+            IsMyPlayer = IsMy,
             Location = _placeIdentifier.Location
         };
 

@@ -13,16 +13,13 @@ public class EnergyDisplayHandler : MonoBehaviour
         gameplayPlayer = _player;
 
         gameplayPlayer.UpdatedEnergy += ShowEnergy;
+        ShowEnergy();
+
     }
 
     private void OnDisable()
     {
         gameplayPlayer.UpdatedEnergy -= ShowEnergy;
-    }
-
-    private void Start()
-    {
-        ShowEnergy();
     }
 
     void ShowEnergy()

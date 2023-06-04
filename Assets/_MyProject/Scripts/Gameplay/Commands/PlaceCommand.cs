@@ -1,7 +1,10 @@
+using System;
+
+[Serializable]
 public class PlaceCommand
 {
     public CardObject Card;
     public int PlaceId;
-    public GameplayPlayer Player;
+    public bool IsMyPlayer;
     public LaneLocation Location;
 }

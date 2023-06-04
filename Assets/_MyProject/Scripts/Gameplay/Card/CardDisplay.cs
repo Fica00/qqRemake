@@ -33,6 +33,12 @@ public class CardDisplay : MonoBehaviour
         cardInHandDisplay.Hide();
     }
 
+    public void Hide()
+    {
+        cardOnTableHandler.Hide();
+        cardInHandDisplay.Hide();
+    }
+
     public void HideCardOnTable()
     {
         cardOnTableHandler.Hide();

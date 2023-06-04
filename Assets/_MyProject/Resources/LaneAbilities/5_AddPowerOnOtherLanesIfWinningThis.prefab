@@ -13,11 +13,27 @@ PrefabInstance:
       value: Whoever is winning this location gets +30 Power at the others
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Id>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: abilities.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: abilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 5119082851190670758}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: Whoever is winning this location gets +30 Power at the others
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.data[0]
       value: 
       objectReference: {fileID: 5119082851190670758}
     - target: {fileID: 3996993568058973520, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}

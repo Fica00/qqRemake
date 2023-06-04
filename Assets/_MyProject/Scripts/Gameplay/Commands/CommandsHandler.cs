@@ -20,9 +20,9 @@ public class CommandsHandler
         GameplayPlayer.RemovedCardFromTable -= RemoveCommand;
     }
 
-    void AddCommand(PlaceCommand _command)
+    protected virtual void AddCommand(PlaceCommand _command)
     {
-        if (_command.Player == GameplayManager.Instance.MyPlayer)
+        if (_command.IsMyPlayer)
         {
             myCommands.Add(_command);
         }
@@ -32,9 +32,9 @@ public class CommandsHandler
         }
     }
 
-    void RemoveCommand(PlaceCommand _command)
+    protected virtual void RemoveCommand(PlaceCommand _command)
     {
-        if (_command.Player == GameplayManager.Instance.MyPlayer)
+        if (_command.IsMyPlayer)
         {
             myCommands.Remove(_command);
         }
@@ -42,19 +42,6 @@ public class CommandsHandler
         {
             opponentCommands.Remove(_command);
         }
-    }
-
-    public bool CheckIfCardMovedThisTurn(CardObject _cardObject)
-    {
-        foreach (var _command in myCommands)
-        {
-            if (_command.Card == _cardObject)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public PlaceCommand GetCommand(CardObject _cardObject)
@@ -68,5 +55,10 @@ public class CommandsHandler
         }
 
         throw new System.Exception("Cant find command for object: " + _cardObject);
+    }
+
+    public void SetOpponentCommands(List<PlaceCommand> _commands)
+    {
+        opponentCommands = _commands;
     }
 }

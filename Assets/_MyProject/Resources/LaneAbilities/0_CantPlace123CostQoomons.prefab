@@ -20,9 +20,21 @@ PrefabInstance:
       propertyPath: abilities.Array.data[0]
       value: 
       objectReference: {fileID: 6120998827806423395}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Description>k__BackingField
+      value: "1,2, and 3-Cost Qoomon can\u2019t be played here"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <Abilities>k__BackingField.Array.data[0]
+      value: 
+      objectReference: {fileID: 6120998827806423395}
     - target: {fileID: 3996993568058973520, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: m_Name
-      value: 0_CantPlaceLowCostQommons
+      value: 0_CantPlace123CostQoomons
       objectReference: {fileID: 0}
     - target: {fileID: 6103397167715187461, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: m_RootOrder

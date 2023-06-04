@@ -75,13 +75,13 @@ public class TableHandler : MonoBehaviour
             switch (_command.Location)
             {
                 case LaneLocation.Top:
-                    _cardsOnLane = _command.Player.IsMy ? myCardsOnTable[0] : opponentCardsOnTable[0];
+                    _cardsOnLane = _command.IsMyPlayer ? myCardsOnTable[0] : opponentCardsOnTable[0];
                     break;
                 case LaneLocation.Mid:
-                    _cardsOnLane = _command.Player.IsMy ? myCardsOnTable[1] : opponentCardsOnTable[1];
+                    _cardsOnLane = _command.IsMyPlayer ? myCardsOnTable[1] : opponentCardsOnTable[1];
                     break;
                 case LaneLocation.Bot:
-                    _cardsOnLane = _command.Player.IsMy ? myCardsOnTable[2] : opponentCardsOnTable[2];
+                    _cardsOnLane = _command.IsMyPlayer ? myCardsOnTable[2] : opponentCardsOnTable[2];
                     break;
                 default:
                     break;
