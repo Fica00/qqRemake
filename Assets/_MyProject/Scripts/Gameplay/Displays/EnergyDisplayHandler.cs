@@ -24,6 +24,11 @@ public class EnergyDisplayHandler : MonoBehaviour
 
     void ShowEnergy()
     {
+        for (int i = 0; i < GameplayManager.Instance.CurrentRound; i++)
+        {
+            energyDisplays[i].gameObject.SetActive(true);
+        }
+
         for (int i = 0; i < gameplayPlayer.Energy; i++)
         {
             if (i >= energyDisplays.Length)

@@ -9,6 +9,8 @@ public class CardReveal : MonoBehaviour
     [SerializeField] GameObject revealObject;
     CardObject cardObject;
 
+    public bool IsRevealing => shadowObject.activeSelf||revealObject.activeSelf;
+
     public void Setup(CardObject _cardObject)
     {
         cardObject = _cardObject;

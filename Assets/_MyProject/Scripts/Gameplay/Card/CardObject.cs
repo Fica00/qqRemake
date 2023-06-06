@@ -61,18 +61,18 @@ public class CardObject : MonoBehaviour
         switch (GameplayManager.Instance.GameplayState)
         {
             case GameplayState.ResolvingBeginingOfRound:
-                cardInputInteractions.enabled = false;
+                cardInputInteractions.CanDrag = false;
                 break;
             case GameplayState.Playing:
                 if (CardLocation == CardLocation.Table && CanChangePlace)
                 {
                     CancelReveal();
                 }
-                cardInputInteractions.enabled = true;
+                cardInputInteractions.CanDrag = true;
                 break;
             case GameplayState.Waiting:
                 cardInputInteractions.CancelDrag();
-                cardInputInteractions.enabled = false;
+                cardInputInteractions.CanDrag = false;
                 if (CardLocation == CardLocation.Table && CanChangePlace)
                 {
                     PrepareForReveal();
@@ -80,7 +80,7 @@ public class CardObject : MonoBehaviour
                 break;
             case GameplayState.ResolvingEndOfRound:
                 cardInputInteractions.CancelDrag();
-                cardInputInteractions.enabled = false;
+                cardInputInteractions.CanDrag = false;
                 break;
             default:
                 throw new Exception("Dont know how to handle state: " + GameplayManager.Instance.GameplayState);

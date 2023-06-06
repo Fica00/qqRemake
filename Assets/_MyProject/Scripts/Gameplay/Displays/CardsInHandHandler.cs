@@ -44,18 +44,20 @@ public class CardsInHandHandler : MonoBehaviour
     void CheckForCardSizeChange()
     {
         int _amountOfCardsInHand = cardsInHand.Count;
+        float _sizeRatio = Screen.width / 1179f; // Calculate the ratio based on the original width
+        float _spacingRatio = Screen.width / 2556f; // Calculate the ratio based on the original height
         int _size = 0;
         int _spacing = 0;
 
         if (_amountOfCardsInHand >= GameplayManager.Instance.MaxAmountOfCardsInHand)
         {
-            _size = 154;
-            _spacing = 8;
+            _size = Mathf.RoundToInt(154 * _sizeRatio);
+            _spacing = Mathf.RoundToInt(8 * _spacingRatio);
         }
         else
         {
-            _size = 174;
-            _spacing = 12;
+            _size = Mathf.RoundToInt(174 * _sizeRatio);
+            _spacing = Mathf.RoundToInt(12 * _spacingRatio);
         }
 
         foreach (var _card in cardsInHand)

@@ -610,6 +610,9 @@ MonoBehaviour:
   flags:
   - {fileID: 5686523579364797515}
   - {fileID: 5686523579364797514}
+  playsFirstDisplays:
+  - {fileID: 5686523579364797519}
+  - {fileID: 5686523579364797518}
 --- !u!114 &3441719200825644174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1059,6 +1062,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa138a6b10e63e4fae7bc6ba6d8677e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5686523579364797518 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6128082133948778927, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+  m_PrefabInstance: {fileID: 5686523579364797513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5686523579364797519 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5786135133938372896, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+  m_PrefabInstance: {fileID: 5686523579364797513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6934228532677659356 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5333907014907105940, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}

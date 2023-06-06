@@ -6,6 +6,7 @@ public class DrumClickHandler : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI betDisplay;
     [SerializeField] TextMeshProUGUI nextBetDisplay;
+    [SerializeField] GameObject soundWawe;
 
     Button button;
     int timeCanIncreaseBet = 2;
@@ -46,14 +47,13 @@ public class DrumClickHandler : MonoBehaviour
         {
             return;
         }
-        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesIncrease);
-        UIManager.Instance.YesNoDialog.Setup("Are you sure that you want to double the bet?");
-    }
 
-    void YesIncrease()
-    {
         timeCanIncreaseBet--;
         GameplayManager.Instance.IncreaseBet();
         GameplayManager.Instance.MyPlayerDisplay.RemoveGlow();
+        if (timeCanIncreaseBet==0)
+        {
+            soundWawe.SetActive(false);
+        }
     }
 }

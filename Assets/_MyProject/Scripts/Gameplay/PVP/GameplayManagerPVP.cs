@@ -86,9 +86,9 @@ public class GameplayManagerPVP : GameplayManager
         MyPlayer.Setup();
     }
 
-    protected override void InitialDraw()
+    protected override IEnumerator InitialDraw()
     {
-        InitialDraw(MyPlayer, startingAmountOfCards);
+        yield return StartCoroutine(InitialDraw(MyPlayer, startingAmountOfCards));
     }
 
     public override void DrawCard()

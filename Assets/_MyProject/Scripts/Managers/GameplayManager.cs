@@ -30,6 +30,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected int maxRounds = 6;
     [SerializeField] protected List<LaneDisplay> lanes;
     [SerializeField] protected GameObject[] flags;
+    [SerializeField] protected GameObject[] playsFirstDisplays;
 
     GameplayState gameplayState;
     int currentRound;
@@ -114,7 +115,6 @@ public class GameplayManager : MonoBehaviour
         CurrentRound = 0;
         SetupPlayers();
         TableHandler.Setup();
-        InitialDraw();
         StartCoroutine(GameplayRoutine());
 
     }
@@ -125,14 +125,16 @@ public class GameplayManager : MonoBehaviour
         OpponentPlayer.Setup();
     }
 
-    protected virtual void InitialDraw()
+    protected virtual IEnumerator InitialDraw()
     {
-        InitialDraw(MyPlayer, startingAmountOfCards);
-        InitialDraw(OpponentPlayer, startingAmountOfCards);
+       yield return StartCoroutine(InitialDraw(MyPlayer, startingAmountOfCards));
+       yield return StartCoroutine(InitialDraw(OpponentPlayer, startingAmountOfCards));
     }
 
-    protected void InitialDraw(GameplayPlayer _player, int _startingAmountOfCards)
+    protected IEnumerator InitialDraw(GameplayPlayer _player, int _startingAmountOfCards)
     {
+        yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(_player));
+
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
         for (int i = _amountOfCardsInHand; i < _startingAmountOfCards; i++)
         {
@@ -161,6 +163,7 @@ public class GameplayManager : MonoBehaviour
     protected IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);
+        yield return StartCoroutine(InitialDraw());
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
         {
@@ -284,12 +287,16 @@ public class GameplayManager : MonoBehaviour
         if (_whoPlaysFirst == -1)
         {
             flags[0].SetActive(true);
+            playsFirstDisplays[0].SetActive(true);
             flags[1].SetActive(false);
+            playsFirstDisplays[1].SetActive(false);
         }
         else
         {
             flags[0].SetActive(false);
+            playsFirstDisplays[0].SetActive(false);
             flags[1].SetActive(true);
+            playsFirstDisplays[1].SetActive(true);
         }
     }
 

@@ -14,6 +14,9 @@ public class CardDetailsPanel : MonoBehaviour
     [SerializeField] TextMeshProUGUI manaDisplay;
     [SerializeField] TextMeshProUGUI nameDispaly;
     [SerializeField] TextMeshProUGUI descDisplay;
+    [SerializeField] GameObject showHandPanel;
+    [SerializeField] GameObject hideHandPanel;
+
     Vector2 startingRect;
 
     Sequence sequence;
@@ -38,12 +41,24 @@ public class CardDetailsPanel : MonoBehaviour
 
     void ShowCardDetails(CardObject _cardObject)
     {
+        showHandPanel.SetActive(false);
+        hideHandPanel.SetActive(false);
+
+        if (_cardObject.CardLocation == CardLocation.Table)
+        {
+            hideHandPanel.SetActive(true);
+        }
+        else
+        {
+            showHandPanel.SetActive(true);
+        }
+
         Vector3 _rotation = new Vector3(0, 0, 0);
         _rotation.y = _cardObject.IsMy ? 180 : 0;
         qommonDisplay.transform.eulerAngles = _rotation;
         RectTransform _rectTransform = qommonDisplay.GetComponent<RectTransform>();
         RectTransform _cardRect = _cardObject.GetComponent<RectTransform>();
-        float _animationDuration = 1f;
+        float _animationDuration = 0.4f;
         CardDetails _cardDetails = _cardObject.Details;
 
         qommonDisplay.sprite = _cardDetails.Sprite;

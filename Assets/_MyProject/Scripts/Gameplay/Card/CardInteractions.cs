@@ -16,6 +16,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     Vector2 pointerDownPosition;
     const float dragThreshold = 5f;
     bool canChangePlace;
+    [HideInInspector] public bool CanDrag;
 
     public void Setup(CardObject _cardObject)
     {
@@ -53,13 +54,14 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         if (cardObject.CardLocation == CardLocation.Table)
         {
-            if (canChangePlace)
+            if (isDragging && canChangePlace)
             {
                 GameplayManager.Instance.MyPlayer.CancelCommand(cardObject);
+                EndDrag();
             }
             else
             {
-                OnClicked?.Invoke(cardObject);
+                ShowDetails();
             }
             return;
         }
@@ -67,13 +69,23 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         {
             if (!isDragging)
             {
-                OnClicked?.Invoke(cardObject);
+                ShowDetails();
             }
             else
             {
                 HandleDragEnded(eventData);
             }
         }
+    }
+
+    void ShowDetails()
+    {
+        if (cardObject.Reveal.IsRevealing)
+        {
+            return;
+        }
+
+        OnClicked?.Invoke(cardObject);
     }
 
     void HandleDragEnded(PointerEventData _eventData)
@@ -111,28 +123,26 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     protected virtual void HandleDrag(PointerEventData eventData)
     {
-        if (cardObject.CardLocation == CardLocation.Table)
+        if (!CanDrag)
         {
             return;
         }
-        else
-        {
-            if (!isDragging)
-            {
-                Vector2 dragDelta = eventData.position - pointerDownPosition;
-                if (dragDelta.magnitude >= dragThreshold)
-                {
-                    isDragging = true;
-                    DragStarted?.Invoke(cardObject);
-                    // Additional actions when the drag gesture is confirmed
-                }
-            }
 
-            if (isDragging)
+        if (!isDragging)
+        {
+            Vector2 dragDelta = eventData.position - pointerDownPosition;
+            if (dragDelta.magnitude >= dragThreshold)
             {
-                Vector2 dragDelta = Camera.main.ScreenToWorldPoint(eventData.delta) - Camera.main.ScreenToWorldPoint(Vector2.zero);
-                cardDisplay.transform.position += (Vector3)dragDelta;
+                isDragging = true;
+                DragStarted?.Invoke(cardObject);
+                // Additional actions when the drag gesture is confirmed
             }
+        }
+
+        if (isDragging)
+        {
+            Vector2 dragDelta = Camera.main.ScreenToWorldPoint(eventData.delta) - Camera.main.ScreenToWorldPoint(Vector2.zero);
+            cardDisplay.transform.position += (Vector3)dragDelta;
         }
     }
 }

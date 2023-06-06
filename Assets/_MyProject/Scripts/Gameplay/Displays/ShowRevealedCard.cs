@@ -6,6 +6,7 @@ public class ShowRevealedCard : MonoBehaviour
 {
     [SerializeField] Image qommonDisplay;
     [SerializeField] GameObject detailsHolder;
+
     Vector2 startingRect;
 
     Sequence sequence;

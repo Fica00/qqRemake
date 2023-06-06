@@ -7,12 +7,17 @@ using System.Collections;
 public class EndTurnHandler : MonoBehaviour
 {
     public static Action OnEndTurn;
+    
     [SerializeField] TextMeshProUGUI textDisplay;
     [SerializeField] Image foregroundImage;
     [SerializeField] Button button;
+    [SerializeField] Color clickableColor;
+    [SerializeField] Color unclickableColor;
+
     int roundDuration;
     float timeLeft;
     Coroutine roundDurationRoutine;
+
     public float TimeLeft => timeLeft;
 
     private void OnEnable()
@@ -34,20 +39,24 @@ public class EndTurnHandler : MonoBehaviour
             case GameplayState.ResolvingBeginingOfRound:
                 textDisplay.text = "Playing";
                 button.interactable = false;
+                foregroundImage.color = unclickableColor;
                 timeLeft = roundDuration;
                 break;
             case GameplayState.Playing:
                 roundDurationRoutine = StartCoroutine(RoundDurationRoutine());
                 textDisplay.text = "End Turn";
                 button.interactable = true;
+                foregroundImage.color = clickableColor;
                 break;
             case GameplayState.Waiting:
                 textDisplay.text = "Waiting";
                 button.interactable = false;
+                foregroundImage.color = unclickableColor;
                 break;
             case GameplayState.ResolvingEndOfRound:
                 textDisplay.text = "Playing";
                 button.interactable = false;
+                foregroundImage.color = unclickableColor;
                 break;
             default:
                 break;
