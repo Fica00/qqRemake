@@ -11,10 +11,11 @@ public class GameplayManager : MonoBehaviour
     public static Action UpdatedGameState;
     public static Action UpdatedBet;
     public static Action<GameResult> GameEnded;
-    public static Action<int, Color, int> FlashPlace;
-    public static Action<LaneLocation, bool, Color, int> FlashWholePlace;
-    public static Action<LaneLocation, bool, Color> HighlihtWholePlace;
-    public static Action<LaneLocation, bool, Color> HideHighlihtWholePlace;
+    public static Action<int, Color, int> OnFlashPlace;
+    public static Action<LaneLocation, bool, Color, int> OnFlashWholePlace;
+    public static Action<LaneLocation, bool, Color> OnHighlihtWholePlace;
+    public static Action<LaneLocation, bool, Color,int> OnFlashAllSpotsOnLocation;
+    public static Action<LaneLocation, bool, Color> OnHideHighlihtWholePlace;
     public GameplayPlayer MyPlayer;
     public GameplayPlayer OpponentPlayer;
 
@@ -72,6 +73,8 @@ public class GameplayManager : MonoBehaviour
     public List<LaneDisplay> Lanes => lanes;
 
     public int CurrentBet => currentBet;
+
+    public int MaxAmountOfRounds => maxRounds;
 
     protected virtual void OnEnable()
     {
@@ -167,6 +170,8 @@ public class GameplayManager : MonoBehaviour
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
         {
+            int _whoPlaysFirst = TableHandler.WhichCardsToRevealFrist();
+            ShowFlag(_whoPlaysFirst);
             opponentFinished = false;
             iFinished = false;
             resolvedEndOfTheRound = false;
@@ -186,7 +191,7 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitUntil(() => iFinished && opponentFinished);
 
             GameplayState = GameplayState.ResolvingEndOfRound;
-            StartCoroutine(RevealCards());
+            StartCoroutine(RevealCards(_whoPlaysFirst));
             yield return new WaitUntil(() => resolvedEndOfTheRound);
             yield return new WaitForSeconds(0.5f);
         }
@@ -262,15 +267,14 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    protected IEnumerator RevealCards()
+    protected IEnumerator RevealCards(int _whoPlaysFirst)
     {
         foreach (var _command in CommandsHandler.OpponentCommands)
         {
             _command.Card.PrepareForReveal();
         }
 
-        int _whoPlaysFirst = TableHandler.WhichCardsToRevealFrist();
-        ShowFlag(_whoPlaysFirst);
+        
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
 
@@ -328,21 +332,26 @@ public class GameplayManager : MonoBehaviour
 
     public void FlashLocation(int _locationId, Color _color, int _amount)
     {
-        FlashPlace?.Invoke(_locationId, _color, _amount);
+        OnFlashPlace?.Invoke(_locationId, _color, _amount);
     }
 
     public void FlashWholeLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
     {
-        FlashWholePlace?.Invoke(_location, _mySide, _color, _amount);
+        OnFlashWholePlace?.Invoke(_location, _mySide, _color, _amount);
     }
 
     public void HighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
     {
-        HighlihtWholePlace?.Invoke(_location, _mySide, _color);
+        OnHighlihtWholePlace?.Invoke(_location, _mySide, _color);
+    } 
+    
+    public void FlashAllSpotsOnLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
+    {
+        OnFlashAllSpotsOnLocation?.Invoke(_location, _mySide, _color,_amount);
     }
 
     public void HideHighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
     {
-        HideHighlihtWholePlace?.Invoke(_location, _mySide, _color);
+        OnHideHighlihtWholePlace?.Invoke(_location, _mySide, _color);
     }
 }

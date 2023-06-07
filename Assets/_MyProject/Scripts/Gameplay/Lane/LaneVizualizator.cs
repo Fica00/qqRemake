@@ -16,18 +16,20 @@ public class LaneVizualizator : MonoBehaviour
 
     private void OnEnable()
     {
-        GameplayManager.FlashPlace += FlashSpot;
-        GameplayManager.FlashWholePlace += FlashWholePlace;
-        GameplayManager.HighlihtWholePlace += HighlihtWholePlace;
-        GameplayManager.HideHighlihtWholePlace += HideHighlihtWholePlace;
+        GameplayManager.OnFlashPlace += FlashSpot;
+        GameplayManager.OnFlashWholePlace += FlashWholePlace;
+        GameplayManager.OnHighlihtWholePlace += HighlihtWholePlace;
+        GameplayManager.OnHideHighlihtWholePlace += HideHighlihtWholePlace;
+        GameplayManager.OnFlashAllSpotsOnLocation += FlashAllSpotsOnLocation;
     }
 
     private void OnDisable()
     {
-        GameplayManager.FlashPlace -= FlashSpot;
-        GameplayManager.FlashWholePlace -= FlashWholePlace;
-        GameplayManager.HighlihtWholePlace -= HighlihtWholePlace;
-        GameplayManager.HideHighlihtWholePlace -= HideHighlihtWholePlace;
+        GameplayManager.OnFlashPlace -= FlashSpot;
+        GameplayManager.OnFlashWholePlace -= FlashWholePlace;
+        GameplayManager.OnHighlihtWholePlace -= HighlihtWholePlace;
+        GameplayManager.OnHideHighlihtWholePlace -= HideHighlihtWholePlace;
+        GameplayManager.OnFlashAllSpotsOnLocation -= FlashAllSpotsOnLocation;
     }
 
     void FlashSpot(int _locatoinId, Color _color, int _amount)
@@ -42,7 +44,7 @@ public class LaneVizualizator : MonoBehaviour
         FlashImage(_placeImage, _color, _amount);
     }
 
-    private void FlashWholePlace(LaneLocation _location, bool _mySide, Color _color, int _amount)
+    void FlashWholePlace(LaneLocation _location, bool _mySide, Color _color, int _amount)
     {
         if (_location != location)
         {
@@ -76,7 +78,7 @@ public class LaneVizualizator : MonoBehaviour
         _image.color = _startingColor;
     }
 
-    private void HighlihtWholePlace(LaneLocation _location, bool _mySide, Color _color)
+    void HighlihtWholePlace(LaneLocation _location, bool _mySide, Color _color)
     {
         if (_location != location)
         {
@@ -87,7 +89,7 @@ public class LaneVizualizator : MonoBehaviour
         ShowWholeLane(_laneImage, _color);
     }
 
-    private void HideHighlihtWholePlace(LaneLocation _location, bool _mySide, Color _color)
+    void HideHighlihtWholePlace(LaneLocation _location, bool _mySide, Color _color)
     {
         if (_location != location)
         {
@@ -102,6 +104,20 @@ public class LaneVizualizator : MonoBehaviour
             Sequence _sequence = DOTween.Sequence();
             _sequence.Append(DOTween.To(() => _color.a, x => _color.a = x, 0, _animationTime).OnUpdate(() => { _laneImage.color = _color; }));
             _sequence.Play();
+        }
+    }
+
+    void FlashAllSpotsOnLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
+    {
+        if (_location != location)
+        {
+            return;
+        }
+
+        List<LanePlaceIdentifier> _places = _mySide ? myPlaces : opponentPlaces;
+        foreach (var _place in _places)
+        {
+            FlashImage(_place.GetComponent<Image>(), _color, _amount);
         }
     }
 

@@ -126,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: d966ae1190ea7a84aae0675f3b2c4d06, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <i>Thou shall not pass.</i>
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_text

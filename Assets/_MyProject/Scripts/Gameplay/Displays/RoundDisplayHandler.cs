@@ -17,6 +17,6 @@ public class RoundDisplayHandler : MonoBehaviour
 
     void ShowRound()
     {
-        roundDisplay.text = "Turn: " + GameplayManager.Instance.CurrentRound;
+        roundDisplay.text = GameplayManager.Instance.CurrentRound+"/"+GameplayManager.Instance.MaxAmountOfRounds;
     }
 }

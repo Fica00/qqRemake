@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,7 +63,21 @@ public class TableHandler : MonoBehaviour
         }
         else
         {
-            return UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
+            if (PhotonNetwork.CurrentRoom==null)
+            {
+                return -1;
+            }
+            else
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
         }
     }
 

@@ -122,7 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 34c72cfe5029dec47b3750d0f6edfc5b, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: "<i>Let\u2019s play some games!</i>"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_text

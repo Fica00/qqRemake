@@ -9,7 +9,7 @@ public class DrumClickHandler : MonoBehaviour
     [SerializeField] GameObject soundWawe;
 
     Button button;
-    int timeCanIncreaseBet = 2;
+    int timeCanIncreaseBet = 1;
     int maxBet = 16;
 
     private void Awake()

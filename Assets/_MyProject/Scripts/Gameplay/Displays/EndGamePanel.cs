@@ -42,6 +42,6 @@ public class EndGamePanel : MonoBehaviour
 
     void Close()
     {
-        SceneManager.LoadMainMenu();
+        gameObject.SetActive(false);
     }
 }

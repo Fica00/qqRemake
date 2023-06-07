@@ -42,7 +42,7 @@ public class CardEffectAddPowerIfThisIsAtLocation : CardEffectBase
         if (cardObject.LaneLocation == location)
         {
             cardObject.Stats.Power += powerToAdd;
-            GameplayManager.Instance.FlashWholeLocation(location, cardObject.IsMy, colorEffect, 2);
+            GameplayManager.Instance.FlashAllSpotsOnLocation(location, cardObject.IsMy, colorEffect, 2);
         }
     }
 }

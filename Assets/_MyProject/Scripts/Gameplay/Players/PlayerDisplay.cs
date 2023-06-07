@@ -18,7 +18,7 @@ public class PlayerDisplay : MonoBehaviour
             if (_glow.activeSelf)
             {
                 _glow.SetActive(false);
-                return;
+                //return;
             }
         }
     }

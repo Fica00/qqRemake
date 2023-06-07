@@ -23,13 +23,15 @@ public class EndTurnHandler : MonoBehaviour
     private void OnEnable()
     {
         GameplayManager.UpdatedGameState += HandleGameState;
+        GameplayManager.GameEnded += ManageGameEnded;
         button.onClick.AddListener(EndTurn);
     }
 
     private void OnDisable()
     {
         GameplayManager.UpdatedGameState -= HandleGameState;
-        button.onClick.RemoveListener(EndTurn);
+        GameplayManager.GameEnded -= ManageGameEnded;
+        button.onClick.RemoveAllListeners();
     }
 
     void HandleGameState()
@@ -61,6 +63,22 @@ public class EndTurnHandler : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void ManageGameEnded(GameResult _result)
+    {
+        button.onClick.RemoveListener(EndTurn);
+        button.onClick.AddListener(LeaveScene);
+        textDisplay.text = "Leave";
+        foregroundImage.fillAmount = 1;
+        foregroundImage.color = clickableColor;
+        button.interactable = true;
+        StopAllCoroutines();
+    }
+
+    void LeaveScene()
+    {
+        SceneManager.LoadMainMenu();
     }
 
     void EndTurn()

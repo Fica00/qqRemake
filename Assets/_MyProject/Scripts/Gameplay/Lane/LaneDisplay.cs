@@ -13,7 +13,6 @@ public class LaneDisplay : MonoBehaviour
     [SerializeField] List<LanePlaceIdentifier> myPlaces;
     [SerializeField] List<LanePlaceIdentifier> opponentPlaces;
 
-
     private void OnEnable()
     {
         GameplayPlayer.AddedCardToTable += CheckIfCardShouldBePlacedOnThisLane;
