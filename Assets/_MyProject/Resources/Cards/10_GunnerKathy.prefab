@@ -66,7 +66,31 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 163180176746285967, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 235
+      objectReference: {fileID: 0}
+    - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 235
+      objectReference: {fileID: 0}
+    - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320126881876742923, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
+    - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
@@ -203,34 +227,22 @@ PrefabInstance:
       value: '<color=#C38C15>On Reveal</color>:\nif your opponent played a  Qoomon
         here this turn\n+30  Power '
       objectReference: {fileID: 0}
-    - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_text
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_fontSize
-      value: 24.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_fontColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_fontColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_fontColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
+    - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 235
+      objectReference: {fileID: 0}
+    - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 235
+      objectReference: {fileID: 0}
+    - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

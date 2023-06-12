@@ -13,6 +13,7 @@ public class EndTurnHandler : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Color clickableColor;
     [SerializeField] Color unclickableColor;
+    [SerializeField] GameObject roundDisplay;
 
     int roundDuration;
     float timeLeft;
@@ -59,6 +60,7 @@ public class EndTurnHandler : MonoBehaviour
                 textDisplay.text = "Playing";
                 button.interactable = false;
                 foregroundImage.color = unclickableColor;
+                foregroundImage.fillAmount = 0;
                 break;
             default:
                 break;
@@ -72,6 +74,11 @@ public class EndTurnHandler : MonoBehaviour
         textDisplay.text = "Leave";
         foregroundImage.fillAmount = 1;
         foregroundImage.color = clickableColor;
+        Destroy(roundDisplay);
+        textDisplay.transform.localPosition = new Vector3(
+            textDisplay.transform.localPosition.x,
+            0,
+            textDisplay.transform.localPosition.z);
         button.interactable = true;
         StopAllCoroutines();
     }

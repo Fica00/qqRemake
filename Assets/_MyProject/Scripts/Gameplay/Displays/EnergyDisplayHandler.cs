@@ -13,6 +13,7 @@ public class EnergyDisplayHandler : MonoBehaviour
         gameplayPlayer = _player;
 
         gameplayPlayer.UpdatedEnergy += ShowEnergy;
+        GameplayManager.GameEnded += Hide;
         ShowEnergy();
 
     }
@@ -20,6 +21,12 @@ public class EnergyDisplayHandler : MonoBehaviour
     private void OnDisable()
     {
         gameplayPlayer.UpdatedEnergy -= ShowEnergy;
+        GameplayManager.GameEnded -= Hide;
+    }
+
+    void Hide(GameResult _result)
+    {
+        gameObject.SetActive(false);
     }
 
     void ShowEnergy()

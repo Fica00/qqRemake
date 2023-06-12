@@ -18,6 +18,7 @@ public class GameplayManagerPVP : GameplayManager
     {
         photonView = GetComponent<PhotonView>();
         Instance = this;
+        IsPVPGame = true;
     }
 
     protected override void OnEnable()
@@ -75,10 +76,10 @@ public class GameplayManagerPVP : GameplayManager
         return JsonConvert.SerializeObject(_commands);
     }
 
-    protected override void YesForfiet()
+    protected override void Forfiet()
     {
+        base.Forfiet();
         photonView.RPC("OpponentForfited", RpcTarget.Others);
-        base.YesForfiet();
     }
 
     protected override void SetupPlayers()

@@ -73,9 +73,8 @@ public class LaneVizualizator : MonoBehaviour
             _sequence.Append(DOTween.To(() => _color.a, x => _color.a = x, 1, _duration).OnUpdate(() => { _image.color = _color; }));
             _sequence.Append(DOTween.To(() => _color.a, x => _color.a = x, 0, _duration).OnUpdate(() => { _image.color = _color; }));
         }
+        _sequence.OnComplete(()=> _image.color = _startingColor);
         _sequence.Play();
-
-        _image.color = _startingColor;
     }
 
     void HighlihtWholePlace(LaneLocation _location, bool _mySide, Color _color)

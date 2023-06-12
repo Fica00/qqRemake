@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class DrumClickHandler : MonoBehaviour
 {
@@ -21,12 +22,19 @@ public class DrumClickHandler : MonoBehaviour
     {
         button.onClick.AddListener(IncreaseBet);
         GameplayManager.UpdatedBet += ShowBet;
+        GameplayManager.GameEnded += Disable;
     }
 
     private void OnDisable()
     {
         button.onClick.RemoveListener(IncreaseBet);
         GameplayManager.UpdatedBet -= ShowBet;
+        GameplayManager.GameEnded -= Disable;
+    }
+
+    void Disable(GameResult _result)
+    {
+        button.interactable = false;
     }
 
     private void Start()

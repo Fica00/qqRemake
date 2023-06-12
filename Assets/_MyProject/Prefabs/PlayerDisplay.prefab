@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7079650436910480347}
   - component: {fileID: 6193236033607398645}
   - component: {fileID: 2033365574169650505}
+  - component: {fileID: 2814211248385923797}
   m_Layer: 5
   m_Name: Glow 2
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -76,6 +77,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2814211248385923797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218697539373890245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d1c2071dc2c2b4281fae6026b90256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1039940835083258764
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,6 +235,7 @@ GameObject:
   - component: {fileID: 6046180277573002792}
   - component: {fileID: 7466915826900785927}
   - component: {fileID: 511094919621584819}
+  - component: {fileID: 1788197770864887998}
   m_Layer: 5
   m_Name: Glow 1
   m_TagString: Untagged
@@ -271,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -287,6 +301,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1788197770864887998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3219204970574606422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d1c2071dc2c2b4281fae6026b90256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4934215213951804693
 GameObject:
   m_ObjectHideFlags: 0

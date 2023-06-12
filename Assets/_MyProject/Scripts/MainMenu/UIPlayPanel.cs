@@ -5,21 +5,14 @@ public class UIPlayPanel : MonoBehaviour
 {
     [SerializeField] Button playVSAIButton;
     [SerializeField] Button playPVPButton;
-    [SerializeField] Button closeButton;
 
     [Space()]
     [SerializeField] UIPVPPanel pvpPanel;
-
-    public void Setup()
-    {
-        gameObject.SetActive(true);
-    }
 
     private void OnEnable()
     {
         playVSAIButton.onClick.AddListener(ShowAIGameplay);
         playPVPButton.onClick.AddListener(ShowPVPPanel);
-        closeButton.onClick.AddListener(Close);
 
         PhotonManager.OnIJoinedRoom += JoinedRoom;
         PhotonManager.OnILeftRoom += ILeftRoom;
@@ -29,7 +22,6 @@ public class UIPlayPanel : MonoBehaviour
     {
         playVSAIButton.onClick.RemoveListener(ShowAIGameplay);
         playPVPButton.onClick.RemoveListener(ShowPVPPanel);
-        closeButton.onClick.RemoveListener(Close);
 
         PhotonManager.OnIJoinedRoom -= JoinedRoom;
         PhotonManager.OnILeftRoom -= ILeftRoom;
@@ -66,6 +58,5 @@ public class UIPlayPanel : MonoBehaviour
     {
         playVSAIButton.interactable = _status;
         playPVPButton.interactable = _status;
-        closeButton.interactable = _status;
     }
 }

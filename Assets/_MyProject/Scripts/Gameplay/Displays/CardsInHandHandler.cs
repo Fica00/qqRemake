@@ -27,6 +27,7 @@ public class CardsInHandHandler : MonoBehaviour
         player.RemovedCardFromHand -= RemoveCardFromHand;
     }
 
+
     void AddCardToHand(CardObject _card)
     {
         cardsInHand.Add(_card);

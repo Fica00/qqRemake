@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager Instance;
+    public static bool IsPVPGame=false;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
     public static Action UpdatedBet;
@@ -79,14 +80,14 @@ public class GameplayManager : MonoBehaviour
     protected virtual void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
-        FlagClickHandler.OnClick += Forfiet;
+        FlagClickHandler.OnForefiet += Forfiet;
     }
 
     protected virtual void OnDisable()
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
-        FlagClickHandler.OnClick -= Forfiet;
+        FlagClickHandler.OnForefiet -= Forfiet;
     }
 
     protected virtual void EndTurn()
@@ -95,13 +96,7 @@ public class GameplayManager : MonoBehaviour
         iFinished = true;
     }
 
-    protected void Forfiet()
-    {
-        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesForfiet);
-        UIManager.Instance.YesNoDialog.Setup("Do you want to forfeit the match?");
-    }
-
-    protected virtual void YesForfiet()
+    protected virtual void Forfiet()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.ILost);
@@ -110,6 +105,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void Awake()
     {
         Instance = this;
+        IsPVPGame = false;
     }
 
     protected virtual void Start()

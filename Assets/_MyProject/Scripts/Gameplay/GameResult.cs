@@ -5,5 +5,6 @@ public enum GameResult
 {
     IWon = 0,
     ILost = 1,
-    Draw = 2
+    Draw = 2,
+    IForefiet=3
 }
