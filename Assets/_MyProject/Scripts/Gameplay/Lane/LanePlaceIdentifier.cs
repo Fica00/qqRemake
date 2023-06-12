@@ -48,6 +48,11 @@ public class LanePlaceIdentifier : MonoBehaviour
             return;
         }
 
+        if (GameplayManager.Instance.MyPlayer.Energy<_cardObject.Stats.Energy)
+        {
+            return;
+        }
+
         Color _color = image.color;
         _color.a = 0.4f;
         image.color = _color;

@@ -32,7 +32,7 @@ public class CardReveal : MonoBehaviour
         cardObject.CanChangePlace = false;
         CancelReveal();
         revealObject.SetActive(true);
-        yield return new WaitForSeconds(2f);//duration of reveal animation
+        yield return new WaitForSeconds(1f);//duration of reveal animation
         revealObject.SetActive(false);
         cardObject.Display.ShowCardOnTable();
         ShowRevealCard?.Invoke(cardObject);
