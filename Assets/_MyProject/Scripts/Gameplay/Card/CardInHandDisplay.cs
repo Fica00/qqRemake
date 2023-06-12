@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class CardInHandDisplay : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class CardInHandDisplay : MonoBehaviour
     private void OnEnable()
     {
         GameplayManager.Instance.MyPlayer.UpdatedEnergy += ShowIfPlayerHasEnaughtEnergy;
+        cardObject.Stats.UpdatedMana += ShowIfPlayerHasEnaughtEnergy;
     }
 
     private void OnDisable()
@@ -40,6 +42,12 @@ public class CardInHandDisplay : MonoBehaviour
         cardObject.Stats.UpdatedMana -= ShowMana;
         cardObject.Stats.UpdatedPower -= ShowPower;
         GameplayManager.Instance.MyPlayer.UpdatedEnergy -= ShowIfPlayerHasEnaughtEnergy;
+        cardObject.Stats.UpdatedMana -= ShowIfPlayerHasEnaughtEnergy;
+    }
+
+    private void ShowIfPlayerHasEnaughtEnergy(ChangeStatus status)
+    {
+        ShowIfPlayerHasEnaughtEnergy();
     }
 
     public void Show()
