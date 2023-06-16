@@ -57,6 +57,15 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
         TryToRevard(_amountOfMyCardsOnLane, 0);
         TryToRevard(_amountOfOpponentCardsOnLane, 1);
 
+        if (appliedPower[0] || appliedPower[1])
+        {
+            laneDisplay.AbilityShowAsActive();
+        }
+        else
+        {
+            laneDisplay.AbilityShowAsInactive();
+        }
+
 
         void TryToRevard(int _amountOfCards, int _playerNumber)
         {

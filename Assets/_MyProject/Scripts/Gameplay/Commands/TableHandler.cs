@@ -156,6 +156,17 @@ public class TableHandler : MonoBehaviour
                         break;
                 }
 
+                foreach (var _card in GetCards(_isMy, _location))
+                {
+                    foreach (var _specialEffect in _card.SpecialEffects)
+                    {
+                        if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
+                        {
+                            _power *= 2;
+                        }
+                    }
+                }
+
                 _power += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];
 
                 _powerHolder[i] = _power;
@@ -182,17 +193,6 @@ public class TableHandler : MonoBehaviour
                 break;
             default:
                 throw new Exception("Cant handle lane: " + _location);
-        }
-
-        foreach (var _card in GetCards(_my, _location))
-        {
-            foreach (var _specialEffect in _card.SpecialEffects)
-            {
-                if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
-                {
-                    _power *= 2;
-                }
-            }
         }
 
         return _power;

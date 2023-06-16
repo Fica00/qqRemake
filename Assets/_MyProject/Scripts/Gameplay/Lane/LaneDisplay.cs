@@ -106,4 +106,14 @@ public class LaneDisplay : MonoBehaviour
         }
         return true;
     }
+
+    public void AbilityShowAsActive()
+    {
+
+    }
+
+    public void AbilityShowAsInactive()
+    {
+
+    }
 }

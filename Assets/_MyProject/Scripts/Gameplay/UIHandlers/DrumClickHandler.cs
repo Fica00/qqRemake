@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class DrumClickHandler : MonoBehaviour
 {
@@ -10,8 +9,9 @@ public class DrumClickHandler : MonoBehaviour
     [SerializeField] GameObject soundWawe;
 
     Button button;
-    int timeCanIncreaseBet = 1;
     int maxBet = 16;
+    bool didOpponentInitBetIncrease;
+    bool didIBet = false;
 
     private void Awake()
     {
@@ -35,33 +35,72 @@ public class DrumClickHandler : MonoBehaviour
     void Disable(GameResult _result)
     {
         button.interactable = false;
+        soundWawe.gameObject.SetActive(false);
     }
 
     private void Start()
     {
-        ShowBet();
+        betDisplay.text = "0 1";
+        nextBetDisplay.text = string.Empty;
     }
 
     void ShowBet()
     {
         int _betAmount = GameplayManager.Instance.CurrentBet;
         betDisplay.text = _betAmount < 10 ? "0 " + _betAmount : "1" + (_betAmount - 10);
-        nextBetDisplay.text = _betAmount == maxBet ? "MAX" : "Next: " + (_betAmount * 2);
+        nextBetDisplay.text = string.Empty;
     }
 
     void IncreaseBet()
     {
-        if (timeCanIncreaseBet == 0)
+        if (!(GameplayManager.Instance.GameplayState==GameplayState.Waiting||GameplayManager.Instance.GameplayState==GameplayState.Playing))
+        {
+            return;
+        }
+        
+        if (didOpponentInitBetIncrease)
+        {
+            AcceptBet();
+            return;
+        }
+
+        if (didIBet)
         {
             return;
         }
 
-        timeCanIncreaseBet--;
-        GameplayManager.Instance.IncreaseBet();
+        ShowNextRoundBet();
+        GameplayManager.Instance.Bet();
         GameplayManager.Instance.MyPlayerDisplay.RemoveGlow();
-        if (timeCanIncreaseBet==0)
+        soundWawe.SetActive(false);
+        didIBet = true;
+    }
+
+    public void ShowOpponentWantsToIncreaseBet()
+    {
+        didOpponentInitBetIncrease = true;
+        GameplayManager.UpdatedGameState += ManageRoundEnded;
+        ShowNextRoundBet();
+    }
+
+    void ManageRoundEnded()
+    {
+        if (GameplayManager.Instance.GameplayState==GameplayState.ResolvingEndOfRound)
         {
-            soundWawe.SetActive(false);
+            AcceptBet();
         }
+    }
+
+    void AcceptBet()
+    {
+        GameplayManager.UpdatedGameState -= ManageRoundEnded;
+        didOpponentInitBetIncrease = false;
+        GameplayManager.Instance.OpponentAcceptedBet();
+    }
+
+    public void ShowNextRoundBet()
+    {
+        int _currentBet = GameplayManager.Instance.CurrentBet;
+        nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + (_currentBet * 2);
     }
 }

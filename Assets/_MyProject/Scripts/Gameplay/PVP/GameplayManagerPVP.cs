@@ -105,10 +105,15 @@ public class GameplayManagerPVP : GameplayManager
         }
     }
 
-    public override void IncreaseBet()
+    public override void Bet()
     {
-        base.IncreaseBet();
-        photonView.RPC("OpponentIncreasedBet", RpcTarget.Others);
+        photonView.RPC("OpponentWantsToBet", RpcTarget.Others);
+    }
+
+    public override void OpponentAcceptedBet()
+    {
+        base.OpponentAcceptedBet();
+        photonView.RPC("OpponentAceptedBet",RpcTarget.Others);
     }
 
     public override void UpdateQommonCosts(int _amount)
@@ -222,15 +227,22 @@ public class GameplayManagerPVP : GameplayManager
     }
 
     [PunRPC]
-    void OpponentIncreasedBet()
+    void OpponentWantsToBet()
     {
-        base.IncreaseBet();
         OpponentPlayerDisplay.RemoveGlow();
+        FindObjectOfType<DrumClickHandler>().ShowOpponentWantsToIncreaseBet();
+
     }
 
     [PunRPC]
     void ShowLaneAbility(int _laneId)
     {
         StartCoroutine(RevealLocation(_laneId));
+    }
+
+    [PunRPC]
+    void OpponentAceptedBet()
+    {
+        base.OpponentAcceptedBet();
     }
 }

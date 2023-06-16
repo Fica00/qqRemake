@@ -14,10 +14,12 @@ public class EndTurnHandler : MonoBehaviour
     [SerializeField] Color clickableColor;
     [SerializeField] Color unclickableColor;
     [SerializeField] GameObject roundDisplay;
+    [SerializeField] GameObject leaveDisplay;
 
     int roundDuration;
     float timeLeft;
     Coroutine roundDurationRoutine;
+    bool hasPlayed;
 
     public float TimeLeft => timeLeft;
 
@@ -46,7 +48,11 @@ public class EndTurnHandler : MonoBehaviour
                 timeLeft = roundDuration;
                 break;
             case GameplayState.Playing:
-                roundDurationRoutine = StartCoroutine(RoundDurationRoutine());
+                hasPlayed = false;
+                if (roundDurationRoutine==null)
+                {
+                    roundDurationRoutine = StartCoroutine(RoundDurationRoutine());
+                }
                 textDisplay.text = "End Turn";
                 button.interactable = true;
                 foregroundImage.color = clickableColor;
@@ -57,6 +63,11 @@ public class EndTurnHandler : MonoBehaviour
                 foregroundImage.color = unclickableColor;
                 break;
             case GameplayState.ResolvingEndOfRound:
+                if (roundDurationRoutine != null)
+                {
+                    StopCoroutine(roundDurationRoutine);
+                    roundDurationRoutine = null;
+                }
                 textDisplay.text = "Playing";
                 button.interactable = false;
                 foregroundImage.color = unclickableColor;
@@ -71,14 +82,11 @@ public class EndTurnHandler : MonoBehaviour
     {
         button.onClick.RemoveListener(EndTurn);
         button.onClick.AddListener(LeaveScene);
-        textDisplay.text = "Leave";
         foregroundImage.fillAmount = 1;
         foregroundImage.color = clickableColor;
         Destroy(roundDisplay);
-        textDisplay.transform.localPosition = new Vector3(
-            textDisplay.transform.localPosition.x,
-            0,
-            textDisplay.transform.localPosition.z);
+        Destroy(textDisplay.gameObject);
+        leaveDisplay.SetActive(true);
         button.interactable = true;
         StopAllCoroutines();
     }
@@ -90,10 +98,12 @@ public class EndTurnHandler : MonoBehaviour
 
     void EndTurn()
     {
-        if (roundDurationRoutine != null)
+        if (hasPlayed)
         {
-            StopCoroutine(roundDurationRoutine);
+            return;
         }
+
+        hasPlayed = true;
         OnEndTurn?.Invoke();
     }
 

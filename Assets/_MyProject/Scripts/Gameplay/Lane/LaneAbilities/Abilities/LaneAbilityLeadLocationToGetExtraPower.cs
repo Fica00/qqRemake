@@ -19,7 +19,7 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
 
     private void OnDestroy()
     {
-        TableHandler.OnRevealdCard += CheckPower;
+        TableHandler.OnRevealdCard -= CheckPower;
     }
 
     void CheckPower(CardObject _cardObject)
@@ -34,11 +34,20 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
 
     void CalculatePower()
     {
-        int _myPower = GameplayManager.Instance.TableHandler.GetPower(true, laneDisplay.Location);
-        int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, laneDisplay.Location);
+        int _myCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(true, laneDisplay.Location);
+        int _opponentCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(false, laneDisplay.Location);
 
-        TryToRevard(_myPower, _opponentPower, 0);
-        TryToRevard(_opponentPower, _myPower, 1);
+        TryToRevard(_myCalculatedPower, _opponentCalculatedPower, 0);
+        TryToRevard(_opponentCalculatedPower, _myCalculatedPower, 1);
+
+        if (appliedPower[0] || appliedPower[1])
+        {
+            laneDisplay.AbilityShowAsActive();
+        }
+        else
+        {
+            laneDisplay.AbilityShowAsInactive();
+        }
 
 
         void TryToRevard(int _myPower, int _opponentPower, int _playerNumber)

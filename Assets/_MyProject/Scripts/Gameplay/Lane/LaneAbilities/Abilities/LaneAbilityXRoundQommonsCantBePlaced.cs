@@ -11,5 +11,19 @@ public class LaneAbilityXRoundQommonsCantBePlaced : LaneAbilityBase
         {
             laneDisplay.LaneSpecifics.CantPlaceCommonsOnRound.Add(_round);
         }
+
+        GameplayManager.UpdatedRound += ManageDisplayState;
+    }
+
+    void ManageDisplayState()
+    {
+        if (rounds.Contains(GameplayManager.Instance.CurrentRound))
+        {
+            laneDisplay.AbilityShowAsActive();
+        }
+        else
+        {
+            laneDisplay.AbilityShowAsInactive();
+        }
     }
 }

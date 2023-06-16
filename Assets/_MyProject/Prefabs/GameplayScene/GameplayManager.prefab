@@ -90,10 +90,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 0}
-  BotPlayer: {fileID: 0}
+  OpponentPlayer: {fileID: 0}
   <MaxAmountOfCardsInHand>k__BackingField: 7
   <DurationOfRound>k__BackingField: 120
   <TableHandler>k__BackingField: {fileID: 3441719200441713751}
+  <MyPlayerDisplay>k__BackingField: {fileID: 0}
+  <OpponentPlayerDisplay>k__BackingField: {fileID: 0}
   endTurnHandler: {fileID: 0}
   maxRounds: 6
   lanes:
@@ -103,3 +105,4 @@ MonoBehaviour:
   flags:
   - {fileID: 0}
   - {fileID: 0}
+  playsFirstDisplays: []

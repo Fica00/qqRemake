@@ -64,11 +64,17 @@ public class CardObject : MonoBehaviour
                 cardInputInteractions.CanDrag = false;
                 break;
             case GameplayState.Playing:
-                if (CardLocation == CardLocation.Table && CanChangePlace)
+                if (CardLocation == CardLocation.Table)
                 {
-                    CancelReveal();
+                    if (CanChangePlace)
+                    {
+                        CancelReveal();
+                    }
                 }
-                cardInputInteractions.CanDrag = true;
+                else
+                {
+                    cardInputInteractions.CanDrag = true;
+                }
                 break;
             case GameplayState.Waiting:
                 cardInputInteractions.CancelDrag();

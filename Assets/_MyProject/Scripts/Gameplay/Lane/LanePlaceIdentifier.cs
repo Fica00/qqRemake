@@ -33,6 +33,10 @@ public class LanePlaceIdentifier : MonoBehaviour
 
     void CheckIfTileIsAvailable(CardObject _cardObject)
     {
+        if (_cardObject.CardLocation==CardLocation.Table)
+        {
+            return;
+        }
         if (!IsMine)
         {
             return;

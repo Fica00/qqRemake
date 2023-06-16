@@ -11,7 +11,6 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     protected CardObject cardObject;
     CardDisplay cardDisplay;
-    RectTransform cardRectTransform;
     bool isDragging = false;
     Vector2 pointerDownPosition;
     const float dragThreshold = 5f;
@@ -22,7 +21,6 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         cardObject = _cardObject;
         cardDisplay = cardObject.Display;
-        cardRectTransform = cardDisplay.GetComponent<RectTransform>();
     }
 
     public void CancelDrag()
@@ -135,7 +133,11 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             {
                 isDragging = true;
                 DragStarted?.Invoke(cardObject);
-                // Additional actions when the drag gesture is confirmed
+                if (cardObject.CardLocation==CardLocation.Table)
+                {
+                    Debug.Log(123);
+                    cardObject.transform.SetParent(GameObject.FindGameObjectWithTag("MainHolder").transform);
+                }
             }
         }
 

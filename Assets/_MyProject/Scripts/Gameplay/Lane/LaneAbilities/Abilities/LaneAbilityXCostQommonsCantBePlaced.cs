@@ -7,6 +7,7 @@ public class LaneAbilityXCostQommonsCantBePlaced : LaneAbilityBase
 
     public override void Subscribe()
     {
+        laneDisplay.AbilityShowAsActive();
         foreach (var _qommonCost in qommonCosts)
         {
             laneDisplay.LaneSpecifics.CantPlaceCommonsThatCost.Add(_qommonCost);

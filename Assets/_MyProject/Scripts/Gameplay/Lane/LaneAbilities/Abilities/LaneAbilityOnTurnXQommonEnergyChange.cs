@@ -15,10 +15,12 @@ public class LaneAbilityOnTurnXQommonEnergyChange : LaneAbilityBase
         int _currentRound = GameplayManager.Instance.CurrentRound;
         if (_currentRound == round)
         {
+            laneDisplay.AbilityShowAsActive();
             GameplayManager.Instance.UpdateQommonCosts(change);
         }
         else if (_currentRound == round + 1)
         {
+            laneDisplay.AbilityShowAsInactive();
             GameplayManager.Instance.UpdateQommonCosts(-change);
         }
     }

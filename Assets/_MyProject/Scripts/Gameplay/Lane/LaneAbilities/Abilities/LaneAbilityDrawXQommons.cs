@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class LaneAbilityDrawXQommons : LaneAbilityBase
@@ -6,9 +7,17 @@ public class LaneAbilityDrawXQommons : LaneAbilityBase
 
     public override void Subscribe()
     {
+        laneDisplay.AbilityShowAsActive();
         for (int i = 0; i < amountOfCardsToDraw; i++)
         {
             GameplayManager.Instance.DrawCard();
+        }
+
+
+        IEnumerator DisableAbility()
+        {
+            yield return new WaitForSeconds(2);
+            laneDisplay.AbilityShowAsInactive();
         }
     }
 }

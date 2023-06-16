@@ -309,7 +309,12 @@ public class GameplayManager : MonoBehaviour
         iFinished = false;
     }
 
-    public virtual void IncreaseBet()
+    public virtual void Bet()
+    {
+        OpponentAcceptedBet();
+    }
+
+    public virtual void OpponentAcceptedBet()
     {
         currentBet *= 2;
         UpdatedBet?.Invoke();

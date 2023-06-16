@@ -17,6 +17,10 @@ public class LowEnergyPanel : MonoBehaviour
 
     void CheckEnergy(CardObject _cardObject)
     {
+        if (_cardObject.CardLocation == CardLocation.Table)
+        {
+            return;
+        }
         StartCoroutine(CheckEnergyRoutine());
 
         IEnumerator CheckEnergyRoutine()
