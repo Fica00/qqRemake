@@ -11,6 +11,11 @@ public class LaneAbilityAddXEnergyIfYouHaveNCardsHere : LaneAbilityBase
         CountCards();
     }
 
+    private void OnDisable()
+    {
+        GameplayManager.UpdatedRound -= CountCards;
+    }
+
     void CountCards()
     {
         int _myAmountOfCards = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location).Count;

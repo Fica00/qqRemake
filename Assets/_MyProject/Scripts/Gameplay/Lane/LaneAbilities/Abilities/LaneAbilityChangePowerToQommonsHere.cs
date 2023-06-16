@@ -12,6 +12,11 @@ public class LaneAbilityChangePowerToQommonsHere : LaneAbilityBase
         EffectCardsAlreadyOnLane();
     }
 
+    private void OnDisable()
+    {
+        TableHandler.OnRevealdCard -= EffectNewCards;
+    }
+
     void EffectCardsAlreadyOnLane()
     {
         List<CardObject> _myCards = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location);

@@ -169,10 +169,15 @@ public class TableHandler : MonoBehaviour
                         }
                     }
                 }
+
                 if (_powerToAdd!=0)
                 {
-                    _power += _powerToAdd + _extraPower;
+                    //add kaisha ko power only,
+                    _power += (_powerToAdd - _extraPower);
                 }
+
+                //add extra power
+                _power += _extraPower;
 
                 _power += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];
 

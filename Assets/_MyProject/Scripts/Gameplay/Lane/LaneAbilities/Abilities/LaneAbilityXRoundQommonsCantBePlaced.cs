@@ -15,6 +15,11 @@ public class LaneAbilityXRoundQommonsCantBePlaced : LaneAbilityBase
         GameplayManager.UpdatedRound += ManageDisplayState;
     }
 
+    private void OnDisable()
+    {
+        GameplayManager.UpdatedRound -= ManageDisplayState;
+    }
+
     void ManageDisplayState()
     {
         if (rounds.Contains(GameplayManager.Instance.CurrentRound))

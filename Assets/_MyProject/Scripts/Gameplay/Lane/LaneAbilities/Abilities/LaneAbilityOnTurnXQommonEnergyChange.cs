@@ -10,6 +10,11 @@ public class LaneAbilityOnTurnXQommonEnergyChange : LaneAbilityBase
         GameplayManager.UpdatedRound += ManageAbility;
     }
 
+    private void OnDisable()
+    {
+        GameplayManager.UpdatedRound -= ManageAbility;
+    }
+
     void ManageAbility()
     {
         int _currentRound = GameplayManager.Instance.CurrentRound;

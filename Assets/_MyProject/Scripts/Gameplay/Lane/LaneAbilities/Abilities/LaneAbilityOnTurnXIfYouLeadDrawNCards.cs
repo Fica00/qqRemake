@@ -10,6 +10,11 @@ public class LaneAbilityOnTurnXIfYouLeadDrawNCards : LaneAbilityBase
         GameplayManager.UpdatedRound += CheckForRound;
     }
 
+    private void OnDisable()
+    {
+        GameplayManager.UpdatedRound -= CheckForRound;
+    }
+
     void CheckForRound()
     {
         if (GameplayManager.Instance.CurrentRound==round)

@@ -5,6 +5,11 @@ public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
         TableHandler.OnRevealdCard += CheckCard;
     }
 
+    private void OnDisable()
+    {
+        TableHandler.OnRevealdCard -= CheckCard;
+    }
+
     void CheckCard(CardObject _card)
     {
         if (_card.LaneLocation != laneDisplay.Location)

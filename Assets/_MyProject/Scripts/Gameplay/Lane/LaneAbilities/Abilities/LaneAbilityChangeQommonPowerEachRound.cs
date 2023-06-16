@@ -11,6 +11,11 @@ public class LaneAbilityChangeQommonPowerEachRound : LaneAbilityBase
         GameplayManager.UpdatedRound += ChangePower;
     }
 
+    private void OnDisable()
+    {
+        GameplayManager.UpdatedRound -= ChangePower;
+    }
+
     void ChangePower()
     {
         List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location);

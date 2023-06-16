@@ -13,6 +13,11 @@ public class LaneAbilityAddXPowerIfYouHaveMoreCardsHere : LaneAbilityBase
         CountCards();
     }
 
+    private void OnDisable()
+    {
+        TableHandler.OnRevealdCard -= CheckCount;
+    }
+
     void CheckCount(CardObject _cardObject)
     {
         if (_cardObject.LaneLocation != laneDisplay.Location)
