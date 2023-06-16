@@ -40,7 +40,7 @@ public class CardOnTableDisplay : MonoBehaviour
 
     void ShowPower(ChangeStatus _status)
     {
-        powerDisplay.text = cardObject.Stats.Power.ToString();
+        powerDisplay.text = (cardObject.Stats.Power+cardObject.Stats.ChagePowerDueToLocation).ToString();
         switch (_status)
         {
             case ChangeStatus.Same:

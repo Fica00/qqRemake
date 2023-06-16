@@ -1,9 +1,11 @@
 using System;
+using UnityEngine;
 
 public class CardStats
 {
     int power;
     int mana;
+    int chagePowerDueToLocation;
 
     //if bool is false means that the power decreased,if it is true, power increased
     public Action<ChangeStatus> UpdatedPower;
@@ -58,6 +60,18 @@ public class CardStats
             {
                 UpdatedMana?.Invoke(ChangeStatus.Decreased);
             }
+        }
+    }
+
+   [HideInInspector] public int ChagePowerDueToLocation
+    {
+        get
+        {
+            return chagePowerDueToLocation;
+        }
+        set
+        {
+            chagePowerDueToLocation = value;
         }
     }
 }

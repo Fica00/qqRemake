@@ -156,15 +156,22 @@ public class TableHandler : MonoBehaviour
                         break;
                 }
 
+                int _powerToAdd = 0;
+                int _extraPower = 0;
                 foreach (var _card in GetCards(_isMy, _location))
                 {
+                    _extraPower += _card.Stats.ChagePowerDueToLocation;
                     foreach (var _specialEffect in _card.SpecialEffects)
                     {
                         if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
                         {
-                            _power *= 2;
+                            _powerToAdd = _power;
                         }
                     }
+                }
+                if (_powerToAdd!=0)
+                {
+                    _power += _powerToAdd + _extraPower;
                 }
 
                 _power += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];

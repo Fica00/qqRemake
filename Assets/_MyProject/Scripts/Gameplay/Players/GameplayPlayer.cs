@@ -222,6 +222,7 @@ public class GameplayPlayer : MonoBehaviour
         AddCardToHand(_command.Card);
         RemoveCardFromTable(_command);
         RemovedCardFromTable?.Invoke(_command);
+        _command.Card.GetComponent<CardInteractions>().CanDrag = true;
     }
 
     public void UpdateQommonCost(int _amount)

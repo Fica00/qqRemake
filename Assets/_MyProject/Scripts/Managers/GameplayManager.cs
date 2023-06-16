@@ -1,8 +1,8 @@
-using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -147,7 +147,7 @@ public class GameplayManager : MonoBehaviour
         DrawCard(OpponentPlayer);
     }
 
-    protected void DrawCard(GameplayPlayer _player)
+    public void DrawCard(GameplayPlayer _player)
     {
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
         if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)
@@ -306,6 +306,11 @@ public class GameplayManager : MonoBehaviour
         {
             GameplayState = GameplayState.Playing;
         }
+
+        foreach (var _command in CommandsHandler.MyCommands)
+        {
+            _command.Card.GetComponent<CardInteractions>().CanDrag = true;
+        }
         iFinished = false;
     }
 
@@ -354,5 +359,10 @@ public class GameplayManager : MonoBehaviour
     public void HideHighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
     {
         OnHideHighlihtWholePlace?.Invoke(_location, _mySide, _color);
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.KillAll();
     }
 }

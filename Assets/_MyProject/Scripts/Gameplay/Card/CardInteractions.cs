@@ -135,7 +135,6 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 DragStarted?.Invoke(cardObject);
                 if (cardObject.CardLocation==CardLocation.Table)
                 {
-                    Debug.Log(123);
                     cardObject.transform.SetParent(GameObject.FindGameObjectWithTag("MainHolder").transform);
                 }
             }
