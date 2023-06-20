@@ -34,7 +34,7 @@ public class LaneAbilityAddXPowerIfYouHaveMoreCardsHere : LaneAbilityBase
         int _amountOfOpponentCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(false, laneDisplay.Location).Count;
 
         TryToRevard(_amountOfMyCardsOnLane, _amountOfOpponentCardsOnLane, 0);
-        TryToRevard(_amountOfMyCardsOnLane, _amountOfOpponentCardsOnLane, 1);
+        TryToRevard(_amountOfOpponentCardsOnLane, _amountOfMyCardsOnLane, 1);
 
         if (appliedPower[0] || appliedPower[1])
         {

@@ -1,8 +1,10 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EnergyDisplayHandler : MonoBehaviour
 {
+    [SerializeField] HorizontalLayoutGroup horizontalLayoutGroup;
     [SerializeField] Image[] energyDisplays;
     [SerializeField] Color availableColor;
     [SerializeField] Color notAvailableColor;
@@ -31,7 +33,7 @@ public class EnergyDisplayHandler : MonoBehaviour
 
     void ShowEnergy()
     {
-        for (int i = 0; i < GameplayManager.Instance.CurrentRound; i++)
+        for (int i = 0; i < gameplayPlayer.Energy; i++)
         {
             energyDisplays[i].gameObject.SetActive(true);
         }
@@ -48,6 +50,14 @@ public class EnergyDisplayHandler : MonoBehaviour
         for (int i = gameplayPlayer.Energy; i < energyDisplays.Length; i++)
         {
             energyDisplays[i].color = notAvailableColor;
+        }
+
+        if (gameplayPlayer.Energy>6)
+        {
+            horizontalLayoutGroup.childControlHeight = true;
+            horizontalLayoutGroup.childControlWidth = true;
+            horizontalLayoutGroup.childForceExpandHeight = true;
+            horizontalLayoutGroup.childForceExpandWidth = true;
         }
     }
 }

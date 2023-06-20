@@ -17,7 +17,7 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
         CalculatePower();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         TableHandler.OnRevealdCard -= CheckPower;
     }

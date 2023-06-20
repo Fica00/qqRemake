@@ -218,6 +218,10 @@ public class GameplayPlayer : MonoBehaviour
 
     void CancelCommand(PlaceCommand _command)
     {
+        if (!_command.Card.IsForcedToBePlaced)
+        {
+            return;
+        }
         Energy += _command.Card.Stats.Energy;
         AddCardToHand(_command.Card);
         RemoveCardFromTable(_command);
@@ -236,5 +240,10 @@ public class GameplayPlayer : MonoBehaviour
         {
             _card.Stats.Energy += _amount;
         }
+    }
+
+    public CardObject GetQommonFromHand()
+    {
+        return cardsInHand[UnityEngine.Random.Range(0, cardsInHand.Count)];
     }
 }

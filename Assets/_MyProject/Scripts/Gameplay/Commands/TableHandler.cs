@@ -173,7 +173,7 @@ public class TableHandler : MonoBehaviour
                 if (_powerToAdd!=0)
                 {
                     //add kaisha ko power only,
-                    _power += (_powerToAdd - _extraPower);
+                    _power += (_powerToAdd - Mathf.Abs(_extraPower));
                 }
 
                 //add extra power

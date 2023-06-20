@@ -71,7 +71,20 @@ public class CardStats
         }
         set
         {
+            int _oldChangePower = chagePowerDueToLocation;
             chagePowerDueToLocation = value;
+            if (_oldChangePower== chagePowerDueToLocation)
+            {
+                UpdatedPower?.Invoke(ChangeStatus.Same);
+            }
+            else if (chagePowerDueToLocation >_oldChangePower)
+            {
+                UpdatedPower?.Invoke(ChangeStatus.Increased);
+            }
+            else
+            {
+                UpdatedPower?.Invoke(ChangeStatus.Decreased);
+            }
         }
     }
 }

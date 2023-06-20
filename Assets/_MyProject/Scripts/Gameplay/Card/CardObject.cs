@@ -21,6 +21,8 @@ public class CardObject : MonoBehaviour
 
     public CardLocation CardLocation { get; private set; }
 
+    public bool IsForcedToBePlaced=false;
+
     public void Setup(bool _isMy)
     {
         Stats = new CardStats()
@@ -142,6 +144,29 @@ public class CardObject : MonoBehaviour
         _player.RemoveCardFromHand(this);
         _player.AddCardToTable(_command);
         return true;
+    }
+
+    public void ForcePlace(LaneDisplay _laneDisplay)
+    {
+        GameplayPlayer _player = IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
+        LanePlaceIdentifier _placeIdentifier = _laneDisplay.GetPlaceLocation(IsMy);
+
+        if (!_laneDisplay.CanPlace(this))
+        {
+
+        }
+
+        PlaceCommand _command = new PlaceCommand()
+        {
+            PlaceId = _placeIdentifier.Id,
+            Card = this,
+            IsMyPlayer = IsMy,
+            Location = _placeIdentifier.Location
+        };
+
+        IsForcedToBePlaced = true;
+        _player.RemoveCardFromHand(this);
+        _player.AddCardToTable(_command);
     }
 
     public void PrepareForReveal()

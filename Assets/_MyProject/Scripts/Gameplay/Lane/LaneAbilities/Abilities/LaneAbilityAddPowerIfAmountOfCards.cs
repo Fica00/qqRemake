@@ -19,7 +19,7 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
 
     private void OnDestroy()
     {
-        TableHandler.OnRevealdCard += CheckCount;
+        TableHandler.OnRevealdCard -= CheckCount;
     }
 
     void CheckCount(CardObject _cardObject)
