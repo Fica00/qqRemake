@@ -32,6 +32,12 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
                 PlacePlayersCard(GameplayManager.Instance.OpponentPlayer);
             }
         }
+        else
+        {
+            isSubscribed = false;
+            laneDisplay.AbilityShowAsInactive();
+            GameplayManager.UpdatedRound -= CheckRound;
+        }
     }
 
     void PlacePlayersCard(GameplayPlayer _player)

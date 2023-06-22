@@ -23,7 +23,7 @@ public class LaneAbilityOnTurnXQommonEnergyChange : LaneAbilityBase
             laneDisplay.AbilityShowAsActive();
             GameplayManager.Instance.UpdateQommonCosts(change);
         }
-        else if (_currentRound == round + 1)
+        else if (_currentRound > round)
         {
             laneDisplay.AbilityShowAsInactive();
             GameplayManager.Instance.UpdateQommonCosts(-change);

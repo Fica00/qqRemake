@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class LaneDisplay : MonoBehaviour
@@ -134,12 +132,17 @@ public class LaneDisplay : MonoBehaviour
 
     public void AbilityShowAsActive()
     {
-
+        AbilityDisplay.AbilityShowAsActive();
     }
 
     public void AbilityShowAsInactive()
     {
+        AbilityDisplay.AbilityShowAsInactive();
+    }
 
+    public void AbilityFlash()
+    {
+        AbilityDisplay.AbilityFlash();
     }
 
     public void ShowWinner(Action _callBack)

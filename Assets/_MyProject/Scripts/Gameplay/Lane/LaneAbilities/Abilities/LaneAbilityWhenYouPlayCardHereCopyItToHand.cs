@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEngine;
 public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
 {
     public override void Subscribe()
@@ -25,5 +27,7 @@ public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
         {
             GameplayManager.Instance.OpponentPlayer.AddCardToHand(CardsManager.Instance.CreateCard(_card.Details.Id, _card.IsMy));
         }
+
+        laneDisplay.AbilityFlash();
     }
 }
