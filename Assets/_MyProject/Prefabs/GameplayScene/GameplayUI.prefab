@@ -3796,10 +3796,11 @@ MonoBehaviour:
   textDisplay: {fileID: 5686523579658226479}
   foregroundImage: {fileID: 5686523580092516937}
   button: {fileID: 5686523579563763470}
-  clickableColor: {r: 0.5411765, g: 0.8392157, b: 0.29411766, a: 1}
-  unclickableColor: {r: 0.30588236, g: 0.48235294, b: 0.16078432, a: 1}
   roundDisplay: {fileID: 5686523578979438100}
   leaveDisplay: {fileID: 4378717533047909146}
+  waitingSprite: {fileID: 21300000, guid: 727e87ee74fc8644a8811842a2027a55, type: 3}
+  playingSprite: {fileID: 21300000, guid: 2ef6923c5d47b5b4bbc4d8c6b6e8ce91, type: 3}
+  timerSprite: {fileID: 21300000, guid: 40ad872477d573c41a061d7c4ac852aa, type: 3}
 --- !u!1 &5686523579592601857
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,14 +4483,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3070934, g: 0.4811321, b: 0.16067994, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6909cf3cee511da4399ac528638fa195, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2ef6923c5d47b5b4bbc4d8c6b6e8ce91, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4656,6 +4657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54774458198da7b4e8576038dbc2a471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontalLayoutGroup: {fileID: 0}
   energyDisplays:
   - {fileID: 5686523580414998548}
   - {fileID: 5686523579615860506}

@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using UnityEngine.UI;
+using System;
 
 public class PowerDisplay : MonoBehaviour
 {
@@ -10,6 +10,11 @@ public class PowerDisplay : MonoBehaviour
     [SerializeField] TMP_FontAsset winningFontAsset;
     [SerializeField] TMP_FontAsset lossingFontAsset;
     [SerializeField] TMP_FontAsset drawFontAsset;
+
+    private int increasedFontSize = 90;
+    private int decreasedFontSize = 70;
+    private int normalFontSize = 80;
+    private int winFontSize = 115;
 
     public void ShowPower(int _myPower, int _opponentPower)
     {
@@ -42,24 +47,39 @@ public class PowerDisplay : MonoBehaviour
     public void Increase(TextMeshProUGUI _text)
     {
         float _currentSize = _text.fontSize;
-        float _increasedSize = 90;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 1f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 1f)
     .OnUpdate(() => _text.fontSize = _currentSize);
     }
 
     public void Decrease(TextMeshProUGUI _text)
     {
         float _currentSize = _text.fontSize;
-        float _increasedSize = 70;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 1f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, decreasedFontSize, 1f)
     .OnUpdate(() => _text.fontSize = _currentSize);
     }
 
     public void Normal(TextMeshProUGUI _text)
     {
         float _currentSize = _text.fontSize;
-        float _increasedSize = 80;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _increasedSize, 1f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, normalFontSize, 1f)
     .OnUpdate(() => _text.fontSize = _currentSize);
+    }
+
+    public void ShowWinner(int _myPower,int _opponentPower,Action _callBack)
+    {
+        if (_myPower==_opponentPower)
+        {
+            return;
+        }
+        TextMeshProUGUI _text = _myPower > _opponentPower ? myPower : opponentPower;
+        float _currentSize = _text.fontSize;
+        DOTween.To(() => _currentSize, x => _currentSize = x, winFontSize, 0.5f)
+            .OnUpdate(() => _text.fontSize = _currentSize).
+            OnComplete(() =>
+            {
+                DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 0.5f)
+                    .OnUpdate(() => _text.fontSize = _currentSize).
+                    OnComplete(()=> _callBack?.Invoke()).SetDelay(0.5f);
+            });
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEditor.Build;
 using UnityEngine;
 
@@ -138,5 +140,12 @@ public class LaneDisplay : MonoBehaviour
     public void AbilityShowAsInactive()
     {
 
+    }
+
+    public void ShowWinner(Action _callBack)
+    {
+        int _myPower = GameplayManager.Instance.TableHandler.GetPower(true, Location);
+        int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, Location);
+        powerDisplay.ShowWinner(_myPower,_opponentPower,_callBack);
     }
 }

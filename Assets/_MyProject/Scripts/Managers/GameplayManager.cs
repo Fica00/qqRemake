@@ -193,10 +193,24 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        bool _canContinue = false;
         yield return new WaitForSeconds(2);//wait for a bit, allow user to also see the result
+
+        for (int i = 0; i < Lanes.Count; i++)
+        {
+            Lanes[i].ShowWinner(Continue);
+            yield return new WaitUntil(() => _canContinue);
+            _canContinue = false;
+        }
+        yield return new WaitForSeconds(1);
+        
         GameResult _result = TableHandler.CalculateWinner();
         GameEnded?.Invoke(_result);
 
+        void Continue()
+        {
+            _canContinue = true;
+        }
     }
 
     protected virtual bool ReadyToStart()

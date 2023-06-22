@@ -11,10 +11,11 @@ public class EndTurnHandler : MonoBehaviour
     [SerializeField] TextMeshProUGUI textDisplay;
     [SerializeField] Image foregroundImage;
     [SerializeField] Button button;
-    [SerializeField] Color clickableColor;
-    [SerializeField] Color unclickableColor;
     [SerializeField] GameObject roundDisplay;
     [SerializeField] GameObject leaveDisplay;
+    [SerializeField] private Sprite waitingSprite;
+    [SerializeField] private Sprite playingSprite;
+    [SerializeField] private Sprite timerSprite;
 
     int roundDuration;
     float timeLeft;
@@ -44,7 +45,7 @@ public class EndTurnHandler : MonoBehaviour
             case GameplayState.ResolvingBeginingOfRound:
                 textDisplay.text = "Playing";
                 button.interactable = false;
-                foregroundImage.color = unclickableColor;
+                foregroundImage.sprite = playingSprite;
                 timeLeft = roundDuration;
                 break;
             case GameplayState.Playing:
@@ -55,12 +56,12 @@ public class EndTurnHandler : MonoBehaviour
                 }
                 textDisplay.text = "End Turn";
                 button.interactable = true;
-                foregroundImage.color = clickableColor;
+                foregroundImage.sprite = timerSprite;
                 break;
             case GameplayState.Waiting:
                 textDisplay.text = "Waiting";
                 button.interactable = false;
-                foregroundImage.color = unclickableColor;
+                foregroundImage.sprite = waitingSprite;
                 break;
             case GameplayState.ResolvingEndOfRound:
                 if (roundDurationRoutine != null)
@@ -70,7 +71,7 @@ public class EndTurnHandler : MonoBehaviour
                 }
                 textDisplay.text = "Playing";
                 button.interactable = false;
-                foregroundImage.color = unclickableColor;
+                foregroundImage.sprite = playingSprite;
                 foregroundImage.fillAmount = 0;
                 break;
             default:
@@ -83,7 +84,7 @@ public class EndTurnHandler : MonoBehaviour
         button.onClick.RemoveListener(EndTurn);
         button.onClick.AddListener(LeaveScene);
         foregroundImage.fillAmount = 1;
-        foregroundImage.color = clickableColor;
+        foregroundImage.sprite = timerSprite;
         Destroy(roundDisplay);
         Destroy(textDisplay.gameObject);
         leaveDisplay.SetActive(true);
