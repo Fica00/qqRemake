@@ -21,7 +21,7 @@ public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
         {
             GameplayManager.Instance.MyPlayer.AddCardToHand(CardsManager.Instance.CreateCard(_card.Details.Id, _card.IsMy));
         }
-        else if(!GameplayManager.IsPVPGame)
+        else if(!GameplayManager.IsPvpGame)
         {
             GameplayManager.Instance.OpponentPlayer.AddCardToHand(CardsManager.Instance.CreateCard(_card.Details.Id, _card.IsMy));
         }

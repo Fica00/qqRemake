@@ -31,7 +31,7 @@ public class LaneAbilityAddXEnergyIfYouHaveNCardsHere : LaneAbilityBase
             laneDisplay.AbilityShowAsInactive();
         }
 
-        if (!GameplayManager.IsPVPGame&&_opponentAmountOfCards==amountOfCards)
+        if (!GameplayManager.IsPvpGame&&_opponentAmountOfCards==amountOfCards)
         {
             GameplayManager.Instance.OpponentPlayer.Energy += energyAmount;
         }

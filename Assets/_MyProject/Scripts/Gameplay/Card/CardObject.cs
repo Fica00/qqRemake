@@ -21,7 +21,7 @@ public class CardObject : MonoBehaviour
 
     public CardLocation CardLocation { get; private set; }
 
-    public bool IsForcedToBePlaced=false;
+    public bool IsForcedToBePlaced = false;
 
     public void Setup(bool _isMy)
     {
@@ -68,7 +68,7 @@ public class CardObject : MonoBehaviour
             case GameplayState.Playing:
                 if (CardLocation == CardLocation.Table)
                 {
-                    if (CanChangePlace)
+                    if (CanChangePlace && !IsForcedToBePlaced)
                     {
                         CancelReveal();
                     }
@@ -153,7 +153,7 @@ public class CardObject : MonoBehaviour
 
         if (!_laneDisplay.CanPlace(this))
         {
-
+            return;
         }
 
         PlaceCommand _command = new PlaceCommand()
@@ -167,6 +167,7 @@ public class CardObject : MonoBehaviour
         IsForcedToBePlaced = true;
         _player.RemoveCardFromHand(this);
         _player.AddCardToTable(_command);
+        PrepareForReveal();
     }
 
     public void PrepareForReveal()

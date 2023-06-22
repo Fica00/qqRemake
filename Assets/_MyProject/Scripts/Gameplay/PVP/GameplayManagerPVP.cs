@@ -18,7 +18,7 @@ public class GameplayManagerPVP : GameplayManager
     {
         photonView = GetComponent<PhotonView>();
         Instance = this;
-        IsPVPGame = true;
+        IsPvpGame = true;
     }
 
     protected override void OnEnable()

@@ -45,7 +45,10 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
         }
         if (_cardObject.LaneLocation == cardObject.LaneLocation)
         {
-            cardObject.Stats.Power += PowerToAdd;
+            for (int i = 0; i < GameplayManager.Instance.Lanes[(int)_cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)
+            {
+                cardObject.Stats.Power += PowerToAdd;
+            }
             TableHandler.OnRevealdCard -= CheckPlayedCard;
         }
     }

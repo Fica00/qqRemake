@@ -2,6 +2,7 @@ using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TableHandler : MonoBehaviour
@@ -63,7 +64,7 @@ public class TableHandler : MonoBehaviour
         }
         else
         {
-            if (PhotonNetwork.CurrentRoom==null)
+            if (PhotonNetwork.CurrentRoom == null)
             {
                 return -1;
             }
@@ -83,7 +84,7 @@ public class TableHandler : MonoBehaviour
 
     public IEnumerator RevealCards(List<PlaceCommand> _commands)
     {
-        foreach (var _command in _commands)
+        foreach (var _command in _commands.ToList())
         {
             yield return StartCoroutine(_command.Card.RevealCard());
             List<CardObject> _cardsOnLane = null;
@@ -165,14 +166,17 @@ public class TableHandler : MonoBehaviour
                     {
                         if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
                         {
-                            _powerToAdd = _power;
+                            for (int j = 0; j < GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                            {
+                                _powerToAdd += _power;
+                            }
                         }
                     }
                 }
 
-                if (_powerToAdd!=0)
+                if (_powerToAdd != 0)
                 {
-                    //add kaisha ko power only,
+                    //add kaisha-ko power only,
                     _power += (_powerToAdd - Mathf.Abs(_extraPower));
                 }
 

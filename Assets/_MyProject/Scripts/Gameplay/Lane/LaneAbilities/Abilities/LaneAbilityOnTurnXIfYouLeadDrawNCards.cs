@@ -31,7 +31,7 @@ public class LaneAbilityOnTurnXIfYouLeadDrawNCards : LaneAbilityBase
                     GameplayManager.Instance.DrawCard(GameplayManager.Instance.MyPlayer);
                 }
             }
-            else if (_opponentCalculatedPower>_myCalculatedPower&&!GameplayManager.IsPVPGame)
+            else if (_opponentCalculatedPower>_myCalculatedPower&&!GameplayManager.IsPvpGame)
             {
                 for (int i = 0; i < amountOfCards; i++)
                 {

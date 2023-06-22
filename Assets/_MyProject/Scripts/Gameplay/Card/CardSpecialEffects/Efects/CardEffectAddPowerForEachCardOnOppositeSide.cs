@@ -39,7 +39,10 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
         int _amountOfCardsOnLane = _opponentsCardsOnLane.Count;
         int _difference = _amountOfCardsOnLane - amountOfCountedCards;
         int _powerToAdd = _difference * powerToAdd;
-        cardObject.Stats.Power += _powerToAdd;
+        for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; i++)
+        {
+            cardObject.Stats.Power += _powerToAdd;
+        }
         amountOfCountedCards = _amountOfCardsOnLane;
     }
 }

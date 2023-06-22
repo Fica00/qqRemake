@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
 {
     [SerializeField] int round;
-    bool isSubscribed=false;
+    bool isSubscribed = false;
 
     public override void Subscribe()
     {
@@ -23,11 +23,11 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
 
     void CheckRound()
     {
-        if (round==GameplayManager.Instance.CurrentRound)
+        if (round == GameplayManager.Instance.CurrentRound)
         {
             laneDisplay.AbilityShowAsActive();
             PlacePlayersCard(GameplayManager.Instance.MyPlayer);
-            if (!GameplayManager.IsPVPGame)
+            if (!GameplayManager.IsPvpGame)
             {
                 PlacePlayersCard(GameplayManager.Instance.OpponentPlayer);
             }
@@ -37,6 +37,10 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
     void PlacePlayersCard(GameplayPlayer _player)
     {
         CardObject _card = _player.GetQommonFromHand();
+        if (_card == null)
+        {
+            return;
+        }
         _card.ForcePlace(laneDisplay);
     }
 }

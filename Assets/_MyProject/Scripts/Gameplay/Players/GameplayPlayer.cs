@@ -218,7 +218,7 @@ public class GameplayPlayer : MonoBehaviour
 
     void CancelCommand(PlaceCommand _command)
     {
-        if (!_command.Card.IsForcedToBePlaced)
+        if (_command.Card.IsForcedToBePlaced)
         {
             return;
         }
@@ -244,6 +244,21 @@ public class GameplayPlayer : MonoBehaviour
 
     public CardObject GetQommonFromHand()
     {
-        return cardsInHand[UnityEngine.Random.Range(0, cardsInHand.Count)];
+        if (cardsInHand.Count > 0)
+        {
+            return cardsInHand[UnityEngine.Random.Range(0, cardsInHand.Count)];
+        }
+
+        return null;
+    }
+
+    public void ReturnCardsToDeck()
+    {
+        foreach (var _cardInHand in cardsInHand.ToList())
+        {
+            RemoveCardFromHand(_cardInHand);
+            cardsInDeck.Add(_cardInHand);
+            _cardInHand.transform.SetParent(transform);
+        }
     }
 }

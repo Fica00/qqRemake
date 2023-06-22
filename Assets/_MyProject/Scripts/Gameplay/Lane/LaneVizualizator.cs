@@ -19,7 +19,7 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnFlashPlace += FlashSpot;
         GameplayManager.OnFlashWholePlace += FlashWholePlace;
         GameplayManager.OnHighlihtWholePlace += HighlihtWholePlace;
-        GameplayManager.OnHideHighlihtWholePlace += HideHighlihtWholePlace;
+        GameplayManager.OnHideHighlightWholePlace += HideHighlihtWholePlace;
         GameplayManager.OnFlashAllSpotsOnLocation += FlashAllSpotsOnLocation;
     }
 
@@ -28,7 +28,7 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnFlashPlace -= FlashSpot;
         GameplayManager.OnFlashWholePlace -= FlashWholePlace;
         GameplayManager.OnHighlihtWholePlace -= HighlihtWholePlace;
-        GameplayManager.OnHideHighlihtWholePlace -= HideHighlihtWholePlace;
+        GameplayManager.OnHideHighlightWholePlace -= HideHighlihtWholePlace;
         GameplayManager.OnFlashAllSpotsOnLocation -= FlashAllSpotsOnLocation;
     }
 

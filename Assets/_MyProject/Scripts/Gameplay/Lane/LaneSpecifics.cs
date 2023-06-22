@@ -8,6 +8,9 @@ public class LaneSpecifics
     public List<int> CantPlaceCommonsThatCost = new List<int>();
     public List<int> CantPlaceCommonsOnRound = new List<int>();
     int[] extraPower = new int[2]; //0 for my player, 1 for opponent
+    public int MaxAmountOfQommons = 4;
+    public int AmountOfRevealEffects = 1;
+    public int AmountOfOngoingEffects = 1;
 
     public int[] ExtraPower => extraPower;
 

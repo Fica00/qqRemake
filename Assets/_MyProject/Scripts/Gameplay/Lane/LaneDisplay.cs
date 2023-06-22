@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class LaneDisplay : MonoBehaviour
@@ -104,7 +105,29 @@ public class LaneDisplay : MonoBehaviour
         {
             return false;
         }
+        if (LaneSpecifics.MaxAmountOfQommons <= AmountOfQommonsHere(_cardObject.IsMy))
+        {
+            return false;
+        }
         return true;
+    }
+
+    int AmountOfQommonsHere(bool _isMyPlayer)
+    {
+        int _amount = 0;
+        List<LanePlaceIdentifier> _lanePlaces = _isMyPlayer ? myPlaces : opponentPlaces;
+
+        foreach (var _lane in _lanePlaces)
+        {
+            if (_lane.CanPlace())
+            {
+                continue;
+            }
+
+            _amount++;
+        }
+
+        return _amount;
     }
 
     public void AbilityShowAsActive()

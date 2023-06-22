@@ -7,7 +7,7 @@ using DG.Tweening;
 public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager Instance;
-    public static bool IsPVPGame=false;
+    public static bool IsPvpGame = false;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
     public static Action UpdatedBet;
@@ -15,10 +15,11 @@ public class GameplayManager : MonoBehaviour
     public static Action<int, Color, int> OnFlashPlace;
     public static Action<LaneLocation, bool, Color, int> OnFlashWholePlace;
     public static Action<LaneLocation, bool, Color> OnHighlihtWholePlace;
-    public static Action<LaneLocation, bool, Color,int> OnFlashAllSpotsOnLocation;
-    public static Action<LaneLocation, bool, Color> OnHideHighlihtWholePlace;
+    public static Action<LaneLocation, bool, Color, int> OnFlashAllSpotsOnLocation;
+    public static Action<LaneLocation, bool, Color> OnHideHighlightWholePlace;
     public GameplayPlayer MyPlayer;
     public GameplayPlayer OpponentPlayer;
+    public Dictionary<LaneDisplay, LaneAbility> LaneAbilities = new Dictionary<LaneDisplay, LaneAbility>();
 
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
     [field: SerializeField] public int DurationOfRound { get; private set; }
@@ -105,7 +106,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void Awake()
     {
         Instance = this;
-        IsPVPGame = false;
+        IsPvpGame = false;
     }
 
     protected virtual void Start()
@@ -126,8 +127,8 @@ public class GameplayManager : MonoBehaviour
 
     protected virtual IEnumerator InitialDraw()
     {
-       yield return StartCoroutine(InitialDraw(MyPlayer, startingAmountOfCards));
-       yield return StartCoroutine(InitialDraw(OpponentPlayer, startingAmountOfCards));
+        yield return StartCoroutine(InitialDraw(MyPlayer, startingAmountOfCards));
+        yield return StartCoroutine(InitialDraw(OpponentPlayer, startingAmountOfCards));
     }
 
     protected IEnumerator InitialDraw(GameplayPlayer _player, int _startingAmountOfCards)
@@ -179,7 +180,7 @@ public class GameplayManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1f); //duration of round animation
             StartCoroutine(RevealLocation());
-            yield return new WaitUntil(()=> locationRevealed);
+            yield return new WaitUntil(() => locationRevealed);
             yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
             RoundDrawCard();
 
@@ -235,6 +236,7 @@ public class GameplayManager : MonoBehaviour
     {
         bool _canContinue = false;
         LaneAbility _laneAbility = LaneAbilityManager.Instance.GetLaneAbility(_abilityID);
+        LaneAbilities.Add(Lanes[currentRound - 1], _laneAbility);
         excludeLaneAbilities.Add(_abilityID);
         int _laneIndex = currentRound - 1;
         _laneAbility.Setup(lanes[_laneIndex]);
@@ -270,7 +272,7 @@ public class GameplayManager : MonoBehaviour
             _command.Card.PrepareForReveal();
         }
 
-        
+
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
         yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
 
@@ -349,16 +351,16 @@ public class GameplayManager : MonoBehaviour
     public void HighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
     {
         OnHighlihtWholePlace?.Invoke(_location, _mySide, _color);
-    } 
-    
+    }
+
     public void FlashAllSpotsOnLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
     {
-        OnFlashAllSpotsOnLocation?.Invoke(_location, _mySide, _color,_amount);
+        OnFlashAllSpotsOnLocation?.Invoke(_location, _mySide, _color, _amount);
     }
 
     public void HideHighlihtWholeLocation(LaneLocation _location, bool _mySide, Color _color)
     {
-        OnHideHighlihtWholePlace?.Invoke(_location, _mySide, _color);
+        OnHideHighlightWholePlace?.Invoke(_location, _mySide, _color);
     }
 
     private void OnDestroy()

@@ -12,6 +12,7 @@ public class LaneAbilityDrawXQommons : LaneAbilityBase
         {
             GameplayManager.Instance.DrawCard();
         }
+        StartCoroutine(DisableAbility());
 
 
         IEnumerator DisableAbility()
