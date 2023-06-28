@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CardEffectAddPowerIfThisIsAtLocation : CardEffectBase
 {
-    [SerializeField] int powerToAdd;
-    [SerializeField] LaneLocation location;
-    [SerializeField] Color colorEffect;
+    [SerializeField] private int powerToAdd;
+    [SerializeField] private LaneLocation location;
+    [SerializeField] private Color colorEffect;
 
     public override void Subscribe()
     {
@@ -12,7 +12,7 @@ public class CardEffectAddPowerIfThisIsAtLocation : CardEffectBase
         GameplayManager.UpdatedGameState += Destroy;
     }
 
-    void Destroy()
+    private void Destroy()
     {
         switch (GameplayManager.Instance.GameplayState)
         {

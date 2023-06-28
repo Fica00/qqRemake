@@ -10,16 +10,16 @@ public class GameplayYesNo : MonoBehaviour
     [HideInInspector] public UnityEvent OnLeftButtonPressed;
     [HideInInspector] public UnityEvent OnRightButtonPressed;
 
-    [SerializeField] TextMeshProUGUI questionDisplay;
-    [SerializeField] Button leftButton;
-    [SerializeField] TextMeshProUGUI leftButtonText;
-    [SerializeField] Button rightButton;
-    [SerializeField] TextMeshProUGUI rightButtonText;
+    [SerializeField] private TextMeshProUGUI questionDisplay;
+    [SerializeField] private Button leftButton;
+    [SerializeField] private TextMeshProUGUI leftButtonText;
+    [SerializeField] private Button rightButton;
+    [SerializeField] private TextMeshProUGUI rightButtonText;
 
-    [SerializeField] TMP_FontAsset greenFont;
-    [SerializeField] TMP_FontAsset redFont;
+    [SerializeField] private TMP_FontAsset greenFont;
+    [SerializeField] private TMP_FontAsset redFont;
 
-    Button backgroundButton;
+    private Button backgroundButton;
 
     public void Setup(string _question,string _leftButtonText,string _rightButtonText, string _fontKey)
     {
@@ -39,7 +39,7 @@ public class GameplayYesNo : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    void SetFont(string _key)
+    private void SetFont(string _key)
     {
         if (_key==FONT_GREEN)
         {
@@ -70,19 +70,19 @@ public class GameplayYesNo : MonoBehaviour
         rightButton.onClick.RemoveListener(RightPressed);
     }
 
-    void LeftPressed()
+    private void LeftPressed()
     {
         OnLeftButtonPressed?.Invoke();
         Close();
     }
 
-    void RightPressed()
+    private void RightPressed()
     {
         OnRightButtonPressed?.Invoke();
         Close();
     }
 
-    void Close()
+    private void Close()
     {
         OnLeftButtonPressed.RemoveAllListeners();
         OnRightButtonPressed.RemoveAllListeners();

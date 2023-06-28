@@ -3,11 +3,12 @@ using UnityEngine.UI;
 
 public class UIPlayPanel : MonoBehaviour
 {
-    [SerializeField] Button playVSAIButton;
-    [SerializeField] Button playPVPButton;
+    [SerializeField] private Button playVSAIButton;
+    [SerializeField] private Button playPVPButton;
 
     [Space()]
-    [SerializeField] UIPVPPanel pvpPanel;
+    [SerializeField]
+    private UIPVPPanel pvpPanel;
 
     private void OnEnable()
     {
@@ -27,34 +28,34 @@ public class UIPlayPanel : MonoBehaviour
         PhotonManager.OnILeftRoom -= ILeftRoom;
     }
 
-    void ShowAIGameplay()
+    private void ShowAIGameplay()
     {
         SceneManager.LoadAIGameplay();
     }
 
-    void ShowPVPPanel()
+    private void ShowPVPPanel()
     {
         ManageInteractables(false);
         PhotonManager.Instance.JoinRandomRoom();
     }
 
-    void Close()
+    private void Close()
     {
         gameObject.SetActive(false);
     }
 
-    void JoinedRoom()
+    private void JoinedRoom()
     {
         ManageInteractables(false);
         pvpPanel.Setup();
     }
 
-    void ILeftRoom()
+    private void ILeftRoom()
     {
         ManageInteractables(true);
     }
 
-    void ManageInteractables(bool _status)
+    private void ManageInteractables(bool _status)
     {
         playVSAIButton.interactable = _status;
         playPVPButton.interactable = _status;

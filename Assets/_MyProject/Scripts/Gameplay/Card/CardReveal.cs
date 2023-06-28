@@ -5,9 +5,9 @@ using UnityEngine;
 public class CardReveal : MonoBehaviour
 {
     public static Action<CardObject> ShowRevealCard;
-    [SerializeField] GameObject shadowObject;
-    [SerializeField] GameObject revealObject;
-    CardObject cardObject;
+    [SerializeField] private GameObject shadowObject;
+    [SerializeField] private GameObject revealObject;
+    private CardObject cardObject;
 
     public bool IsRevealing => shadowObject.activeSelf||revealObject.activeSelf;
 

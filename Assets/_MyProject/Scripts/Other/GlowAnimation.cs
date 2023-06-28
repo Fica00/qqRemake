@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GlowAnimation : MonoBehaviour
 {
-    Image image;
+    private Image image;
 
     private void Awake()
     {

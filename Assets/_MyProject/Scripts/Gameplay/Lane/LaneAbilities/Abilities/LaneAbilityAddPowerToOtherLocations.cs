@@ -1,8 +1,8 @@
 public class LaneAbilityAddPowerToOtherLocations : LaneAbilityBase
 {
-    LaneDisplay lane1;
-    LaneDisplay lane2;
-    int[] powerAdded = new int[2];
+    private LaneDisplay lane1;
+    private LaneDisplay lane2;
+    private int[] powerAdded = new int[2];
 
     public override void Subscribe()
     {
@@ -23,7 +23,6 @@ public class LaneAbilityAddPowerToOtherLocations : LaneAbilityBase
             default:
                 throw new System.Exception("Don`t know what are the other lines for location: " + laneDisplay.Location);
         }
-        laneDisplay.AbilityShowAsActive();
         for (int i = 0; i < 2; i++)
         {
             powerAdded[i] = default;
@@ -39,18 +38,18 @@ public class LaneAbilityAddPowerToOtherLocations : LaneAbilityBase
         GameplayManager.UpdatedRound -= CalculatePower;
     }
 
-    void CheckCard(CardObject _cardObject)
+    private void CheckCard(CardObject _cardObject)
     {
         CalculatePower();
     }
 
-    void CalculatePower()
+    private void CalculatePower()
     {
         CalculatePower(true);
         CalculatePower(false);
     }
 
-    void CalculatePower(bool _isMy)
+    private void CalculatePower(bool _isMy)
     {
         int _index = _isMy ? 0 : 1;
         if (powerAdded != default)

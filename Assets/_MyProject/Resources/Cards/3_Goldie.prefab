@@ -222,7 +222,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 8fb804bbb8c26b2459e8d30d58eba211, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: '<color=#C38C15>On Reveal</color>: \n If this is at the middle location
+      value: '<color=#C38C15>On Summon</color>: \n If this is at the middle location
         \n +20 Power '
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

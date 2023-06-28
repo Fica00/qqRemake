@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Description>k__BackingField
-      value: On Reveal effects happen twice at this location.
+      value: On Summon effects happen twice here.
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Abilities>k__BackingField.Array.size

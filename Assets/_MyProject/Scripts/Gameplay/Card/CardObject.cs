@@ -17,11 +17,11 @@ public class CardObject : MonoBehaviour
 
     [HideInInspector] public bool CanChangePlace = true; // used to determin if card can move from table back to hand
 
-    CardInteractions cardInputInteractions;
+    private CardInteractions cardInputInteractions;
 
     public CardLocation CardLocation { get; private set; }
 
-    public bool IsForcedToBePlaced = false;
+    [HideInInspector] public bool IsForcedToBePlaced = false;
 
     public void Setup(bool _isMy)
     {
@@ -58,7 +58,7 @@ public class CardObject : MonoBehaviour
         GameplayManager.UpdatedGameState -= ManageBeheviour;
     }
 
-    void ManageBeheviour()
+    private void ManageBeheviour()
     {
         switch (GameplayManager.Instance.GameplayState)
         {
@@ -105,6 +105,8 @@ public class CardObject : MonoBehaviour
                 break;
             case CardLocation.Table:
                 Display.ShowCardOnTable();
+                break;
+            case CardLocation.Discarded:
                 break;
             default:
                 throw new Exception("Dont know how to handle location: " + _newLocation);
@@ -168,6 +170,10 @@ public class CardObject : MonoBehaviour
         _player.RemoveCardFromHand(this);
         _player.AddCardToTable(_command);
         PrepareForReveal();
+        if (GameplayManager.IsPvpGame)
+        {
+            ((GameplayManagerPVP.Instance)as GameplayManagerPVP).ForcePlace(_command);
+        }
     }
 
     public void PrepareForReveal()

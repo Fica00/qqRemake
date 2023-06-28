@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 public class GeishaKoYellowCircle : MonoBehaviour
 {
-    Image image;
-    CardObject cardObject;
+    private Image image;
+    private CardObject cardObject;
 
     private void Awake()
     {
         image = GetComponent<Image>();
-        cardObject = GetComponent<CardObject>();
+        cardObject = GetComponentInParent<CardObject>();
     }
 
     private void OnEnable()
@@ -22,7 +22,7 @@ public class GeishaKoYellowCircle : MonoBehaviour
         TableHandler.OnRevealdCard -= CheckRevealedCard;
     }
 
-    void CheckRevealedCard(CardObject _cardObject)
+    private void CheckRevealedCard(CardObject _cardObject)
     {
         if (_cardObject==cardObject)
         {

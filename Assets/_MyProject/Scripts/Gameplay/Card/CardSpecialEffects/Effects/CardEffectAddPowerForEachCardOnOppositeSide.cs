@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
 {
-    [SerializeField] int powerToAdd;
-    int amountOfCountedCards;
+    [SerializeField] private int powerToAdd;
+    private int amountOfCountedCards;
 
     public override void Subscribe()
     {
@@ -18,7 +18,7 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
         TableHandler.OnRevealdCard -= TryToAddPower;
     }
 
-    void TryToAddPower(CardObject _cardObject)
+    private void TryToAddPower(CardObject _cardObject)
     {
         if (cardObject.IsMy == _cardObject.IsMy)
         {
@@ -33,7 +33,7 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
         CountCards();
     }
 
-    void CountCards()
+    private void CountCards()
     {
         List<CardObject> _opponentsCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(!cardObject.IsMy, cardObject.LaneLocation);
         int _amountOfCardsOnLane = _opponentsCardsOnLane.Count;

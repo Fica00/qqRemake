@@ -10,9 +10,9 @@ public class LaneDisplay : MonoBehaviour
 
     [HideInInspector] public LaneSpecifics LaneSpecifics = new LaneSpecifics();
 
-    [SerializeField] PowerDisplay powerDisplay;
-    [SerializeField] List<LanePlaceIdentifier> myPlaces;
-    [SerializeField] List<LanePlaceIdentifier> opponentPlaces;
+    [SerializeField] private PowerDisplay powerDisplay;
+    [SerializeField] private List<LanePlaceIdentifier> myPlaces;
+    [SerializeField] private List<LanePlaceIdentifier> opponentPlaces;
 
     private void OnEnable()
     {
@@ -56,7 +56,7 @@ public class LaneDisplay : MonoBehaviour
         _command.Card.transform.localPosition = Vector3.zero;
     }
 
-    void ShowPower(LaneLocation _location)
+    private void ShowPower(LaneLocation _location)
     {
         if (_location != Location)
         {
@@ -68,7 +68,7 @@ public class LaneDisplay : MonoBehaviour
         powerDisplay.ShowPower(_myPower, _opponentPower);
     }
 
-    LanePlaceIdentifier CheckForMathicngPlace(List<LanePlaceIdentifier> _places, int _id)
+    private LanePlaceIdentifier CheckForMathicngPlace(List<LanePlaceIdentifier> _places, int _id)
     {
         foreach (var _place in _places)
         {
@@ -112,7 +112,7 @@ public class LaneDisplay : MonoBehaviour
         return true;
     }
 
-    int AmountOfQommonsHere(bool _isMyPlayer)
+    private int AmountOfQommonsHere(bool _isMyPlayer)
     {
         int _amount = 0;
         List<LanePlaceIdentifier> _lanePlaces = _isMyPlayer ? myPlaces : opponentPlaces;

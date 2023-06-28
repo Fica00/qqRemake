@@ -9,11 +9,11 @@ public class TableHandler : MonoBehaviour
 {
     public static Action<LaneLocation> UpdatedPower;
     public static Action<CardObject> OnRevealdCard;
-    int[] myPower = new int[3];//top,mid,bot
-    int[] opponentPower = new int[3];//top,mid,bot
+    private int[] myPower = new int[3];//top,mid,bot
+    private int[] opponentPower = new int[3];//top,mid,bot
 
-    List<CardObject>[] myCardsOnTable = new List<CardObject>[3]; //top,mid,bot
-    List<CardObject>[] opponentCardsOnTable = new List<CardObject>[3]; //top,mid,bot
+    private List<CardObject>[] myCardsOnTable = new List<CardObject>[3]; //top,mid,bot
+    private List<CardObject>[] opponentCardsOnTable = new List<CardObject>[3]; //top,mid,bot
 
 
     public void Setup()
@@ -31,13 +31,25 @@ public class TableHandler : MonoBehaviour
         }
 
         LaneSpecifics.UpdatedExtraPower += CalculatePower;
+        GameplayPlayer.DestroyedCardFromTable += RemoveCard;
     }
 
     private void OnDestroy()
     {
         LaneSpecifics.UpdatedExtraPower -= CalculatePower;
+        GameplayPlayer.DestroyedCardFromTable -= RemoveCard;
     }
 
+    void RemoveCard(CardObject _cardObject)
+    {
+        var _cardsOnLane = _cardObject.IsMy ? myCardsOnTable[(int)_cardObject.LaneLocation]: opponentCardsOnTable[(int)_cardObject.LaneLocation] ;
+        if (_cardsOnLane.Contains(_cardObject))
+        {
+            _cardsOnLane.Remove(_cardObject);
+            CalculatePower(ChangeStatus.Decreased);
+        }
+    }
+    
     public int WhichCardsToRevealFrist() //-1 mine, 1 opponents, show mine if I am winning show opponents if he is winnig,show random if it is draw
     {
         int _myAmountOfWinningLocations = 0;
@@ -99,27 +111,26 @@ public class TableHandler : MonoBehaviour
                 case LaneLocation.Bot:
                     _cardsOnLane = _command.IsMyPlayer ? myCardsOnTable[2] : opponentCardsOnTable[2];
                     break;
-                default:
-                    break;
             }
             AddCardOnLane(_command.Card, _cardsOnLane);
             OnRevealdCard?.Invoke(_command.Card);
+            _commands.Remove(_command);
         }
     }
 
-    void AddCardOnLane(CardObject _card, List<CardObject> _cardsOnLane)
+    private void AddCardOnLane(CardObject _card, List<CardObject> _cardsOnLane)
     {
         _cardsOnLane.Add(_card);
         _card.Stats.UpdatedPower += CalculatePower;
         CalculatePower();
     }
 
-    void CalculatePower(ChangeStatus _status)
+    private void CalculatePower(ChangeStatus _status)
     {
         CalculatePower();
     }
 
-    void CalculatePower()
+    private void CalculatePower()
     {
         CalculatePower(true);
         CalculatePower(false);
@@ -157,7 +168,6 @@ public class TableHandler : MonoBehaviour
                         break;
                 }
 
-                int _powerToAdd = 0;
                 int _extraPower = 0;
                 foreach (var _card in GetCards(_isMy, _location))
                 {
@@ -166,18 +176,14 @@ public class TableHandler : MonoBehaviour
                     {
                         if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
                         {
-                            for (int j = 0; j < GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                            int _geishasPower =_power;
+                            for (int j = 1; j < GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
                             {
-                                _powerToAdd += _power;
+                                _geishasPower *= 2;
                             }
+                            _power += _geishasPower;
                         }
                     }
-                }
-
-                if (_powerToAdd != 0)
-                {
-                    //add kaisha-ko power only,
-                    _power += (_powerToAdd - Mathf.Abs(_extraPower));
                 }
 
                 //add extra power

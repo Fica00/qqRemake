@@ -11,9 +11,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public static Action OnOpponentJoinedRoom;
     public static Action OnILeftRoom;
     public static Action OnOpponentLeftRoom;
-    static bool isInit;
+    private static bool isInit;
 
-    byte maxPlayersPerRoom = 2;
+    private byte maxPlayersPerRoom = 2;
 
     private void Awake()
     {
@@ -50,7 +50,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom);
     }
 
-    void SetPhotonPlayerProperties()
+    private void SetPhotonPlayerProperties()
     {
         Hashtable myProperties = new Hashtable();
         myProperties["name"] = UnityEngine.Random.Range(0, 100);
@@ -62,7 +62,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    void CreateRoom()
+    private void CreateRoom()
     {
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsOpen = true;

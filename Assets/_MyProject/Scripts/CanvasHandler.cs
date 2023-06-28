@@ -4,17 +4,17 @@ using UnityEngine.UI;
 
 public class CanvasHandler : MonoBehaviour
 {
-    [SerializeField] float matchFactor = 1;
-    Canvas canvas;
-    CanvasScaler scaler;
+    [SerializeField] private float matchFactor = 1;
+    private Canvas canvas;
+    private CanvasScaler scaler;
 
-    void Awake()
+    private void Awake()
     {
         canvas = GetComponent<Canvas>();
         StartCoroutine(ManageCanvas());
     }
 
-    IEnumerator ManageCanvas()
+    private IEnumerator ManageCanvas()
     {
         if (Screen.height > Screen.width || Application.platform == RuntimePlatform.WindowsEditor)
         {

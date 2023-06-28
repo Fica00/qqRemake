@@ -8,9 +8,9 @@ public class YesNoDialog : MonoBehaviour
     [HideInInspector] public UnityEvent OnYesPressed;
     [HideInInspector] public UnityEvent OnNoPressed;
 
-    [SerializeField] TextMeshProUGUI questionDisplay;
-    [SerializeField] Button yesButton;
-    [SerializeField] Button noButton;
+    [SerializeField] private TextMeshProUGUI questionDisplay;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
 
     public void Setup(string _question)
     {
@@ -30,19 +30,19 @@ public class YesNoDialog : MonoBehaviour
         noButton.onClick.AddListener(NoPressed);
     }
 
-    void YesPressed()
+    private void YesPressed()
     {
         OnYesPressed?.Invoke();
         Close();
     }
 
-    void NoPressed()
+    private void NoPressed()
     {
         OnNoPressed?.Invoke();
         Close();
     }
 
-    void Close()
+    private void Close()
     {
         OnYesPressed.RemoveAllListeners();
         OnNoPressed.RemoveAllListeners();

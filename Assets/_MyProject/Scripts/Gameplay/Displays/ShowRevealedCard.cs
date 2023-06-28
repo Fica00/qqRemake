@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class ShowRevealedCard : MonoBehaviour
 {
-    [SerializeField] Image qommonDisplay;
-    [SerializeField] GameObject detailsHolder;
+    [SerializeField] private Image qommonDisplay;
+    [SerializeField] private GameObject detailsHolder;
+    [SerializeField] private TextMeshProUGUI nameDisplay;
 
-    Vector2 startingRect;
+    private Vector2 startingRect;
 
-    Sequence sequence;
+    private Sequence sequence;
 
     private void Awake()
     {
@@ -27,11 +29,13 @@ public class ShowRevealedCard : MonoBehaviour
         CardReveal.ShowRevealCard -= ShowCardDetails;
     }
 
-    void ShowCardDetails(CardObject _cardObject)
+    private void ShowCardDetails(CardObject _cardObject)
     {
         Vector3 _rotation = new Vector3(0, 0, 0);
         _rotation.y = _cardObject.IsMy ? 180 : 0;
+        nameDisplay.text = _cardObject.Details.Name;
         qommonDisplay.transform.eulerAngles = _rotation;
+        nameDisplay.rectTransform.localScale = Vector3.zero;
         RectTransform _rectTransform = qommonDisplay.GetComponent<RectTransform>();
         RectTransform _cardRect = _cardObject.GetComponent<RectTransform>();
         float _animationDuration = 0.5f;
@@ -45,8 +49,10 @@ public class ShowRevealedCard : MonoBehaviour
         sequence = DOTween.Sequence();
         sequence.Append(_rectTransform.DOSizeDelta(startingRect, _animationDuration));
         sequence.Join(_rectTransform.DOLocalMove(Vector3.zero, _animationDuration));
+        sequence.Join(nameDisplay.rectTransform.DOScale(Vector3.one, _animationDuration/2));
         sequence.Append(_rectTransform.DOSizeDelta(_rectTransform.sizeDelta, _animationDuration));
         sequence.Join(_rectTransform.DOLocalMove(_rectTransform.anchoredPosition, _animationDuration));
+        sequence.Join(nameDisplay.rectTransform.DOScale(Vector3.zero, _animationDuration/2));
         sequence.OnComplete(() =>
         {
             Close();
@@ -56,7 +62,7 @@ public class ShowRevealedCard : MonoBehaviour
         sequence.Play();
     }
 
-    void Close()
+    private void Close()
     {
         if (sequence.IsActive() && sequence.IsPlaying())
         {

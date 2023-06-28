@@ -3,7 +3,7 @@ using TMPro;
 
 public class RoundDisplayHandler : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI roundDisplay;
+    [SerializeField] private TextMeshProUGUI roundDisplay;
 
     private void OnEnable()
     {
@@ -15,7 +15,7 @@ public class RoundDisplayHandler : MonoBehaviour
         GameplayManager.UpdatedRound -= ShowRound;
     }
 
-    void ShowRound()
+    private void ShowRound()
     {
         roundDisplay.text = GameplayManager.Instance.CurrentRound+"/"+GameplayManager.Instance.MaxAmountOfRounds;
     }

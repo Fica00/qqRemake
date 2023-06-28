@@ -1,49 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
 {
-    List<CardObject> qommons = new List<CardObject>();
     public override void Subscribe()
     {
-        laneDisplay.AbilityShowAsActive();
         TableHandler.OnRevealdCard += AddCopyOfAQommon;
-        GameplayManager.UpdatedRound += PlaceQommons;
     }
 
     private void OnDisable()
     {
         TableHandler.OnRevealdCard -= AddCopyOfAQommon;
-        GameplayManager.UpdatedRound -= PlaceQommons;
     }
 
-    void AddCopyOfAQommon(CardObject _card)
+    private void AddCopyOfAQommon(CardObject _card)
     {
         if (_card.LaneLocation != laneDisplay.Location)
         {
             return;
         }
-
-        CardObject _copyOfCard = CardsManager.Instance.CreateCard(_card.Details.Id, _card.IsMy);
-        qommons.Add(_copyOfCard);
-    }
-
-    void PlaceQommons()
-    {
-        foreach (var _qommon in qommons)
+        
+        if (GameplayManager.IsPvpGame && !_card.IsMy)
         {
-            LaneDisplay _choosendLane = null;
-            for (int i = 0; i < GameplayManager.Instance.Lanes.Count; i++)
+            return;
+        }
+        
+        CardObject _copyOfCard = CardsManager.Instance.CreateCard(_card.Details.Id, _card.IsMy);
+        LaneDisplay _choosendLane = null;
+        int[] _randomIndexses = new[] { 0, 1, 2 };
+        _randomIndexses = _randomIndexses.OrderBy(_element => System.Guid.NewGuid()).ToArray();
+        for (int _i = 0; _i < _randomIndexses.Length; _i++)
+        {
+            int _laneIndex = +_randomIndexses[_i];
+            if (_laneIndex == (int)laneDisplay.Location)
             {
-                if (i == (int)laneDisplay.Location)
+                continue;
+            }
+            if (GameplayManager.Instance.Lanes[_laneIndex].GetPlaceLocation(_copyOfCard.IsMy) != null)
+            {
+                bool _shouldSkip = false;
+                if (!GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex]))
                 {
                     continue;
                 }
-                if (GameplayManager.Instance.Lanes[i].GetPlaceLocation(_qommon.IsMy) != null)
+                var _laneAbility = GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]];
+                if (_laneAbility!=null)
                 {
-                    bool _shouldSkip = false;
-                    foreach (var _laneEffect in GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[i]].Abilities)
+                    foreach (var _laneEffect in _laneAbility.Abilities)
                     {
                         if (_laneEffect is LaneAbilityOnlyXQommonsCanBePlacedHere)
                         {
@@ -51,28 +53,26 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
                             break;
                         }
                     }
-                    if (_shouldSkip)
-                    {
-                        continue;
-                    }
-                    _choosendLane = GameplayManager.Instance.Lanes[i];
-                    break;
+                }
+              
+                if (_shouldSkip)
+                {
+                    continue;
+                }
+
+                if (GameplayManager.Instance.Lanes[_laneIndex].CanPlace(_copyOfCard))
+                {
+                    _choosendLane = GameplayManager.Instance.Lanes[_laneIndex];
+                    break;   
                 }
             }
-
-            if (_choosendLane == null)
-            {
-                return;
-            }
-
-            if (GameplayManager.IsPvpGame && !_qommon.IsMy)
-            {
-                return;
-            }
-
-            _qommon.ForcePlace(_choosendLane);
         }
 
-        qommons.Clear();
+        if (_choosendLane == null)
+        {
+            return;
+        }
+
+        _copyOfCard.ForcePlace(_choosendLane);
     }
 }

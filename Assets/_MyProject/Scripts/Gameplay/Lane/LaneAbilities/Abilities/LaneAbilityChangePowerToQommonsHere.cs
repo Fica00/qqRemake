@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class LaneAbilityChangePowerToQommonsHere : LaneAbilityBase
 {
-    [SerializeField] int powerAmount;
+    [SerializeField] private int powerAmount;
 
     public override void Subscribe()
     {
-        laneDisplay.AbilityShowAsActive();
         TableHandler.OnRevealdCard += EffectNewCards;
         EffectCardsAlreadyOnLane();
     }
@@ -17,7 +16,7 @@ public class LaneAbilityChangePowerToQommonsHere : LaneAbilityBase
         TableHandler.OnRevealdCard -= EffectNewCards;
     }
 
-    void EffectCardsAlreadyOnLane()
+    private void EffectCardsAlreadyOnLane()
     {
         List<CardObject> _myCards = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location);
         List<CardObject> _opponentCards = GameplayManager.Instance.TableHandler.GetCards(false, laneDisplay.Location);
@@ -34,7 +33,7 @@ public class LaneAbilityChangePowerToQommonsHere : LaneAbilityBase
         }
     }
 
-    void EffectNewCards(CardObject _cardObject)
+    private void EffectNewCards(CardObject _cardObject)
     {
         if (_cardObject.LaneLocation != laneDisplay.Location)
         {

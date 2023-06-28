@@ -10,7 +10,7 @@ public class CardEffectAddSameCardToHandOnReveal : CardEffectBase
         }
     }
 
-    void AddCardToHand()
+    private void AddCardToHand()
     {
         CardObject _drawnCard = CardsManager.Instance.CreateCard(cardObject.Details.Id, cardObject.IsMy);
         GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LaneAbilityOnTurnXAllCardsMustBePlayedHere : LaneAbilityBase
 {
-    [SerializeField] int round;
-    bool isSubscribed = false;
+    [SerializeField] private int round;
+    private bool isSubscribed;
 
     public override void Subscribe()
     {
@@ -19,7 +19,7 @@ public class LaneAbilityOnTurnXAllCardsMustBePlayedHere : LaneAbilityBase
         }
     }
 
-    void CheckRound()
+    private void CheckRound()
     {
         if (GameplayManager.Instance.CurrentRound==round)
         {
@@ -28,14 +28,14 @@ public class LaneAbilityOnTurnXAllCardsMustBePlayedHere : LaneAbilityBase
         }
         else if(GameplayManager.Instance.CurrentRound>round)
         {
-            ChangePlacingRules(false);
             laneDisplay.AbilityShowAsInactive();
+            ChangePlacingRules(false);
             isSubscribed = false;
             GameplayManager.UpdatedRound -= CheckRound;
         }
     }
 
-    void ChangePlacingRules(bool _add)
+    private void ChangePlacingRules(bool _add)
     {
         LaneDisplay _lane1 = null;
         LaneDisplay _lane2 = null;
@@ -53,8 +53,6 @@ public class LaneAbilityOnTurnXAllCardsMustBePlayedHere : LaneAbilityBase
             case LaneLocation.Bot:
                 _lane1 = GameplayManager.Instance.Lanes[0];
                 _lane2 = GameplayManager.Instance.Lanes[1];
-                break;
-            default:
                 break;
         }
 

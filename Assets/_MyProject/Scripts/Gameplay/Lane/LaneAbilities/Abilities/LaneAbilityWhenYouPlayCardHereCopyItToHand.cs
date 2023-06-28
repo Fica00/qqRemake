@@ -12,7 +12,7 @@ public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
         TableHandler.OnRevealdCard -= CheckCard;
     }
 
-    void CheckCard(CardObject _card)
+    private void CheckCard(CardObject _card)
     {
         if (_card.LaneLocation != laneDisplay.Location)
         {

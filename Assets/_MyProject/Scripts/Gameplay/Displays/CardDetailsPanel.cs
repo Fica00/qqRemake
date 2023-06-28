@@ -5,21 +5,21 @@ using DG.Tweening;
 
 public class CardDetailsPanel : MonoBehaviour
 {
-    [SerializeField] Button closeButton;
-    [SerializeField] GameObject detailsHolder;
-    [SerializeField] Image qommonDisplay;
-    [SerializeField] GameObject manaHolder;
-    [SerializeField] GameObject powerHolder;
-    [SerializeField] TextMeshProUGUI powerDisplay;
-    [SerializeField] TextMeshProUGUI manaDisplay;
-    [SerializeField] TextMeshProUGUI nameDispaly;
-    [SerializeField] TextMeshProUGUI descDisplay;
-    [SerializeField] GameObject showHandPanel;
-    [SerializeField] GameObject hideHandPanel;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private GameObject detailsHolder;
+    [SerializeField] private Image qommonDisplay;
+    [SerializeField] private GameObject manaHolder;
+    [SerializeField] private GameObject powerHolder;
+    [SerializeField] private TextMeshProUGUI powerDisplay;
+    [SerializeField] private TextMeshProUGUI manaDisplay;
+    [SerializeField] private TextMeshProUGUI nameDispaly;
+    [SerializeField] private TextMeshProUGUI descDisplay;
+    [SerializeField] private GameObject showHandPanel;
+    [SerializeField] private GameObject hideHandPanel;
 
-    Vector2 startingRect;
+    private Vector2 startingRect;
 
-    Sequence sequence;
+    private Sequence sequence;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class CardDetailsPanel : MonoBehaviour
         closeButton.onClick.RemoveListener(Close);
     }
 
-    void ShowCardDetails(CardObject _cardObject)
+    private void ShowCardDetails(CardObject _cardObject)
     {
         showHandPanel.SetActive(false);
         hideHandPanel.SetActive(false);
@@ -89,7 +89,7 @@ public class CardDetailsPanel : MonoBehaviour
         sequence.Play();
     }
 
-    void Close()
+    private void Close()
     {
         if (sequence.IsActive() && sequence.IsPlaying())
         {

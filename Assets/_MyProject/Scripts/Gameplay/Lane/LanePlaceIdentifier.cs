@@ -8,8 +8,8 @@ public class LanePlaceIdentifier : MonoBehaviour
     [field: SerializeField] public LaneLocation Location { get; private set; }
     [field: SerializeField] public bool IsMine { get; private set; }
 
-    LaneDisplay laneDisplay;
-    Image image;
+    private LaneDisplay laneDisplay;
+    private Image image;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class LanePlaceIdentifier : MonoBehaviour
         GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
-    void CheckIfTileIsAvailable(CardObject _cardObject)
+    private void CheckIfTileIsAvailable(CardObject _cardObject)
     {
         if (_cardObject.CardLocation==CardLocation.Table)
         {
@@ -62,14 +62,14 @@ public class LanePlaceIdentifier : MonoBehaviour
         image.color = _color;
     }
 
-    void TurnOffAvailableColor()
+    private void TurnOffAvailableColor()
     {
         Color _color = image.color;
         _color.a = 0f;
         image.color = _color;
     }
 
-    void CheckIfShouldDestroyChild(PlaceCommand _command)
+    private void CheckIfShouldDestroyChild(PlaceCommand _command)
     {
         if (Id!=_command.PlaceId)
         {

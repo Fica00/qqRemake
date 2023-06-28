@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class YellowCircleLaneDisplay : MonoBehaviour
 {
-    [SerializeField] bool isMy;
-    LaneLocation location;
-    Image image;
+    [SerializeField] private bool isMy;
+    private LaneLocation location;
+    private Image image;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class YellowCircleLaneDisplay : MonoBehaviour
         TableHandler.OnRevealdCard -= CheckCard;
     }
 
-    void CheckCard(CardObject _cardObject)
+    private void CheckCard(CardObject _cardObject)
     {
         if (_cardObject.LaneLocation != location)
         {

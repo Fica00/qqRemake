@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class CardStats
 {
-    int power;
-    int mana;
-    int chagePowerDueToLocation;
+    private int power;
+    private int mana;
+    private int chagePowerDueToLocation;
 
     //if bool is false means that the power decreased,if it is true, power increased
     public Action<ChangeStatus> UpdatedPower;

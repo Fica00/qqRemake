@@ -8,17 +8,20 @@ public class GameplayPlayer : MonoBehaviour
 {
     public static Action<PlaceCommand> AddedCardToTable;
     public static Action<PlaceCommand> RemovedCardFromTable;
+    public static Action<CardObject> DiscardedCard;
+    public static Action<CardObject> DestroyedCardFromTable;
     public Action<CardObject> AddedCardToHand;
     public Action<CardObject> RemovedCardFromHand;
     public Action UpdatedEnergy;
 
     [field: SerializeField] public bool IsMy { get; private set; }
 
-    [SerializeField] CardsInHandHandler cardsInHandHandler = null;
-    [SerializeField] EnergyDisplayHandler energyDisplayHandler = null;
+    [SerializeField] private CardsInHandHandler cardsInHandHandler = null;
+    [SerializeField] private EnergyDisplayHandler energyDisplayHandler = null;
 
     protected List<CardObject> cardsInDeck;
     protected List<CardObject> cardsInHand;
+    protected List<CardObject> cardsInDiscardPile;
     protected int energy;
 
     public List<CardObject> CardsOnTop;
@@ -51,6 +54,7 @@ public class GameplayPlayer : MonoBehaviour
         }
         ShuffleDeck();
         cardsInHand = new List<CardObject>();
+        cardsInDiscardPile = new List<CardObject>();
         CardsOnTop = new List<CardObject>();
         CardsOnMid = new List<CardObject>();
         CardsOnBot = new List<CardObject>();
@@ -95,6 +99,10 @@ public class GameplayPlayer : MonoBehaviour
 
     public CardObject DrawCard()
     {
+        if (cardsInDeck.Count==0)
+        {
+            return null;
+        }
         CardObject _card = cardsInDeck[0];
         return DrawCard(_card, true);
     }
@@ -185,7 +193,12 @@ public class GameplayPlayer : MonoBehaviour
     public void RemoveCardFromTable(PlaceCommand _command)
     {
         CardObject _card = _command.Card;
-        switch (_command.Location)
+        RemoveCardFromTable(_card);
+    }
+
+    public void RemoveCardFromTable(CardObject _card)
+    {
+        switch (_card.LaneLocation)
         {
             case LaneLocation.Top:
                 CardsOnTop.Remove(_card);
@@ -197,7 +210,7 @@ public class GameplayPlayer : MonoBehaviour
                 CardsOnBot.Remove(_card);
                 break;
             default:
-                throw new Exception("Cant handle Location: " + _command.Location);
+                throw new Exception("Cant handle Location: " + _card.LaneLocation);
         }
     }
 
@@ -216,7 +229,7 @@ public class GameplayPlayer : MonoBehaviour
         }
     }
 
-    void CancelCommand(PlaceCommand _command)
+    private void CancelCommand(PlaceCommand _command)
     {
         if (_command.Card.IsForcedToBePlaced)
         {
@@ -251,6 +264,26 @@ public class GameplayPlayer : MonoBehaviour
 
         return null;
     }
+    
+    public CardObject GetHigestCostQommon()
+    {
+        if (cardsInHand.Count == 0)
+        {
+            return null;
+        }
+        
+        CardObject _highestCostQommon = cardsInHand[0];
+
+        foreach (var _qommonInHand in cardsInHand)
+        {
+            if (_qommonInHand.Stats.Energy>_highestCostQommon.Stats.Energy)
+            {
+                _highestCostQommon = _qommonInHand;
+            }
+        }
+
+        return _highestCostQommon;
+    }
 
     public void ReturnCardsToDeck()
     {
@@ -260,5 +293,21 @@ public class GameplayPlayer : MonoBehaviour
             cardsInDeck.Add(_cardInHand);
             _cardInHand.transform.SetParent(transform);
         }
+    }
+
+    public void DiscardCardFromHand(CardObject _card)
+    {
+        _card.transform.SetParent(null);
+        RemoveCardFromHand(_card);
+        cardsInDiscardPile.Add(_card);
+        _card.SetCardLocation(CardLocation.Discarded);
+        DiscardedCard?.Invoke(_card);
+    }
+
+    public void DestroyCardFromTable(CardObject _card)
+    {
+        RemoveCardFromTable(_card);
+        DestroyedCardFromTable?.Invoke(_card);
+        Destroy(_card.gameObject);
     }
 }

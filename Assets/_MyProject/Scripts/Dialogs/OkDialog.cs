@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class OkDialog : MonoBehaviour
 {
     [HideInInspector] public UnityEvent OnOkPressed;
-    [SerializeField] TextMeshProUGUI messageDisplay;
-    [SerializeField] Button okButton;
+    [SerializeField] private TextMeshProUGUI messageDisplay;
+    [SerializeField] private Button okButton;
 
     public void Setup(string _message)
     {
@@ -25,13 +25,13 @@ public class OkDialog : MonoBehaviour
         okButton.onClick.RemoveListener(OkPressed);
     }
 
-    void OkPressed()
+    private void OkPressed()
     {
         OnOkPressed?.Invoke();
         Close();
     }
 
-    void Close()
+    private void Close()
     {
         OnOkPressed.RemoveAllListeners();
         gameObject.SetActive(false);

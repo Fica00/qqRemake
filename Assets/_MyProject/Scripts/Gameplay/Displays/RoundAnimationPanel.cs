@@ -4,11 +4,11 @@ using DG.Tweening;
 
 public class RoundAnimationPanel : MonoBehaviour
 {
-    [SerializeField] GameObject panelHolder;
-    [SerializeField] GameObject turnHolder;
-    [SerializeField] Sprite[] turnImages;
-    [SerializeField] Image turnDisplay;
-    float startPositionX;
+    [SerializeField] private GameObject panelHolder;
+    [SerializeField] private GameObject turnHolder;
+    [SerializeField] private Sprite[] turnImages;
+    [SerializeField] private Image turnDisplay;
+    private float startPositionX;
 
     private void OnEnable()
     {
@@ -21,7 +21,7 @@ public class RoundAnimationPanel : MonoBehaviour
         GameplayManager.UpdatedRound -= ShowTurn;
     }
 
-    void ShowTurn()
+    private void ShowTurn()
     {
         int _index = GameplayManager.Instance.CurrentRound - 1;
         if (_index < 0)

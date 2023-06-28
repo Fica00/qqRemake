@@ -7,7 +7,7 @@ public class FlagClickHandler : MonoBehaviour
 {
     public static Action OnForefiet;
 
-    Button button;
+    private Button button;
 
     private void Awake()
     {
@@ -26,18 +26,18 @@ public class FlagClickHandler : MonoBehaviour
         GameplayManager.GameEnded -= Disable;
     }
 
-    void Disable(GameResult _result)
+    private void Disable(GameResult _result)
     {
         button.interactable = false;
     }
 
-    void Forfiet()
+    private void Forfiet()
     {
         GameplayUI.Instance.YesNoDialog.Setup("Are you sure you\nwant to escape?", "No","Yes",GameplayYesNo.FONT_RED);
         GameplayUI.Instance.YesNoDialog.OnRightButtonPressed.AddListener(YesForefiet);
     }
 
-    void YesForefiet()
+    private void YesForefiet()
     {
         OnForefiet?.Invoke();
     }

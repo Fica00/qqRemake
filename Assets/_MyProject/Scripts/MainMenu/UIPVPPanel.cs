@@ -5,8 +5,8 @@ using System.Collections;
 
 public class UIPVPPanel : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI searchingText;
-    [SerializeField] Button cancelButton;
+    [SerializeField] private TextMeshProUGUI searchingText;
+    [SerializeField] private Button cancelButton;
 
     public void Setup()
     {
@@ -32,24 +32,24 @@ public class UIPVPPanel : MonoBehaviour
         PhotonManager.OnOpponentJoinedRoom -= OpponentJoined;
     }
 
-    void Cancel()
+    private void Cancel()
     {
         ManageInteractables(false);
         PhotonManager.Instance.LeaveRoom();
     }
 
-    void Close()
+    private void Close()
     {
         gameObject.SetActive(false);
     }
 
-    void OpponentJoined()
+    private void OpponentJoined()
     {
         ManageInteractables(false);
         SceneManager.LoadPVPGameplay();
     }
 
-    IEnumerator SearchingAnimation()
+    private IEnumerator SearchingAnimation()
     {
         while (gameObject.activeSelf)
         {
@@ -72,7 +72,7 @@ public class UIPVPPanel : MonoBehaviour
         }
     }
 
-    void ManageInteractables(bool _status)
+    private void ManageInteractables(bool _status)
     {
         cancelButton.interactable = _status;
     }

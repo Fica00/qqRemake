@@ -4,17 +4,17 @@ using UnityEngine.UI;
 
 public class SimpleImageSpriteAnimator : MonoBehaviour
 {
-    [SerializeField] float timeBetweenFrames;
-    [SerializeField] Image animatedImage;
-    [SerializeField] Sprite[] sprites;
-    [SerializeField] bool setNativeSize;
+    [SerializeField] private float timeBetweenFrames;
+    [SerializeField] private Image animatedImage;
+    [SerializeField] private Sprite[] sprites;
+    [SerializeField] private bool setNativeSize;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(AnimateRoutine());
     }
 
-    IEnumerator AnimateRoutine()
+    private IEnumerator AnimateRoutine()
     {
         int _counter = 0;
         while (gameObject.activeSelf)

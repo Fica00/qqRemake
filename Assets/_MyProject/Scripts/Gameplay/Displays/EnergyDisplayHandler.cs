@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class EnergyDisplayHandler : MonoBehaviour
 {
-    [SerializeField] HorizontalLayoutGroup horizontalLayoutGroup;
-    [SerializeField] Image[] energyDisplays;
-    [SerializeField] Color availableColor;
-    [SerializeField] Color notAvailableColor;
-    GameplayPlayer gameplayPlayer;
+    [SerializeField] private HorizontalLayoutGroup horizontalLayoutGroup;
+    [SerializeField] private Image[] energyDisplays;
+    [SerializeField] private Color availableColor;
+    [SerializeField] private Color notAvailableColor;
+    private GameplayPlayer gameplayPlayer;
 
     public void Setup(GameplayPlayer _player)
     {
@@ -26,12 +26,12 @@ public class EnergyDisplayHandler : MonoBehaviour
         GameplayManager.GameEnded -= Hide;
     }
 
-    void Hide(GameResult _result)
+    private void Hide(GameResult _result)
     {
         gameObject.SetActive(false);
     }
 
-    void ShowEnergy()
+    private void ShowEnergy()
     {
         for (int i = 0; i < gameplayPlayer.Energy; i++)
         {

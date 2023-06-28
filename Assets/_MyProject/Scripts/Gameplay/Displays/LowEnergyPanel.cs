@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LowEnergyPanel : MonoBehaviour
 {
-    [SerializeField] GameObject holder;
+    [SerializeField] private GameObject holder;
 
     private void OnEnable()
     {
@@ -15,7 +15,7 @@ public class LowEnergyPanel : MonoBehaviour
         CardInteractions.DragStarted -= CheckEnergy;
     }
 
-    void CheckEnergy(CardObject _cardObject)
+    private void CheckEnergy(CardObject _cardObject)
     {
         if (_cardObject.CardLocation == CardLocation.Table)
         {

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
 {
-    [SerializeField] int PowerToAdd;
-    [SerializeField] Color colorEffect;
+    [SerializeField] private int PowerToAdd;
+    [SerializeField] private Color colorEffect;
 
-    bool shoudlDestroy = false;
+    private bool shoudlDestroy = false;
 
 
     public override void Subscribe()
@@ -14,7 +14,7 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
         GameplayManager.UpdatedGameState += SubscribeForEventsOnNextRound;
     }
 
-    void SubscribeForEventsOnNextRound()
+    private void SubscribeForEventsOnNextRound()
     {
         switch (GameplayManager.Instance.GameplayState)
         {

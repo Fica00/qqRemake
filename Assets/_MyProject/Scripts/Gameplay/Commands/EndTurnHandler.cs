@@ -8,19 +8,19 @@ public class EndTurnHandler : MonoBehaviour
 {
     public static Action OnEndTurn;
     
-    [SerializeField] TextMeshProUGUI textDisplay;
-    [SerializeField] Image foregroundImage;
-    [SerializeField] Button button;
-    [SerializeField] GameObject roundDisplay;
-    [SerializeField] GameObject leaveDisplay;
+    [SerializeField] private TextMeshProUGUI textDisplay;
+    [SerializeField] private Image foregroundImage;
+    [SerializeField] private Button button;
+    [SerializeField] private GameObject roundDisplay;
+    [SerializeField] private GameObject leaveDisplay;
     [SerializeField] private Sprite waitingSprite;
     [SerializeField] private Sprite playingSprite;
     [SerializeField] private Sprite timerSprite;
 
-    int roundDuration;
-    float timeLeft;
-    Coroutine roundDurationRoutine;
-    bool hasPlayed;
+    private int roundDuration;
+    private float timeLeft;
+    private Coroutine roundDurationRoutine;
+    private bool hasPlayed;
 
     public float TimeLeft => timeLeft;
 
@@ -38,7 +38,7 @@ public class EndTurnHandler : MonoBehaviour
         button.onClick.RemoveAllListeners();
     }
 
-    void HandleGameState()
+    private void HandleGameState()
     {
         switch (GameplayManager.Instance.GameplayState)
         {
@@ -79,7 +79,7 @@ public class EndTurnHandler : MonoBehaviour
         }
     }
 
-    void ManageGameEnded(GameResult _result)
+    private void ManageGameEnded(GameResult _result)
     {
         button.onClick.RemoveListener(EndTurn);
         button.onClick.AddListener(LeaveScene);
@@ -92,12 +92,12 @@ public class EndTurnHandler : MonoBehaviour
         StopAllCoroutines();
     }
 
-    void LeaveScene()
+    private void LeaveScene()
     {
         SceneManager.LoadMainMenu();
     }
 
-    void EndTurn()
+    private void EndTurn()
     {
         if (hasPlayed)
         {
@@ -113,7 +113,7 @@ public class EndTurnHandler : MonoBehaviour
         roundDuration = GameplayManager.Instance.DurationOfRound;
     }
 
-    IEnumerator RoundDurationRoutine()
+    private IEnumerator RoundDurationRoutine()
     {
         while (timeLeft > 0)
         {

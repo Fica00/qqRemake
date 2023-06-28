@@ -4,15 +4,16 @@ using UnityEngine.UI;
 
 public class CardOnTableDisplay : MonoBehaviour
 {
-    CardObject cardObject;
+    private CardObject cardObject;
 
-    [SerializeField] TMP_FontAsset valueIncreasedFont;
-    [SerializeField] TMP_FontAsset valueDecreasedFont;
-    [SerializeField] TMP_FontAsset normalFont;
+    [SerializeField] private TMP_FontAsset valueIncreasedFont;
+    [SerializeField] private TMP_FontAsset valueDecreasedFont;
+    [SerializeField] private TMP_FontAsset normalFont;
 
     [Space()]
-    [SerializeField] TextMeshProUGUI powerDisplay;
-    [SerializeField] Image qommonDisplay;
+    [SerializeField]
+    private TextMeshProUGUI powerDisplay;
+    [SerializeField] private Image qommonDisplay;
 
     public void Setup(CardObject _cardObject)
     {
@@ -38,7 +39,7 @@ public class CardOnTableDisplay : MonoBehaviour
         cardObject.Stats.UpdatedPower -= ShowPower;
     }
 
-    void ShowPower(ChangeStatus _status)
+    private void ShowPower(ChangeStatus _status)
     {
         powerDisplay.text = (cardObject.Stats.Power+cardObject.Stats.ChagePowerDueToLocation).ToString();
         switch (_status)

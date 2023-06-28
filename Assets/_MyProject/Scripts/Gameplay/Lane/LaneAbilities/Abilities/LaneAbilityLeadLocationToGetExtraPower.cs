@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
 {
-    [SerializeField] int addPower;
+    [SerializeField] private int addPower;
 
-    bool[] appliedPower = new bool[2];//0 for player, 1 for opponent
+    private bool[] appliedPower = new bool[2];//0 for player, 1 for opponent
 
     public override void Subscribe()
     {
@@ -22,7 +22,7 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
         TableHandler.OnRevealdCard -= CheckPower;
     }
 
-    void CheckPower(CardObject _cardObject)
+    private void CheckPower(CardObject _cardObject)
     {
         if (_cardObject.LaneLocation != laneDisplay.Location)
         {
@@ -32,23 +32,13 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
         CalculatePower();
     }
 
-    void CalculatePower()
+    private void CalculatePower()
     {
         int _myCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(true, laneDisplay.Location);
         int _opponentCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(false, laneDisplay.Location);
 
         TryToRevard(_myCalculatedPower, _opponentCalculatedPower, 0);
         TryToRevard(_opponentCalculatedPower, _myCalculatedPower, 1);
-
-        if (appliedPower[0] || appliedPower[1])
-        {
-            laneDisplay.AbilityShowAsActive();
-        }
-        else
-        {
-            laneDisplay.AbilityShowAsInactive();
-        }
-
 
         void TryToRevard(int _myPower, int _opponentPower, int _playerNumber)
         {
@@ -88,8 +78,6 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
                 case LaneLocation.Bot:
                     _lane1 = GameplayManager.Instance.Lanes[0];
                     _lane2 = GameplayManager.Instance.Lanes[1];
-                    break;
-                default:
                     break;
             }
 

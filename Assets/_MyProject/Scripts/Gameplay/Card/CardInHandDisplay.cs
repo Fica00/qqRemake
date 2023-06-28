@@ -6,19 +6,20 @@ using System;
 
 public class CardInHandDisplay : MonoBehaviour
 {
-    CardObject cardObject;
+    private CardObject cardObject;
 
-    [SerializeField] TMP_FontAsset valueIncreasedFont;
-    [SerializeField] TMP_FontAsset valueDecreasedFont;
-    [SerializeField] TMP_FontAsset normalFont;
+    [SerializeField] private TMP_FontAsset valueIncreasedFont;
+    [SerializeField] private TMP_FontAsset valueDecreasedFont;
+    [SerializeField] private TMP_FontAsset normalFont;
 
     [Space()]
-    [SerializeField] TextMeshProUGUI manaDisplay;
-    [SerializeField] TextMeshProUGUI powerDisplay;
-    [SerializeField] Image qommonDisplay;
-    [SerializeField] GameObject manaHolder;
-    [SerializeField] GameObject powerHolder;
-    [SerializeField] GameObject borderShadow;
+    [SerializeField]
+    private TextMeshProUGUI manaDisplay;
+    [SerializeField] private TextMeshProUGUI powerDisplay;
+    [SerializeField] private Image qommonDisplay;
+    [SerializeField] private GameObject manaHolder;
+    [SerializeField] private GameObject powerHolder;
+    [SerializeField] private GameObject borderShadow;
 
     public void Setup(CardObject _cardObject)
     {
@@ -58,7 +59,7 @@ public class CardInHandDisplay : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    void ShowIfPlayerHasEnaughtEnergy()
+    private void ShowIfPlayerHasEnaughtEnergy()
     {
         Color _color = qommonDisplay.color;
         if (GameplayManager.Instance.MyPlayer.Energy < cardObject.Stats.Energy)
@@ -80,7 +81,7 @@ public class CardInHandDisplay : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void ShowMana(ChangeStatus _status)
+    private void ShowMana(ChangeStatus _status)
     {
         manaDisplay.text = cardObject.Stats.Energy.ToString();
         switch (_status)
@@ -98,7 +99,7 @@ public class CardInHandDisplay : MonoBehaviour
         }
     }
 
-    void ShowPower(ChangeStatus _status)
+    private void ShowPower(ChangeStatus _status)
     {
         powerDisplay.text = cardObject.Stats.Power.ToString();
         switch (_status)

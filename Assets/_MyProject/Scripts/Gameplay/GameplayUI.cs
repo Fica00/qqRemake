@@ -21,12 +21,12 @@ public class GameplayUI : MonoBehaviour
         GameplayManager.GameEnded -= ShowResult;
     }
 
-    void ShowResult(GameResult _result)
+    private void ShowResult(GameResult _result)
     {
         StartCoroutine(ShowResultRoutine(_result));
     }
 
-    IEnumerator ShowResultRoutine(GameResult _result)
+    private IEnumerator ShowResultRoutine(GameResult _result)
     {
         yield return new WaitForSeconds(0.2f);
         string _resultText = string.Empty;

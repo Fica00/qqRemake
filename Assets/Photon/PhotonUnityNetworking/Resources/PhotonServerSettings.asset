@@ -50,6 +50,8 @@ MonoBehaviour:
   - OpponentIsReadyToStart
   - OpponentAceptedBet
   - OpponentWantsToBet
+  - OpponentForcePlacedCard
+  - OpponentDestroyedCardsOnTable
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

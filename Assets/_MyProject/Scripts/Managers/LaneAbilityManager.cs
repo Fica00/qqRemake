@@ -6,7 +6,7 @@ public class LaneAbilityManager : MonoBehaviour
 {
     public static LaneAbilityManager Instance;
 
-    List<LaneAbility> allLaneAbilities;
+    private List<LaneAbility> allLaneAbilities;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class LaneAbilityManager : MonoBehaviour
         throw new System.Exception("Cant find laneAbility with id: "+_id);
     }
 
-    LaneAbility CreateLaneAbility(LaneAbility _laneAbility)
+    private LaneAbility CreateLaneAbility(LaneAbility _laneAbility)
     {
         return Instantiate(_laneAbility, transform);
     }

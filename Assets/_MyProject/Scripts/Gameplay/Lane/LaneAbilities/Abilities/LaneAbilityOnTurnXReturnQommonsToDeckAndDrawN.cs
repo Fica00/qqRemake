@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
 {
-    [SerializeField] int round;
-    [SerializeField] int amountOfCards;
-    bool isSubscribed = false;
+    [SerializeField] private int round;
+    [SerializeField] private int amountOfCards;
+    private bool isSubscribed = false;
 
     public override void Subscribe()
     {
@@ -22,13 +22,12 @@ public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
         }
     }
 
-    void CheckRound()
+    private void CheckRound()
     {
         if (GameplayManager.Instance.CurrentRound == round)
         {
-            laneDisplay.AbilityShowAsActive();
-
             GameplayManager.Instance.MyPlayer.ReturnCardsToDeck();
+            laneDisplay.AbilityShowAsActive();
 
             if (!GameplayManager.IsPvpGame)
             {
@@ -42,9 +41,9 @@ public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
         }
         else if (GameplayManager.Instance.CurrentRound > round)
         {
+            laneDisplay.AbilityShowAsInactive();
             isSubscribed = false;
             GameplayManager.UpdatedRound -= CheckRound;
-            laneDisplay.AbilityShowAsInactive();
         }
     }
 }

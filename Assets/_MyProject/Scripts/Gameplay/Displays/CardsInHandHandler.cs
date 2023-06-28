@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class CardsInHandHandler : MonoBehaviour
 {
-    List<CardObject> cardsInHand = new List<CardObject>();
-    GameplayPlayer player;
-    HorizontalLayoutGroup horizontalLayoutGroup;
+    private List<CardObject> cardsInHand = new List<CardObject>();
+    private GameplayPlayer player;
+    private HorizontalLayoutGroup horizontalLayoutGroup;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class CardsInHandHandler : MonoBehaviour
     }
 
 
-    void AddCardToHand(CardObject _card)
+    private void AddCardToHand(CardObject _card)
     {
         cardsInHand.Add(_card);
         _card.transform.SetParent(transform);
@@ -36,13 +36,13 @@ public class CardsInHandHandler : MonoBehaviour
         CheckForCardSizeChange();
     }
 
-    void RemoveCardFromHand(CardObject _card)
+    private void RemoveCardFromHand(CardObject _card)
     {
         cardsInHand.Remove(_card);
         CheckForCardSizeChange();
     }
 
-    void CheckForCardSizeChange()
+    private void CheckForCardSizeChange()
     {
         int _amountOfCardsInHand = cardsInHand.Count;
         int _size = 0;

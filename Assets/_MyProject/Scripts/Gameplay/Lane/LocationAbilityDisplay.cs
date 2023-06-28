@@ -7,11 +7,11 @@ using DG.Tweening;
 
 public class LocationAbilityDisplay : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI abilityDesc;
+    [SerializeField] private TextMeshProUGUI abilityDesc;
     [SerializeField] private TextMeshProUGUI shiningDesc;
-    [SerializeField] Image lightUpEffect;
-    [SerializeField] Image tableDisplay;
-    Action callback;
+    [SerializeField] private Image lightUpEffect;
+    [SerializeField] private Image tableDisplay;
+    private Action callback;
     private Sequence descFlashing;
 
     public void Reveal(string _desc, Action _callback)
@@ -22,7 +22,7 @@ public class LocationAbilityDisplay : MonoBehaviour
         FlashEffect();
     }
 
-    void FlashEffect()
+    private void FlashEffect()
     {
         Sequence _sequence = DOTween.Sequence();
         Color _color = lightUpEffect.color;
@@ -42,7 +42,7 @@ public class LocationAbilityDisplay : MonoBehaviour
         _sequence.Play();
     }
 
-    void ShowDesc()
+    private void ShowDesc()
     {
         Sequence _sequence = DOTween.Sequence();
         float _duration = 0.5f;

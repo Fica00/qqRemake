@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 701007503731547963}
-  - component: {fileID: 3276516268885074510}
+  - component: {fileID: 5855150391340695250}
   m_Layer: 5
   m_Name: Effect1
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3276516268885074510
+--- !u!114 &5855150391340695250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,10 +46,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2286333799319231135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb718106ce48fd64185c74a48ece3e19, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e6610ec585004246beeff7d75dbcf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerToAdd: 10
+  amountOfQommons: 1
+  qommonsCost: 01000000
 --- !u!1001 &7943796220825949538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,7 +61,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 11_ArcherPenny
+      value: 21_ArcherPenny
       objectReference: {fileID: 0}
     - target: {fileID: 163180176746285967, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
@@ -196,12 +197,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Id>k__BackingField
-      value: 11
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.data[0]
       value: 
-      objectReference: {fileID: 3276516268885074510}
+      objectReference: {fileID: 5855150391340695250}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Mana>k__BackingField
       value: 3
@@ -220,8 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: f003b044b8ee7de4f9096931d0a7a19e, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color="green">Ongoing</color>:\n +10 Power for each opposing Qoomon
-        at this location
+      value: Destroy a random enemy 1-Cost Qoomon at this location.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite

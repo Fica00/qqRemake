@@ -4,14 +4,14 @@ using TMPro;
 
 public class DrumClickHandler : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI betDisplay;
-    [SerializeField] TextMeshProUGUI nextBetDisplay;
-    [SerializeField] GameObject soundWawe;
+    [SerializeField] private TextMeshProUGUI betDisplay;
+    [SerializeField] private TextMeshProUGUI nextBetDisplay;
+    [SerializeField] private GameObject soundWawe;
 
-    Button button;
-    int maxBet = 16;
-    bool didOpponentInitBetIncrease;
-    bool didIBet = false;
+    private Button button;
+    private int maxBet = 16;
+    private bool didOpponentInitBetIncrease;
+    private bool didIBet = false;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class DrumClickHandler : MonoBehaviour
         GameplayManager.GameEnded -= Disable;
     }
 
-    void Disable(GameResult _result)
+    private void Disable(GameResult _result)
     {
         button.interactable = false;
         soundWawe.gameObject.SetActive(false);
@@ -44,14 +44,14 @@ public class DrumClickHandler : MonoBehaviour
         nextBetDisplay.text = string.Empty;
     }
 
-    void ShowBet()
+    private void ShowBet()
     {
         int _betAmount = GameplayManager.Instance.CurrentBet;
         betDisplay.text = _betAmount < 10 ? "0 " + _betAmount : "1" + (_betAmount - 10);
         nextBetDisplay.text = string.Empty;
     }
 
-    void IncreaseBet()
+    private void IncreaseBet()
     {
         if (!(GameplayManager.Instance.GameplayState==GameplayState.Waiting||GameplayManager.Instance.GameplayState==GameplayState.Playing))
         {
@@ -83,7 +83,7 @@ public class DrumClickHandler : MonoBehaviour
         ShowNextRoundBet();
     }
 
-    void ManageRoundEnded()
+    private void ManageRoundEnded()
     {
         if (GameplayManager.Instance.GameplayState==GameplayState.ResolvingEndOfRound)
         {
@@ -91,7 +91,7 @@ public class DrumClickHandler : MonoBehaviour
         }
     }
 
-    void AcceptBet()
+    private void AcceptBet()
     {
         GameplayManager.UpdatedGameState -= ManageRoundEnded;
         didOpponentInitBetIncrease = false;

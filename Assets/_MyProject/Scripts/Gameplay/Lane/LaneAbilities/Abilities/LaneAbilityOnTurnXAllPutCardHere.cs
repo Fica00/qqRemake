@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
 {
-    [SerializeField] int round;
-    bool isSubscribed = false;
+    [SerializeField] private int round;
+    private bool isSubscribed = false;
 
     public override void Subscribe()
     {
         isSubscribed = true;
         GameplayManager.UpdatedRound += CheckRound;
+        CheckRound();
     }
 
     private void OnDisable()
@@ -21,26 +22,24 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
         }
     }
 
-    void CheckRound()
+    private void CheckRound()
     {
         if (round == GameplayManager.Instance.CurrentRound)
         {
-            laneDisplay.AbilityShowAsActive();
             PlacePlayersCard(GameplayManager.Instance.MyPlayer);
             if (!GameplayManager.IsPvpGame)
             {
                 PlacePlayersCard(GameplayManager.Instance.OpponentPlayer);
             }
         }
-        else
+        else if (round<GameplayManager.Instance.CurrentRound)
         {
             isSubscribed = false;
-            laneDisplay.AbilityShowAsInactive();
             GameplayManager.UpdatedRound -= CheckRound;
         }
     }
 
-    void PlacePlayersCard(GameplayPlayer _player)
+    private void PlacePlayersCard(GameplayPlayer _player)
     {
         CardObject _card = _player.GetQommonFromHand();
         if (_card == null)

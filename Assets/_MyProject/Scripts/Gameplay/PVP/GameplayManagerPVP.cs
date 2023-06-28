@@ -4,15 +4,16 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Linq;
 
 public class GameplayManagerPVP : GameplayManager
 {
     public static Action<PlaceCommand> OpponentAddedCommand;
     public static Action<PlaceCommand> OpponentCanceledCommand;
-    PhotonView photonView;
+    private PhotonView photonView;
 
-    bool iAmReadyToStart;
-    bool opponentIsReadyToStart;
+    private bool iAmReadyToStart;
+    private bool opponentIsReadyToStart;
 
     protected override void Awake()
     {
@@ -44,7 +45,7 @@ public class GameplayManagerPVP : GameplayManager
         StartCoroutine(DelayStart());
     }
 
-    IEnumerator DelayStart()
+    private IEnumerator DelayStart()
     {
         yield return new WaitForSeconds(1);
         iAmReadyToStart = true;
@@ -58,7 +59,7 @@ public class GameplayManagerPVP : GameplayManager
         photonView.RPC("OpponentFinishedTurn", RpcTarget.Others,_commands);
     }
 
-    string GenerateCommandsJson()
+    private string GenerateCommandsJson()
     {
         List<PlaceCommandJson> _commands = new List<PlaceCommandJson>();
         foreach (var _placeCommand in CommandsHandler.MyCommands)
@@ -153,15 +154,38 @@ public class GameplayManagerPVP : GameplayManager
         return _laneAbility;
     }
 
+    public void ForcePlace(PlaceCommand _command)
+    {
+        PlaceCommandJson _commandJSON = PlaceCommandJson.Create(_command);
+        _commandJSON.MyPlayer = false;
+        _commandJSON.PlaceId += 4;
+        
+        photonView.RPC("OpponentForcePlacedCard",RpcTarget.Others,JsonConvert.SerializeObject(_commandJSON));
+    }
 
+    public void TellOpponentToDestroyCardsOnTable(List<CardObject> _qommons,bool _destroyMyCards)
+    {
+        List<int> _placeIds = new List<int>();
+        
+        foreach (var _qommon in _qommons)
+        {
+            LanePlaceIdentifier _identifier = _qommon.GetComponentInParent<LanePlaceIdentifier>();
+            int _placeId = _identifier.Id;
+            _placeId += _destroyMyCards ? 4 : -4;
+            _placeIds.Add(_placeId);
+        }
+        
+        photonView.RPC("OpponentDestroyedCardsOnTable",RpcTarget.Others,_placeIds);
+    }
+    
     [PunRPC]
-    void OpponentIsReadyToStart()
+    private void OpponentIsReadyToStart()
     {
         opponentIsReadyToStart = true;
     }
 
     [PunRPC]
-    void OpponentFinishedTurn(string _commandsJson)
+    private void OpponentFinishedTurn(string _commandsJson)
     {
         _commandsJson = _commandsJson.Replace("\\\"","\"");
         _commandsJson = _commandsJson.Substring(1, _commandsJson.Length - 2);
@@ -184,7 +208,7 @@ public class GameplayManagerPVP : GameplayManager
     }
 
     [PunRPC]
-    void OpponentForfited()
+    private void OpponentForfited()
     {
         StopAllCoroutines();
         UIManager.Instance.OkDialog.Setup("Opponent has forfieted the match!\nYouWin!");
@@ -192,7 +216,7 @@ public class GameplayManagerPVP : GameplayManager
     }
 
     [PunRPC]
-    void OpponentWantsToUndoState()
+    private void OpponentWantsToUndoState()
     {
         if (iFinished)
         {
@@ -220,14 +244,14 @@ public class GameplayManagerPVP : GameplayManager
     }
 
     [PunRPC]
-    void UndoState()
+    private void UndoState()
     {
         GameplayState = GameplayState.Playing;
         iFinished = false;
     }
 
     [PunRPC]
-    void OpponentWantsToBet()
+    private void OpponentWantsToBet()
     {
         OpponentPlayerDisplay.RemoveGlow();
         FindObjectOfType<DrumClickHandler>().ShowOpponentWantsToIncreaseBet();
@@ -235,14 +259,46 @@ public class GameplayManagerPVP : GameplayManager
     }
 
     [PunRPC]
-    void ShowLaneAbility(int _laneId)
+    private void ShowLaneAbility(int _laneId)
     {
         StartCoroutine(RevealLocation(_laneId));
     }
 
     [PunRPC]
-    void OpponentAceptedBet()
+    private void OpponentAceptedBet()
     {
         base.OpponentAcceptedBet();
+    }
+
+    [PunRPC]
+    private void OpponentForcePlacedCard(string _json)
+    {
+        _json = _json.Replace("\\\"","\"");
+        Debug.Log(_json);
+        PlaceCommandJson _placeCommandsJson = JsonConvert.DeserializeObject<PlaceCommandJson>(_json);
+
+        PlaceCommand _placeCommand = PlaceCommandJson.ToPlaceCommand(_placeCommandsJson);
+        _placeCommand.Card.SetCardLocation(CardLocation.Table);
+        _placeCommand.Card.Display.Hide();
+        OpponentAddedCommand?.Invoke(_placeCommand);
+
+        CommandsHandler.OpponentCommands.Add(_placeCommand);
+    }
+
+    [PunRPC]
+    private void OpponentDestroyedCardsOnTable(List<int> _placeIds)
+    {
+        List<CardObject> _cards = new List<CardObject>();
+        List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
+        foreach (var _placeId in _placeIds)
+        {
+            LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
+            _cards.Add(_place.GetComponentInChildren<CardObject>());
+        }
+        
+        foreach (var _card in _cards)
+        {
+            OpponentPlayer.DestroyCardFromTable(_card);
+        }
     }
 }

@@ -7,11 +7,11 @@ using UnityEngine;
 public class BotPlayer : GameplayPlayer
 {
     private Coroutine playCoroutine;
-    bool hasPlayedThisRound = false;
+    private bool hasPlayedThisRound = false;
 
     public override void Setup()
     {
-        List<int> _cardsInDeck = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        List<int> _cardsInDeck = new List<int>() { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 10, 11 };
         cardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
         {
@@ -21,6 +21,7 @@ public class BotPlayer : GameplayPlayer
         }
         ShuffleDeck();
         cardsInHand = new List<CardObject>();
+        cardsInDiscardPile = new List<CardObject>();
         GameplayManager.UpdatedGameState += ManageGameState;
     }
 
@@ -55,7 +56,7 @@ public class BotPlayer : GameplayPlayer
         }
     }
 
-    IEnumerator PlayCards()
+    private IEnumerator PlayCards()
     {
         //todoo uncomment me
         //int _waitRandomTime = UnityEngine.Random.Range(0, GameplayManager.Instance.DurationOfRound - 2);
@@ -118,7 +119,7 @@ public class BotPlayer : GameplayPlayer
         GameplayManager.Instance.OpponentFinished();
     }
 
-    void PlaceCard(CardObject _card, int[] _power, int _index)
+    private void PlaceCard(CardObject _card, int[] _power, int _index)
     {
         if (Energy < _card.Stats.Energy)
         {

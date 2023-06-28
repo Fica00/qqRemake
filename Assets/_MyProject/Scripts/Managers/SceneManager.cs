@@ -1,8 +1,8 @@
 public static class SceneManager
 {
-    const string MAIN_MENU = "MainMenu";
-    const string GAMEPLAYPVP = "GameplayPVP";
-    const string GAMEPLAYAI = "GameplayAI";
+    private const string MAIN_MENU = "MainMenu";
+    private const string GAMEPLAYPVP = "GameplayPVP";
+    private const string GAMEPLAYAI = "GameplayAI";
 
     public static void LoadMainMenu()
     {
@@ -19,7 +19,7 @@ public static class SceneManager
         LoadScene(GAMEPLAYAI);
     }
 
-    static void LoadScene(string _key)
+    private static void LoadScene(string _key)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(_key);
     }

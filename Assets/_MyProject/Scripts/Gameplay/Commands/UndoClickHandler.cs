@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UndoClickHandler : MonoBehaviour
 {
-    Button button;
+    private Button button;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class UndoClickHandler : MonoBehaviour
         button.onClick.RemoveListener(HandleClick);
     }
 
-    void HandleClick()
+    private void HandleClick()
     {
         switch (GameplayManager.Instance.GameplayState)
         {

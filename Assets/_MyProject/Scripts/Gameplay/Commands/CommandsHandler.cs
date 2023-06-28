@@ -1,13 +1,20 @@
+using System;
 using System.Collections.Generic;
 
 public class CommandsHandler
 {
-    List<PlaceCommand> myCommands = new List<PlaceCommand>();
-    List<PlaceCommand> opponentCommands = new List<PlaceCommand>();
+    public static Action<PlaceCommand> AddedNewCommandDuringTurn;
+    private List<PlaceCommand> myCommandsThisTurn = new List<PlaceCommand>();
+    private List<PlaceCommand> opponentCommands = new List<PlaceCommand>();
+    private List<PlaceCommand> opponentCommandsThisTurn = new List<PlaceCommand>();
 
-    public List<PlaceCommand> MyCommands => myCommands;
+    public List<PlaceCommand> MyCommands => MyCommandsThisTurn;
+
+    public List<PlaceCommand> MyCommandsThisTurn { get; } = new List<PlaceCommand>();
+
     public List<PlaceCommand> OpponentCommands => opponentCommands;
-
+    public List<PlaceCommand> OpponentCommandsThisTurn { get; } = new List<PlaceCommand>();
+    
     public void Setup()
     {
         GameplayPlayer.AddedCardToTable += AddCommand;
@@ -24,7 +31,7 @@ public class CommandsHandler
     {
         if (_command.IsMyPlayer)
         {
-            myCommands.Add(_command);
+            MyCommandsThisTurn.Add(_command);
         }
         else
         {
@@ -36,7 +43,7 @@ public class CommandsHandler
     {
         if (_command.IsMyPlayer)
         {
-            myCommands.Remove(_command);
+            MyCommandsThisTurn.Remove(_command);
         }
         else
         {
@@ -46,7 +53,7 @@ public class CommandsHandler
 
     public PlaceCommand GetCommand(CardObject _cardObject)
     {
-        foreach (var _command in myCommands)
+        foreach (var _command in MyCommandsThisTurn)
         {
             if (_command.Card == _cardObject)
             {

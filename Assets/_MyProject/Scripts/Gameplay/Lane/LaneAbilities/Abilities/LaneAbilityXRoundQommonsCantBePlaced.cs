@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LaneAbilityXRoundQommonsCantBePlaced : LaneAbilityBase
 {
-    [SerializeField] List<int> rounds;
+    [SerializeField] private List<int> rounds;
 
     public override void Subscribe()
     {
@@ -12,15 +13,15 @@ public class LaneAbilityXRoundQommonsCantBePlaced : LaneAbilityBase
             laneDisplay.LaneSpecifics.CantPlaceCommonsOnRound.Add(_round);
         }
 
-        GameplayManager.UpdatedRound += ManageDisplayState;
+        GameplayManager.UpdatedRound += CheckRound;
     }
 
     private void OnDisable()
     {
-        GameplayManager.UpdatedRound -= ManageDisplayState;
+        GameplayManager.UpdatedRound -= CheckRound;
     }
 
-    void ManageDisplayState()
+    void CheckRound()
     {
         if (rounds.Contains(GameplayManager.Instance.CurrentRound))
         {

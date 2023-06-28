@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
 {
-    [SerializeField] int powerToAdd;
-    CardObject strongestCard;
+    [SerializeField] private int powerToAdd;
+    private CardObject strongestCard;
 
     public override void Subscribe()
     {
@@ -17,7 +17,7 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
         TableHandler.OnRevealdCard -= CheckCard;
     }
 
-    void CheckCard(CardObject _card)
+    private void CheckCard(CardObject _card)
     {
         if (_card.LaneLocation != laneDisplay.Location)
         {
@@ -28,7 +28,7 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
     }
 
 
-    void CheckCards()
+    private void CheckCards()
     {
         List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location);
         List<CardObject> _opponentCardsOLane = GameplayManager.Instance.TableHandler.GetCards(false, laneDisplay.Location);
@@ -44,7 +44,6 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
         }
         else
         {
-            laneDisplay.AbilityShowAsInactive();
             return;
         }
 
@@ -53,21 +52,19 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
             strongestCard.Stats.ChagePowerDueToLocation -= powerToAdd;
             strongestCard = null;
         }
-        laneDisplay.AbilityShowAsInactive();
 
         _strongestCard = GetStrongestCard(_strongestCard, _myCardsOnLane);
         _strongestCard = GetStrongestCard(_strongestCard, _opponentCardsOLane);
 
         if (!IsThereCardWithSamePower(_strongestCard, _strongestCard.IsMy ? _opponentCardsOLane : _myCardsOnLane))
         {
-            laneDisplay.AbilityShowAsActive();
             strongestCard = _strongestCard;
             strongestCard.Stats.ChagePowerDueToLocation += powerToAdd;
         }
 
     }
 
-    CardObject GetStrongestCard(CardObject _currentStrongest, List<CardObject> _cards)
+    private CardObject GetStrongestCard(CardObject _currentStrongest, List<CardObject> _cards)
     {
         foreach (var _card in _cards)
         {
@@ -80,7 +77,7 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
         return _currentStrongest;
     }
 
-    bool IsThereCardWithSamePower(CardObject _strongestCard, List<CardObject> _cards)
+    private bool IsThereCardWithSamePower(CardObject _strongestCard, List<CardObject> _cards)
     {
         foreach (var _card in _cards)
         {

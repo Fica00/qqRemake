@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 
@@ -35,8 +36,8 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected GameObject[] flags;
     [SerializeField] protected GameObject[] playsFirstDisplays;
 
-    GameplayState gameplayState;
-    int currentRound;
+    private GameplayState gameplayState;
+    private int currentRound;
 
     protected bool opponentFinished;
     protected bool iFinished;
@@ -157,6 +158,10 @@ public class GameplayManager : MonoBehaviour
         }
 
         CardObject _drawnCard = _player.DrawCard();
+        if (_drawnCard==null)
+        {
+            return;
+        }
         _player.AddCardToHand(_drawnCard);
     }
 
@@ -281,24 +286,45 @@ public class GameplayManager : MonoBehaviour
 
     protected IEnumerator RevealCards(int _whoPlaysFirst)
     {
-        foreach (var _command in CommandsHandler.OpponentCommands)
+        while (CommandsHandler.MyCommands.Count>0|| CommandsHandler.OpponentCommands.Count>0)
         {
-            _command.Card.PrepareForReveal();
+            foreach (var _command in CommandsHandler.OpponentCommands)
+            {
+                _command.Card.PrepareForReveal();
+            }
+            
+            AddCommands(CommandsHandler.MyCommands,true);
+            AddCommands(CommandsHandler.OpponentCommands,false);
+           
+            
+            yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
+            yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
+
+            yield return new WaitForSeconds(2);//some delay
+
+            void AddCommands(List<PlaceCommand> _commands, bool _isMy)
+            {
+                List<PlaceCommand> _commandsThisTurn =
+                    _isMy ? CommandsHandler.MyCommandsThisTurn : CommandsHandler.OpponentCommandsThisTurn;
+                
+                foreach (var _command in _commands.ToList())
+                {
+                    if (_commandsThisTurn.Contains(_command))
+                    {
+                        continue;
+                    }
+                    
+                    _commandsThisTurn.Add(_command);
+                }
+            }
         }
 
-
-        yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
-        yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
-
-        yield return new WaitForSeconds(1);//some delay
-
-        CommandsHandler.MyCommands.Clear();
-        CommandsHandler.OpponentCommands.Clear();
-
+        CommandsHandler.MyCommandsThisTurn.Clear();
+        CommandsHandler.OpponentCommandsThisTurn.Clear();
         resolvedEndOfTheRound = true;
     }
 
-    void ShowFlag(int _whoPlaysFirst)
+    private void ShowFlag(int _whoPlaysFirst)
     {
         if (_whoPlaysFirst == -1)
         {
@@ -332,7 +358,13 @@ public class GameplayManager : MonoBehaviour
 
     public virtual void Bet()
     {
-        OpponentAcceptedBet();
+        StartCoroutine(BetRoutine());
+        
+        IEnumerator BetRoutine()
+        {
+            yield return new WaitForSeconds(1);
+            OpponentAcceptedBet();
+        }
     }
 
     public virtual void OpponentAcceptedBet()

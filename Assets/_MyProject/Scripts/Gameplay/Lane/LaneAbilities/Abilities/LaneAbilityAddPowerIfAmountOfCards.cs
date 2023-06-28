@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
 {
-    [SerializeField] int amountOfCards;
-    [SerializeField] int addPower;
+    [SerializeField] private int amountOfCards;
+    [SerializeField] private int addPower;
 
-    bool[] appliedPower = new bool[2];//0 for player, 1 for opponent
+    private bool[] appliedPower = new bool[2];//0 for player, 1 for opponent
+    
     public override void Subscribe()
     {
         for (int i = 0; i < appliedPower.Length; i++)
@@ -17,12 +18,12 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
         CountCards();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         TableHandler.OnRevealdCard -= CheckCount;
     }
 
-    void CheckCount(CardObject _cardObject)
+    private void CheckCount(CardObject _cardObject)
     {
         if (_cardObject.LaneLocation != laneDisplay.Location)
         {
@@ -32,23 +33,13 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
         CountCards();
     }
 
-    void CountCards()
+    private void CountCards()
     {
         int _amountOfMyCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location).Count;
         int _amountOfOpponentCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(false, laneDisplay.Location).Count;
        
         TryToRevard(_amountOfMyCardsOnLane, 0);
         TryToRevard(_amountOfOpponentCardsOnLane, 1);
-
-        if (appliedPower[0] || appliedPower[1])
-        {
-            laneDisplay.AbilityShowAsActive();
-        }
-        else
-        {
-            laneDisplay.AbilityShowAsInactive();
-        }
-
 
         void TryToRevard(int _amountOfCards, int _playerNumber)
         {

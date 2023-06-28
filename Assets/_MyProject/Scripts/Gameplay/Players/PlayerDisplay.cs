@@ -3,8 +3,8 @@ using TMPro;
 
 public class PlayerDisplay : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI nameDisplay;
-    [SerializeField] GameObject[] glows;
+    [SerializeField] private TextMeshProUGUI nameDisplay;
+    [SerializeField] private GameObject[] glows;
 
     public void SetName(string _name)
     {

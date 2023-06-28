@@ -10,11 +10,11 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public static Action DragEnded;
 
     protected CardObject cardObject;
-    CardDisplay cardDisplay;
-    bool isDragging = false;
-    Vector2 pointerDownPosition;
-    const float dragThreshold = 5f;
-    bool canChangePlace;
+    private CardDisplay cardDisplay;
+    private bool isDragging = false;
+    private Vector2 pointerDownPosition;
+    private const float dragThreshold = 5f;
+    private bool canChangePlace;
     [HideInInspector] public bool CanDrag;
 
     public void Setup(CardObject _cardObject)
@@ -76,7 +76,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
     }
 
-    void ShowDetails()
+    private void ShowDetails()
     {
         if (cardObject.Reveal.IsRevealing)
         {
@@ -86,7 +86,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         OnClicked?.Invoke(cardObject);
     }
 
-    void HandleDragEnded(PointerEventData _eventData)
+    private void HandleDragEnded(PointerEventData _eventData)
     {
         EndDrag();
 
@@ -108,7 +108,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
     }
 
-    void EndDrag()
+    private void EndDrag()
     {
         DragEnded?.Invoke();
         cardDisplay.transform.localPosition = Vector3.zero;

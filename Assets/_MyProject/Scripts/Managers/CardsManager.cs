@@ -6,7 +6,7 @@ public class CardsManager : MonoBehaviour
 {
     public static CardsManager Instance;
 
-    List<CardObject> allCards;
+    private List<CardObject> allCards;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class CardsManager : MonoBehaviour
         return _desiredCard.SpecialEffects;
     }
 
-    CardObject GetCardObject(int _cardId)
+    private CardObject GetCardObject(int _cardId)
     {
         CardObject _desiredCard = null;
         foreach (var _card in allCards)

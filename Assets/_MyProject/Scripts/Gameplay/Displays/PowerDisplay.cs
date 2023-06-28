@@ -5,11 +5,11 @@ using System;
 
 public class PowerDisplay : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI myPower;
-    [SerializeField] TextMeshProUGUI opponentPower;
-    [SerializeField] TMP_FontAsset winningFontAsset;
-    [SerializeField] TMP_FontAsset lossingFontAsset;
-    [SerializeField] TMP_FontAsset drawFontAsset;
+    [SerializeField] private TextMeshProUGUI myPower;
+    [SerializeField] private TextMeshProUGUI opponentPower;
+    [SerializeField] private TMP_FontAsset winningFontAsset;
+    [SerializeField] private TMP_FontAsset lossingFontAsset;
+    [SerializeField] private TMP_FontAsset drawFontAsset;
 
     private int increasedFontSize = 90;
     private int decreasedFontSize = 70;
@@ -73,13 +73,13 @@ public class PowerDisplay : MonoBehaviour
         }
         TextMeshProUGUI _text = _myPower > _opponentPower ? myPower : opponentPower;
         float _currentSize = _text.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, winFontSize, 0.5f)
+        DOTween.To(() => _currentSize, x => _currentSize = x, winFontSize, 0.1f)
             .OnUpdate(() => _text.fontSize = _currentSize).
             OnComplete(() =>
             {
-                DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 0.5f)
+                DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 0.1f)
                     .OnUpdate(() => _text.fontSize = _currentSize).
-                    OnComplete(()=> _callBack?.Invoke()).SetDelay(0.5f);
+                    OnComplete(()=> _callBack?.Invoke()).SetDelay(0.3f);
             });
     }
 }

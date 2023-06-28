@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class LaneAbilityChangeQommonPowerEachRound : LaneAbilityBase
 {
-    [SerializeField] int amountOfPower;
+    [SerializeField] private int amountOfPower;
 
     public override void Subscribe()
     {
-        laneDisplay.AbilityShowAsActive();
         GameplayManager.UpdatedRound += ChangePower;
     }
 
@@ -16,7 +15,7 @@ public class LaneAbilityChangeQommonPowerEachRound : LaneAbilityBase
         GameplayManager.UpdatedRound -= ChangePower;
     }
 
-    void ChangePower()
+    private void ChangePower()
     {
         List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location);
         List<CardObject>  _opponentCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(false, laneDisplay.Location);

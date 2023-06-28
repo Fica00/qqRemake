@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] CardInHandDisplay cardInHandDisplay;
-    [SerializeField] CardOnTableDisplay cardOnTableMyDisplay;
-    [SerializeField] CardOnTableDisplay cardOnTableOpponentDisplay;
+    [SerializeField] private CardInHandDisplay cardInHandDisplay;
+    [SerializeField] private CardOnTableDisplay cardOnTableMyDisplay;
+    [SerializeField] private CardOnTableDisplay cardOnTableOpponentDisplay;
 
-    CardOnTableDisplay cardOnTableHandler;
+    private CardOnTableDisplay cardOnTableHandler;
 
     public void Setup(CardObject _cardObject)
     {

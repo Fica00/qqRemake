@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LaneAbilityOnTurnXIfYouLeadDrawNCards : LaneAbilityBase
 {
-    [SerializeField] int round;
-    [SerializeField] int amountOfCards;
+    [SerializeField] private int round;
+    [SerializeField] private int amountOfCards;
 
     public override void Subscribe()
     {
@@ -15,12 +15,11 @@ public class LaneAbilityOnTurnXIfYouLeadDrawNCards : LaneAbilityBase
         GameplayManager.UpdatedRound -= CheckForRound;
     }
 
-    void CheckForRound()
+    private void CheckForRound()
     {
         if (GameplayManager.Instance.CurrentRound==round)
         {
             laneDisplay.AbilityShowAsActive();
-
             int _myCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(true, laneDisplay.Location);
             int _opponentCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(false, laneDisplay.Location);
 
