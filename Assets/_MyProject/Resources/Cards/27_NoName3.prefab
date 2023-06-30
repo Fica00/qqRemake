@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 701007503731547963}
-  - component: {fileID: 5855150391340695250}
+  - component: {fileID: 7967568851408243787}
   m_Layer: 5
   m_Name: Effect1
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5855150391340695250
+--- !u!114 &7967568851408243787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,11 +46,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2286333799319231135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e6610ec585004246beeff7d75dbcf0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 68475010fb80bd84abe04f28c8bded9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfQommons: 1
-  qommonsCost: 01000000
+  round: 6
 --- !u!1001 &7943796220825949538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61,7 +60,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 21_ArcherPenny
+      value: 27_NoName3
       objectReference: {fileID: 0}
     - target: {fileID: 163180176746285967, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
@@ -86,11 +85,11 @@ PrefabInstance:
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f003b044b8ee7de4f9096931d0a7a19e, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f003b044b8ee7de4f9096931d0a7a19e, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -197,37 +196,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Id>k__BackingField
-      value: 21
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.data[0]
       value: 
-      objectReference: {fileID: 5855150391340695250}
+      objectReference: {fileID: 7967568851408243787}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Mana>k__BackingField
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Name>k__BackingField
-      value: Archer Penny
+      value: NoName3
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Power>k__BackingField
-      value: 20
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: f003b044b8ee7de4f9096931d0a7a19e, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color=#C38C15>On Summon</color>:\nDestroy a random enemy\n1-Cost Qoomon
-        at this location.
+      value: Starts on the bottom of your deck. Draw this on turn 6.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f003b044b8ee7de4f9096931d0a7a19e, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.x
       value: 235

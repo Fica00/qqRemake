@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 701007503731547963}
-  - component: {fileID: 5586783668387991701}
+  - component: {fileID: 8617681825155391700}
   m_Layer: 5
   m_Name: Effect1
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5586783668387991701
+--- !u!114 &8617681825155391700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,10 +46,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2286333799319231135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f88ba246762f3264d9c848ef02258dfe, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c67da83e97aebc4ea1c72008d1c6a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerToAdd: 20
+  powerToDeduce: 10
 --- !u!1001 &7943796220825949538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,7 +60,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 11_Gunner Kaka
+      value: 25_RoyalRon
       objectReference: {fileID: 0}
     - target: {fileID: 163180176746285967, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
@@ -85,11 +85,11 @@ PrefabInstance:
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f272ab13fc9bda44b5cf46c9b4919f9, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f272ab13fc9bda44b5cf46c9b4919f9, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -196,36 +196,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Id>k__BackingField
-      value: 11
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.data[0]
       value: 
-      objectReference: {fileID: 5586783668387991701}
+      objectReference: {fileID: 8617681825155391700}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Mana>k__BackingField
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Name>k__BackingField
-      value: Gunner Kaka
+      value: Royal Ron
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Power>k__BackingField
-      value: 20
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: 1f272ab13fc9bda44b5cf46c9b4919f9, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: If your opponent played a Qoomon here this turn, +30 Power.
+      value: <color=#C38C15>On Summon</color>:\nYour opponent's Qoomons here -10
+        Power.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f272ab13fc9bda44b5cf46c9b4919f9, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
     - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.x
       value: 235

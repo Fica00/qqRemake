@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 932ce7485ff664348abe22c882900c34, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: Discard a Qoomon from your hand.
+      value: <color=#C38C15>On Summon</color>:\nDiscard a Qoomon from your hand.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite

@@ -11,7 +11,7 @@ public class CardObject : MonoBehaviour
     [field: SerializeField] public CardReveal Reveal { get; private set; }
     [field: SerializeField] public List<CardEffectBase> SpecialEffects { get; private set; }
 
-    public CardStats Stats { get; private set; }
+    [HideInInspector] public CardStats Stats;
 
     [HideInInspector] public bool IsMy;
 

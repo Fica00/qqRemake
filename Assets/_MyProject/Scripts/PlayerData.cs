@@ -6,6 +6,6 @@ public class PlayerData
 
     public void Init()
     {
-        CardIdsIndeck = new List<int>() { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0, 1 };
+        CardIdsIndeck = new List<int>() { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
     }
 }

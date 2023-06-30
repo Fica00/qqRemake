@@ -278,4 +278,32 @@ public class TableHandler : MonoBehaviour
                 throw new Exception("Dont know how to handle location: " + _location);
         }
     }
+
+    public List<CardObject> GetCards(GameplayPlayer _player)
+    {
+        List<CardObject> _validCards = new List<CardObject>();
+
+        if (_player.IsMy)
+        {
+            AddCardsToListOfCards(myCardsOnTable[0], _validCards);
+            AddCardsToListOfCards(myCardsOnTable[1], _validCards);
+            AddCardsToListOfCards(myCardsOnTable[2], _validCards);
+        }
+        else
+        {
+            AddCardsToListOfCards(opponentCardsOnTable[0], _validCards);
+            AddCardsToListOfCards(opponentCardsOnTable[1], _validCards);
+            AddCardsToListOfCards(opponentCardsOnTable[2], _validCards);
+        }
+
+        return _validCards;
+
+        void AddCardsToListOfCards(List<CardObject> _cards, List<CardObject> _listToAddTo)
+        {
+            foreach (var _card in _cards)
+            {
+                _listToAddTo.Add(_card);
+            }
+        }
+    }
 }

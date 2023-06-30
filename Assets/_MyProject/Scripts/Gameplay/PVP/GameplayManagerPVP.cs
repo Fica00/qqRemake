@@ -177,7 +177,29 @@ public class GameplayManagerPVP : GameplayManager
         
         photonView.RPC("OpponentDestroyedCardsOnTable",RpcTarget.Others,_placeIds);
     }
-    
+
+    public override void DrawCardFromOpponentsDeck()
+    {
+        int _amountOfCardsInHand = MyPlayer.AmountOfCardsInHand;
+        if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)
+        {
+            return;
+        }
+        photonView.RPC("OpponentWantsCardFromYourDeck",RpcTarget.Others);
+    }
+
+    public void TellOpponentToAddPowerToQommons(List<CardObject> _cards, int _powerToAdd)
+    {
+        List<int> _cardPlaces = new List<int>();
+        foreach (var _card in _cards)
+        {
+            LanePlaceIdentifier _identifier = _card.GetComponentInParent<LanePlaceIdentifier>();
+            _cardPlaces.Add(_identifier.Id+4);
+        }
+        
+        photonView.RPC("OpponentAddedPowerToQommons",RpcTarget.Others,_cardPlaces,_powerToAdd);
+    }
+
     [PunRPC]
     private void OpponentIsReadyToStart()
     {
@@ -299,6 +321,45 @@ public class GameplayManagerPVP : GameplayManager
         foreach (var _card in _cards)
         {
             OpponentPlayer.DestroyCardFromTable(_card);
+        }
+    }
+
+    [PunRPC]
+    private void OpponentWantsCardFromYourDeck()
+    {
+        CardObject _drawnCard = MyPlayer.DrawCard();
+        if (_drawnCard==null)
+        {
+            return;
+        }
+
+        string _jsonStats = JsonConvert.SerializeObject(_drawnCard.Stats);
+        photonView.RPC("",RpcTarget.Others, _drawnCard.Details.Id, _jsonStats);
+        
+    }
+
+    [PunRPC]
+    private void OpponentGaveYouCard(int _cardId, string _jsonStats)
+    {
+        CardObject _createdCard = CardsManager.Instance.CreateCard(_cardId,true);
+        _createdCard.Stats = JsonConvert.DeserializeObject<CardStats>(_jsonStats);
+        MyPlayer.AddedCardToHand(_createdCard);
+    }
+
+    [PunRPC]
+    private void OpponentAddedPowerToQommons(List<int> _placeIds, int _powerToAdd)
+    {
+        List<CardObject> _cards = new List<CardObject>();
+        List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
+        foreach (var _placeId in _placeIds)
+        {
+            LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
+            _cards.Add(_place.GetComponentInChildren<CardObject>());
+        }
+        
+        foreach (var _card in _cards)
+        {
+            _card.Stats.Power += _powerToAdd;
         }
     }
 }

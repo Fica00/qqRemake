@@ -165,6 +165,22 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
+    public virtual void DrawCardFromOpponentsDeck()
+    {
+        int _amountOfCardsInHand = MyPlayer.AmountOfCardsInHand;
+        if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)
+        {
+            return;
+        }
+        
+        CardObject _drawnCard = OpponentPlayer.DrawCard();
+        if (_drawnCard==null)
+        {
+            return;
+        }
+        MyPlayer.AddCardToHand(_drawnCard);
+    }
+
     protected IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);

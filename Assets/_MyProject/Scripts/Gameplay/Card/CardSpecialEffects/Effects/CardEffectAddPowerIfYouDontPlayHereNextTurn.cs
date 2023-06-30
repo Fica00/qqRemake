@@ -1,16 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
+public class CardEffectAddPowerIfYouDontPlayHereNextTurn : CardEffectBase
 {
-    [SerializeField] private int PowerToAdd;
+    [SerializeField] private int powerToAdd;
     [SerializeField] private Color colorEffect;
 
     private bool shoudlDestroy = false;
+    private bool shouldAddPower=true;
 
 
     public override void Subscribe()
     {
-        GameplayManager.Instance.HighlihtWholeLocation(cardObject.LaneLocation, cardObject.IsMy, colorEffect);
         GameplayManager.UpdatedGameState += SubscribeForEventsOnNextRound;
     }
 
@@ -21,6 +23,13 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
             case GameplayState.ResolvingBeginingOfRound:
                 if (shoudlDestroy)
                 {
+                    if (shouldAddPower)
+                    {
+                        for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)
+                        {
+                            cardObject.Stats.Power += powerToAdd;
+                        }
+                    }
                     GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
                     TableHandler.OnRevealdCard -= CheckPlayedCard;
                     GameplayManager.Instance.HideHighlihtWholeLocation(cardObject.LaneLocation, cardObject.IsMy, colorEffect);
@@ -43,10 +52,7 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
         }
         if (_cardObject.LaneLocation == cardObject.LaneLocation)
         {
-            for (int i = 0; i < GameplayManager.Instance.Lanes[(int)_cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)
-            {
-                cardObject.Stats.Power += PowerToAdd;
-            }
+            shouldAddPower = false;
             TableHandler.OnRevealdCard -= CheckPlayedCard;
         }
     }
