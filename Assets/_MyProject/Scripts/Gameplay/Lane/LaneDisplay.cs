@@ -112,6 +112,11 @@ public class LaneDisplay : MonoBehaviour
         return true;
     }
 
+    public bool CanRemoveCards()
+    {
+        return LaneSpecifics.CanRemoveCards;
+    }
+
     private int AmountOfQommonsHere(bool _isMyPlayer)
     {
         int _amount = 0;

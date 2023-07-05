@@ -8,6 +8,10 @@ public class CardEffectDestroyYourOtherQommonsHereAndGainXPowerForEach : CardEff
     
     public override void Subscribe()
     {
+        if (!GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].CanRemoveCards())
+        {
+            return;
+        }
         DestroyQommons();
     }
 

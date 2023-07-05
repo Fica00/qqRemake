@@ -11,6 +11,7 @@ public class LaneSpecifics
     public int MaxAmountOfQommons = 4;
     public int AmountOfRevealEffects = 1;
     public int AmountOfOngoingEffects = 1;
+    public bool CanRemoveCards = true;
 
     public int[] ExtraPower => extraPower;
 

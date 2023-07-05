@@ -44,7 +44,7 @@ public class GameplayPlayer : MonoBehaviour
 
     public virtual void Setup()
     {
-        List<int> _cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsIndeck);
+        List<int> _cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsInDeck);
         cardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
         {

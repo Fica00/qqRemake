@@ -8,7 +8,14 @@ public class CardEffectDestroyEnemysNRandomXCostQommonsHere : CardEffectBase
 
    public override void Subscribe()
    {
-      DestroyQommon();
+      if (!GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].CanRemoveCards())
+      {
+         return;
+      }
+      for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
+      {
+         DestroyQommon();
+      }
    }
 
    void DestroyQommon()

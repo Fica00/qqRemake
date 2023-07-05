@@ -89,11 +89,11 @@ PrefabInstance:
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 4c37e1c168d4449b2ab693851b046a53, type: 3}
     - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 4c37e1c168d4449b2ab693851b046a53, type: 3}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -221,7 +221,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 4c37e1c168d4449b2ab693851b046a53, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: '<color=#C38C15>On Summon</color>:\nif your opponent played a  Qoomon
@@ -230,7 +230,7 @@ PrefabInstance:
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 875c8c7cf0b9f39458a8ef0b172f48e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 4c37e1c168d4449b2ab693851b046a53, type: 3}
     - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.x
       value: 235

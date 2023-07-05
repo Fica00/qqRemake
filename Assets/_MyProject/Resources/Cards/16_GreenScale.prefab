@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6643667291493048433}
-  - component: {fileID: 1057269124367137123}
+  - component: {fileID: 6934594151810126989}
   m_Layer: 5
   m_Name: Ability1
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1057269124367137123
+--- !u!114 &6934594151810126989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6836199899306841446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 381dd478347dff14aa0014d8be744436, type: 3}
+  m_Script: {fileID: 11500000, guid: b646becf616f46f46b80e15afa793eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   amountOfCards: 1
@@ -65,11 +65,11 @@ PrefabInstance:
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d18a90eda09a3304f9dce9659ada127e, type: 3}
+      objectReference: {fileID: 21300000, guid: 32a60e4af27e54fae8596410b58bc47c, type: 3}
     - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d18a90eda09a3304f9dce9659ada127e, type: 3}
+      objectReference: {fileID: 21300000, guid: 32a60e4af27e54fae8596410b58bc47c, type: 3}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -165,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.data[0]
       value: 
-      objectReference: {fileID: 1057269124367137123}
+      objectReference: {fileID: 6934594151810126989}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Mana>k__BackingField
       value: 3
@@ -181,16 +181,15 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: d18a90eda09a3304f9dce9659ada127e, type: 3}
+      objectReference: {fileID: 21300000, guid: 32a60e4af27e54fae8596410b58bc47c, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color=#C38C15>On Summon</color>:\nDiscard the highest-cost Qoomon from
-        your hand.
+      value: <color=#C38C15>On Summon</color>:\nDiscard a Qoomon from your hand.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d18a90eda09a3304f9dce9659ada127e, type: 3}
+      objectReference: {fileID: 21300000, guid: 32a60e4af27e54fae8596410b58bc47c, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
