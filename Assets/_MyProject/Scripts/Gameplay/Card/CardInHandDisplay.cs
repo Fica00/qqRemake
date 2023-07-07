@@ -21,6 +21,8 @@ public class CardInHandDisplay : MonoBehaviour
     [SerializeField] private GameObject powerHolder;
     [SerializeField] private GameObject borderShadow;
 
+    public Image QommonDisplay => qommonDisplay;
+
     public void Setup(CardObject _cardObject)
     {
         cardObject = _cardObject;

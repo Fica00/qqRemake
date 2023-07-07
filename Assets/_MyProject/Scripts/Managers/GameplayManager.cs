@@ -16,8 +16,10 @@ public class GameplayManager : MonoBehaviour
     public static Action<int, Color, int> OnFlashPlace;
     public static Action<LaneLocation, bool, Color, int> OnFlashWholePlace;
     public static Action<LaneLocation, bool, Color> OnHighlihtWholePlace;
+    public static Action<LaneLocation, bool> OnHighlihtWholePlaceDotted;
     public static Action<LaneLocation, bool, Color, int> OnFlashAllSpotsOnLocation;
     public static Action<LaneLocation, bool, Color> OnHideHighlightWholePlace;
+    public static Action<LaneLocation, bool> OnHideHighlightWholePlaceDotted;
     public GameplayPlayer MyPlayer;
     public GameplayPlayer OpponentPlayer;
     public Dictionary<LaneDisplay, LaneAbility> LaneAbilities = new Dictionary<LaneDisplay, LaneAbility>();
@@ -211,7 +213,7 @@ public class GameplayManager : MonoBehaviour
             GameplayState = GameplayState.ResolvingEndOfRound;
             StartCoroutine(RevealCards(_whoPlaysFirst));
             yield return new WaitUntil(() => resolvedEndOfTheRound);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(2.5f);
         }
 
         bool _canContinue = false;
@@ -414,6 +416,11 @@ public class GameplayManager : MonoBehaviour
     {
         OnHighlihtWholePlace?.Invoke(_location, _mySide, _color);
     }
+    
+    public void HighlihtWholeLocationDotted(LaneLocation _location, bool _mySide)
+    {
+        OnHighlihtWholePlaceDotted?.Invoke(_location, _mySide);
+    }
 
     public void FlashAllSpotsOnLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
     {
@@ -425,8 +432,26 @@ public class GameplayManager : MonoBehaviour
         OnHideHighlightWholePlace?.Invoke(_location, _mySide, _color);
     }
 
+    public void HideHighlihtWholeLocationDotted(LaneLocation _location, bool _mySide)
+    {
+        OnHideHighlightWholePlaceDotted?.Invoke(_location,_mySide);
+    }
     private void OnDestroy()
     {
         DOTween.KillAll();
+    }
+
+    public virtual void TellOpponentThatIDiscardedACard(CardObject _card)
+    {
+        if (_card.IsMy)
+        {
+            return;
+        }
+        ShowOpponentDiscardedACard(_card.Details.Id);
+    }
+
+    protected void ShowOpponentDiscardedACard(int _cardId)
+    {
+        OpponentDiscardedCardDisplay.Instance.Show(_cardId);
     }
 }

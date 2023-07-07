@@ -28,11 +28,14 @@ public class CardsInHandHandler : MonoBehaviour
     }
 
 
-    private void AddCardToHand(CardObject _card)
+    private void AddCardToHand(CardObject _card, bool _showAnimation)
     {
         cardsInHand.Add(_card);
         _card.transform.SetParent(transform);
-        _card.Display.ShowDrawnAnimation();
+        if (_showAnimation)
+        {
+            _card.Display.ShowDrawnAnimation();
+        }
         CheckForCardSizeChange();
     }
 

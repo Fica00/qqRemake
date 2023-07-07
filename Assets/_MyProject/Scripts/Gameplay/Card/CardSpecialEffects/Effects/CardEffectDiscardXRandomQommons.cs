@@ -31,5 +31,4 @@ public class CardEffectDiscardXRandomQommons : CardEffectBase
             _player.DiscardCardFromHand(_card);   
         }
     }
-    
 }

@@ -766,6 +766,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Discard & Destroy
       m_Image: {fileID: 0}
+    - m_Text: Summon
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -881,7 +883,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 1656947147}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 963379697}

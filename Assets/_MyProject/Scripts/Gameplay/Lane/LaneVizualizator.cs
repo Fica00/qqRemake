@@ -16,12 +16,18 @@ public class LaneVizualizator : MonoBehaviour
     private List<LanePlaceIdentifier> opponentPlaces;
     [SerializeField] private Image opponentLane;
 
+    [SerializeField] private Image wholeLanePurple;
+    [SerializeField] private Image myLaneDotted;
+    [SerializeField] private Image opponentLaneDotted;
+
     private void OnEnable()
     {
         GameplayManager.OnFlashPlace += FlashSpot;
         GameplayManager.OnFlashWholePlace += FlashWholePlace;
         GameplayManager.OnHighlihtWholePlace += HighlihtWholePlace;
+        GameplayManager.OnHighlihtWholePlaceDotted += HighlihtWholePlaceDotted;
         GameplayManager.OnHideHighlightWholePlace += HideHighlihtWholePlace;
+        GameplayManager.OnHideHighlightWholePlaceDotted += HideHighlihtWholePlaceDotted;
         GameplayManager.OnFlashAllSpotsOnLocation += FlashAllSpotsOnLocation;
     }
 
@@ -89,6 +95,23 @@ public class LaneVizualizator : MonoBehaviour
         Image _laneImage = _mySide ? myLane : opponentLane;
         ShowWholeLane(_laneImage, _color);
     }
+    
+    private void HighlihtWholePlaceDotted(LaneLocation _location, bool _mySide)
+    {
+        if (_location != location)
+        {
+            return;
+        }
+
+        Image _image = _mySide ? myLaneDotted : opponentLaneDotted;
+        Color _color = _image.color;
+        float _animationTime = 0.5f;
+        DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
+            .OnUpdate(() => 
+            {
+                _image.color = _color;
+            });
+    }
 
     private void HideHighlihtWholePlace(LaneLocation _location, bool _mySide, Color _color)
     {
@@ -106,6 +129,23 @@ public class LaneVizualizator : MonoBehaviour
             _sequence.Append(DOTween.To(() => _color.a, x => _color.a = x, 0, _animationTime).OnUpdate(() => { _laneImage.color = _color; }));
             _sequence.Play();
         }
+    }
+    
+    private void HideHighlihtWholePlaceDotted(LaneLocation _location, bool _mySide)
+    {
+        if (_location != location)
+        {
+            return;
+        }
+
+        Image _image = _mySide ? myLaneDotted : opponentLaneDotted;
+        Color _color = _image.color;
+        float _animationTime = 0.5f;
+        DOTween.To(() => _color.a, x => _color.a = x, 0, _animationTime)
+            .OnUpdate(() => 
+            {
+                _image.color = _color;
+            });
     }
 
     private void FlashAllSpotsOnLocation(LaneLocation _location, bool _mySide, Color _color, int _amount)
@@ -158,5 +198,19 @@ public class LaneVizualizator : MonoBehaviour
             }
             return null;
         }
+    }
+
+    public void ShowWholeLanePurple()
+    {
+        Color _color = wholeLanePurple.color;
+        float _animationTime=0.5f;
+        DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
+            .OnUpdate(() => { wholeLanePurple.color = _color; })
+            .OnComplete(() =>
+            {
+                DOTween.To(() => _color.a, x => _color.a = x, 0, _animationTime)
+                    .OnUpdate(() => { wholeLanePurple.color = _color; })
+                    .SetDelay(2);
+            });
     }
 }

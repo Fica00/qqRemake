@@ -5,6 +5,7 @@ public class GameplayUI : MonoBehaviour
 {
     public static GameplayUI Instance;
     [field: SerializeField] public GameplayYesNo YesNoDialog { get; private set; }
+    public Transform Canvas;
 
     private void Awake()
     {

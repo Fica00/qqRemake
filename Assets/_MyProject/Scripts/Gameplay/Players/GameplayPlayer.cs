@@ -10,7 +10,7 @@ public class GameplayPlayer : MonoBehaviour
     public static Action<PlaceCommand> RemovedCardFromTable;
     public static Action<CardObject> DiscardedCard;
     public static Action<CardObject> DestroyedCardFromTable;
-    public Action<CardObject> AddedCardToHand;
+    public Action<CardObject,bool> AddedCardToHand;
     public Action<CardObject> RemovedCardFromHand;
     public Action UpdatedEnergy;
 
@@ -120,16 +120,20 @@ public class GameplayPlayer : MonoBehaviour
         return _card;
     }
 
-    public void AddCardToHand(CardObject _cardObject)
+    public void AddCardToHand(CardObject _cardObject, bool _showAnimation=true)
     {
         cardsInHand.Add(_cardObject);
         _cardObject.SetCardLocation(CardLocation.Hand);
-        AddedCardToHand?.Invoke(_cardObject);
+        AddedCardToHand?.Invoke(_cardObject,_showAnimation);
     }
-
+    
+    
     public void RemoveCardFromHand(CardObject _cardObject)
     {
-        cardsInHand.Remove(_cardObject);
+        if (cardsInHand.Contains(_cardObject))
+        {
+            cardsInHand.Remove(_cardObject);
+        }
         RemovedCardFromHand?.Invoke(_cardObject);
     }
 
@@ -297,17 +301,35 @@ public class GameplayPlayer : MonoBehaviour
 
     public void DiscardCardFromHand(CardObject _card)
     {
-        _card.transform.SetParent(null);
-        RemoveCardFromHand(_card);
-        cardsInDiscardPile.Add(_card);
-        _card.SetCardLocation(CardLocation.Discarded);
-        DiscardedCard?.Invoke(_card);
+        cardsInHand.Remove(_card);
+        GameplayManager.Instance.TellOpponentThatIDiscardedACard(_card);
+        AnimateRoutine();
+
+        void AnimateRoutine()
+        {
+            _card.Display.DiscardInHandAnimation(FinishDiscard);
+
+            void FinishDiscard()
+            {
+                RemoveCardFromHand(_card);
+                cardsInDiscardPile.Add(_card);
+                _card.SetCardLocation(CardLocation.Discarded);
+                _card.transform.SetParent(null);
+                DiscardedCard?.Invoke(_card);
+            }
+        }
     }
 
     public void DestroyCardFromTable(CardObject _card)
     {
         RemoveCardFromTable(_card);
         DestroyedCardFromTable?.Invoke(_card);
-        Destroy(_card.gameObject);
+        
+        _card.Display.ShowDestroyEffect(FinishDestroy);
+
+        void FinishDestroy()
+        {
+            Destroy(_card.gameObject);
+        }
     }
 }

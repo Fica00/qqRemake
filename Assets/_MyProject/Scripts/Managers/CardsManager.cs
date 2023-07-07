@@ -54,4 +54,9 @@ public class CardsManager : MonoBehaviour
 
         return _desiredCard;
     }
+
+    public Sprite GetCardSprite(int _cardId)
+    {
+        return allCards.Find(_elemet => _elemet.Details.Id == _cardId).Details.Sprite;
+    }
 }

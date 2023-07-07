@@ -365,6 +365,7 @@ MonoBehaviour:
   cardInHandDisplay: {fileID: 5592445021512405229}
   cardOnTableMyDisplay: {fileID: 2448600889900146212}
   cardOnTableOpponentDisplay: {fileID: 3352308678573164349}
+  destroyEffect: {fileID: 9065177881183335233}
 --- !u!1 &349559316737884097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,6 +1770,11 @@ PrefabInstance:
 --- !u!4 &8623879492272367541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1581899362688651001, guid: f73741bc0c70f70499bb6f1202644a14, type: 3}
+  m_PrefabInstance: {fileID: 7087018342238841164}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9065177881183335233 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2276533202602154509, guid: f73741bc0c70f70499bb6f1202644a14, type: 3}
   m_PrefabInstance: {fileID: 7087018342238841164}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8118229087227473580

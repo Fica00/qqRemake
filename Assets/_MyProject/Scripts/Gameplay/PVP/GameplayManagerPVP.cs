@@ -200,6 +200,11 @@ public class GameplayManagerPVP : GameplayManager
         photonView.RPC("OpponentAddedPowerToQommons",RpcTarget.Others,_cardPlaces,_powerToAdd);
     }
 
+    public override void TellOpponentThatIDiscardedACard(CardObject _card)
+    {
+        photonView.RPC(nameof(OpponentDiscardedACard),RpcTarget.Others,_card.Details.Id);
+    }
+
     [PunRPC]
     private void OpponentIsReadyToStart()
     {
@@ -343,7 +348,7 @@ public class GameplayManagerPVP : GameplayManager
     {
         CardObject _createdCard = CardsManager.Instance.CreateCard(_cardId,true);
         _createdCard.Stats = JsonConvert.DeserializeObject<CardStats>(_jsonStats);
-        MyPlayer.AddedCardToHand(_createdCard);
+        MyPlayer.AddedCardToHand?.Invoke(_createdCard,true);
     }
 
     [PunRPC]
@@ -354,6 +359,7 @@ public class GameplayManagerPVP : GameplayManager
         foreach (var _placeId in _placeIds)
         {
             LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
+            FlashLocation(_placeId,Color.white,3);
             _cards.Add(_place.GetComponentInChildren<CardObject>());
         }
         
@@ -361,5 +367,11 @@ public class GameplayManagerPVP : GameplayManager
         {
             _card.Stats.Power += _powerToAdd;
         }
+    }
+
+    [PunRPC]
+    private void OpponentDiscardedACard(int _cardId)
+    {
+        ShowOpponentDiscardedACard(_cardId);
     }
 }

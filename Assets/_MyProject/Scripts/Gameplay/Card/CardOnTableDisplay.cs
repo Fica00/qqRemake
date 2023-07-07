@@ -15,6 +15,8 @@ public class CardOnTableDisplay : MonoBehaviour
     private TextMeshProUGUI powerDisplay;
     [SerializeField] private Image qommonDisplay;
 
+    public Image QommonDisplay => qommonDisplay;
+    
     public void Setup(CardObject _cardObject)
     {
         cardObject = _cardObject;

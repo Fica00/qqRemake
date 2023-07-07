@@ -9,5 +9,6 @@ public class CardEffectDisableAddingAndRemovingCards : CardEffectBase
         }
 
         _currentLane.LaneSpecifics.CanRemoveCards = false;
+        GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].Visualizator.ShowWholeLanePurple();
     }
 }
