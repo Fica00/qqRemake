@@ -207,7 +207,7 @@ public class CardObject : MonoBehaviour
             LaneDisplay _laneDisplay = GetComponentInParent<LaneDisplay>();
             if (_laneDisplay == null)
             {
-                throw new Exception("Cant find lane display for to determin lain location");
+                return LaneLocation.None;
             }
             return _laneDisplay.Location;
         }

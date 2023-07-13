@@ -26,7 +26,11 @@ public class CardInHandDisplay : MonoBehaviour
     public void Setup(CardObject _cardObject)
     {
         cardObject = _cardObject;
-        qommonDisplay.sprite = cardObject.Details.Sprite;
+        if (cardObject.Details.SpriteInHand==null)
+        {
+            cardObject.Details.SpriteInHand = cardObject.Details.Sprite;
+        }
+        qommonDisplay.sprite = cardObject.Details.SpriteInHand;
         manaDisplay.font = normalFont;
         powerDisplay.font = normalFont;
 

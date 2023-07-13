@@ -202,6 +202,10 @@ public class GameplayPlayer : MonoBehaviour
 
     public void RemoveCardFromTable(CardObject _card)
     {
+        if (_card.LaneLocation==LaneLocation.None)
+        {
+            return;
+        }
         switch (_card.LaneLocation)
         {
             case LaneLocation.Top:

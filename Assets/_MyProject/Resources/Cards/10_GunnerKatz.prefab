@@ -60,7 +60,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 10_GunnerKathy
+      value: 10_GunnerKatz
       objectReference: {fileID: 0}
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
@@ -69,18 +69,6 @@ PrefabInstance:
     - target: {fileID: 163180176746285967, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 235
-      objectReference: {fileID: 0}
-    - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 235
-      objectReference: {fileID: 0}
-    - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -5.8
       objectReference: {fileID: 0}
     - target: {fileID: 1320126881876742923, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
@@ -178,22 +166,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 178.8763
-      objectReference: {fileID: 0}
-    - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 176.787
-      objectReference: {fileID: 0}
-    - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4407787912598215103, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -22
-      objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
@@ -231,18 +203,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 4c37e1c168d4449b2ab693851b046a53, type: 3}
-    - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 235
-      objectReference: {fileID: 0}
-    - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 235
-      objectReference: {fileID: 0}
-    - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -5.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
