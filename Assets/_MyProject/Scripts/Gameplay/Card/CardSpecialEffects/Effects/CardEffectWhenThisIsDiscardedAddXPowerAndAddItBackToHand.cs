@@ -1,11 +1,15 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffectBase
 {
     [SerializeField] private int power;
     [SerializeField] private GameObject animation;
+    [SerializeField] private TextMeshProUGUI powerDisplay;
+    [SerializeField] private TMP_FontAsset winningFont;
+    public static bool IsActive;
 
     public override void Subscribe()
     {
@@ -37,6 +41,7 @@ public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffe
 
     IEnumerator ApplyRoutine()
     {
+        IsActive = true;
         yield return new WaitForSeconds(0.9f);
         cardObject.Display.HideCardInHand();
         GameplayPlayer _player =
@@ -45,11 +50,13 @@ public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffe
         _player.AddCardToHand(cardObject,false);
         cardObject.Display.HideCardInHand();
         animation.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         cardObject.Display.ShowCardInHand();
         cardObject.Display.ShowDrawnAnimation();
         yield return new WaitForSeconds(0.3f);
         cardObject.Stats.Power += power;
+        powerDisplay.font = winningFont;
+        IsActive = false;
     }
     
     

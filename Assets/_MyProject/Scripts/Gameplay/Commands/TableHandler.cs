@@ -98,6 +98,7 @@ public class TableHandler : MonoBehaviour
     {
         foreach (var _command in _commands.ToList())
         {
+            yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
             yield return StartCoroutine(_command.Card.RevealCard());
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)

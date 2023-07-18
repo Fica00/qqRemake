@@ -33,19 +33,23 @@ public class CardEffectAddPowerToNQommonsOnYourField : CardEffectBase
         _availableCards = _availableCards.OrderBy(_element => Guid.NewGuid()).ToList();
         List<CardObject> _effectedCards = new List<CardObject>();
 
-        for (int i = 0; i < amountOfQommons; i++)
+        for (int _i = 0; _i < amountOfQommons; _i++)
         {
-            if (_availableCards.Count>=i)
+            if (_i>=_availableCards.Count)
+            {
+                break;
+            }
+            if (_effectedCards.Count>=amountOfQommons)
             {
                 break;
             }
             
-            _effectedCards.Add(_availableCards[i]);
-            _availableCards[i].Stats.Power += powerToAdd;
-            LanePlaceIdentifier _identifier = _availableCards[i].GetComponentInParent<LanePlaceIdentifier>();
+            _effectedCards.Add(_availableCards[_i]);
+            _availableCards[_i].Stats.Power += powerToAdd;
+            LanePlaceIdentifier _identifier = _availableCards[_i].GetComponentInParent<LanePlaceIdentifier>();
             GameplayManager.Instance.FlashLocation(_identifier.Id,Color.white, 3);
         }
-
+        
         if (GameplayManager.IsPvpGame)
         {
             (GameplayManagerPVP.Instance as GameplayManagerPVP).TellOpponentToAddPowerToQommons(_effectedCards,powerToAdd);

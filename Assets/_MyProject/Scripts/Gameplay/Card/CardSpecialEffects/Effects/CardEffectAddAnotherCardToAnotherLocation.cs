@@ -12,7 +12,7 @@ public class CardEffectAddAnotherCardToAnotherLocation : CardEffectBase
         }
     }
 
-    void Summon()
+    private void Summon()
     {
         if (GameplayManager.IsPvpGame&&!cardObject.IsMy)
         {

@@ -1873,6 +1873,7 @@ MonoBehaviour:
   - {fileID: 8801683089788131172}
   opponentLane: {fileID: 24334572068881812}
   wholeLanePurple: {fileID: 1196428468319320895}
+  wholeLaneYellow: {fileID: 0}
   myLaneDotted: {fileID: 6047143675219606519}
   opponentLaneDotted: {fileID: 2765960612937175195}
 --- !u!1 &6939097481451902803

@@ -4,6 +4,6 @@ public class LaneAbilityDoubleOnGoingEffects : LaneAbilityBase
 {
     public override void Subscribe()
     {
-        laneDisplay.LaneSpecifics.AmountOfOngoingEffects = 2;
+        laneDisplay.LaneSpecifics.AmountOfOngoingEffects *= 2;
     }
 }

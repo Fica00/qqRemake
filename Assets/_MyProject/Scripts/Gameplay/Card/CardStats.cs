@@ -63,7 +63,8 @@ public class CardStats
         }
     }
 
-   [HideInInspector] public int ChagePowerDueToLocation
+
+        [HideInInspector] public int ChagePowerDueToLocation
     {
         get
         {

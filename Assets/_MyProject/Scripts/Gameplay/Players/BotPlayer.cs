@@ -7,11 +7,12 @@ using UnityEngine;
 public class BotPlayer : GameplayPlayer
 {
     private Coroutine playCoroutine;
-    private bool hasPlayedThisRound = false;
+    private bool hasPlayedThisRound;
+    public static List<int> CardsInDeck = new List<int>();
 
     public override void Setup()
     {
-        List<int> _cardsInDeck = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+        List<int> _cardsInDeck = CardsInDeck;
         cardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
         {
@@ -51,14 +52,12 @@ public class BotPlayer : GameplayPlayer
             case GameplayState.ResolvingEndOfRound:
                 hasPlayedThisRound = false;
                 break;
-            default:
-                break;
         }
     }
 
     private IEnumerator PlayCards()
     {
-        //todoo uncomment me
+        //todo uncomment me
         //int _waitRandomTime = UnityEngine.Random.Range(0, GameplayManager.Instance.DurationOfRound - 2);
         int _waitRandomTime = UnityEngine.Random.Range(10, 20);
 
@@ -69,7 +68,7 @@ public class BotPlayer : GameplayPlayer
 
         bool[] _canPlaceCard = new bool[3];
 
-        for (int i = 0; i < 3; i++)
+        for (int _i = 0; _i < 3; _i++)
         {
             //i==0 first time when going through try to place card that would change power scale in bots favor
             //i==1 try to equalise somewhere
@@ -79,37 +78,37 @@ public class BotPlayer : GameplayPlayer
             _canPlaceCard[2] = GameplayManager.Instance.Lanes[2].GetPlaceLocation(false);
 
             _canPlaceCard = _canPlaceCard.OrderBy(element => Guid.NewGuid()).ToArray();
-            for (int j = 0; j < _canPlaceCard.Length; j++)
+            for (int _j = 0; _j < _canPlaceCard.Length; _j++)
             {
-                if (!_canPlaceCard[j])
+                if (!_canPlaceCard[_j])
                 {
                     continue;
                 }
-                if (i == 0)
+                if (_i == 0)
                 {
                     foreach (var _card in cardsInHand.ToList())
                     {
-                        if (_playerPower[j] > _botPower[j] && _playerPower[j] < _botPower[j] + _card.Stats.Power)
+                        if (_playerPower[_j] > _botPower[_j] && _playerPower[_j] < _botPower[_j] + _card.Stats.Power)
                         {
-                            PlaceCard(_card, _botPower, j);
+                            PlaceCard(_card, _botPower, _j);
                         }
                     }
                 }
-                else if (i == 1)
+                else if (_i == 1)
                 {
                     foreach (var _card in cardsInHand.ToList())
                     {
-                        if (_playerPower[j] == _botPower[j])
+                        if (_playerPower[_j] == _botPower[_j])
                         {
-                            PlaceCard(_card, _botPower, j);
+                            PlaceCard(_card, _botPower, _j);
                         }
                     }
                 }
-                else if (i == 2)
+                else if (_i == 2)
                 {
                     foreach (var _card in cardsInHand.ToList())
                     {
-                        PlaceCard(_card, _botPower, j);
+                        PlaceCard(_card, _botPower, _j);
                     }
                 }
             }
@@ -127,9 +126,33 @@ public class BotPlayer : GameplayPlayer
         }
 
         LanePlaceIdentifier _place = GameplayManager.Instance.Lanes[_index].GetPlaceLocation(false);
+        LaneAbility _laneAbility = null;
+        
+        if (GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_index]))
+        {
+            _laneAbility = GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_index]];
+        }
         if (_place == null)
         {
             return;
+        }
+
+        if (_laneAbility!=null)
+        {
+            foreach (var _ability in _laneAbility.Abilities)
+            {
+                if (_ability is LaneAbilityChangePowerToQommonsHere)
+                {
+                    LaneAbilityChangePowerToQommonsHere _lowerPowerAbility =
+                        (_ability as LaneAbilityChangePowerToQommonsHere);
+                    if (_lowerPowerAbility.PowerAmount<0&& Math.Abs(_lowerPowerAbility.PowerAmount)>_card.Details.Power)
+                    {
+                        return;
+                    }
+                    
+                }
+            }
+           
         }
 
         if (_card.TryToPlace(_place))

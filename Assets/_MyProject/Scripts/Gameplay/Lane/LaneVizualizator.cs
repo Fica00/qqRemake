@@ -205,12 +205,6 @@ public class LaneVizualizator : MonoBehaviour
         Color _color = wholeLanePurple.color;
         float _animationTime=0.5f;
         DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
-            .OnUpdate(() => { wholeLanePurple.color = _color; })
-            .OnComplete(() =>
-            {
-                DOTween.To(() => _color.a, x => _color.a = x, 0, _animationTime)
-                    .OnUpdate(() => { wholeLanePurple.color = _color; })
-                    .SetDelay(2);
-            });
+            .OnUpdate(() => { wholeLanePurple.color = _color; });
     }
 }

@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97034750e12ba33498ac2d8a573c04ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerToAdd: 20
+  powerToAdd: 30
   location: 1
   colorEffect: {r: 0.7294118, g: 0.8705883, b: 0.83921576, a: 1}
 --- !u!1001 &7943796220825949538
@@ -165,6 +165,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.SpriteInHand
+      value: 
+      objectReference: {fileID: 21300000, guid: 3490f48888a604d5d9aa4d4c9f2ee47c, type: 3}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -195,7 +199,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: '<color=#C38C15>On Summon</color>: \n If this is at the middle location
-        \n +20 Power '
+        \n +30 Power '
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite

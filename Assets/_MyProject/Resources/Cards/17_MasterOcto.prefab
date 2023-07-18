@@ -51,6 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 40
   animation: {fileID: 3418756515783240439}
+  powerDisplay: {fileID: 5383642110391000899}
+  winningFont: {fileID: 11400000, guid: cc07f59a65e6c1840a0c0fd638cc61e5, type: 2}
 --- !u!1001 &1779169598681541519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,6 +216,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
   m_PrefabInstance: {fileID: 1779169598681541519}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5383642110391000899 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 1779169598681541519}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4980932903696398516
 PrefabInstance:
   m_ObjectHideFlags: 0

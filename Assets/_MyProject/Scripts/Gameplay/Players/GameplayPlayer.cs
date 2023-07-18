@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameplayPlayer : MonoBehaviour
 {
+    public static Action<CardObject> DrewCard;
     public static Action<PlaceCommand> AddedCardToTable;
     public static Action<PlaceCommand> RemovedCardFromTable;
     public static Action<CardObject> DiscardedCard;
@@ -116,7 +117,8 @@ public class GameplayPlayer : MonoBehaviour
                 cardsInDeck.Remove(_card);
             }
         }
-
+        
+        DrewCard?.Invoke(_card);
         return _card;
     }
 
@@ -166,6 +168,10 @@ public class GameplayPlayer : MonoBehaviour
             {
                 CardObject _drawnCard = DrawCard(_card, true);
                 AddCardToHand(_drawnCard);
+                if (IsMy)
+                {
+                    GameplayManager.DrewCardDirectlyToHand = true;
+                }
                 yield return new WaitForSeconds(0.3f);
             }
 

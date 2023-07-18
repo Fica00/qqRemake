@@ -8,6 +8,7 @@ public class ShowRevealedCard : MonoBehaviour
     [SerializeField] private Image qommonDisplay;
     [SerializeField] private GameObject detailsHolder;
     [SerializeField] private TextMeshProUGUI nameDisplay;
+    [SerializeField] private TextMeshProUGUI descriptionDisplay;
 
     private Vector2 startingRect;
 
@@ -34,8 +35,10 @@ public class ShowRevealedCard : MonoBehaviour
         Vector3 _rotation = new Vector3(0, 0, 0);
         _rotation.y = _cardObject.IsMy ? 180 : 0;
         nameDisplay.text = _cardObject.Details.Name;
+        descriptionDisplay.text = _cardObject.Details.Description;
         qommonDisplay.transform.eulerAngles = _rotation;
         nameDisplay.rectTransform.localScale = Vector3.zero;
+        descriptionDisplay.rectTransform.localScale = Vector3.zero;
         RectTransform _rectTransform = qommonDisplay.GetComponent<RectTransform>();
         RectTransform _cardRect = _cardObject.GetComponent<RectTransform>();
         float _animationDuration = 0.5f;
@@ -50,9 +53,11 @@ public class ShowRevealedCard : MonoBehaviour
         sequence.Append(_rectTransform.DOSizeDelta(startingRect, _animationDuration));
         sequence.Join(_rectTransform.DOLocalMove(Vector3.zero, _animationDuration));
         sequence.Join(nameDisplay.rectTransform.DOScale(Vector3.one, _animationDuration/2));
+        sequence.Join(descriptionDisplay.rectTransform.DOScale(Vector3.one, _animationDuration/2));
         sequence.Append(_rectTransform.DOSizeDelta(_rectTransform.sizeDelta, _animationDuration));
         sequence.Join(_rectTransform.DOLocalMove(_rectTransform.anchoredPosition, _animationDuration));
         sequence.Join(nameDisplay.rectTransform.DOScale(Vector3.zero, _animationDuration/2));
+        sequence.Join(descriptionDisplay.rectTransform.DOScale(Vector3.zero, _animationDuration/2));
         sequence.OnComplete(() =>
         {
             Close();

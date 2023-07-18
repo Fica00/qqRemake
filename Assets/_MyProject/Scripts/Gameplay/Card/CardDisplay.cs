@@ -95,4 +95,16 @@ public class CardDisplay : MonoBehaviour
             _callBack?.Invoke();
         }
     }
+
+    public void ShowBladesEffect()
+    {
+        StartCoroutine(BaledsRoutine());
+        
+        IEnumerator BaledsRoutine()
+        {
+            destroyEffect.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            destroyEffect.SetActive(false);
+        }
+    }
 }

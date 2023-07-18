@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CardEffectTriggerOnSummonEffectsHere : CardEffectBase
 {
+    [SerializeField] private HaloRingEffect haloRingEffect;
+    
     public override void Subscribe()
     {
         for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)
@@ -25,6 +28,7 @@ public class CardEffectTriggerOnSummonEffectsHere : CardEffectBase
             if (_card.Details.Description.ToLower().Contains("On Summon".ToLower()))
             {
                 _cardEffect.Subscribe();
+                Instantiate(haloRingEffect, _card.transform);
             }
             
         }

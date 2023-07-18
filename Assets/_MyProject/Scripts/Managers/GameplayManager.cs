@@ -20,6 +20,8 @@ public class GameplayManager : MonoBehaviour
     public static Action<LaneLocation, bool, Color, int> OnFlashAllSpotsOnLocation;
     public static Action<LaneLocation, bool, Color> OnHideHighlightWholePlace;
     public static Action<LaneLocation, bool> OnHideHighlightWholePlaceDotted;
+    public static bool DrewCardDirectlyToHand;
+    
     public GameplayPlayer MyPlayer;
     public GameplayPlayer OpponentPlayer;
     public Dictionary<LaneDisplay, LaneAbility> LaneAbilities = new Dictionary<LaneDisplay, LaneAbility>();
@@ -205,7 +207,12 @@ public class GameplayManager : MonoBehaviour
             StartCoroutine(RevealLocation());
             yield return new WaitUntil(() => locationRevealed);
             yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
-            RoundDrawCard();
+            if (!DrewCardDirectlyToHand)
+            {
+                RoundDrawCard();
+            }
+
+            DrewCardDirectlyToHand = false;
 
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);
@@ -217,7 +224,6 @@ public class GameplayManager : MonoBehaviour
         }
 
         bool _canContinue = false;
-        yield return new WaitForSeconds(2);//wait for a bit, allow user to also see the result
 
         for (int i = 0; i < Lanes.Count; i++)
         {

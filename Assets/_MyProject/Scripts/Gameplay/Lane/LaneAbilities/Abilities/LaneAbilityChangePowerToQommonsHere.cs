@@ -5,6 +5,8 @@ public class LaneAbilityChangePowerToQommonsHere : LaneAbilityBase
 {
     [SerializeField] private int powerAmount;
 
+    public int PowerAmount => powerAmount;
+
     public override void Subscribe()
     {
         TableHandler.OnRevealdCard += EffectNewCards;
