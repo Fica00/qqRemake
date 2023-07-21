@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using System;
+using System.Collections;
 
 public class PowerDisplay : MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class PowerDisplay : MonoBehaviour
     {
         if (_myPower==_opponentPower)
         {
+            _callBack?.Invoke();
             return;
         }
         TextMeshProUGUI _text = _myPower > _opponentPower ? myPower : opponentPower;
@@ -80,6 +82,21 @@ public class PowerDisplay : MonoBehaviour
                 DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 0.1f)
                     .OnUpdate(() => _text.fontSize = _currentSize).
                     OnComplete(()=> _callBack?.Invoke()).SetDelay(0.3f);
+            });
+    }
+
+    public void EnlargedPowerAnimation(bool _showMyPower)
+    {
+        TextMeshProUGUI _text = _showMyPower ? myPower : opponentPower;
+
+        float _currentSize = _text.fontSize;
+        DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize + 20, 1f)
+            .OnUpdate(() => _text.fontSize = _currentSize)
+            .OnComplete(() =>
+            {
+                LaneDisplay _location = GetComponent<LaneDisplay>();
+                int _myPower = GameplayManager.Instance.TableHandler.GetPower(true, _location.Location);
+                int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, _location.Location);
             });
     }
 }

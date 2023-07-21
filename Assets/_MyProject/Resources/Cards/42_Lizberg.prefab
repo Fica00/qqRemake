@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5edc92add11bb4f6bb9c5e12ebdda596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  haloRingEffect: {fileID: 1230852813827567896, guid: dfa84c4aa54c54d64952ed51f01871aa, type: 3}
 --- !u!1001 &7943796220825949538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: c3ef436b72dec4317b66a997297ac385, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color="green">Ongoing</color>:\nDouble your other Ongoing effects here.
+      value: <color="green">Ongoing</color>:\nDouble Ongoing effects here.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite

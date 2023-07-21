@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -57,5 +58,16 @@ public class CardOnTableDisplay : MonoBehaviour
             default:
                 throw new System.Exception("Don't know how to resolve state: " + _status);
         }
+    }
+    
+    public void EnlargedPowerAnimation()
+    {
+        float _currentSize = powerDisplay.fontSize;
+        DOTween.To(() => _currentSize, x => _currentSize = x, _currentSize + 20, 1f)
+            .OnUpdate(() => powerDisplay.fontSize = _currentSize)
+            .OnComplete(() =>
+            {
+                cardObject.Stats.Power += 0;
+            });
     }
 }

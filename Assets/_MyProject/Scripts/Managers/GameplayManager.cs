@@ -224,7 +224,6 @@ public class GameplayManager : MonoBehaviour
         }
 
         bool _canContinue = false;
-
         for (int i = 0; i < Lanes.Count; i++)
         {
             Lanes[i].ShowWinner(Continue);
@@ -232,10 +231,9 @@ public class GameplayManager : MonoBehaviour
             _canContinue = false;
         }
         yield return new WaitForSeconds(1);
-        
         GameResult _result = TableHandler.CalculateWinner();
         GameEnded?.Invoke(_result);
-
+        
         void Continue()
         {
             _canContinue = true;

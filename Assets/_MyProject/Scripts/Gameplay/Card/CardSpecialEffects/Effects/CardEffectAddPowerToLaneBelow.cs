@@ -42,5 +42,7 @@ public class CardEffectAddPowerToLaneBelow : CardEffectBase
         {
             _lane.LaneSpecifics.ChangeExtraPower(_index,amountOfPower);
         }
+        
+        _lane.ShowEnlargedPowerAnimation(cardObject.IsMy);
     }
 }

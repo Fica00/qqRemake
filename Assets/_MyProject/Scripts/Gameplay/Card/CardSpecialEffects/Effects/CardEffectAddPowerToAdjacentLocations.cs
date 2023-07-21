@@ -44,6 +44,7 @@ public class CardEffectAddPowerToAdjacentLocations : CardEffectBase
         foreach (var _location in _effectedLocations)
         {
             _location.LaneSpecifics.ChangeExtraPower(_index,_powerToAdd);
+            _location.ShowEnlargedPowerAnimation(cardObject.IsMy);
         }
     }
 }

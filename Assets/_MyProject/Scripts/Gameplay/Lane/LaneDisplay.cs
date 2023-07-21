@@ -156,4 +156,9 @@ public class LaneDisplay : MonoBehaviour
         int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, Location);
         powerDisplay.ShowWinner(_myPower,_opponentPower,_callBack);
     }
+
+    public void ShowEnlargedPowerAnimation(bool _showMyPower)
+    {
+        powerDisplay.EnlargedPowerAnimation(_showMyPower);
+    }
 }

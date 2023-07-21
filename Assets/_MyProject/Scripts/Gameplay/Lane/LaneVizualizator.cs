@@ -17,6 +17,8 @@ public class LaneVizualizator : MonoBehaviour
     [SerializeField] private Image opponentLane;
 
     [SerializeField] private Image wholeLanePurple;
+    [SerializeField] private Image wholeLaneYellow;
+    [SerializeField] private Image wholeLaneBlue;
     [SerializeField] private Image myLaneDotted;
     [SerializeField] private Image opponentLaneDotted;
 
@@ -206,5 +208,21 @@ public class LaneVizualizator : MonoBehaviour
         float _animationTime=0.5f;
         DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
             .OnUpdate(() => { wholeLanePurple.color = _color; });
+    }
+    
+    public void ShowWholeLaneYellow()
+    {
+        Color _color = wholeLaneYellow.color;
+        float _animationTime=0.5f;
+        DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
+            .OnUpdate(() => { wholeLaneYellow.color = _color; });
+    }
+    
+    public void ShowWholeLaneBlue()
+    {
+        Color _color = wholeLaneBlue.color;
+        float _animationTime=0.5f;
+        DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
+            .OnUpdate(() => { wholeLaneBlue.color = _color; });
     }
 }

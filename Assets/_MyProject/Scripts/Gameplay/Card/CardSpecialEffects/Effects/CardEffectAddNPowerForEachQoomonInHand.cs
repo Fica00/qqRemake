@@ -35,8 +35,11 @@ public class CardEffectAddNPowerForEachQoomonInHand : CardEffectBase
         }
         
         cardObject.Stats.Power = cardObject.Details.Power + _powerToAdd;
-        (GameplayManagerPVP.Instance as GameplayManagerPVP).TellOpponentToAddPowerToQommons(
-            new List<CardObject>(){cardObject},
-            _powerToAdd);
+        if (GameplayManager.IsPvpGame)
+        {
+            (GameplayManagerPVP.Instance as GameplayManagerPVP).TellOpponentToAddPowerToQommons(
+                new List<CardObject>(){cardObject},
+                _powerToAdd);
+        }
     }
 }

@@ -107,4 +107,16 @@ public class CardDisplay : MonoBehaviour
             destroyEffect.SetActive(false);
         }
     }
+
+    public void EnlargedPowerAnimation(bool _showForMyQommon)
+    {
+        if (_showForMyQommon)
+        {
+            cardOnTableMyDisplay.EnlargedPowerAnimation();
+        }
+        else
+        {
+            cardOnTableOpponentDisplay.EnlargedPowerAnimation();
+        }
+    }
 }

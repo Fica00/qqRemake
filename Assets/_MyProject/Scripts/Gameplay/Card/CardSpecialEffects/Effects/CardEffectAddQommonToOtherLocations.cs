@@ -23,7 +23,7 @@ public class CardEffectAddQommonToOtherLocations : CardEffectBase
             return;
         }
 
-        List<LaneDisplay> _choosenLanes = null;
+        List<LaneDisplay> _choosenLanes = new List<LaneDisplay>();
 
         switch (cardObject.LaneLocation)
         {

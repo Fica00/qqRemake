@@ -17,7 +17,7 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
 
         foreach (var _cardOnLane in _cardsOnLane)
         {
-            for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
+            for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
             {
                 _cardOnLane.Stats.Power += amountOfPower;
             }
@@ -36,9 +36,16 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
             return;
         }
         
+        if (_card==cardObject)
+        {
+            return;
+        }
+        
         for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
             _card.Stats.Power += amountOfPower;
         }
+        
+        _card.Display.EnlargedPowerAnimation(cardObject.IsMy);
     }
 }
