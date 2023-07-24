@@ -163,6 +163,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.SpriteInHand
+      value: 
+      objectReference: {fileID: 21300000, guid: 26b6c5718e0324afabf221d2104bc2cb, type: 3}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -180,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Name>k__BackingField
-      value: NoName2
+      value: Thunder Lion
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Power>k__BackingField
@@ -189,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: 7c9f43326f3976041bfd675188559c8c, type: 3}
+      objectReference: {fileID: 21300000, guid: 75218e9b7a1b54fca945baef6b547929, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: <color=#C38C15>On Summon</color>:\n+20 Power for each other Qoomons

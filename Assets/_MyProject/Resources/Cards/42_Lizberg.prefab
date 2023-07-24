@@ -165,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.SpriteInHand
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 9ee68cc68242749f09bfef15121c6e50, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
