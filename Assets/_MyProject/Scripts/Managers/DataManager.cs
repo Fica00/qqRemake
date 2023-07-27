@@ -6,7 +6,9 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
     public PlayerData PlayerData { get; private set; }
 
-    private void Awake()
+    public int[] locationsPicked = {-1, -1, -1};
+
+            private void Awake()
     {
         if (Instance == null)
         {
