@@ -6,9 +6,14 @@ using UnityEngine;
 
 public class BotPlayer : GameplayPlayer
 {
+
+    [SerializeField] private float waitTimeBeforeMove = 0;
+    
     private Coroutine playCoroutine;
     private bool hasPlayedThisRound;
     public static List<int> CardsInDeck = new List<int>();
+    
+    
 
     public override void Setup()
     {
@@ -59,9 +64,9 @@ public class BotPlayer : GameplayPlayer
     {
         //todo uncomment me
         //int _waitRandomTime = UnityEngine.Random.Range(0, GameplayManager.Instance.DurationOfRound - 2);
-        int _waitRandomTime = UnityEngine.Random.Range(10, 20);
+       // int _waitRandomTime = UnityEngine.Random.Range(10, 20);
 
-        yield return new WaitForSeconds(_waitRandomTime);
+        yield return new WaitForSeconds(waitTimeBeforeMove);
 
         int[] _playerPower = GameplayManager.Instance.TableHandler.GetAllPower(true).ToArray();
         int[] _botPower = GameplayManager.Instance.TableHandler.GetAllPower(false).ToArray();
