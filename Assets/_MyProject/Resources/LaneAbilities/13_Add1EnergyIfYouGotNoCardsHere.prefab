@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Description>k__BackingField
-      value: If you have no Qommons here, +1 Mana each turn.
+      value: If you have no Qoomon here, +1 Mana each turn.
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Abilities>k__BackingField.Array.size

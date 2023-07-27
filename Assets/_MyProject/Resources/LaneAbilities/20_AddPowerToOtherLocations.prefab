@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Description>k__BackingField
-      value: Your Power here is granted to other Locations as well.
+      value: Your Power here is granted to other lanes as well.
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Abilities>k__BackingField.Array.size
