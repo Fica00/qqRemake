@@ -26,6 +26,7 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
     {
         if (round == GameplayManager.Instance.CurrentRound)
         {
+            laneDisplay.AbilityShowAsActive();
             PlacePlayersCard(GameplayManager.Instance.MyPlayer);
             if (!GameplayManager.IsPvpGame)
             {
@@ -34,6 +35,7 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
         }
         else if (round<GameplayManager.Instance.CurrentRound)
         {
+            laneDisplay.AbilityShowAsInactive();
             isSubscribed = false;
             GameplayManager.UpdatedRound -= CheckRound;
         }

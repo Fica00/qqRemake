@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
+public class CardEffectAddNPowerToYourQommonsTable : CardEffectBase
 {
     [SerializeField] private int amountOfPower;
-    [SerializeField] private int cost;
     
     public override void Subscribe()
     {
@@ -20,12 +19,7 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
 
         foreach (var _cardOnLane in _cardsOnTable)
         {
-            if (_cardOnLane.Stats.Energy!=cost)
-            {
-                continue;
-            }
-            
-            for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
+            for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
             {
                 _cardOnLane.Stats.Power += amountOfPower;
             }
@@ -40,11 +34,6 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
             return;
         }
 
-        if (_card.Stats.Energy!=cost)
-        {
-            return;
-        }
-        
         if (_card==cardObject)
         {
             return;
@@ -53,7 +42,8 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
         for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
             _card.Stats.Power += amountOfPower;
-            _card.Display.EnlargedPowerAnimation(cardObject.IsMy);
         }
+        
+        _card.Display.EnlargedPowerAnimation(_card.IsMy);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
@@ -17,12 +18,16 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
 
     private void CountCards(CardObject _card)
     {
+        if (!_card.IsMy)
+        {
+            return;
+        }
         CountCards();
     }
     
     void CountCards()
     {
-        List<CardObject> _cardsOnLane = GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, cardObject.LaneLocation);
+        List<CardObject> _cardsOnLane = GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, cardObject.LaneLocation).ToList();
 
         if (_cardsOnLane.Contains(cardObject))
         {
@@ -55,5 +60,4 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
 
         cardObject.Stats.Power += amountOfAppliedPower;
     }
-
 }

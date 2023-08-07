@@ -30,6 +30,7 @@ public class CardObject : MonoBehaviour
             Power = Details.Power,
             Energy = Details.Mana
         };
+        Stats.Setup();
         IsMy = _isMy;
         if (IsMy)
         {
@@ -191,6 +192,11 @@ public class CardObject : MonoBehaviour
     public IEnumerator RevealCard()
     {
         yield return StartCoroutine(Reveal.Reveal());
+        Subscribe();
+    }
+
+    public void Subscribe()
+    {
         foreach (var _specialEffect in SpecialEffects)
         {
             if (_specialEffect != null)

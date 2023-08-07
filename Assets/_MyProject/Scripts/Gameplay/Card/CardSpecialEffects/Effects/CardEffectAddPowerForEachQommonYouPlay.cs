@@ -11,8 +11,8 @@ public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
 
    private void CheckCard(CardObject _card)
    {
-      LanePlaceIdentifier _placeIdentifier = cardObject.GetComponentInParent<LanePlaceIdentifier>();
-      if (_card.LaneLocation!=cardObject.LaneLocation)
+      LanePlaceIdentifier _placeIdentifier = _card.GetComponentInParent<LanePlaceIdentifier>();
+      if (_card.IsMy!=cardObject.IsMy)
       {
          return;
       }
@@ -22,14 +22,7 @@ public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
          return;
       }
 
-      for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
-      {
-         _card.Stats.Power += powerToAdd;
-      }
-
-      if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects>0)
-      {
-         GameplayManager.Instance.FlashLocation(_placeIdentifier.Id,Color.white, 3);
-      }
+      cardObject.Stats.Power += powerToAdd;
+      GameplayManager.Instance.FlashLocation(_placeIdentifier.Id,Color.white, 3);
    }
 }

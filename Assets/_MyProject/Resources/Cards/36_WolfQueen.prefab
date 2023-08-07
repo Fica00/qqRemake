@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 706304526152f485a8a8bca1b1c01d23, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color="green">Ongoing</color>:\nYour 1-Cost Qoomons have +10 Power.
+      value: <color="green">Ongoing</color>:\nYour 1-Mana Qoomons have +10 Power.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite

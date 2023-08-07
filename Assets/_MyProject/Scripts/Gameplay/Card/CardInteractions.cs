@@ -48,14 +48,14 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         HandlePointerUp(_eventData);
     }
 
-    protected virtual void HandlePointerUp(PointerEventData eventData)
+    private void HandlePointerUp(PointerEventData eventData)
     {
         if (cardObject.CardLocation == CardLocation.Table)
         {
             if (isDragging && canChangePlace)
             {
                 GameplayManager.Instance.MyPlayer.CancelCommand(cardObject);
-                EndDrag();
+                HandleDragEnded(eventData);
             }
             else
             {

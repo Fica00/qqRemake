@@ -38,7 +38,9 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnFlashPlace -= FlashSpot;
         GameplayManager.OnFlashWholePlace -= FlashWholePlace;
         GameplayManager.OnHighlihtWholePlace -= HighlihtWholePlace;
+        GameplayManager.OnHighlihtWholePlaceDotted -= HighlihtWholePlaceDotted;
         GameplayManager.OnHideHighlightWholePlace -= HideHighlihtWholePlace;
+        GameplayManager.OnHideHighlightWholePlaceDotted -= HideHighlihtWholePlaceDotted;
         GameplayManager.OnFlashAllSpotsOnLocation -= FlashAllSpotsOnLocation;
     }
 

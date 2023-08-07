@@ -62,12 +62,18 @@ public class CardOnTableDisplay : MonoBehaviour
     
     public void EnlargedPowerAnimation()
     {
+        
         float _currentSize = powerDisplay.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, _currentSize + 20, 1f)
-            .OnUpdate(() => powerDisplay.fontSize = _currentSize)
+        float _startSize = _currentSize;
+        DOTween.To(() => _currentSize, x => _currentSize = x, _currentSize + 25, 1f)
+            .OnUpdate(() =>
+            {
+                powerDisplay.fontSize = _currentSize;
+            })
             .OnComplete(() =>
             {
                 cardObject.Stats.Power += 0;
+                powerDisplay.fontSize = _startSize;
             });
     }
 }

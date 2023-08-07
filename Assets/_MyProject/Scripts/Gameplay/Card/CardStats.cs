@@ -10,6 +10,14 @@ public class CardStats
     //if bool is false means that the power decreased,if it is true, power increased
     public Action<ChangeStatus> UpdatedPower;
     public Action<ChangeStatus> UpdatedMana;
+    private int startingPower;
+    private int startingMana;
+    
+    public void Setup()
+    {
+        startingPower = power;
+        startingMana = mana;
+    }
 
     public int Power
     {
@@ -19,14 +27,13 @@ public class CardStats
         }
         set
         {
-            int _oldPower = power;
             power = value;
 
-            if (power == _oldPower)
+            if (power == startingPower)
             {
                 UpdatedPower?.Invoke(ChangeStatus.Same);
             }
-            else if (power > _oldPower)
+            else if (power > startingPower)
             {
                 UpdatedPower?.Invoke(ChangeStatus.Increased);
             }
@@ -45,14 +52,13 @@ public class CardStats
         }
         set
         {
-            int _oldMana = mana;
             mana = value;
 
-            if (mana == _oldMana)
+            if (mana == startingMana)
             {
                 UpdatedMana?.Invoke(ChangeStatus.Same);
             }
-            else if (mana > _oldMana)
+            else if (mana > startingMana)
             {
                 UpdatedMana?.Invoke(ChangeStatus.Increased);
             }

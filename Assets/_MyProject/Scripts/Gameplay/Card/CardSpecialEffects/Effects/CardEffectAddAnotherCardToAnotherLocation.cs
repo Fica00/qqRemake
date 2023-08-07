@@ -19,7 +19,7 @@ public class CardEffectAddAnotherCardToAnotherLocation : CardEffectBase
             return;
         }
         
-        CardObject _copyOfCard = CardsManager.Instance.CreateCard(qommonId, true);
+        CardObject _copyOfCard = CardsManager.Instance.CreateCard(qommonId, cardObject.IsMy);
         LaneDisplay _choosendLane = null;
         int[] _randomIndexses = new[] { 0, 1, 2 };
         _randomIndexses = _randomIndexses.OrderBy(_element => System.Guid.NewGuid()).ToArray();

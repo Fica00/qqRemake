@@ -275,8 +275,6 @@ public class GameplayManager : MonoBehaviour
 
     protected IEnumerator RevealLocation(int _abilityID)
     {
-
-        _abilityID = CheckAndUpdateAbility(_abilityID, currentRound - 1);
         bool _canContinue = false;
         LaneAbility _laneAbility = LaneAbilityManager.Instance.GetLaneAbility(_abilityID);
         LaneAbilities.Add(Lanes[currentRound - 1], _laneAbility);
@@ -296,13 +294,6 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    private int CheckAndUpdateAbility(int ability, int location)
-    {
-        if (DataManager.Instance.locationsPicked[location] == -1)   return ability;//-1 is random value so it stays the same
-        return DataManager.Instance.locationsPicked[location];//picked location
-        //TODO add option to play without location ability
-    }
-    
     protected IEnumerator CheckForCardsThatShouldMoveToHand(GameplayPlayer _player)
     {
         bool _finished = false;
@@ -326,8 +317,7 @@ public class GameplayManager : MonoBehaviour
             
             AddCommands(CommandsHandler.MyCommands,true);
             AddCommands(CommandsHandler.OpponentCommands,false);
-           
-            
+
             yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.MyCommands : CommandsHandler.OpponentCommands)); //show first set of cards
             yield return StartCoroutine(TableHandler.RevealCards(_whoPlaysFirst == -1 ? CommandsHandler.OpponentCommands : CommandsHandler.MyCommands)); // show secound set of cards
 

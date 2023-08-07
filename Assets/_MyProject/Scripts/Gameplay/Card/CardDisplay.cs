@@ -110,13 +110,19 @@ public class CardDisplay : MonoBehaviour
 
     public void EnlargedPowerAnimation(bool _showForMyQommon)
     {
-        if (_showForMyQommon)
+        StartCoroutine(ShowAnimation());
+        
+        IEnumerator ShowAnimation()
         {
-            cardOnTableMyDisplay.EnlargedPowerAnimation();
-        }
-        else
-        {
-            cardOnTableOpponentDisplay.EnlargedPowerAnimation();
+            yield return new WaitForSeconds(0.1f);
+            if (_showForMyQommon)
+            {
+                cardOnTableMyDisplay.EnlargedPowerAnimation();
+            }
+            else
+            {
+                cardOnTableOpponentDisplay.EnlargedPowerAnimation();
+            }
         }
     }
 }

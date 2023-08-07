@@ -99,7 +99,16 @@ public class TableHandler : MonoBehaviour
         foreach (var _command in _commands.ToList())
         {
             yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
-            yield return StartCoroutine(_command.Card.RevealCard());
+            if (SkipRevealAnimation(_command.Card))
+            {
+                _command.Card.Reveal.PreReveal();
+                _command.Card.Reveal.Finish();
+                _command.Card.Subscribe();
+            }
+            else
+            {
+                yield return StartCoroutine(_command.Card.RevealCard());
+            }
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
             {
@@ -113,10 +122,31 @@ public class TableHandler : MonoBehaviour
                     _cardsOnLane = _command.IsMyPlayer ? myCardsOnTable[2] : opponentCardsOnTable[2];
                     break;
             }
+            
             AddCardOnLane(_command.Card, _cardsOnLane);
             OnRevealdCard?.Invoke(_command.Card);
             _commands.Remove(_command);
         }
+    }
+
+    private bool SkipRevealAnimation(CardObject _card)
+    {
+        int _laneIndex = (int)_card.LaneLocation;
+        var _laneAbility = GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex])?
+            GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]]:
+            null;
+        if (_laneAbility!=null)
+        {
+            foreach (var _laneEffect in _laneAbility.Abilities)
+            {
+                if (_laneEffect is LaneAbilityDisableOnRevealEffects)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void AddCardOnLane(CardObject _card, List<CardObject> _cardsOnLane)
@@ -177,12 +207,18 @@ public class TableHandler : MonoBehaviour
                     {
                         if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
                         {
-                            int _geishasPower =_power;
-                            for (int j = 1; j < GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                            int _geishasPower =0;
+                            for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
                             {
+                                if (j==0)
+                                {
+                                    _geishasPower = _power;
+                                    continue;
+                                }
                                 _geishasPower *= 2;
                             }
-                            _power += _geishasPower;
+                            
+                            _power = _geishasPower;
                         }
                     }
                 }

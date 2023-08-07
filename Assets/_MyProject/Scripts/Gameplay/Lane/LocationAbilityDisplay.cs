@@ -67,7 +67,7 @@ public class LocationAbilityDisplay : MonoBehaviour
         Color _color = shiningDesc.color;
         float _duration = 1;
         descFlashing.Append(DOTween.To(() => _color.a, x => _color.a = x, 1, _duration).OnUpdate(() => { shiningDesc.color = _color; }));
-        descFlashing.Append(DOTween.To(() => _color.a, x => _color.a = x, 0, _duration).OnUpdate(() => { shiningDesc.color = _color; }));
+        descFlashing.Append(DOTween.To(() => _color.a, x => _color.a = x, 0, _duration).OnUpdate(() => { shiningDesc.color = _color;}));
         descFlashing.SetLoops(-1);
         descFlashing.Play();
     }
@@ -83,6 +83,7 @@ public class LocationAbilityDisplay : MonoBehaviour
         descFlashing = null;
         Color _color = shiningDesc.color;
         _color.a = 0;
+        abilityDesc.color=Color.grey;
         shiningDesc.color = _color;
     }
 

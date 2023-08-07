@@ -42,7 +42,9 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
                 {
                     continue;
                 }
-                var _laneAbility = GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]];
+                var _laneAbility = GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex])?
+                    GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]]:
+                    null;
                 if (_laneAbility!=null)
                 {
                     foreach (var _laneEffect in _laneAbility.Abilities)

@@ -21,6 +21,7 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
             {
                 _cardOnLane.Stats.Power += amountOfPower;
             }
+            _cardOnLane.Display.EnlargedPowerAnimation(_cardOnLane.IsMy);
         }
     }
 
@@ -35,7 +36,7 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
         {
             return;
         }
-        
+
         if (_card==cardObject)
         {
             return;
@@ -46,6 +47,6 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
             _card.Stats.Power += amountOfPower;
         }
         
-        _card.Display.EnlargedPowerAnimation(cardObject.IsMy);
+        _card.Display.EnlargedPowerAnimation(_card.IsMy);
     }
 }

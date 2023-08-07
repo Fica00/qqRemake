@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -35,7 +36,7 @@ public class ShowRevealedCard : MonoBehaviour
         Vector3 _rotation = new Vector3(0, 0, 0);
         _rotation.y = _cardObject.IsMy ? 180 : 0;
         nameDisplay.text = _cardObject.Details.Name;
-        descriptionDisplay.text = _cardObject.Details.Description;
+        descriptionDisplay.text = _cardObject.Details.Description.Replace("\\n","\n");
         qommonDisplay.transform.eulerAngles = _rotation;
         nameDisplay.rectTransform.localScale = Vector3.zero;
         descriptionDisplay.rectTransform.localScale = Vector3.zero;

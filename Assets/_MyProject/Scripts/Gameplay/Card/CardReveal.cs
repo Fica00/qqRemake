@@ -27,15 +27,25 @@ public class CardReveal : MonoBehaviour
         shadowObject.SetActive(false);
     }
 
-    public IEnumerator Reveal()
+    public void PreReveal()
     {
         cardObject.CanChangePlace = false;
         CancelReveal();
+    }
+
+    public IEnumerator Reveal()
+    {
+        PreReveal();
         revealObject.SetActive(true);
         yield return new WaitForSeconds(1f);//duration of reveal animation
         revealObject.SetActive(false);
-        cardObject.Display.ShowCardOnTable();
+        Finish();
         ShowRevealCard?.Invoke(cardObject);
         yield return new WaitForSeconds(2.5f);//duration of showing reveal card
+    }
+
+    public void Finish()
+    {
+        cardObject.Display.ShowCardOnTable();
     }
 }

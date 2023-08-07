@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class LaneAbilityDrawXQommons : LaneAbilityBase
 {
     [SerializeField] private int amountOfCardsToDraw;
     private bool shouldHide;
+    
     public override void Subscribe()
     {
         for (int i = 0; i < amountOfCardsToDraw; i++)
@@ -17,7 +16,10 @@ public class LaneAbilityDrawXQommons : LaneAbilityBase
 
     private void OnDisable()
     {
-        GameplayManager.UpdatedRound -= CheckRound;
+        if (!shouldHide)
+        {
+            GameplayManager.UpdatedRound -= CheckRound;
+        }
     }
 
     void CheckRound()
@@ -26,7 +28,11 @@ public class LaneAbilityDrawXQommons : LaneAbilityBase
         {
             laneDisplay.AbilityShowAsActive();
         }
-
-        shouldHide = true;
+        else
+        {
+            shouldHide = false;
+            GameplayManager.UpdatedRound -= CheckRound;
+            laneDisplay.AbilityShowAsInactive();
+        }
     }
 }
