@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class DataManager : MonoBehaviour
 
     public int[] locationsPicked = {-1, -1, -1};
 
-            private void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -20,10 +21,18 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void Init(Action _callback)
+    public void CreatePlayerDataEmpty()
     {
         PlayerData = new PlayerData();
-        PlayerData.Init();
-        _callback?.Invoke();
+    }
+
+    public void SetGameData(string _data)
+    {
+        
+    }
+
+    public void SetPlayerData(string _data)
+    {
+        PlayerData = JsonConvert.DeserializeObject<PlayerData>(_data);
     }
 }

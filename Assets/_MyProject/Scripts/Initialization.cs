@@ -16,9 +16,9 @@ public class Initialization : MonoBehaviour
     private void InitDataManager()
     {
         PhotonManager.OnFinishedInit -= InitDataManager;
-        DataManager.Instance.Init(FinishInit);
+        AuthHandler.Instance.Authenticate(FinishInit);
     }
-
+    
     private void FinishInit()
     {
         SceneManager.LoadMainMenu();

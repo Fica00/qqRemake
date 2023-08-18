@@ -1,11 +1,30 @@
+using System;
 using System.Collections.Generic;
 
 public class PlayerData
 {
-    public List<int> CardIdsInDeck;
+    private string name;
+    private List<int> cardsInDeck;
 
-    public void Init()
+    public Action UpdatedName;
+
+    public PlayerData()
     {
-        CardIdsInDeck = new List<int>() { 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+        name = "Player" + UnityEngine.Random.Range(0, 10000);
+    }
+    public string Name
+    {
+        get => name;
+        set
+        {
+            name = value;
+            UpdatedName?.Invoke();
+        }
+    }
+
+    public List<int> CardIdsInDeck
+    {
+        get => cardsInDeck;
+        set => cardsInDeck=value;
     }
 }
