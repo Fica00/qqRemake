@@ -66,15 +66,18 @@ public class AuthHandler : MonoBehaviour
     public void LoginWithFacebook(Action<bool> _callBack)
     {
         currentAuthMethod = AuthMethod.Facebook;
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
-        _callBack?.Invoke(false);
+        JavaScriptManager.Instance.FacebookAuth();
     }
 
     public void LoginWithGoogle(Action<bool> _callBack)
     {
         currentAuthMethod = AuthMethod.Google;
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
-        _callBack?.Invoke(false);
+        JavaScriptManager.Instance.GoogleAuth();
+    }
+
+    public void AuthWithGoogle(string _id)
+    {
+        FirebaseManager.Instance.SignInWithGoogle(_id);
     }
 
     public void LoginWithEmail(string _email, string _password, Action<bool> _callBack)

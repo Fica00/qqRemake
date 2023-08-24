@@ -44,8 +44,7 @@ public class FirebaseManager : MonoBehaviour
                 userIdToken = _signInResponse.IdToken;
                 userLocalId = _signInResponse.LocalId;
                 CollectGameData(_callBack);
-            }, (_result) => 
-            { Register(_callBack, _loginParms); }, false));
+            }, (_result) => { Register(_callBack, _loginParms); }, false));
     }
 
     private void Register(Action<bool> _callBack, string _parms)
@@ -99,6 +98,32 @@ public class FirebaseManager : MonoBehaviour
             DataManager.Instance.SetPlayerData(_result);
             _callBack?.Invoke(true);
         }, (_result) => { _callBack?.Invoke(false); }));
+    }
+
+    public void SignInWithGoogle(string _googleIdToken)
+    {
+        StartCoroutine(SignInCoroutine(_googleIdToken));
+    }
+
+    private IEnumerator SignInCoroutine(string _googleIdToken)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("postBody", "id_token=" + _googleIdToken + "&providerId=google.com");
+        form.AddField("requestUri", "http://localhost");
+        form.AddField("returnIdpCredential", "true");
+        form.AddField("returnSecureToken", "true");
+
+        UnityWebRequest www = UnityWebRequest.Post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key="+WEB_API_KEY, form);
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Error: " + www.error);
+        }
+        else
+        {
+            Debug.Log("Received: " + www.downloadHandler.text);
+        }
     }
 
 
