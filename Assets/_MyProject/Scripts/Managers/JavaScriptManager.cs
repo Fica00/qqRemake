@@ -34,8 +34,14 @@ public class JavaScriptManager : MonoBehaviour
         AuthWithFacebook();
     }
 
-    public void AuthWithGoogle(string _id)
+    public void AuthWithGoogle(string _data)
     {
-        AuthHandler.Instance.AuthWithGoogle(_id);
+        Debug.Log($"Received answer for Google auth from JS side: "+_data);
+        //AuthHandler.Instance.AuthWithGoogle(_id);
+    }
+
+    public void AuthWithFacebook(string _data)
+    {
+        Debug.Log($"Received answer for Facebook auth from JS side: "+_data);
     }
 }
