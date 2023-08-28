@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class JavaScriptManager : MonoBehaviour
@@ -36,8 +37,9 @@ public class JavaScriptManager : MonoBehaviour
 
     public void AuthWithGoogle(string _data)
     {
-        Debug.Log($"Received answer for Google auth from JS side: "+_data);
-        //AuthHandler.Instance.AuthWithGoogle(_id);
+        GoogleAuthResponse _response = JsonConvert.DeserializeObject<GoogleAuthResponse>(_data);
+        Debug.Log("Got token: "+_data);
+        AuthHandler.Instance.AuthWithGoogle(_response.Token);
     }
 
     public void AuthWithFacebook(string _data)

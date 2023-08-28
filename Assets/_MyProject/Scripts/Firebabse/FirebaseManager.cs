@@ -100,33 +100,19 @@ public class FirebaseManager : MonoBehaviour
         }, (_result) => { _callBack?.Invoke(false); }));
     }
 
-    public void SignInWithGoogle(string _googleIdToken)
+    public void SignInWithGoogle(string _firebaseId, Action<bool> _callBack)
     {
-        StartCoroutine(SignInCoroutine(_googleIdToken));
+        userLocalId = _firebaseId;
+        userIdToken = string.Empty; //todo if something isn't working add me
+        CollectGameData(_callBack);
     }
 
-    private IEnumerator SignInCoroutine(string _googleIdToken)
+    public void SignInWithFacebook(string _firebaseId, Action<bool> _callBack)
     {
-        WWWForm form = new WWWForm();
-        form.AddField("postBody", "id_token=" + _googleIdToken + "&providerId=google.com");
-        form.AddField("requestUri", "http://localhost");
-        form.AddField("returnIdpCredential", "true");
-        form.AddField("returnSecureToken", "true");
-
-        UnityWebRequest www = UnityWebRequest.Post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key="+WEB_API_KEY, form);
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.LogError("Error: " + www.error);
-        }
-        else
-        {
-            Debug.Log("Received: " + www.downloadHandler.text);
-        }
+        userLocalId = _firebaseId;
+        userIdToken = string.Empty; //todo if something isn't working add me
+        CollectGameData(_callBack);
     }
-
-
 
     private IEnumerator Get(string uri, Action<string> onSuccess, Action<string> onError)
     {

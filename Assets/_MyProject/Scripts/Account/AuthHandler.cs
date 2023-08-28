@@ -10,6 +10,7 @@ public class AuthHandler : MonoBehaviour
     [SerializeField] private RegisterHandler registerHandler;
 
     private Action callBack;
+    private Action<bool> callBackForOAUTh;
     private AuthMethod currentAuthMethod;
     private string currentAuthParms;
 
@@ -65,19 +66,32 @@ public class AuthHandler : MonoBehaviour
 
     public void LoginWithFacebook(Action<bool> _callBack)
     {
+        callBackForOAUTh = _callBack;
         currentAuthMethod = AuthMethod.Facebook;
         JavaScriptManager.Instance.FacebookAuth();
     }
 
     public void LoginWithGoogle(Action<bool> _callBack)
     {
+        callBackForOAUTh = _callBack;
         currentAuthMethod = AuthMethod.Google;
         JavaScriptManager.Instance.GoogleAuth();
     }
 
     public void AuthWithGoogle(string _id)
     {
-        FirebaseManager.Instance.SignInWithGoogle(_id);
+        FirebaseManager.Instance.SignInWithGoogle(_id, (_status) =>
+        {
+            HandleLoginResult(_status,callBackForOAUTh);
+        });
+    }
+
+    public void AuthWithFacebook(string _id)
+    {
+        FirebaseManager.Instance.SignInWithFacebook(_id, (_status) =>
+        {
+            HandleLoginResult(_status,callBackForOAUTh);
+        });
     }
 
     public void LoginWithEmail(string _email, string _password, Action<bool> _callBack)
@@ -93,18 +107,13 @@ public class AuthHandler : MonoBehaviour
 
     public void HandleLoginResult(bool _status, Action<bool> _callBack)
     {
-        Debug.Log(_status);
-        Debug.Log(1);
         if (!_status)
         {
-            Debug.Log(2);
             _callBack?.Invoke(false);
             return;
         }
-        Debug.Log(3);
         PlayerPrefs.SetInt(AUTH_METHOD, (int)currentAuthMethod);
         PlayerPrefs.SetString(AUTH_PARMS, currentAuthParms);
-        Debug.Log(4);
         callBack?.Invoke();
     }
 }
