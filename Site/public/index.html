@@ -25,9 +25,13 @@
     <script>
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
+      const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
       function GoogleAuth(){
         firebase.auth().signInWithRedirect(googleProvider);
+      }
+      function FacebookAuth(){
+        firebase.auth().signInWithRedirect(facebookProvider);
       }
       firebase.auth()
       .getRedirectResult()
@@ -37,7 +41,8 @@
           
           // This gives you a Google Access Token. You can use it to access the Google API.
           var token = credential.accessToken;
-          unity.SendMessage('JavaScriptManager', 'AuthWithGoogle', JSON.stringify({token}) );
+          console.log(result, 'result of auth')
+          unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
       }
       // The signed-in user info.
       var user = result.user;
