@@ -3,24 +3,21 @@ using UnityEngine;
 
 public class AuthHandler : MonoBehaviour
 {
-    private const string AUTH_METHOD = "AuthMethod";
-    private const string AUTH_PARMS = "AuthParms";
+    public const string AUTH_METHOD = "AuthMethod";
+    public const string AUTH_PARMS = "AuthParms";
     public static AuthHandler Instance;
 
     [SerializeField] private RegisterHandler registerHandler;
 
-    private Action callBack;
-    private AuthMethod currentAuthMethod;
-    private string currentAuthParms;
+    private Action<bool> callBackForOAUTh;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void Authenticate(Action _callBack)
+    public void Authenticate()
     {
-        callBack = _callBack;
         int _authMethod = PlayerPrefs.GetInt(AUTH_METHOD, -1);
         if (_authMethod==-1)
         {
@@ -28,6 +25,7 @@ public class AuthHandler : MonoBehaviour
         }
         else if (_authMethod == (int) AuthMethod.Email)
         {
+            Debug.Log("detected auth login");
             string _authParms = PlayerPrefs.GetString(AUTH_PARMS);
             string _email = String.Empty;
             string _password = String.Empty;
@@ -61,29 +59,54 @@ public class AuthHandler : MonoBehaviour
                 PlayerPrefs.DeleteAll();
             });
         }
+        else if (_authMethod == (int)AuthMethod.Google)
+        {
+            registerHandler.Setup();
+            PlayerPrefs.DeleteAll();
+        }
+        else if (_authMethod == (int) AuthMethod.Facebook)
+        {
+            registerHandler.Setup();
+            PlayerPrefs.DeleteAll();
+        }
     }
 
     public void LoginWithFacebook(Action<bool> _callBack)
     {
-        currentAuthMethod = AuthMethod.Facebook;
+        callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.FacebookAuth();
     }
 
     public void LoginWithGoogle(Action<bool> _callBack)
     {
-        currentAuthMethod = AuthMethod.Google;
+        callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.GoogleAuth();
     }
 
     public void AuthWithGoogle(string _id)
     {
-        FirebaseManager.Instance.SignInWithGoogle(_id);
+        FirebaseManager.Instance.SignInWithGoogle(_id, (_status) =>
+        {
+            HandleLoginResult(_status,callBackForOAUTh);
+        });
+    }
+
+    public void AuthWithFacebook(string _id)
+    {
+        FirebaseManager.Instance.SignInWithFacebook(_id, (_status) =>
+        {
+            HandleLoginResult(_status,callBackForOAUTh);
+            if (_status)
+            {
+                
+            }
+        });
     }
 
     public void LoginWithEmail(string _email, string _password, Action<bool> _callBack)
     {
-        currentAuthMethod = AuthMethod.Email;
-        currentAuthParms = _email+","+_password;
+        PlayerPrefs.SetInt(AUTH_METHOD, (int)AuthMethod.Email);
+        PlayerPrefs.SetString(AUTH_PARMS, _email+","+_password);
         FirebaseManager.Instance.TryLoginAndGetData(_email, _password, (_status) =>
         {
             HandleLoginResult(_status,_callBack);
@@ -93,18 +116,14 @@ public class AuthHandler : MonoBehaviour
 
     public void HandleLoginResult(bool _status, Action<bool> _callBack)
     {
-        Debug.Log(_status);
-        Debug.Log(1);
         if (!_status)
         {
-            Debug.Log(2);
+            Debug.Log("Failed to login????");
             _callBack?.Invoke(false);
             return;
         }
-        Debug.Log(3);
-        PlayerPrefs.SetInt(AUTH_METHOD, (int)currentAuthMethod);
-        PlayerPrefs.SetString(AUTH_PARMS, currentAuthParms);
-        Debug.Log(4);
-        callBack?.Invoke();
+        
+        Debug.Log("Finished login");
+        Initialization.Instance.CheckForStartingData();
     }
 }
