@@ -37,13 +37,17 @@ public class JavaScriptManager : MonoBehaviour
 
     public void AuthWithGoogle(string _data)
     {
-        GoogleAuthResponse _response = JsonConvert.DeserializeObject<GoogleAuthResponse>(_data);
+        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD, (int)AuthMethod.Google);
+        FirebaseAuthResponse _response = JsonConvert.DeserializeObject<FirebaseAuthResponse>(_data);
         Debug.Log("Got token: "+_data);
-        AuthHandler.Instance.AuthWithGoogle(_response.Token);
+        AuthHandler.Instance.AuthWithGoogle(_response.Id);
     }
 
     public void AuthWithFacebook(string _data)
     {
-        Debug.Log($"Received answer for Facebook auth from JS side: "+_data);
+        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD, (int)AuthMethod.Facebook);
+        FirebaseAuthResponse _response = JsonConvert.DeserializeObject<FirebaseAuthResponse>(_data);
+        Debug.Log("Got token: "+_data);
+        AuthHandler.Instance.AuthWithFacebook(_response.Id);
     }
 }

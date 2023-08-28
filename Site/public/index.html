@@ -38,6 +38,8 @@
       .then((result) => {
         if (result.credential) {
           var credential = result.credential;
+		
+	  console.log(result.user);
           
           // This gives you a Google Access Token. You can use it to access the Google API.
           var token = credential.accessToken;

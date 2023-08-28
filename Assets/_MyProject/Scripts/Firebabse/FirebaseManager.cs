@@ -55,8 +55,6 @@ public class FirebaseManager : MonoBehaviour
                 RegisterResponse _registerResult = JsonConvert.DeserializeObject<RegisterResponse>(_result);
                 userIdToken = _registerResult.IdToken;
                 userLocalId = _registerResult.LocalId;
-                DataManager.Instance.CreatePlayerDataEmpty();
-                SetStartingData(_callBack);
             }, (_result) =>
             {
                 Debug.Log("Register failed");
@@ -64,14 +62,15 @@ public class FirebaseManager : MonoBehaviour
             }));
     }
 
-    private void SetStartingData(Action<bool> _callBack)
+    public void SetStartingData(Action<bool> _callBack)
     {
         Debug.Log("Entering starting data");
+        DataManager.Instance.CreatePlayerDataEmpty();
         string _data = JsonConvert.SerializeObject(DataManager.Instance.PlayerData);
         StartCoroutine(Put(userDataLink + "/.json", _data, (_result) =>
             {
                 Debug.Log("Entered starting data sucess");
-                CollectGameData(_callBack);
+                _callBack?.Invoke(true);
             },
             (_result) =>
             {
@@ -86,16 +85,17 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(Get(gameDataLink + ".json", (_result) =>
         {
             DataManager.Instance.SetGameData(_result);
+            Debug.Log(JsonConvert.SerializeObject(_result));
             CollectPlayerData(_callBack);
         }, (_result) => { _callBack?.Invoke(false); }));
     }
 
     private void CollectPlayerData(Action<bool> _callBack)
     {
-        Debug.Log("Setting player data");
         StartCoroutine(Get(userDataLink + "/.json", (_result) =>
         {
             DataManager.Instance.SetPlayerData(_result);
+            Debug.Log(JsonConvert.SerializeObject(_result));
             _callBack?.Invoke(true);
         }, (_result) => { _callBack?.Invoke(false); }));
     }
@@ -104,6 +104,7 @@ public class FirebaseManager : MonoBehaviour
     {
         userLocalId = _firebaseId;
         userIdToken = string.Empty; //todo if something isn't working add me
+        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD,(int) AuthMethod.Google);
         CollectGameData(_callBack);
     }
 
@@ -111,6 +112,7 @@ public class FirebaseManager : MonoBehaviour
     {
         userLocalId = _firebaseId;
         userIdToken = string.Empty; //todo if something isn't working add me
+        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD,(int) AuthMethod.Facebook);
         CollectGameData(_callBack);
     }
 
