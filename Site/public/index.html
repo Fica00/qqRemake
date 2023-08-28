@@ -41,7 +41,6 @@
           
           // This gives you a Google Access Token. You can use it to access the Google API.
           var token = credential.accessToken;
-          console.log(result, 'result of auth')
           unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
       }
       // The signed-in user info.
