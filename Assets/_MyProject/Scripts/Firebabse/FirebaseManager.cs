@@ -55,6 +55,7 @@ public class FirebaseManager : MonoBehaviour
                 RegisterResponse _registerResult = JsonConvert.DeserializeObject<RegisterResponse>(_result);
                 userIdToken = _registerResult.IdToken;
                 userLocalId = _registerResult.LocalId;
+                CollectGameData(_callBack);
             }, (_result) =>
             {
                 Debug.Log("Register failed");
