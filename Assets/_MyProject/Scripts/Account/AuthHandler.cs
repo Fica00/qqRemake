@@ -61,13 +61,29 @@ public class AuthHandler : MonoBehaviour
         }
         else if (_authMethod == (int)AuthMethod.Google)
         {
-            registerHandler.Setup();
-            PlayerPrefs.DeleteAll();
+            LoginWithGoogle((_status) =>
+            {
+                if (_status)
+                {
+                    return;
+                }
+                
+                registerHandler.Setup();
+                PlayerPrefs.DeleteAll();
+            });
         }
         else if (_authMethod == (int) AuthMethod.Facebook)
         {
-            registerHandler.Setup();
-            PlayerPrefs.DeleteAll();
+            LoginWithFacebook((_status) =>
+            {
+                if (_status)
+                {
+                    return;
+                }
+                
+                registerHandler.Setup();
+                PlayerPrefs.DeleteAll();
+            });
         }
     }
 
