@@ -132,9 +132,11 @@
       let inputEl = document.querySelector('#input')
 
       function DisplayKeyboard(){
+        inputEl.value = ''
         inputEl.focus()
       }
       function HideKeyboard(){
+        inputEl.value = ''
         inputEl.blur()
       }
       inputEl.addEventListener('input', (e) => {
