@@ -19,10 +19,11 @@ public class JavaScriptManager : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void CloseKeyboard();
 
-    public static UnityEvent<string> UpdatedInput;
+    public UnityEvent<string> UpdatedInput;
 
     private void Awake()
     {
+        
         if (Instance == null)
         {
             Instance = this;
@@ -46,19 +47,24 @@ public class JavaScriptManager : MonoBehaviour
 
     public void DisplayKeyboard()
     {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        WebGLInput.captureAllKeyboardInput = false;
+#endif
         UpdatedInput?.RemoveAllListeners();
         ShowKeyboard();
     }
 
     public void HideKeyboard()
     {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        WebGLInput.captureAllKeyboardInput = true;
+#endif
         UpdatedInput?.RemoveAllListeners();
         CloseKeyboard();
     }
 
     public void SetInput(string _key)
     {
-        Debug.Log("Got input: "+_key);
         UpdatedInput?.Invoke(_key);
     }
 
