@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class JavaScriptManager : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern void AuthWithFacebook();
+    
+    [DllImport("__Internal")]
+    public static extern void ShowKeyboard();  
+    
+    [DllImport("__Internal")]
+    public static extern void CloseKeyboard();
+
+    public static UnityEvent<string> UpdatedInput;
 
     private void Awake()
     {
@@ -33,6 +42,23 @@ public class JavaScriptManager : MonoBehaviour
     public void FacebookAuth()
     {
         AuthWithFacebook();
+    }
+
+    public void DisplayKeyboard()
+    {
+        UpdatedInput?.RemoveAllListeners();
+        ShowKeyboard();
+    }
+
+    public void HideKeyboard()
+    {
+        UpdatedInput?.RemoveAllListeners();
+        CloseKeyboard();
+    }
+
+    public void SetInput(string _key)
+    {
+        UpdatedInput?.Invoke(_key);
     }
 
     public void AuthWithGoogle(string _data)

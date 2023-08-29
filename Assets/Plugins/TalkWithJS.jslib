@@ -8,5 +8,15 @@ mergeInto(LibraryManager.library,
 	AuthWithFacebook: function()
 	{
 		FacebookAuth();
-	}
+	},
+
+	ShowKeyboard: function()
+        {
+		DisplayKeyboard();
+        },
+
+	CloseKeyboard: function()
+        {
+		HideKeyboard();
+        },	
 });
