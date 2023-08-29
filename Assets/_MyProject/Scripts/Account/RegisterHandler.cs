@@ -10,6 +10,7 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField] private Button loginWithEmail;
     [SerializeField] private Button loginWithGoogle;
     [SerializeField] private Button loginWithFacebook;
+    [SerializeField] private Button guestButton;
     
     
     public void Setup()
@@ -24,6 +25,7 @@ public class RegisterHandler : MonoBehaviour
         loginWithEmail.onClick.AddListener(LoginWithEmail);
         loginWithFacebook.onClick.AddListener(LoginWithFacebook);
         loginWithGoogle.onClick.AddListener(LoginWithGoogle);
+        guestButton.onClick.AddListener(LoginAsGuest);
     }
 
     private void OnDisable()
@@ -31,6 +33,14 @@ public class RegisterHandler : MonoBehaviour
         loginWithEmail.onClick.RemoveListener(LoginWithEmail);
         loginWithFacebook.onClick.RemoveListener(LoginWithFacebook);
         loginWithGoogle.onClick.RemoveListener(LoginWithGoogle);
+        guestButton.onClick.RemoveListener(LoginAsGuest);
+    }
+
+    private void LoginAsGuest()
+    {
+        emailInput.text = "guest@help.com";
+        passwordInput.text = "paSsword123";
+        LoginWithEmail();
     }
 
     private void LoginWithEmail()

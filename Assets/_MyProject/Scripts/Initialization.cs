@@ -30,7 +30,7 @@ public class Initialization : MonoBehaviour
 
     public void CheckForStartingData()
     {
-        if (string.IsNullOrEmpty(DataManager.Instance.PlayerData.Name))
+        if (DataManager.Instance.PlayerData == null || string.IsNullOrEmpty(DataManager.Instance.PlayerData.Name))
         {
             Debug.Log("Detected empty name");
             FirebaseManager.Instance.SetStartingData((_status) =>
