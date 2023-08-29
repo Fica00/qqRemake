@@ -50,7 +50,7 @@ public class AndroidInputSupport : MonoBehaviour
 
     private void EnableAndroidInput()
     {
-        Debug.Log("Activating support for keyboard");
+        Debug.Log("Sending request for the input");
         JavaScriptManager.Instance.DisplayKeyboard();
         JavaScriptManager.UpdatedInput.AddListener(ShowInput);
     }

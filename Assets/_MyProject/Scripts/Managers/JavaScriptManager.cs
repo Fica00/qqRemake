@@ -58,6 +58,7 @@ public class JavaScriptManager : MonoBehaviour
 
     public void SetInput(string _key)
     {
+        Debug.Log("Got input: "+_key);
         UpdatedInput?.Invoke(_key);
     }
 
