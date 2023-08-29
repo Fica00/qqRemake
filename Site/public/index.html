@@ -135,6 +135,7 @@
         inputEl.focus()
       }
       function HideKeyboard(){
+        inputEl.blur()
       }
       inputEl.addEventListener('input', (e) => {
         unity.SendMessage('JavaScriptManager', 'SetInput', e.target.value)
