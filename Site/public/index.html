@@ -134,6 +134,9 @@
       function DisplayKeyboard(){
         inputEl.focus()
       }
+      inputEl.addEventListener('change', (e) => {
+        unity.SendMessage('JavaScriptManager', 'SetInput', e.target.value)
+      })
       
     </script>
   </body>
