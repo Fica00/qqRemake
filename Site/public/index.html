@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
   </head>
+  <style>
+
+  </style>
   <body>
     <div id="unity-container">
       <canvas id="unity-canvas" width=1179 height=2556></canvas>
@@ -19,6 +22,7 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
+    <input id="input" type="text" >
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
     <script src="./config.js"></script>
@@ -45,31 +49,6 @@
             console.log(err.code)
           })
       }
-      // firebase.auth()
-      // .getRedirectResult()
-      // .then((result) => {
-      //   if (result.credential) {
-      //     var credential = result.credential;
-          
-      //     // This gives you a Google Access Token. You can use it to access the Google API.
-      //     var token = credential.accessToken;
-      //     unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
-      // }
-      // // The signed-in user info.
-      // var user = result.user;
-      // // IdP data available in result.additionalUserInfo.profile.
-      // // ...
-      // }).catch((error) => {
-      // // Handle Errors here.
-      // var errorCode = error.code;
-      // var errorMessage = error.message;
-      // // The email of the user's account used.
-      // var email = error.email;
-      // // The firebase.auth.AuthCredential type that was used.
-      // var credential = error.credential;
-      // // ...
-      // });
-
       // -----------------separate old code
       window.addEventListener("load", function () {
         if ("serviceWorker" in navigator) {
@@ -149,6 +128,13 @@
         });
       };
       document.body.appendChild(script);
+
+      let inputEl = document.querySelector('#input')
+
+      function DisplayKeyboard(){
+        inputEl.focus()
+      }
+      
     </script>
   </body>
 </html>
