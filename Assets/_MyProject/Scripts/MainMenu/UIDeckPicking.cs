@@ -56,7 +56,7 @@ public class UIDeckPicking : MonoBehaviour
         }
         else
         {
-            DataManager.Instance.PlayerData.CardIdsInDeck = _changingDeck;
+            DataManager.Instance.PlayerData.SetCardsInSelectedDeck(_changingDeck);
         }
     }
 }

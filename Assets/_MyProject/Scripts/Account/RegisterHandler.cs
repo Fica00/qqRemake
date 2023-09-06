@@ -38,7 +38,7 @@ public class RegisterHandler : MonoBehaviour
 
     private void LoginAsGuest()
     {
-        emailInput.text = "guest@help.com";
+        emailInput.text = "guest"+System.Guid.NewGuid()+"@help.com";
         passwordInput.text = "paSsword123";
         LoginWithEmail();
     }

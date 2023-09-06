@@ -19,7 +19,7 @@ public class JavaScriptManager : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void CloseKeyboard();
 
-    public UnityEvent<string> UpdatedInput;
+    [HideInInspector] public UnityEvent<string> UpdatedInput;
 
     private void Awake()
     {

@@ -25,7 +25,6 @@ public class AuthHandler : MonoBehaviour
         }
         else if (_authMethod == (int) AuthMethod.Email)
         {
-            Debug.Log("detected auth login");
             string _authParms = PlayerPrefs.GetString(AUTH_PARMS);
             string _email = String.Empty;
             string _password = String.Empty;
@@ -139,7 +138,6 @@ public class AuthHandler : MonoBehaviour
             return;
         }
         
-        Debug.Log("Finished login");
         Initialization.Instance.CheckForStartingData();
     }
 }

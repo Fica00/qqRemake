@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
-using System;
 
 public class CardInHandDisplay : MonoBehaviour
 {

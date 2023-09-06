@@ -35,7 +35,7 @@ public class CardsManager : MonoBehaviour
         return _desiredCard.SpecialEffects;
     }
 
-    private CardObject GetCardObject(int _cardId)
+    public CardObject GetCardObject(int _cardId)
     {
         CardObject _desiredCard = null;
         foreach (var _card in allCards)

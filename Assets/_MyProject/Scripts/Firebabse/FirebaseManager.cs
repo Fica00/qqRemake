@@ -36,7 +36,6 @@ public class FirebaseManager : MonoBehaviour
         string _loginParms = "{\"email\":\"" + _email + "\",\"password\":\"" + _passwrod +
                              "\",\"returnSecureToken\":true}";
 
-        Debug.Log(_loginParms);
         StartCoroutine(Post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + WEB_API_KEY,
             _loginParms, (_result) =>
             {
@@ -65,7 +64,6 @@ public class FirebaseManager : MonoBehaviour
 
     public void SetStartingData(Action<bool> _callBack)
     {
-        Debug.Log("Entering starting data");
         DataManager.Instance.CreatePlayerDataEmpty();
         string _data = JsonConvert.SerializeObject(DataManager.Instance.PlayerData);
         StartCoroutine(Put(userDataLink + "/.json", _data, (_result) =>
@@ -82,11 +80,9 @@ public class FirebaseManager : MonoBehaviour
 
     private void CollectGameData(Action<bool> _callBack)
     {
-        Debug.Log("collecting game data");
         StartCoroutine(Get(gameDataLink + ".json", (_result) =>
         {
             DataManager.Instance.SetGameData(_result);
-            Debug.Log(JsonConvert.SerializeObject(_result));
             CollectPlayerData(_callBack);
         }, (_result) => { _callBack?.Invoke(false); }));
     }
@@ -96,7 +92,6 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(Get(userDataLink + "/.json", (_result) =>
         {
             DataManager.Instance.SetPlayerData(_result);
-            Debug.Log(JsonConvert.SerializeObject(_result));
             _callBack?.Invoke(true);
         }, (_result) => { _callBack?.Invoke(false); }));
     }
@@ -123,7 +118,7 @@ public class FirebaseManager : MonoBehaviour
         {
             uri = $"{uri}?auth={userIdToken}";
         }
-
+        
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             yield return webRequest.SendWebRequest();
