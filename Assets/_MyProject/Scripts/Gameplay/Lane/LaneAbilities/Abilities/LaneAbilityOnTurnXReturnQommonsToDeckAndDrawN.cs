@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
@@ -27,7 +25,6 @@ public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
         if (GameplayManager.Instance.CurrentRound == round)
         {
             GameplayManager.Instance.MyPlayer.ReturnCardsToDeck();
-            laneDisplay.AbilityShowAsActive();
 
             if (!GameplayManager.IsPvpGame)
             {
@@ -39,7 +36,11 @@ public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
                 GameplayManager.Instance.DrawCard();
             }
         }
-        else if (GameplayManager.Instance.CurrentRound > round)
+        if (GameplayManager.Instance.CurrentRound == round-1)
+        {
+            laneDisplay.AbilityShowAsActive();
+        }
+        else if (GameplayManager.Instance.CurrentRound >= round)
         {
             laneDisplay.AbilityShowAsInactive();
             isSubscribed = false;

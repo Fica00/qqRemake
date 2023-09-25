@@ -196,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 96c964a9e49844d898412d2814d7fefe, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color=#C38C15>On Summon</color>:\n+15 Power for each opposing\nQoomon
+      value: <color="green">Ongoing</color>:\n+15 Power for each opposing\nQoomon
         at this location.
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

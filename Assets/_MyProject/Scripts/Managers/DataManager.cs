@@ -9,6 +9,8 @@ public class DataManager : MonoBehaviour
 
     public int[] locationsPicked = {-1, -1, -1};
 
+    private bool isSubscribed;
+
     private void Awake()
     {
         if (Instance == null)
@@ -35,5 +37,60 @@ public class DataManager : MonoBehaviour
     public void SetPlayerData(string _data)
     {
         PlayerData = JsonConvert.DeserializeObject<PlayerData>(_data);
+    }
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    public void Subscribe()
+    {
+        if (isSubscribed)
+        {
+            return;
+        }
+
+        isSubscribed = true;
+        PlayerData.UpdatedSelectedDeck += SaveSelectedDeck;
+        PlayerData.UpdatedCardsInDeck += SaveOwnedDecks;
+        PlayerData.UpdatedName += SaveName;
+        PlayerData.BoughtNewDeck += SaveOwnedDecks;
+        PlayerData.UpdatedDeckName += SaveDeckName;
+    }
+
+    private void Unsubscribe()
+    {
+        if (!isSubscribed)
+        {
+            return;
+        }
+        
+        isSubscribed = false;
+        PlayerData.UpdatedSelectedDeck -= SaveSelectedDeck;
+        PlayerData.UpdatedCardsInDeck -= SaveOwnedDecks;
+        PlayerData.UpdatedName -= SaveName;
+        PlayerData.BoughtNewDeck -= SaveOwnedDecks;
+        PlayerData.UpdatedDeckName -= SaveDeckName;
+    }
+
+    private void SaveSelectedDeck()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.SelectedDeck),PlayerData.SelectedDeck);
+    }
+
+    private void SaveName()
+    {
+        FirebaseManager.Instance.SaveString(nameof(PlayerData.Name),PlayerData.Name);
+    }
+
+    private void SaveOwnedDecks()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Decks),JsonConvert.SerializeObject(PlayerData.Decks));
+    }
+
+    private void SaveDeckName()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Decks),JsonConvert.SerializeObject(PlayerData.Decks));
     }
 }

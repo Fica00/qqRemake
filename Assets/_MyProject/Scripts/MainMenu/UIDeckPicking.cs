@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 using TMPro;
 
@@ -29,8 +28,7 @@ public class UIDeckPicking : MonoBehaviour
         switch (_deckId)
         {
             case 0:
-                _changingDeck = new List<int>()
-                    { 28,8,7,29,5,1,0,11,3,4,21,9};
+                _changingDeck = new List<int>() { 28,8,7,29,5,1,0,11,3,4,21,9};
                 break;
             case 1:
                 _changingDeck = new List<int>()

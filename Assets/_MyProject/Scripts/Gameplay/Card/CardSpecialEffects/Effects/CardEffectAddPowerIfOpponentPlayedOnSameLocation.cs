@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectAddPowerIfOpponentPlayedOnSameLocation : CardEffectBase
 {
     [SerializeField] private int powerToAdd;
-    
+    List<PlaceCommand> commandsThisRound = new List<PlaceCommand>();
     public override void Subscribe()
     {
         CheckIfOpponentPlayedOnSameLocation();
@@ -12,8 +13,9 @@ public class CardEffectAddPowerIfOpponentPlayedOnSameLocation : CardEffectBase
 
     private void CheckIfOpponentPlayedOnSameLocation()
     {
-        List<PlaceCommand> _commandsThisRound = cardObject.IsMy ? GameplayManager.Instance.CommandsHandler.OpponentCommandsThisTurn : GameplayManager.Instance.CommandsHandler.MyCommandsThisTurn;
-        foreach (var _command in _commandsThisRound)
+        commandsThisRound = cardObject.IsMy ? GameplayManager.Instance.CommandsHandler.OpponentCommandsThisTurn : GameplayManager.Instance.CommandsHandler.MyOriginalCommandsThisTurn;
+        
+        foreach (var _command in commandsThisRound)
         {
             if (_command.Card.LaneLocation == cardObject.LaneLocation)
             {

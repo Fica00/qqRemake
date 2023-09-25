@@ -13,8 +13,8 @@ public class FirebaseManager : MonoBehaviour
     private string userLocalId;
     private string userIdToken;
     private string projectLink = "https://qqweb-b75ae-default-rtdb.firebaseio.com/";
-    private string userDataLink => $"{projectLink}/users/{userLocalId}/";
-    private string gameDataLink => $"{projectLink}/gameData/";
+    public string UserDataLink => $"{projectLink}/users/{userLocalId}/";
+    private string GameDataLink => $"{projectLink}/gameData/";
 
     public string PlayerId => userLocalId;
 
@@ -66,7 +66,7 @@ public class FirebaseManager : MonoBehaviour
     {
         DataManager.Instance.CreatePlayerDataEmpty();
         string _data = JsonConvert.SerializeObject(DataManager.Instance.PlayerData);
-        StartCoroutine(Put(userDataLink + "/.json", _data, (_result) =>
+        StartCoroutine(Put(UserDataLink + "/.json", _data, (_result) =>
             {
                 Debug.Log("Entered starting data sucess");
                 _callBack?.Invoke(true);
@@ -80,7 +80,7 @@ public class FirebaseManager : MonoBehaviour
 
     private void CollectGameData(Action<bool> _callBack)
     {
-        StartCoroutine(Get(gameDataLink + ".json", (_result) =>
+        StartCoroutine(Get(GameDataLink + ".json", (_result) =>
         {
             DataManager.Instance.SetGameData(_result);
             CollectPlayerData(_callBack);
@@ -89,7 +89,7 @@ public class FirebaseManager : MonoBehaviour
 
     private void CollectPlayerData(Action<bool> _callBack)
     {
-        StartCoroutine(Get(userDataLink + "/.json", (_result) =>
+        StartCoroutine(Get(UserDataLink + "/.json", (_result) =>
         {
             DataManager.Instance.SetPlayerData(_result);
             _callBack?.Invoke(true);
@@ -112,152 +112,179 @@ public class FirebaseManager : MonoBehaviour
         CollectGameData(_callBack);
     }
 
-    private IEnumerator Get(string uri, Action<string> onSuccess, Action<string> onError)
+    public void SaveValue<T>(string _path, T _value)
+    {
+        string _valueString = "{\"" + _path + "\":" + _value + "}";
+        StartCoroutine(Patch(UserDataLink + ".json", _valueString, (_result) =>
+        {
+
+        }, (_result) =>
+        {
+            Debug.Log(_valueString);
+            Debug.Log("Failed to update data, please try again later");
+            Debug.Log(_result);
+        }));
+    }
+    
+    public void SaveString(string _path, string _value)
+    {
+        string _valueString = "{\"" + _path + "\":\"" + _value + "\"}";
+        StartCoroutine(Patch(UserDataLink + ".json", _valueString, (_result) =>
+        {
+
+        }, (_result) =>
+        {
+            Debug.Log("Failed to update data, please try again later");
+            Debug.Log(_result);
+        }));
+    }
+
+    private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)
     {
         if (userIdToken != null)
         {
-            uri = $"{uri}?auth={userIdToken}";
+            _uri = $"{_uri}?auth={userIdToken}";
         }
         
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        using (UnityWebRequest _webRequest = UnityWebRequest.Get(_uri))
         {
-            yield return webRequest.SendWebRequest();
+            yield return _webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.Success)
+            if (_webRequest.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(webRequest.downloadHandler.text);
+                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
             }
             else
             {
-                Debug.Log(webRequest.error);
-                onError?.Invoke(webRequest.error);
+                Debug.Log(_webRequest.error);
+                _onError?.Invoke(_webRequest.error);
             }
 
-            webRequest.Dispose();
+            _webRequest.Dispose();
         }
     }
 
-    private IEnumerator Post(string uri, string jsonData, Action<string> onSuccess, Action<string> onError,
+    private IEnumerator Post(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError,
         bool _includeHeader = true)
     {
         if (userIdToken != null)
         {
             if (_includeHeader)
             {
-                uri = $"{uri}?auth={userIdToken}";
+                _uri = $"{_uri}?auth={userIdToken}";
             }
         }
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, jsonData))
+        using (UnityWebRequest _webRequest = UnityWebRequest.Post(_uri, _jsonData))
         {
-            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonData);
-            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            byte[] _jsonToSend = new System.Text.UTF8Encoding().GetBytes(_jsonData);
+            _webRequest.uploadHandler = new UploadHandlerRaw(_jsonToSend);
+            _webRequest.downloadHandler = new DownloadHandlerBuffer();
 
-            yield return webRequest.SendWebRequest();
+            yield return _webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.Success)
+            if (_webRequest.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(webRequest.downloadHandler.text);
+                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
             }
             else
             {
-                onError?.Invoke(webRequest.error);
+                _onError?.Invoke(_webRequest.error);
             }
 
-            webRequest.uploadHandler.Dispose();
-            webRequest.downloadHandler.Dispose();
-            webRequest.Dispose();
+            _webRequest.uploadHandler.Dispose();
+            _webRequest.downloadHandler.Dispose();
+            _webRequest.Dispose();
         }
     }
 
-    private IEnumerator Put(string uri, string jsonData, Action<string> onSuccess, Action<string> onError)
+    private IEnumerator Put(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError)
     {
         // If the userIdToken is available, append it to the URI
         if (userIdToken != null)
         {
-            uri = $"{uri}?auth={userIdToken}";
+            _uri = $"{_uri}?auth={userIdToken}";
         }
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Put(uri, jsonData))
+        using (UnityWebRequest _webRequest = UnityWebRequest.Put(_uri, _jsonData))
         {
-            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonData);
-            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            byte[] _jsonToSend = new System.Text.UTF8Encoding().GetBytes(_jsonData);
+            _webRequest.uploadHandler = new UploadHandlerRaw(_jsonToSend);
+            _webRequest.downloadHandler = new DownloadHandlerBuffer();
 
-            yield return webRequest.SendWebRequest();
+            yield return _webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.Success)
+            if (_webRequest.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(webRequest.downloadHandler.text);
+                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
             }
             else
             {
-                Debug.Log(webRequest.error);
-                onError?.Invoke(webRequest.error);
+                Debug.Log(_webRequest.error);
+                _onError?.Invoke(_webRequest.error);
             }
 
-            webRequest.uploadHandler.Dispose();
-            webRequest.downloadHandler.Dispose();
-            webRequest.Dispose();
+            _webRequest.uploadHandler.Dispose();
+            _webRequest.downloadHandler.Dispose();
+            _webRequest.Dispose();
         }
     }
 
-    private IEnumerator Patch(string uri, string jsonData, Action<string> onSuccess, Action<string> onError)
+    private IEnumerator Patch(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError)
     {
         if (userIdToken != null)
         {
-            uri = $"{uri}?auth={userIdToken}";
+            _uri = $"{_uri}?auth={userIdToken}";
         }
 
-        using (UnityWebRequest webRequest = new UnityWebRequest(uri, "PATCH"))
+        using (UnityWebRequest _webRequest = new UnityWebRequest(_uri, "PATCH"))
         {
-            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonData);
-            webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            byte[] _jsonToSend = new System.Text.UTF8Encoding().GetBytes(_jsonData);
+            _webRequest.uploadHandler = new UploadHandlerRaw(_jsonToSend);
+            _webRequest.downloadHandler = new DownloadHandlerBuffer();
 
 
-            yield return webRequest.SendWebRequest();
+            yield return _webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.Success)
+            if (_webRequest.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(webRequest.downloadHandler.text);
+                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
             }
             else
             {
-                onError?.Invoke(webRequest.error);
+                _onError?.Invoke(_webRequest.error);
             }
 
-            webRequest.uploadHandler.Dispose();
-            webRequest.downloadHandler.Dispose();
-            webRequest.Dispose();
+            _webRequest.uploadHandler.Dispose();
+            _webRequest.downloadHandler.Dispose();
+            _webRequest.Dispose();
         }
     }
 
-    private IEnumerator Delete(string uri, Action<string> onSuccess, Action<string> onError)
+    private IEnumerator Delete(string _uri, Action<string> _onSuccess, Action<string> _onError)
     {
         if (userIdToken != null)
         {
-            uri = $"{uri}?auth={userIdToken}";
+            _uri = $"{_uri}?auth={userIdToken}";
         }
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Delete(uri))
+        using (UnityWebRequest _webRequest = UnityWebRequest.Delete(_uri))
         {
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            _webRequest.downloadHandler = new DownloadHandlerBuffer();
 
-            yield return webRequest.SendWebRequest();
+            yield return _webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.Success)
+            if (_webRequest.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(webRequest.downloadHandler.text);
+                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
             }
             else
             {
-                onError?.Invoke(webRequest.error);
+                _onError?.Invoke(_webRequest.error);
             }
 
-            webRequest.downloadHandler.Dispose();
-            webRequest.Dispose();
+            _webRequest.downloadHandler.Dispose();
+            _webRequest.Dispose();
         }
     }
 }

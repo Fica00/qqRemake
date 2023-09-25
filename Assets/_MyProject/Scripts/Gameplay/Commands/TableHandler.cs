@@ -99,16 +99,17 @@ public class TableHandler : MonoBehaviour
         foreach (var _command in _commands.ToList())
         {
             yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
-            if (SkipRevealAnimation(_command.Card))
-            {
-                _command.Card.Reveal.PreReveal();
-                _command.Card.Reveal.Finish();
-                _command.Card.Subscribe();
-            }
-            else
-            {
-                yield return StartCoroutine(_command.Card.RevealCard());
-            }
+            // if (SkipRevealAnimation(_command.Card))
+            // {
+            //     _command.Card.Reveal.PreReveal();
+            //     _command.Card.Reveal.Finish();
+            //     _command.Card.Subscribe();
+            // }
+            // else
+            // {
+            //     yield return StartCoroutine(_command.Card.RevealCard());
+            // }
+            yield return StartCoroutine(_command.Card.RevealCard());
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
             {

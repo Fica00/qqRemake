@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 public class LaneSpecifics
 {
     public static Action UpdatedExtraPower;

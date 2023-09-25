@@ -169,20 +169,23 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
-    public virtual void DrawCardFromOpponentsDeck()
+    public virtual void DrawCardFromOpponentsDeck(bool _isMy)
     {
-        int _amountOfCardsInHand = MyPlayer.AmountOfCardsInHand;
+        GameplayPlayer _player = _isMy ? MyPlayer : OpponentPlayer;
+        GameplayPlayer _opponentPlayer = _isMy ? OpponentPlayer : MyPlayer;
+        int _amountOfCardsInHand = _player.AmountOfCardsInHand;
         if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)
         {
             return;
         }
         
-        CardObject _drawnCard = OpponentPlayer.DrawCard();
+        CardObject _drawnCard = _opponentPlayer.DrawCard();
         if (_drawnCard==null)
         {
             return;
         }
-        MyPlayer.AddCardToHand(_drawnCard);
+        
+        _player.AddCardToHand(_drawnCard);
     }
 
     protected IEnumerator GameplayRoutine()
@@ -192,6 +195,7 @@ public class GameplayManager : MonoBehaviour
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
         {
+            CommandsHandler.MyOriginalCommandsThisTurn.Clear();
             int _whoPlaysFirst = TableHandler.WhichCardsToRevealFrist();
             ShowFlag(_whoPlaysFirst);
             opponentFinished = false;

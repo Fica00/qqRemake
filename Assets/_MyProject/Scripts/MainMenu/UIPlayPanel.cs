@@ -30,11 +30,19 @@ public class UIPlayPanel : MonoBehaviour
 
     private void ShowAIGameplay()
     {
+        if (!CanPlay)
+        {
+            return;
+        }
         SceneManager.LoadAIGameplay();
     }
 
     private void ShowPVPPanel()
     {
+        if (!CanPlay)
+        {
+            return;
+        }
         ManageInteractables(false);
         PhotonManager.Instance.JoinRandomRoom();
     }
@@ -59,5 +67,19 @@ public class UIPlayPanel : MonoBehaviour
     {
         playVSAIButton.interactable = _status;
         playPVPButton.interactable = _status;
+    }
+
+    private bool CanPlay
+    {
+        get
+        {
+            if (DataManager.Instance.PlayerData.CardIdsInDeck.Count!=12)
+            {
+                UIManager.Instance.OkDialog.Setup("You need to have 12 qommons in deck");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

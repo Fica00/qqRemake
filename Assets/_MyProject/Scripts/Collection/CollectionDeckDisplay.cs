@@ -10,10 +10,10 @@ public class CollectionDeckDisplay : MonoBehaviour
     [SerializeField] private Button button;
     private int number;
     
-    public void Setup(int _number)
+    public void Setup(DeckData _deckData)
     {
-        number = _number;
-        labelDisplay.text = "Lineup " + number;
+        number = _deckData.Id;
+        labelDisplay.text = _deckData.Name;
     }
 
     private void OnEnable()

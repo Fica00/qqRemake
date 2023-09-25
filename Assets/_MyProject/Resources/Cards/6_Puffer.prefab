@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: bfda1f1eef6914b80b45065fc0a3a5ec, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: '<color=#C38C15>On Summon</color>: \nDestroy a random enemy 1-Cost\nQoomon
+      value: '<color=#C38C15>On Summon</color>: \nDestroy a random enemy 1-Mana\nQoomon
         at this location.'
       objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

@@ -2,12 +2,13 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class CollectionQommonDisplay : MonoBehaviour
+public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public static Action<int> OnClicked;
+    public static Action<int> OnHold;
 
-    [SerializeField] private Button button;
     [SerializeField] private Image qommonDisplay;
     [SerializeField] private TextMeshProUGUI manaDisplay;
     [SerializeField] private TextMeshProUGUI powerDisplay;
@@ -18,6 +19,9 @@ public class CollectionQommonDisplay : MonoBehaviour
     [SerializeField] private GameObject alreadyInDeck;
     
     private int cardId;
+    private bool isButtonHeld;
+    private float holdStartTime;
+    private float holdDuration = 0.2f;
 
     public void Setup(int _cardId, bool _checkIfInDeck=false)
     {
@@ -39,20 +43,33 @@ public class CollectionQommonDisplay : MonoBehaviour
         powerHolder.SetActive(false);
         alreadyInDeck.SetActive(false);
     }
-
-    private void OnEnable()
+    
+    public void OnPointerDown(PointerEventData eventData)
     {
-        button.onClick.AddListener(CardClicked);
+        isButtonHeld = true;
+        holdStartTime = Time.time;
     }
 
-    private void OnDisable()
+    public void OnPointerUp(PointerEventData _eventData)
     {
-        button.onClick.RemoveListener(CardClicked);
+        isButtonHeld = false;
+        if (Time.time - holdStartTime < holdDuration)
+        {
+            CardClicked();
+        }
+    }
+
+    private void Update()
+    {
+        if (isButtonHeld && Time.time - holdStartTime >= holdDuration)
+        {
+            OnHold?.Invoke(cardId);
+        }
     }
 
     private void CardClicked()
     {
-        if (cardId==-1)
+        if (cardId == -1)
         {
             return;
         }

@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class DeckBuilderPanel : BasePanel
 {
-    [SerializeField] private TextMeshProUGUI nameDisplay;
+    [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private Button backButton;
     [SerializeField] private CollectionQommonDisplay[] qommonDisplays;
     [SerializeField] private CollectionQommonDisplay qommonPrefab;
     [SerializeField] private Transform collectionHolder;
     [SerializeField] private DeckBuildQommonDetails qommonDetails;
+    [SerializeField] private CollectionPanel collectionPanel;
 
     private List<GameObject> showedQommonsInCollection = new();
 
@@ -18,47 +19,43 @@ public class DeckBuilderPanel : BasePanel
     {
         backButton.onClick.AddListener(Close);
         CollectionQommonDisplay.OnClicked += ShowDetails;
-        DeckBuildQommonDetails.OnAddCardToDeck += AddCardToDeck;
+        CollectionQommonDisplay.OnHold += ChangeDeck;
+        DeckBuildQommonDetails.OnChangeDeck += ChangeDeck;
     }
 
     private void OnDisable()
     {
         backButton.onClick.RemoveListener(Close);
         CollectionQommonDisplay.OnClicked -= ShowDetails;
-        DeckBuildQommonDetails.OnAddCardToDeck -= AddCardToDeck;
+        CollectionQommonDisplay.OnHold -= ChangeDeck;
+        DeckBuildQommonDetails.OnChangeDeck -= ChangeDeck;
+        DataManager.Instance.PlayerData.UpdateDeckName(nameInput.text);
     }
 
     private void ShowDetails(int _cardId)
     {
+        qommonDetails.Setup(_cardId);
+    }
+
+    private void ChangeDeck(int _cardId)
+    {
         if (DataManager.Instance.PlayerData.CardIdsInDeck.Contains(_cardId))
         {
-            UIManager.Instance.YesNoDialog.OnNoPressed.AddListener(ShowQommon);
-            UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(RemoveQommon);
-            UIManager.Instance.YesNoDialog.Setup("Remove qommon from the deck?");
+            RemoveQommon(_cardId);
         }
         else
         {
-            ShowQommon();
-        }
-
-
-        void ShowQommon()
-        {
-            qommonDetails.Setup(_cardId);
-        }
-        
-        void RemoveQommon()
-        {
-            if (DataManager.Instance.PlayerData.CardIdsInDeck.Contains(_cardId))
-            {
-                DataManager.Instance.PlayerData.RemoveCardFromSelectedDeck(_cardId);
-            }
-
-            Show(DataManager.Instance.PlayerData.SelectedDeck);
+            AddQommon(_cardId);
         }
     }
+    
+    private void RemoveQommon(int _cardId)
+    {
+        DataManager.Instance.PlayerData.RemoveCardFromSelectedDeck(_cardId);
+        Show(DataManager.Instance.PlayerData.SelectedDeck);
+    }
 
-    private void AddCardToDeck(int _cardId)
+    private void AddQommon(int _cardId)
     {
         if (DataManager.Instance.PlayerData.CardIdsInDeck.Count>=12)
         {
@@ -73,7 +70,7 @@ public class DeckBuilderPanel : BasePanel
     public void Show(int _deckId)
     {
         DataManager.Instance.PlayerData.SelectedDeck = _deckId;
-        nameDisplay.text = "Lineup " + _deckId;
+        nameInput.text = DataManager.Instance.PlayerData.GetDeck(_deckId).Name;
         ShowQommonsInDeck();
         ShowQommonsInCollection();
         qommonDetails.Close();
@@ -122,9 +119,9 @@ public class DeckBuilderPanel : BasePanel
         showedQommonsInCollection?.Clear();
     }
 
-
     public override void Close()
     {
         gameObject.SetActive(false);
+        collectionPanel.SubscribeForQommonDetails();
     }
 }

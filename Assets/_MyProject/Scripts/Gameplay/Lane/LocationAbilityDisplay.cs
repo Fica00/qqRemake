@@ -11,6 +11,7 @@ public class LocationAbilityDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shiningDesc;
     [SerializeField] private Image lightUpEffect;
     [SerializeField] private Image tableDisplay;
+    [SerializeField] private Color unactiveColor;
     private Action callback;
     private Sequence descFlashing;
 
@@ -83,7 +84,7 @@ public class LocationAbilityDisplay : MonoBehaviour
         descFlashing = null;
         Color _color = shiningDesc.color;
         _color.a = 0;
-        abilityDesc.color=Color.grey;
+        abilityDesc.color=unactiveColor;
         shiningDesc.color = _color;
     }
 

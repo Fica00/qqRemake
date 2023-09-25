@@ -178,7 +178,7 @@ public class GameplayManagerPVP : GameplayManager
         photonView.RPC("OpponentDestroyedCardsOnTable",RpcTarget.Others,_placeIds);
     }
 
-    public override void DrawCardFromOpponentsDeck()
+    public override void DrawCardFromOpponentsDeck(bool _isMy)
     {
         int _amountOfCardsInHand = MyPlayer.AmountOfCardsInHand;
         if (_amountOfCardsInHand >= MaxAmountOfCardsInHand)

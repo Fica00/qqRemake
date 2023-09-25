@@ -11,6 +11,7 @@ public class CommandsHandler
     public List<PlaceCommand> MyCommands => MyCommandsThisTurn;
 
     public List<PlaceCommand> MyCommandsThisTurn { get; } = new List<PlaceCommand>();
+    public List<PlaceCommand> MyOriginalCommandsThisTurn { get; } = new List<PlaceCommand>();
 
     public List<PlaceCommand> OpponentCommands => opponentCommands;
     public List<PlaceCommand> OpponentCommandsThisTurn { get; } = new List<PlaceCommand>();
@@ -32,6 +33,7 @@ public class CommandsHandler
         if (_command.IsMyPlayer)
         {
             MyCommandsThisTurn.Add(_command);
+            MyOriginalCommandsThisTurn.Add(_command);
         }
         else
         {

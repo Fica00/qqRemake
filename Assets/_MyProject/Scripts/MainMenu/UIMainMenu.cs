@@ -11,6 +11,7 @@ public class UIMainMenu : MonoBehaviour
     private void Start()
     {
         welcomeMessage.text = "Hello "+DataManager.Instance.PlayerData.Name+"!";
+        DataManager.Instance.Subscribe();
     }
 
     private void OnEnable()

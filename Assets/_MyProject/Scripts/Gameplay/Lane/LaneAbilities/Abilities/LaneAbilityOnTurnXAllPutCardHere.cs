@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
@@ -33,7 +31,7 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
                 PlacePlayersCard(GameplayManager.Instance.OpponentPlayer);
             }
         }
-        else if (round<GameplayManager.Instance.CurrentRound)
+        else if (round>GameplayManager.Instance.CurrentRound)
         {
             laneDisplay.AbilityShowAsInactive();
             isSubscribed = false;

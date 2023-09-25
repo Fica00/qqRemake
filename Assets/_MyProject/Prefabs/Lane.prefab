@@ -1015,6 +1015,7 @@ MonoBehaviour:
   shiningDesc: {fileID: 5469584054836025158}
   lightUpEffect: {fileID: 6610898833567162485}
   tableDisplay: {fileID: 1175656849463418750}
+  unactiveColor: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
 --- !u!114 &4207833359414954411
 MonoBehaviour:
   m_ObjectHideFlags: 0
