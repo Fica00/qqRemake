@@ -1,31 +1,31 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIMainMenu : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI welcomeMessage;
-    [SerializeField] private Button collectionButton;
-    [SerializeField] private CollectionPanel collectionPanel;
+    [SerializeField] private TextMeshProUGUI lineupNameDisplay;
     
     private void Start()
     {
-        welcomeMessage.text = "Hello "+DataManager.Instance.PlayerData.Name+"!";
         DataManager.Instance.Subscribe();
+        ShowLineupName();
     }
 
     private void OnEnable()
     {
-        collectionButton.onClick.AddListener(ShowCollection);
+        DataManager.Instance.PlayerData.UpdatedDeckName += ShowLineupName;
+        DataManager.Instance.PlayerData.UpdatedSelectedDeck += ShowLineupName;
     }
 
     private void OnDisable()
     {
-        collectionButton.onClick.RemoveListener(ShowCollection);
+        DataManager.Instance.PlayerData.UpdatedDeckName -= ShowLineupName;
+        DataManager.Instance.PlayerData.UpdatedSelectedDeck -= ShowLineupName;
     }
 
-    private void ShowCollection()
+    private void ShowLineupName()
     {
-        collectionPanel.Show();
+        lineupNameDisplay.text =
+            DataManager.Instance.PlayerData.GetDeck(DataManager.Instance.PlayerData.SelectedDeck).Name;
     }
 }

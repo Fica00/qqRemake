@@ -24,7 +24,7 @@ public class CollectionPanel : BasePanel
     {
         buyMoreDecks.onClick.AddListener(BuyAnotherDeck);
         showNextDeck.onClick.AddListener(MoveLayout);
-        closeButton.onClick.AddListener(Close);
+        closeButton.onClick.AddListener(ClosePanel);
 
         CollectionDeckDisplay.OnShowDeck += ShowDeck;
         SubscribeForQommonDetails();
@@ -41,10 +41,16 @@ public class CollectionPanel : BasePanel
     {
         buyMoreDecks.onClick.RemoveListener(BuyAnotherDeck);
         showNextDeck.onClick.RemoveListener(MoveLayout);
-        closeButton.onClick.RemoveListener(Close);
+        closeButton.onClick.RemoveListener(ClosePanel);
         
         CollectionDeckDisplay.OnShowDeck -= ShowDeck;
         CollectionQommonDisplay.OnClicked -= ShowDetails;
+    }
+
+    private void ClosePanel()
+    {
+        Close();
+        BotHudHandler.Instance.ShowMain();
     }
 
     private void BuyAnotherDeck()

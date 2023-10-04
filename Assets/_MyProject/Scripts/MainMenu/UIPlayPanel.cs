@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIPlayPanel : MonoBehaviour
 {
-    [SerializeField] private Button playVSAIButton;
-    [SerializeField] private Button playPVPButton;
+    [SerializeField] private Button playButton;
 
     [Space()]
     [SerializeField]
@@ -12,8 +12,7 @@ public class UIPlayPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        playVSAIButton.onClick.AddListener(ShowAIGameplay);
-        playPVPButton.onClick.AddListener(ShowPVPPanel);
+        playButton.onClick.AddListener(StartMatch);
 
         PhotonManager.OnIJoinedRoom += JoinedRoom;
         PhotonManager.OnILeftRoom += ILeftRoom;
@@ -21,11 +20,28 @@ public class UIPlayPanel : MonoBehaviour
 
     private void OnDisable()
     {
-        playVSAIButton.onClick.RemoveListener(ShowAIGameplay);
-        playPVPButton.onClick.RemoveListener(ShowPVPPanel);
+        playButton.onClick.RemoveListener(StartMatch);
 
         PhotonManager.OnIJoinedRoom -= JoinedRoom;
         PhotonManager.OnILeftRoom -= ILeftRoom;
+    }
+
+    private void StartMatch()
+    {
+        switch (ModeHandler.Instance.Mode)
+        {
+            case GameMode.VsAi:
+                ShowAIGameplay();
+                break;
+            case GameMode.VsPlayer:
+                ShowPVPPanel();
+                break;
+            case GameMode.Friendly:
+                UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void ShowAIGameplay()
@@ -65,8 +81,7 @@ public class UIPlayPanel : MonoBehaviour
 
     private void ManageInteractables(bool _status)
     {
-        playVSAIButton.interactable = _status;
-        playPVPButton.interactable = _status;
+        playButton.interactable = _status;
     }
 
     private bool CanPlay
