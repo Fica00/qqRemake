@@ -11,7 +11,7 @@ public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
 
    private void CheckCard(CardObject _card)
    {
-      LanePlaceIdentifier _placeIdentifier = _card.GetComponentInParent<LanePlaceIdentifier>();
+      LanePlaceIdentifier _placeIdentifier = cardObject.GetComponentInParent<LanePlaceIdentifier>();
       if (_card.IsMy!=cardObject.IsMy)
       {
          return;

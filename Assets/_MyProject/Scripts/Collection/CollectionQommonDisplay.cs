@@ -63,6 +63,10 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
     {
         if (isButtonHeld && Time.time - holdStartTime >= holdDuration)
         {
+            if (cardId==-1)
+            {
+                return;
+            }
             OnHold?.Invoke(cardId);
         }
     }

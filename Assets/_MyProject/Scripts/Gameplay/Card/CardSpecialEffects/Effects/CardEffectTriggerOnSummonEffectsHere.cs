@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,21 +17,25 @@ public class CardEffectTriggerOnSummonEffectsHere : CardEffectBase
     void Trigger()
     {
         List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, cardObject.LaneLocation);
+        Instantiate(haloRingEffect, cardObject.transform);
 
-        foreach (var _card in _myCardsOnLane)
+        StartCoroutine(TriggerRoutine());
+        IEnumerator TriggerRoutine()
         {
-            CardEffectBase _cardEffect= _card.GetComponentInChildren<CardEffectBase>();
-            if (_cardEffect==null)
+            foreach (var _card in _myCardsOnLane)
             {
-                continue;
-            }
+                CardEffectBase _cardEffect= _card.GetComponentInChildren<CardEffectBase>();
+                if (_cardEffect==null)
+                {
+                    continue;
+                }
 
-            if (_card.Details.Description.ToLower().Contains("On Summon".ToLower()))
-            {
-                _cardEffect.Subscribe();
-                Instantiate(haloRingEffect, _card.transform);
+                if (_card.Details.Description.ToLower().Contains("On Summon".ToLower()))
+                {
+                    _cardEffect.Subscribe();
+                }
+                yield return new WaitForSeconds(0.5f);
             }
-            
         }
     }
 }

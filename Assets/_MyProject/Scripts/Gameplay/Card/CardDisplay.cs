@@ -125,4 +125,9 @@ public class CardDisplay : MonoBehaviour
             }
         }
     }
+
+    public void ForcePowerTextUpdateOcto()
+    {
+        cardInHandDisplay.Show();
+    }
 }

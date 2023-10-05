@@ -17,7 +17,7 @@ public class HaloRingEffect : MonoBehaviour
       foreach (var _sprite in sprites)
       {
          imageDisplay.sprite = _sprite;
-         yield return new WaitForSeconds(0.3f);
+         yield return new WaitForSeconds(0.15f);
       }
       
       Destroy(gameObject);

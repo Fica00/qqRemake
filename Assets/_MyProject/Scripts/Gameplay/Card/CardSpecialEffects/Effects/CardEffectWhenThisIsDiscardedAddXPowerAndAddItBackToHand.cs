@@ -56,6 +56,7 @@ public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffe
         yield return new WaitForSeconds(0.3f);
         cardObject.Stats.Power += power;
         powerDisplay.font = winningFont;
+        cardObject.Display.ForcePowerTextUpdateOcto();
         IsActive = false;
     }
     

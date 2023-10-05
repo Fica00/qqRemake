@@ -90,13 +90,16 @@ public class PowerDisplay : MonoBehaviour
         TextMeshProUGUI _text = _showMyPower ? myPower : opponentPower;
 
         float _currentSize = _text.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize + 20, 1f)
+        float _desiredSize = winFontSize += 15;
+        DOTween.To(() => _currentSize, x => _currentSize = x, _desiredSize, 0.1f)
             .OnUpdate(() => _text.fontSize = _currentSize)
             .OnComplete(() =>
             {
                 LaneDisplay _location = GetComponent<LaneDisplay>();
                 int _myPower = GameplayManager.Instance.TableHandler.GetPower(true, _location.Location);
                 int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, _location.Location);
-            });
+                DOTween.To(() => _desiredSize, x => _desiredSize = x, _currentSize, 0.1f)
+                    .OnUpdate(() => _text.fontSize = _desiredSize).SetDelay(.2f);
+            }).SetDelay(.5f);
     }
 }

@@ -4,11 +4,40 @@ using UnityEngine;
 public class CardEffectAddNPowerForEachQoomonInHand : CardEffectBase
 {
     [SerializeField] private int amountOfPower;
+    private GameplayPlayer player;
     
     public override void Subscribe()
     {
+        player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
+
         CountCardsInHand();
         GameplayPlayer.DrewCard += CountCardsInHand;
+        GameplayPlayer.AddedCardToTable += CountCardsInHand;
+        GameplayPlayer.DiscardedCard += CountCardsInHand;
+        player.RemovedCardFromHand += CountCardsInHand;
+        player.AddedCardToHand += CountCardsInHand;
+    }
+
+    private void OnDisable()
+    {
+        GameplayPlayer.DrewCard -= CountCardsInHand;
+        GameplayPlayer.AddedCardToTable -= CountCardsInHand;
+        GameplayPlayer.DiscardedCard -= CountCardsInHand;
+        if (player!=null)
+        {
+            player.RemovedCardFromHand -= CountCardsInHand;
+            player.AddedCardToHand -= CountCardsInHand;
+        }
+    }
+
+    private void CountCardsInHand(CardObject _arg1, bool _arg2)
+    {
+        CountCardsInHand();
+    }
+
+    private void CountCardsInHand(PlaceCommand _obj)
+    {
+        CountCardsInHand();
     }
 
     private void CountCardsInHand(CardObject _card)
@@ -33,7 +62,8 @@ public class CardEffectAddNPowerForEachQoomonInHand : CardEffectBase
         {
             _powerToAdd += amountOfPower;
         }
-        
+
+        _powerToAdd *= _amountOfCardsInHand;
         cardObject.Stats.Power = cardObject.Details.Power + _powerToAdd;
         if (GameplayManager.IsPvpGame)
         {

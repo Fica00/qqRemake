@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +18,12 @@ public class CardEffectAddPowerForEachCardOnYourSide : CardEffectBase
         for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
         {
             cardObject.Stats.Power += _powerToAdd;
+        }
+
+        foreach (var _cardOnLane in _myCardsOnLane)
+        {
+            LanePlaceIdentifier _placeIdentifier = _cardOnLane.GetComponentInParent<LanePlaceIdentifier>();
+            GameplayManager.Instance.FlashLocation(_placeIdentifier.Id,Color.white,3);
         }
     }
 }

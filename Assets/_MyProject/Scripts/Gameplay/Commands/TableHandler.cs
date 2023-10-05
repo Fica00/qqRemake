@@ -127,6 +127,10 @@ public class TableHandler : MonoBehaviour
             AddCardOnLane(_command.Card, _cardsOnLane);
             OnRevealdCard?.Invoke(_command.Card);
             _commands.Remove(_command);
+            if (_command.Card.Details.Id==13 ||_command.Card.Details.Id==42)
+            {
+                yield return new WaitForSeconds(2);
+            }
         }
     }
 
