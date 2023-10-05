@@ -17,6 +17,10 @@ public class CardEffectAddPowerIfOpponentPlayedOnSameLocation : CardEffectBase
         
         foreach (var _command in commandsThisRound)
         {
+            if (!_command.Card.IsPlaced())
+            {
+                continue;
+            }
             if (_command.Card.LaneLocation == cardObject.LaneLocation)
             {
                 for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)

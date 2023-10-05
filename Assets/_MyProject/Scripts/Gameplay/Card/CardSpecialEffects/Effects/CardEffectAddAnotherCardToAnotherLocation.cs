@@ -69,6 +69,5 @@ public class CardEffectAddAnotherCardToAnotherLocation : CardEffectBase
         }
 
         _copyOfCard.ForcePlace(_choosendLane);
-        
     }
 }

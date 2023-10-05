@@ -25,6 +25,10 @@ public class LaneAbilityChangeQommonPowerEachRound : LaneAbilityBase
 
         void ChangePower(List<CardObject> _cards)
         {
+            if (_cards == null)
+            {
+                return;
+            }
             foreach (var _card in _cards)
             {
                 _card.Stats.ChagePowerDueToLocation += amountOfPower;

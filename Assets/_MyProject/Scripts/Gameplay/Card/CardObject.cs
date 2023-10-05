@@ -218,4 +218,9 @@ public class CardObject : MonoBehaviour
             return _laneDisplay.Location;
         }
     }
+
+    public bool IsPlaced()
+    {
+        return GetComponentInParent<LaneDisplay>() != null;
+    }
 }

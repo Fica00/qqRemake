@@ -7,13 +7,10 @@ public class AndroidInputSupport : MonoBehaviour
     private bool isAndroid;
     private void Awake()
     {
-        if (!(Screen.height > Screen.width || Application.platform == RuntimePlatform.WindowsEditor))
+        isAndroid = Screen.height > Screen.width;
+        if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             isAndroid = false;
-        }
-        else
-        {
-            isAndroid = true;
         }
         inputField = GetComponent<TMP_InputField>();
     }

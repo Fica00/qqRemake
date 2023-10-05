@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
+    
+    public const string GAME_LINK = "https://qqweb-b75ae.web.app";
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();
@@ -18,6 +20,9 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern void CloseKeyboard();
+    
+    [DllImport("__Internal")]
+    public static extern void OpenURL(string _url);
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
 
@@ -82,5 +87,10 @@ public class JavaScriptManager : MonoBehaviour
         FirebaseAuthResponse _response = JsonConvert.DeserializeObject<FirebaseAuthResponse>(_data);
         Debug.Log("Got token: "+_data);
         AuthHandler.Instance.AuthWithFacebook(_response.Id);
+    }
+
+    public void LoadURL(string _url)
+    {
+        OpenURL(_url);
     }
 }

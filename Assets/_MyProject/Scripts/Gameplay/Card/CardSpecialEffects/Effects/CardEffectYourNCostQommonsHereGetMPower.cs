@@ -49,11 +49,6 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
         {
             return;
         }
-
-        if (_card.LaneLocation!=cardObject.LaneLocation)
-        {
-            return;
-        }
         
         for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {

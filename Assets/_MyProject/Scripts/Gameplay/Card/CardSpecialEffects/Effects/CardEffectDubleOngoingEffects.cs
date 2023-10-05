@@ -8,6 +8,7 @@ public class CardEffectDubleOngoingEffects :  CardEffectBase
     {
         LaneDisplay _currentLane = GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation];
         _currentLane.LaneSpecifics.AmountOfOngoingEffects += 2;
-        Instantiate(haloRingEffect, cardObject.transform);
+        GameObject _effect = Instantiate(haloRingEffect, cardObject.transform).gameObject;
+        _effect.transform.position += new Vector3(0, 100, 0);
     }
 }

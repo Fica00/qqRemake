@@ -23,6 +23,10 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
                 {
                     GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
                     TableHandler.OnRevealdCard -= CheckPlayedCard;
+                    if (!cardObject.IsPlaced())
+                    {
+                        return;
+                    }
                     GameplayManager.Instance.HideHighlihtWholeLocation(cardObject.LaneLocation, cardObject.IsMy, colorEffect);
                     Destroy(gameObject);
                 }

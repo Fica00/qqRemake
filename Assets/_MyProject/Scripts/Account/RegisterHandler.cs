@@ -83,5 +83,6 @@ public class RegisterHandler : MonoBehaviour
         loginWithEmail.interactable = _status;
         loginWithGoogle.interactable = _status;
         loginWithFacebook.interactable = _status;
+        guestButton.interactable = _status;
     }
 }

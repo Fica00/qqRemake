@@ -98,17 +98,33 @@ public class TableHandler : MonoBehaviour
     {
         foreach (var _command in _commands.ToList())
         {
+            yield return StartCoroutine(DoRevealRoutine(_command));
+            if (_command.Card.Details.Id==13 ||_command.Card.Details.Id==42)
+            {
+                yield return new WaitForSeconds(2);
+            }
+
+            if (_command.Card.Details.Id==35)
+            {
+                yield return new WaitForSeconds(1);
+                var _possibleCommands = _command.IsMyPlayer
+                    ? GameplayManager.Instance.CommandsHandler.MyCommands
+                    : GameplayManager.Instance.CommandsHandler.OpponentCommands;
+                foreach (var _newPossibleCommand in _possibleCommands)
+                {
+                    if (_newPossibleCommand.Card.Details.Id==34)
+                    {
+                        yield return StartCoroutine(DoRevealRoutine(_newPossibleCommand));
+                        _possibleCommands.Remove(_newPossibleCommand);
+                        break;
+                    }
+                }
+            }
+        }
+
+        IEnumerator DoRevealRoutine(PlaceCommand _command)
+        {
             yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
-            // if (SkipRevealAnimation(_command.Card))
-            // {
-            //     _command.Card.Reveal.PreReveal();
-            //     _command.Card.Reveal.Finish();
-            //     _command.Card.Subscribe();
-            // }
-            // else
-            // {
-            //     yield return StartCoroutine(_command.Card.RevealCard());
-            // }
             yield return StartCoroutine(_command.Card.RevealCard());
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
@@ -127,10 +143,6 @@ public class TableHandler : MonoBehaviour
             AddCardOnLane(_command.Card, _cardsOnLane);
             OnRevealdCard?.Invoke(_command.Card);
             _commands.Remove(_command);
-            if (_command.Card.Details.Id==13 ||_command.Card.Details.Id==42)
-            {
-                yield return new WaitForSeconds(2);
-            }
         }
     }
 
