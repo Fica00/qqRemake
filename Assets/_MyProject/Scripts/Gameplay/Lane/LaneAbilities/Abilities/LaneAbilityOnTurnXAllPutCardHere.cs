@@ -3,7 +3,6 @@ using UnityEngine;
 public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
 {
     [SerializeField] private int round;
-    private bool isSubscribed = false;
 
     public override void Subscribe()
     {
@@ -14,10 +13,11 @@ public class LaneAbilityOnTurnXAllPutCardHere : LaneAbilityBase
 
     private void OnDisable()
     {
-        if (isSubscribed)
+        if (!isSubscribed)
         {
-            GameplayManager.UpdatedRound -= CheckRound;
+            return;
         }
+        GameplayManager.UpdatedRound -= CheckRound;
     }
 
     private void CheckRound()

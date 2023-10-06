@@ -7,12 +7,17 @@ public class LaneAbilityAddXEnergyIfYouHaveNCardsHere : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         GameplayManager.UpdatedRound += CountCards;
         CountCards();
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         GameplayManager.UpdatedRound -= CountCards;
     }
 

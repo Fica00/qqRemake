@@ -6,6 +6,7 @@ public class LaneAbilityAddPowerToOtherLocations : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         switch (laneDisplay.Location)
         {
             case LaneLocation.Top:
@@ -34,6 +35,10 @@ public class LaneAbilityAddPowerToOtherLocations : LaneAbilityBase
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= CheckCard;
         GameplayManager.UpdatedRound -= CalculatePower;
     }

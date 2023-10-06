@@ -4,6 +4,7 @@ using UnityEngine;
 public class CardEffectAddAnotherCardToAnotherLocation : CardEffectBase
 {
     [SerializeField] private int qommonId;
+    
     public override void Subscribe()
     {
         for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)

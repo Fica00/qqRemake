@@ -27,9 +27,7 @@ public class CardEffectAddPowerForEachCardHere : CardEffectBase
 
         foreach (var _cardOnLane in _cardsOnLane)
         {
-            Debug.Log(123);
             LanePlaceIdentifier _placeIdentifier = _cardOnLane.GetComponentInParent<LanePlaceIdentifier>();
-            Debug.Log(_placeIdentifier.Id,_placeIdentifier.gameObject);
             GameplayManager.Instance.FlashLocation(_placeIdentifier.Id,Color.white,3);
         }
     }

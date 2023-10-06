@@ -9,25 +9,27 @@ public class CardEffectAddNPowerForEachQoomonInHand : CardEffectBase
     public override void Subscribe()
     {
         player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
-
         CountCardsInHand();
         GameplayPlayer.DrewCard += CountCardsInHand;
         GameplayPlayer.AddedCardToTable += CountCardsInHand;
         GameplayPlayer.DiscardedCard += CountCardsInHand;
         player.RemovedCardFromHand += CountCardsInHand;
         player.AddedCardToHand += CountCardsInHand;
+        isSubscribed = true;
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
+        
         GameplayPlayer.DrewCard -= CountCardsInHand;
         GameplayPlayer.AddedCardToTable -= CountCardsInHand;
         GameplayPlayer.DiscardedCard -= CountCardsInHand;
-        if (player!=null)
-        {
-            player.RemovedCardFromHand -= CountCardsInHand;
-            player.AddedCardToHand -= CountCardsInHand;
-        }
+        player.RemovedCardFromHand -= CountCardsInHand;
+        player.AddedCardToHand -= CountCardsInHand;
     }
 
     private void CountCardsInHand(CardObject _arg1, bool _arg2)

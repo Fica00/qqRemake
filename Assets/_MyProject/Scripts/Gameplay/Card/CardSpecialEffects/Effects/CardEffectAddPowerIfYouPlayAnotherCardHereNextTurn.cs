@@ -5,7 +5,7 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
     [SerializeField] private int PowerToAdd;
     [SerializeField] private Color colorEffect;
 
-    private bool shoudlDestroy = false;
+    private bool firstPhase;
 
 
     public override void Subscribe()
@@ -14,26 +14,54 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
         GameplayManager.UpdatedGameState += SubscribeForEventsOnNextRound;
     }
 
+    private void OnDisable()
+    {
+        try
+        {
+            GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
+        }
+        catch
+        {
+            
+        }
+
+        try
+        {
+            TableHandler.OnRevealdCard -= CheckPlayedCard;
+        }
+        catch
+        {
+            
+        }
+    }
+
     private void SubscribeForEventsOnNextRound()
     {
         switch (GameplayManager.Instance.GameplayState)
         {
             case GameplayState.ResolvingBeginingOfRound:
-                if (shoudlDestroy)
+                if (firstPhase)
                 {
                     GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
-                    TableHandler.OnRevealdCard -= CheckPlayedCard;
+                    try
+                    {
+                        TableHandler.OnRevealdCard -= CheckPlayedCard;
+                    }
+                    catch
+                    {
+            
+                    }
                     if (!cardObject.IsPlaced())
                     {
                         return;
                     }
                     GameplayManager.Instance.HideHighlihtWholeLocation(cardObject.LaneLocation, cardObject.IsMy, colorEffect);
-                    Destroy(gameObject);
+                    firstPhase = false;
                 }
                 else
                 {
                     TableHandler.OnRevealdCard += CheckPlayedCard;
-                    shoudlDestroy = true;
+                    firstPhase = true;
                 }
                 break;
         }

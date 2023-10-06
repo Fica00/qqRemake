@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +8,14 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
     
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += CheckCard;
         CheckQommonsThatAreAlreadyHere();
+    }
+
+    private void OnDisable()
+    {
+        TableHandler.OnRevealdCard -= CheckCard;
     }
 
     private void CheckQommonsThatAreAlreadyHere()

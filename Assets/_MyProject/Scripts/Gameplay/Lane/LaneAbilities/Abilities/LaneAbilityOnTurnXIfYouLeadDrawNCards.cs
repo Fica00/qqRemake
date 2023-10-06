@@ -7,11 +7,16 @@ public class LaneAbilityOnTurnXIfYouLeadDrawNCards : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         GameplayManager.UpdatedRound += CheckForRound;
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         GameplayManager.UpdatedRound -= CheckForRound;
     }
 

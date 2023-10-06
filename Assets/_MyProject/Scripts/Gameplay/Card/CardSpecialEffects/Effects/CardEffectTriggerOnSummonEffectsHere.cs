@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardEffectTriggerOnSummonEffectsHere : CardEffectBase
@@ -16,7 +17,8 @@ public class CardEffectTriggerOnSummonEffectsHere : CardEffectBase
 
     void Trigger()
     {
-        List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, cardObject.LaneLocation);
+        List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, cardObject
+        .LaneLocation).ToList();
         Instantiate(haloRingEffect, cardObject.transform);
 
         StartCoroutine(TriggerRoutine());

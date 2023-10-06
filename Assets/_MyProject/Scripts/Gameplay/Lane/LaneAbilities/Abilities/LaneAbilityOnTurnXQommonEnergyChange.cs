@@ -7,11 +7,16 @@ public class LaneAbilityOnTurnXQommonEnergyChange : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         GameplayManager.UpdatedRound += ManageAbility;
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         GameplayManager.UpdatedRound -= ManageAbility;
     }
 

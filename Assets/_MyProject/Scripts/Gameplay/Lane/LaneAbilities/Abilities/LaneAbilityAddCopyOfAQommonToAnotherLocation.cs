@@ -4,11 +4,16 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
 {
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += AddCopyOfAQommon;
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= AddCopyOfAQommon;
     }
 

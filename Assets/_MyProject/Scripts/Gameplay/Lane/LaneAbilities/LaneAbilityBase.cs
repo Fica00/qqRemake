@@ -3,6 +3,7 @@ using UnityEngine;
 public class LaneAbilityBase : MonoBehaviour
 {
     protected LaneDisplay laneDisplay;
+    protected bool isSubscribed;
 
     public void Setup(LaneDisplay _laneDisplay)
     {

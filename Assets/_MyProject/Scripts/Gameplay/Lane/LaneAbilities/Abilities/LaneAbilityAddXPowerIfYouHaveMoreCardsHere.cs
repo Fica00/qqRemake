@@ -8,12 +8,17 @@ public class LaneAbilityAddXPowerIfYouHaveMoreCardsHere : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += CheckCount;
         CountCards();
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= CheckCount;
     }
 

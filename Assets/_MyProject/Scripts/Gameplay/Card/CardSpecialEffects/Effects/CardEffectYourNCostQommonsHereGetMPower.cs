@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +10,18 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
     
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += CheckCard;
         CheckQommonsThatAreAlreadyHere();
+    }
+
+    private void OnDisable()
+    {
+        if (!isSubscribed)
+        {
+            return;
+        }
+        TableHandler.OnRevealdCard -= CheckCard;
     }
 
     private void CheckQommonsThatAreAlreadyHere()
@@ -30,6 +42,13 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
                 _cardOnLane.Stats.Power += amountOfPower;
             }
             _cardOnLane.Display.EnlargedPowerAnimation(_cardOnLane.IsMy);
+            StartCoroutine(UpdatePower(_cardOnLane));
+        }
+
+        IEnumerator UpdatePower(CardObject _card)
+        {
+            yield return new WaitForSeconds(1);
+            _card.Display.ForcePowerTextUpdateOnTable();
         }
     }
 

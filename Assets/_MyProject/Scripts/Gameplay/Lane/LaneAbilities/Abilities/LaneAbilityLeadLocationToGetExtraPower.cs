@@ -8,6 +8,7 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         for (int i = 0; i < appliedPower.Length; i++)
         {
             appliedPower[i] = false;
@@ -19,6 +20,10 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= CheckPower;
     }
 

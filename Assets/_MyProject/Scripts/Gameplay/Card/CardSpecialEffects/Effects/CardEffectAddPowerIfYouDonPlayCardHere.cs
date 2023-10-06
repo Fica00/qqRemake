@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class CardEffectAddPowerIfYouDonPlayCardHere : CardEffectBase
 {
     [SerializeField] private int powerToAdd;
 
-    private bool shouldDestroy = false;
+    private bool firstPhase = false;
 
 
     public override void Subscribe()
@@ -13,22 +14,41 @@ public class CardEffectAddPowerIfYouDonPlayCardHere : CardEffectBase
         GameplayManager.UpdatedGameState += SubscribeForEventsOnNextRound;
     }
 
+    private void OnDisable()
+    {
+        try
+        {
+            GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            TableHandler.OnRevealdCard -= CheckPlayedCard;
+        }
+        catch
+        {
+        }
+    }
+
     private void SubscribeForEventsOnNextRound()
     {
         switch (GameplayManager.Instance.GameplayState)
         {
             case GameplayState.ResolvingBeginingOfRound:
-                if (shouldDestroy)
+                if (firstPhase)
                 {
                     GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
                     TableHandler.OnRevealdCard -= CheckPlayedCard;
                     GameplayManager.Instance.HideHighlihtWholeLocationDotted(cardObject.LaneLocation, cardObject.IsMy);
-                    Destroy(gameObject);
+                    firstPhase = false;
                 }
                 else
                 {
                     TableHandler.OnRevealdCard += CheckPlayedCard;
-                    shouldDestroy = true;
+                    firstPhase = true;
                 }
                 break;
         }

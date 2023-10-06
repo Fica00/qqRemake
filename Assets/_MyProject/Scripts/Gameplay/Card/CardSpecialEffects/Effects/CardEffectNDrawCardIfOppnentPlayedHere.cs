@@ -4,8 +4,8 @@ using UnityEngine;
 public class CardEffectNDrawCardIfOppnentPlayedHere : CardEffectBase
 {
     [SerializeField] private int amountOfCards;
-    private bool isSubscribed;
-    
+    private bool firstPhase;
+
     public override void Subscribe()
     {
         if (GameplayManager.IsPvpGame&&!cardObject.IsMy)
@@ -18,11 +18,26 @@ public class CardEffectNDrawCardIfOppnentPlayedHere : CardEffectBase
 
     private void OnDisable()
     {
-        if (isSubscribed)
+        if (!isSubscribed)
+        {
+            return;
+        }
+
+        try
         {
             TableHandler.OnRevealdCard -= CheckCard;
+        }
+        catch 
+        {
+                        
+        }
+        try
+        {
             GameplayManager.UpdatedGameState -= SubscribeForNextRound;
-            isSubscribed = false;
+        }
+        catch 
+        {
+                        
         }
     }
 
@@ -31,18 +46,24 @@ public class CardEffectNDrawCardIfOppnentPlayedHere : CardEffectBase
         switch (GameplayManager.Instance.GameplayState)
         {
             case GameplayState.ResolvingBeginingOfRound:
-                if (isSubscribed)
+                if (firstPhase)
                 {
-                    isSubscribed = false;
-                    TableHandler.OnRevealdCard -= CheckCard;
+                    firstPhase = false;
+                    try
+                    {
+                        TableHandler.OnRevealdCard -= CheckCard;
+                    }
+                    catch 
+                    {
+                        
+                    }
                     GameplayManager.UpdatedGameState -= SubscribeForNextRound;
                 }
                 else
                 {
                     TableHandler.OnRevealdCard += CheckCard;
-                    isSubscribed = true;
+                    firstPhase = true;
                 }
-                
                 break;
             case GameplayState.Playing:
                 break;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,12 +10,18 @@ public class LaneAbilityChangePowerToQommonsHere : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += EffectNewCards;
         EffectCardsAlreadyOnLane();
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
+        
         TableHandler.OnRevealdCard -= EffectNewCards;
     }
 

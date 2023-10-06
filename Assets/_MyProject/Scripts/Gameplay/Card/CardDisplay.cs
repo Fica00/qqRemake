@@ -130,4 +130,9 @@ public class CardDisplay : MonoBehaviour
     {
         cardInHandDisplay.Show();
     }
+
+    public void ForcePowerTextUpdateOnTable()
+    {
+        cardOnTableHandler.Show();
+    }
 }

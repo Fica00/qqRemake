@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
@@ -7,6 +8,17 @@ public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
    public override void Subscribe()
    {
       TableHandler.OnRevealdCard += CheckCard;
+      isSubscribed = true;
+   }
+
+   private void OnDisable()
+   {
+      if (!isSubscribed)
+      {
+         return;
+      }
+
+      TableHandler.OnRevealdCard -= CheckCard;
    }
 
    private void CheckCard(CardObject _card)

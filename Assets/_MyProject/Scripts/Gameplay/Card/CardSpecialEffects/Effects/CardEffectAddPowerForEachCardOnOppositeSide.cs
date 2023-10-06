@@ -8,13 +8,18 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         amountOfCountedCards = 0;
         TableHandler.OnRevealdCard += TryToAddPower;
         CountCards();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= TryToAddPower;
     }
 

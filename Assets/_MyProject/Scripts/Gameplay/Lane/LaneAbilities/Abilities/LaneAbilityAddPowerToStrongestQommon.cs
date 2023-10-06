@@ -8,12 +8,17 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += CheckCard;
         CheckCards();
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= CheckCard;
     }
 

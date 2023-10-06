@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CardEffectAddPowerIfThisIsAtLocation : CardEffectBase
@@ -10,6 +11,17 @@ public class CardEffectAddPowerIfThisIsAtLocation : CardEffectBase
     {
         TableHandler.OnRevealdCard += CheckLocation;
         GameplayManager.UpdatedGameState += Destroy;
+        isSubscribed = true;
+    }
+
+    private void OnDisable()
+    {
+        if (!isSubscribed)
+        {
+            return;
+        }
+        TableHandler.OnRevealdCard -= CheckLocation;
+        GameplayManager.UpdatedGameState -= Destroy;
     }
 
     private void Destroy()

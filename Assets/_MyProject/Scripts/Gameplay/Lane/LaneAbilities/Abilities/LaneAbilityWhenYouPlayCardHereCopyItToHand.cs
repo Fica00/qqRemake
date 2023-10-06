@@ -4,11 +4,17 @@ public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
 {
     public override void Subscribe()
     {
+        isSubscribed = true;
         TableHandler.OnRevealdCard += CheckCard;
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
+        
         TableHandler.OnRevealdCard -= CheckCard;
     }
 

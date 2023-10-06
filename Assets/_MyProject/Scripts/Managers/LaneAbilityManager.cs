@@ -60,7 +60,7 @@ public class LaneAbilityManager : MonoBehaviour
         {
             if (_laneAbility.Id==_id)
             {
-                return _laneAbility;
+                return CreateLaneAbility(_laneAbility);
             }
         }
 

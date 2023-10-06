@@ -4,7 +4,6 @@ public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
 {
     [SerializeField] private int round;
     [SerializeField] private int amountOfCards;
-    private bool isSubscribed = false;
 
     public override void Subscribe()
     {

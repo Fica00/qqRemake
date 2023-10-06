@@ -9,6 +9,7 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
     
     public override void Subscribe()
     {
+        isSubscribed = true;
         for (int i = 0; i < appliedPower.Length; i++)
         {
             appliedPower[i] = false;
@@ -20,6 +21,10 @@ public class LaneAbilityAddPowerIfAmountOfCards : LaneAbilityBase
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         TableHandler.OnRevealdCard -= CheckCount;
     }
 

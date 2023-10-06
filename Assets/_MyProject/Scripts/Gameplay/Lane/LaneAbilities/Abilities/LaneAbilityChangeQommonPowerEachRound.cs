@@ -7,11 +7,16 @@ public class LaneAbilityChangeQommonPowerEachRound : LaneAbilityBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         GameplayManager.UpdatedRound += ChangePower;
     }
 
     private void OnDisable()
     {
+        if (!isSubscribed)
+        {
+            return;
+        }
         GameplayManager.UpdatedRound -= ChangePower;
     }
 

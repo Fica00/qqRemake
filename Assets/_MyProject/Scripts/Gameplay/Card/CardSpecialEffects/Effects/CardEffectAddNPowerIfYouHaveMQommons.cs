@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,8 +13,19 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
 
     public override void Subscribe()
     {
+        isSubscribed = true;
         CountCards();
         TableHandler.OnRevealdCard += CountCards;
+    }
+
+    private void OnDisable()
+    {
+        if (!isSubscribed)
+        {
+            return;
+        }
+
+        TableHandler.OnRevealdCard -= CountCards;
     }
 
     private void CountCards(CardObject _card)

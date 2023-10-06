@@ -4,6 +4,8 @@ using UnityEngine;
 public class CardEffectBase : MonoBehaviour
 {
     protected CardObject cardObject;
+    protected bool isSubscribed;
+
 
     public void Setup(CardObject _cardObject)
     {
