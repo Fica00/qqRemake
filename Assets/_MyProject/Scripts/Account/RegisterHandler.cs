@@ -26,6 +26,7 @@ public class RegisterHandler : MonoBehaviour
         loginWithFacebook.onClick.AddListener(LoginWithFacebook);
         loginWithGoogle.onClick.AddListener(LoginWithGoogle);
         guestButton.onClick.AddListener(LoginAsGuest);
+        passwordInput.onSubmit.AddListener(LoginWithEmail);
     }
 
     private void OnDisable()
@@ -34,6 +35,12 @@ public class RegisterHandler : MonoBehaviour
         loginWithFacebook.onClick.RemoveListener(LoginWithFacebook);
         loginWithGoogle.onClick.RemoveListener(LoginWithGoogle);
         guestButton.onClick.RemoveListener(LoginAsGuest);
+        passwordInput.onSubmit.AddListener(LoginWithEmail);
+    }
+
+    private void LoginWithEmail(string _arg0)
+    {
+        LoginWithEmail();
     }
 
     private void LoginAsGuest()
