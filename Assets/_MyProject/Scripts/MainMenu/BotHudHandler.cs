@@ -11,6 +11,7 @@ public class BotHudHandler : MonoBehaviour
     [SerializeField] private Button collectionButton;
     
     [SerializeField] private CollectionPanel collectionPanel;
+    [SerializeField] private ShopPanel shopPanel;
     [SerializeField] private GameObject mainMenuPanel;
 
 
@@ -35,7 +36,8 @@ public class BotHudHandler : MonoBehaviour
 
     public void ShowShop()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        CloseAll();
+        shopPanel.Show();
     }
 
     public void ShowMain()
@@ -54,5 +56,6 @@ public class BotHudHandler : MonoBehaviour
     {
         mainMenuPanel.SetActive(false);
         collectionPanel.Close();
+        shopPanel.Close();
     }
 }

@@ -117,6 +117,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 21da297150abd49b18a14cafb5d447d4, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.SpriteGamePass
+      value: 
+      objectReference: {fileID: 21300000, guid: 0a4ffd53b19969c4ba946e8026c662cd, type: 3}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Id>k__BackingField
       value: 5
       objectReference: {fileID: 0}

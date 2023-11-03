@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class FirebaseManager : MonoBehaviour
     private string projectLink = "https://qqweb-b75ae-default-rtdb.firebaseio.com/";
     public string UserDataLink => $"{projectLink}/users/{userLocalId}/";
     private string GameDataLink => $"{projectLink}/gameData/";
+    private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
     public string PlayerId => userLocalId;
 
@@ -137,6 +140,51 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log("Failed to update data, please try again later");
             Debug.Log(_result);
         }));
+    }
+
+    public void RemoveGamePassFromMarketplace(GamePassOffer _offer)
+    {
+        GameObject _loading = Instantiate(AssetsManager.Instance.Loading, null);
+        GetMarketplace((_marketPlaceData) =>
+        {
+            var _items = JsonConvert.DeserializeObject<Dictionary<string, GamePassOffer>>(_marketPlaceData);
+            string _keyToRemove = default;
+            foreach (var _item in _items)
+            {
+                var _marketPlaceOffer = _item.Value;
+                if (_marketPlaceOffer != null && _marketPlaceOffer.Cost==_offer.Cost && _marketPlaceOffer.Owner == 
+                _offer.Owner)
+                {
+                    _keyToRemove = _item.Key;
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(_keyToRemove))
+            {
+                string _itemURL = $"{MarketPlaceLink}{_keyToRemove}.json";
+                StartCoroutine(Delete(_itemURL, (_result) =>
+                {
+                    Destroy(_loading);
+                }, (_result) =>
+                {
+                    Destroy(_loading);
+                }));
+            }
+            else
+            {
+                Destroy(_loading);
+            }
+            
+        });
+    }
+
+    private void GetMarketplace(Action<string> _callBack)
+    {
+        StartCoroutine(Get(MarketPlaceLink+".json", (_result) =>
+        {
+            _callBack?.Invoke(_result);
+        }, (_result) => { _callBack?.Invoke(null); }));
     }
 
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)

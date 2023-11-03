@@ -13,14 +13,14 @@ public class UIMainMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        DataManager.Instance.PlayerData.UpdatedDeckName += ShowLineupName;
-        DataManager.Instance.PlayerData.UpdatedSelectedDeck += ShowLineupName;
+        PlayerData.UpdatedDeckName += ShowLineupName;
+        PlayerData.UpdatedSelectedDeck += ShowLineupName;
     }
 
     private void OnDisable()
     {
-        DataManager.Instance.PlayerData.UpdatedDeckName -= ShowLineupName;
-        DataManager.Instance.PlayerData.UpdatedSelectedDeck -= ShowLineupName;
+        PlayerData.UpdatedDeckName -= ShowLineupName;
+        PlayerData.UpdatedSelectedDeck -= ShowLineupName;
     }
 
     private void ShowLineupName()

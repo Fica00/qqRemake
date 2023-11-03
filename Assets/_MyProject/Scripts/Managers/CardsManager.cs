@@ -59,4 +59,9 @@ public class CardsManager : MonoBehaviour
     {
         return allCards.Find(_elemet => _elemet.Details.Id == _cardId).Details.Sprite;
     }
+    
+    public Sprite GetCardSpriteGamePass(int _cardId)
+    {
+        return allCards.Find(_element => _element.Details.Id == _cardId).Details.SpriteGamePass;
+    }
 }
