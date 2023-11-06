@@ -34,7 +34,7 @@ public class GamePassDisplay : MonoBehaviour
    {
       offer = _offer;
       imageDisplay.sprite = offer.GamePass.Sprite;
-      costDisplay.text = offer.Cost.ToString();
+      costDisplay.text = offer.GamePass.StorageSize.ToString();
    }
 
    public void ShowAsSelected()

@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
 
     public void SetGameData(string _data)
     {
-        GameData = JsonConvert.DeserializeObject<GameData>(_data);
+        GameData = JsonUtilities.ConvertJsonToGameData(_data);
     }
 
     public void SetPlayerData(string _data)

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Rendering;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -14,8 +13,9 @@ public class FirebaseManager : MonoBehaviour
 
     private string userLocalId;
     private string userIdToken;
-    private string projectLink = "https://qqweb-b75ae-default-rtdb.firebaseio.com/";
+    private string projectLink = "https://qqweb-b75ae-default-rtdb.firebaseio.com";
     public string UserDataLink => $"{projectLink}/users/{userLocalId}/";
+    public string UsersLink => $"{projectLink}/users/";
     private string GameDataLink => $"{projectLink}/gameData/";
     private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
@@ -71,7 +71,6 @@ public class FirebaseManager : MonoBehaviour
         string _data = JsonConvert.SerializeObject(DataManager.Instance.PlayerData);
         StartCoroutine(Put(UserDataLink + "/.json", _data, (_result) =>
             {
-                Debug.Log("Entered starting data sucess");
                 _callBack?.Invoke(true);
             },
             (_result) =>
@@ -142,41 +141,83 @@ public class FirebaseManager : MonoBehaviour
         }));
     }
 
-    public void RemoveGamePassFromMarketplace(GamePassOffer _offer)
+    public void RemoveGamePassFromMarketplace(GamePassOffer _offer, Action<bool> _callBack)
     {
         GameObject _loading = Instantiate(AssetsManager.Instance.Loading, null);
         GetMarketplace((_marketPlaceData) =>
         {
-            var _items = JsonConvert.DeserializeObject<Dictionary<string, GamePassOffer>>(_marketPlaceData);
+            var _items = JsonUtilities.ConvertJsonToMarketplace(_marketPlaceData);
             string _keyToRemove = default;
-            foreach (var _item in _items)
+            KeyValuePair<string, GamePassOffer> _offerInMarketplace = GameData.GetMarketplaceOffer(_offer, _items);
+            if (_offerInMarketplace.Key == default || _offerInMarketplace.Value == default)
             {
-                var _marketPlaceOffer = _item.Value;
-                if (_marketPlaceOffer != null && _marketPlaceOffer.Cost==_offer.Cost && _marketPlaceOffer.Owner == 
-                _offer.Owner)
-                {
-                    _keyToRemove = _item.Key;
-                    break;
-                }
+                _callBack?.Invoke(false);
+                return;
             }
+
+            _keyToRemove = _offerInMarketplace.Key;
 
             if (!string.IsNullOrEmpty(_keyToRemove))
             {
                 string _itemURL = $"{MarketPlaceLink}{_keyToRemove}.json";
                 StartCoroutine(Delete(_itemURL, (_result) =>
                 {
+                    _callBack?.Invoke(true);
                     Destroy(_loading);
                 }, (_result) =>
                 {
+                    _callBack?.Invoke(false);
                     Destroy(_loading);
                 }));
             }
             else
             {
+                _callBack?.Invoke(false);
                 Destroy(_loading);
             }
             
         });
+    }
+
+    public void AddUSDCToPlayer(double _amount, string _receiverId, Action<bool> _callBack)
+    {
+        string _key = nameof(DataManager.Instance.PlayerData.USDC);
+        string _url = UsersLink + _receiverId;
+        StartCoroutine(Get(_url+"/"+_key + "/.json",
+            (_result) =>
+            {
+                double _coins = 0;
+                if (!string.IsNullOrEmpty(_result))
+                {
+                    _coins = JsonConvert.DeserializeObject<double>(_result);
+                }
+
+                _coins += _amount;
+                string _jsonData = "{\""+_key+"\": " + _coins + "}";
+                StartCoroutine(Patch(_url+"/.json", _jsonData, (_result) =>
+                {
+                    _callBack?.Invoke(true);
+                }, (_error) =>
+                {
+                    _callBack?.Invoke(false);
+                }));
+            }, (_error) =>
+            {
+                _callBack?.Invoke(false);
+            }));
+    }
+
+    public void RefreshMarketplace(Action _callBack)
+    {
+        GameObject _loading = Instantiate(AssetsManager.Instance.Loading);
+        GetMarketplace(OnLoadedMarketplace);
+
+        void OnLoadedMarketplace(string _data)
+        {
+            DataManager.Instance.GameData.Marketplace = JsonUtilities.ConvertJsonToMarketplace(_data);
+            _callBack?.Invoke();
+            Destroy(_loading);
+        }
     }
 
     private void GetMarketplace(Action<string> _callBack)
@@ -185,6 +226,22 @@ public class FirebaseManager : MonoBehaviour
         {
             _callBack?.Invoke(_result);
         }, (_result) => { _callBack?.Invoke(null); }));
+    }
+
+    public void AddOfferToMarketplace(GamePassOffer _offer, Action<bool> _callBack)
+    {
+        string _key = Guid.NewGuid().ToString();
+        string _dataJson = JsonConvert.SerializeObject(_offer);
+        string _url = MarketPlaceLink + _key+"/.json";
+        StartCoroutine(Patch(_url, _dataJson, (_result) =>
+        {
+            DataManager.Instance.GameData.Marketplace.Add(_key,_offer);
+            _callBack?.Invoke(true);
+        }, (_error) =>
+        {
+            Debug.Log(_error);
+            _callBack?.Invoke(false);
+        }));
     }
 
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)
@@ -278,7 +335,7 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
-    private IEnumerator Patch(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError)
+    public IEnumerator Patch(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError)
     {
         if (userIdToken != null)
         {

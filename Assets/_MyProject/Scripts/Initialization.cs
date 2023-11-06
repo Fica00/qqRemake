@@ -32,7 +32,6 @@ public class Initialization : MonoBehaviour
     {
         if (DataManager.Instance.PlayerData == null || DataManager.Instance.PlayerData.Decks == null)
         {
-            Debug.Log("Detected empty name");
             FirebaseManager.Instance.SetStartingData((_status) =>
             {
                 if (_status)

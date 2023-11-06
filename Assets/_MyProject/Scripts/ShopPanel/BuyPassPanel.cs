@@ -119,12 +119,12 @@ public class BuyPassPanel : BasePanel
             return;
         }
 
-        if (DataManager.Instance.PlayerData.GamePasses.Count>0)
-        {
-            UIManager.Instance.OkDialog.Setup("You already own a game pass!");
-            return;
-        }
+        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesBuy);
+        UIManager.Instance.YesNoDialog.Setup("Continue with the purchase?");
+    }
 
+    private void YesBuy()
+    {
         StripeManager.Instance.Purchase(selectedOffer.Cost,HandlePurchaseResult);
     }
 
@@ -132,7 +132,8 @@ public class BuyPassPanel : BasePanel
     {
         if (_result.Successfully)
         {
-            DataManager.Instance.PlayerData.AddGamePass(selectedOffer.GamePass);
+            GamePass _newGamePass = new GamePass(selectedOffer.GamePass);
+            DataManager.Instance.PlayerData.AddGamePass(_newGamePass);
             gamePassSelection.value = 0;
             UIManager.Instance.OkDialog.Setup("Successfully purchased!");
         }

@@ -9,6 +9,7 @@ public class UIMainMenu : MonoBehaviour
     {
         DataManager.Instance.Subscribe();
         ShowLineupName();
+        // StartCoroutine(FirebaseManager.Instance.Patch("https://qqweb-b75ae-default-rtdb.firebaseio.com/users/vhk4fBSyVcWT6ku6qIkFSHksNfP2/.json"))
     }
 
     private void OnEnable()

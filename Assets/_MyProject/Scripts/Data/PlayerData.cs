@@ -173,4 +173,10 @@ public class PlayerData
         gamePasses.Add(_offer);
         UpdatedGamePasses?.Invoke();
     }
+
+    public void RemoveGamePass(GamePass _gamePass)
+    {
+        gamePasses.Remove(_gamePass);
+        UpdatedGamePasses?.Invoke();
+    }
 }

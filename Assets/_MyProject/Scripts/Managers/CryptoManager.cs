@@ -18,17 +18,32 @@ public class CryptoManager : MonoBehaviour
       }
    }
 
-   public void Purchase(double _cost, Action<PurchaseResponse> _callBack)
+   public void Purchase(double _cost,string _playerId, Action<PurchaseResponse> _callBack)
    {
       GameObject _loading = Instantiate(AssetsManager.Instance.Loading, null);
       StartCoroutine(BuyRoutine());
       IEnumerator BuyRoutine()
       {
          yield return new WaitForSeconds(1);
-         _callBack?.Invoke(new PurchaseResponse()
+         FirebaseManager.Instance.AddUSDCToPlayer(_cost, _playerId, (_status) =>
          {
-            Successfully = true
+            if (_status)
+            {
+               _callBack?.Invoke(new PurchaseResponse()
+               {
+                  Successfully = true
+               });
+            }
+            else
+            {
+               UIManager.Instance.OkDialog.Setup("Something went wrong while sending founds to owner, please contract our support");
+               _callBack?.Invoke(new PurchaseResponse()
+               {
+                  Successfully = false
+               });
+            }
          });
+        
          Destroy(_loading);
       }
    }
