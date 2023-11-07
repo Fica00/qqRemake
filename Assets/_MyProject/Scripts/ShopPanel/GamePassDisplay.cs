@@ -12,8 +12,10 @@ public class GamePassDisplay : MonoBehaviour
    [SerializeField] private Button button;
    [SerializeField] private GameObject shadow;
    private GamePassOffer offer;
+   private GamePass gamePass;
 
    public GamePassOffer Offer => offer;
+   public GamePass GamePass => gamePass;
 
    private void OnEnable()
    {
@@ -35,6 +37,13 @@ public class GamePassDisplay : MonoBehaviour
       offer = _offer;
       imageDisplay.sprite = offer.GamePass.Sprite;
       costDisplay.text = offer.GamePass.StorageSize.ToString();
+   }
+   
+   public void Setup(GamePass _gamePass)
+   {
+      gamePass = _gamePass;
+      imageDisplay.sprite = gamePass.Sprite;
+      costDisplay.text = gamePass.StorageSize.ToString();
    }
 
    public void ShowAsSelected()

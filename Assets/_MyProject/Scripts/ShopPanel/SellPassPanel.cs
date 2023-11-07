@@ -13,6 +13,7 @@ public class SellPassPanel : BasePanel
     [SerializeField] private TextMeshProUGUI coinsDisplay;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Button listButton;
+    [SerializeField] private GamePassStorageDisplay passesDisplay;
     private GamePass showingPass;
     
     private void OnEnable()
@@ -58,23 +59,14 @@ public class SellPassPanel : BasePanel
     
     public override void Show()
     {
-        ShowPass(0);
+        ShowPass(-1);
+        passesDisplay.Show();
         gameObject.SetActive(true);
     }
 
-    private void ShowPass(int _index)
+    public void ShowPass(int _index)
     {
-        if (DataManager.Instance.PlayerData.GamePasses.Count>_index)
-        {
-            showingPass = DataManager.Instance.PlayerData.GamePasses[_index];
-            spriteDisplay.sprite = showingPass.Sprite;
-            storageDisplay.text = showingPass.StorageSize.ToString();
-            coinsInput.text = string.Empty;
-            coinsDisplay.text = "? / " + showingPass.StorageSize;
-            costInput.text = string.Empty;
-            coinsInput.enabled = true;
-        }
-        else
+        if (_index==-1)
         {
             showingPass = default;
             spriteDisplay.sprite = defaultSprite;
@@ -82,6 +74,17 @@ public class SellPassPanel : BasePanel
             coinsDisplay.text = "? / ?";
             costInput.text = string.Empty;
             coinsInput.enabled = false;
+        }
+        else
+        { 
+            showingPass = DataManager.Instance.PlayerData.GamePasses[_index];
+            spriteDisplay.sprite = showingPass.Sprite;
+            storageDisplay.text = showingPass.StorageSize.ToString();
+            coinsInput.text = string.Empty;
+            coinsDisplay.text = "? / " + showingPass.StorageSize;
+            costInput.text = string.Empty;
+            coinsInput.enabled = true;
+            
         }
         
         spriteDisplay.SetNativeSize();
@@ -134,7 +137,8 @@ public class SellPassPanel : BasePanel
             DataManager.Instance.PlayerData.Coins -= _coins;
             DataManager.Instance.PlayerData.RemoveGamePass(showingPass);
             showingPass = default;
-            ShowPass(0);
+            ShowPass(-1);
+            passesDisplay.Show();
         }
         else
         {

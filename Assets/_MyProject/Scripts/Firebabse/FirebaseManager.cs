@@ -146,7 +146,7 @@ public class FirebaseManager : MonoBehaviour
         GameObject _loading = Instantiate(AssetsManager.Instance.Loading, null);
         GetMarketplace((_marketPlaceData) =>
         {
-            var _items = JsonUtilities.ConvertJsonToMarketplace(_marketPlaceData);
+            var _items = JsonConvert.DeserializeObject<Dictionary<string,GamePassOffer>>(_marketPlaceData);
             string _keyToRemove = default;
             KeyValuePair<string, GamePassOffer> _offerInMarketplace = GameData.GetMarketplaceOffer(_offer, _items);
             if (_offerInMarketplace.Key == default || _offerInMarketplace.Value == default)
@@ -214,7 +214,8 @@ public class FirebaseManager : MonoBehaviour
 
         void OnLoadedMarketplace(string _data)
         {
-            DataManager.Instance.GameData.Marketplace = JsonUtilities.ConvertJsonToMarketplace(_data);
+            DataManager.Instance.GameData.Marketplace = JsonConvert.DeserializeObject<Dictionary<string,GamePassOffer>>
+            (_data);
             _callBack?.Invoke();
             Destroy(_loading);
         }
