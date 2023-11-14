@@ -24,4 +24,9 @@ mergeInto(LibraryManager.library,
 	{
         	window.location.href = UTF8ToString(url);
 	},
+
+        StripePurchaseInit: function(cost)
+	{
+	 	StripePurchase(cost)
+	}
 });

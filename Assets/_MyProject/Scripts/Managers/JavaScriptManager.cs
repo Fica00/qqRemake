@@ -23,6 +23,9 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern void OpenURL(string _url);
+    
+    [DllImport("__Internal")]
+    public static extern void StripePurchaseInit(double _cost);
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
 
@@ -48,6 +51,11 @@ public class JavaScriptManager : MonoBehaviour
     public void FacebookAuth()
     {
         AuthWithFacebook();
+    }
+
+    public void StripePurchase(double _cost)
+    {
+        StripePurchaseInit(_cost);
     }
 
     public void DisplayKeyboard()
