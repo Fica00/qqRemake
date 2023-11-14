@@ -22,15 +22,104 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
+    <div id="form-container" style="position: fixed; width: 100%; height: 100vh; display: none; justify-content: center; align-items: center;">
+      <form id="payment-form" style="width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; text-align: center; background-color: #f2f2f2;">
+        <div id="card-element">
+        </div>
+        <div id="card-errors" role="alert"></div>
+        <button type="submit" style="margin-top: 20px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Submit</button>
+        <p id="btn-cancelPayment" style="width: fit-content; margin: 20px auto; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Cancel</p>
+      </form>
+    </div>
     <input id="input" type="text">
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="./config.js"></script>
     <script>
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
+      const btnCancelPayment = document.querySelector('#btn-cancelPayment')
+      const stripe = Stripe("pk_test_51O9azOCJmlrAlGBoMM6I1hDuhjUU0RSx0CK4B4zKqmSCcREI8te3FmXN7JUS4GlDZFNrb5NhdpFgAounpunuvruy00NZy0lPq9")
 
+      function cancelPayment(){
+        var container = document.querySelector('#form-container')
+        container.style.display = 'none'
+        unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment canceled'}))
+      }
+      btnCancelPayment.addEventListener('click', cancelPayment)
+      function StripePurchase(cost){
+        var container = document.querySelector('#form-container')
+        container.style.display = 'flex'
+        var elements = stripe.elements();
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        card.addEventListener('change', function (event) {
+          var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createPaymentMethod({
+        type: 'card',
+        card: card,
+        }).then(function (result) {
+          if (result.error) {
+              console.error(result.error, 'Greška pri izradi PaymentMethod-a');
+          } else {
+              // Pozivanje funkcije za slanje PaymentMethod-a na server
+              sendPaymentMethodToServer(result.paymentMethod, cost);
+          }
+        });
+        });
+
+      }
+      function sendPaymentMethodToServer(paymentMethod, amount) {
+        fetch('https://us-central1-qqweb-b75ae.cloudfunctions.net/createPaymentIntent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                paymentMethod: paymentMethod,
+                amount: amount * 100,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            confirmPaymentWithStripe(paymentMethod, data.clientSecret);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment denide from server'}))
+        });
+      }
+      function confirmPaymentWithStripe(paymentMethod, clientSecret) {
+        stripe.confirmCardPayment(clientSecret, {
+          payment_method: paymentMethod.id,
+        })
+        .then(result => {
+            if (result.error) {
+                console.error(result.error.message);
+                unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment is not confirmed'}))
+            } else {
+                console.log(result.paymentIntent);
+                unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message: 'Payment confirmed'}))
+                var container = document.querySelector('#form-container')
+                container.style.display = 'none'
+            }
+        })
+      }
+      //above is payment!!!!
       function GoogleAuth(){
         firebase.auth().signInWithPopup(googleProvider)
           .then(result => {
