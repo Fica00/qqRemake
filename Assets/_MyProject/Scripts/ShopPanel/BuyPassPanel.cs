@@ -137,5 +137,9 @@ public class BuyPassPanel : BasePanel
             gamePassSelection.value = 0;
             UIManager.Instance.OkDialog.Setup("Successfully purchased!");
         }
+        else
+        {
+            UIManager.Instance.OkDialog.Setup("Looks like something went wrong, please try again later");
+        }
     }
 }
