@@ -139,7 +139,7 @@ public class BuyPassPanel : BasePanel
         }
         else
         {
-            UIManager.Instance.OkDialog.Setup("Looks like something went wrong, please try again later");
+            UIManager.Instance.OkDialog.Setup(_result.Message);
         }
     }
 }

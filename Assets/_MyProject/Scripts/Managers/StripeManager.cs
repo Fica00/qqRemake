@@ -27,10 +27,11 @@ public class StripeManager : MonoBehaviour
         callBack = _callBack;
     }
 
-    public void PurchaseResult(bool _result)
+    public void PurchaseResult(PurchaseResponseServer _response)
     {
-        PurchaseResponse _response = new PurchaseResponse(){Successfully = _result};
-        callBack?.Invoke(_response);
+        PurchaseResponse _clientResponse = new PurchaseResponse(){Successfully = _response.Result==1, Message = 
+        _response.Message};
+        callBack?.Invoke(_clientResponse);
         Destroy(loading);
     }
 }

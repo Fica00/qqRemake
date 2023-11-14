@@ -76,9 +76,11 @@ public class JavaScriptManager : MonoBehaviour
         CloseKeyboard();
     }
 
-    public void PurchaseResult(int _result)
+    public void PurchaseResult(string _resultData)
     {
-        StripeManager.Instance.PurchaseResult(_result==1);
+        PurchaseResponseServer _result = JsonConvert.DeserializeObject<PurchaseResponseServer>(_resultData);
+        
+        StripeManager.Instance.PurchaseResult(_result);
     }
     
     public void SetInput(string _key)
