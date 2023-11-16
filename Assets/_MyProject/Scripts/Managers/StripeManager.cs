@@ -23,7 +23,18 @@ public class StripeManager : MonoBehaviour
     public void Purchase(double _cost, Action<PurchaseResponse> _callBack)
     {
         loading = Instantiate(AssetsManager.Instance.Loading, null);
-        JavaScriptManager.Instance.StripePurchase(_cost);
+        if (Application.platform==RuntimePlatform.WindowsEditor ||Application.platform==RuntimePlatform.LinuxEditor || Application.platform==RuntimePlatform.OSXEditor )
+        {
+            PurchaseResult(new PurchaseResponseServer()
+            {
+                Message = string.Empty,
+                Result = 1
+            });
+        }
+        else
+        {
+            JavaScriptManager.Instance.StripePurchase(_cost);
+        }
         callBack = _callBack;
     }
 

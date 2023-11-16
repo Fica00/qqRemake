@@ -2,6 +2,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -12,8 +15,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public static Action OnILeftRoom;
     public static Action OnOpponentLeftRoom;
     private static bool isInit;
+    private List<string> roomNames = new() { "Room1","Room2","Room3","Room4","Room5","Room6","Room7","Room8","Room9","Room10","Room11","Room12","Room13","Room14","Room15"};
 
     private byte maxPlayersPerRoom = 2;
+    private int roomNameIndex = 0;
+    private int roomTriesCounter = 0;
 
     private void Awake()
     {
@@ -46,8 +52,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public void JoinRandomRoom()
     {
+        roomNameIndex = 0;
+        roomTriesCounter = 0;
         SetPhotonPlayerProperties();
-        PhotonNetwork.JoinRandomRoom(null, maxPlayersPerRoom);
+        TryJoinRoom();
     }
 
     private void SetPhotonPlayerProperties()
@@ -57,18 +65,42 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.CustomProperties = myProperties;
     }
 
-    public override void OnJoinRandomFailed(short _returnCode, string _message)
+    private void TryJoinRoom()
+    {
+        PhotonNetwork.JoinRoom(roomNames[roomNameIndex]);
+    }
+    
+    public override void OnJoinRoomFailed(short returnCode, string message)
     {
         CreateRoom();
     }
 
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        TryJoinRoom();
+    }
+
     private void CreateRoom()
     {
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.IsOpen = true;
-        roomOptions.MaxPlayers = maxPlayersPerRoom;
-        PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
+        StartCoroutine(TryCreateRoom());
+        
+        IEnumerator TryCreateRoom()
+        {
+            yield return new WaitForSeconds(.3f);
+            RoomOptions _roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = maxPlayersPerRoom };
+            roomTriesCounter++;
+            if (roomTriesCounter%3==0)
+            {
+                roomNameIndex++;
+            }
+            if (roomNameIndex>= roomNames.Count)
+            {
+                roomNameIndex = 0;
+            }
+            PhotonNetwork.CreateRoom(roomNames[roomNameIndex], _roomOptions, TypedLobby.Default);
+        }
     }
+    
 
     public override void OnJoinedRoom()
     {

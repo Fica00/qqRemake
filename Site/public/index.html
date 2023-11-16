@@ -9,7 +9,7 @@
     <link rel="manifest" href="manifest.webmanifest">
   </head>
   <style>
-
+ 
   </style>
   <body>
     <div id="unity-container">
@@ -23,13 +23,15 @@
       <div id="unity-warning"> </div>
     </div>
     <div id="form-container" style="position: fixed; width: 100%; height: 100vh; display: none; justify-content: center; align-items: center;">
-      <form id="payment-form" style="width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; text-align: center; background-color: #f2f2f2;">
+      <div id="payment-form" style="width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; text-align: center; background-color: #f2f2f2;">
         <div id="card-element">
         </div>
         <div id="card-errors" role="alert"></div>
-        <button type="submit" style="margin-top: 20px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Submit</button>
-        <p id="btn-cancelPayment" style="width: fit-content; margin: 20px auto; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Cancel</p>
-      </form>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <p id="btn-cancelPayment" style="width: fit-content; margin-right: 10px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Cancel</p>
+          <button id="btn-submit" style="border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Submit</button>
+        </div>
+      </div>
     </div>
     <input id="input" type="text">
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
@@ -42,21 +44,46 @@
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
       const btnCancelPayment = document.querySelector('#btn-cancelPayment')
       const stripe = Stripe("pk_test_51O9azOCJmlrAlGBoMM6I1hDuhjUU0RSx0CK4B4zKqmSCcREI8te3FmXN7JUS4GlDZFNrb5NhdpFgAounpunuvruy00NZy0lPq9")
-
-      function cancelPayment(){
+ 
+      const options = {
+        layout: {
+          type: 'tabs',
+          defaultCollapsed: true,
+        }
+      };
+      const appearance = {
+        theme: 'flat',
+        variables: { colorPrimaryText: '#262626' }
+      };
+ 
+      function cancelPayment(){//canceling payment
         var container = document.querySelector('#form-container')
         container.style.display = 'none'
         unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment canceled'}))
       }
       btnCancelPayment.addEventListener('click', cancelPayment)
-      function StripePurchase(cost){
-        var container = document.querySelector('#form-container')
-        container.style.display = 'flex'
-        var elements = stripe.elements();
-        var card = elements.create('card');
-        card.mount('#card-element');
-
-        card.addEventListener('change', function (event) {
+ 
+      async function StripePurchase(cost){
+        try {
+          const res = await fetch('https://us-central1-qqweb-b75ae.cloudfunctions.net/createPaymentIntent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: cost * 100,
+            }),
+          })
+          const response = await res.json()
+          const clientSecret = response.clientSecret
+ 
+          var container = document.querySelector('#form-container')
+          container.style.display = 'flex'
+          const elements = stripe.elements({ clientSecret, appearance });
+          const card = elements.create('payment', options);
+          card.mount('#card-element');
+ 
+          card.addEventListener('change', function (event) {
           var displayError = document.getElementById('card-errors');
             if (event.error) {
                 displayError.textContent = event.error.message;
@@ -64,62 +91,32 @@
                 displayError.textContent = '';
             }
         });
-
-        document.getElementById('payment-form').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        stripe.createPaymentMethod({
-        type: 'card',
-        card: card,
-        }).then(function (result) {
-          if (result.error) {
-              console.error(result.error, 'Greška pri izradi PaymentMethod-a');
-          } else {
-              // Pozivanje funkcije za slanje PaymentMethod-a na server
-              sendPaymentMethodToServer(result.paymentMethod, cost);
-          }
-        });
-        });
-
+        document.getElementById('btn-submit').addEventListener('click', async () => confirmPaymentWithStripe(stripe, elements));
+        } catch (error) {
+          console.log(error)
+          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment denide from server'}))
+        }
       }
-      function sendPaymentMethodToServer(paymentMethod, amount) {
-        fetch('https://us-central1-qqweb-b75ae.cloudfunctions.net/createPaymentIntent', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                paymentMethod: paymentMethod,
-                amount: amount * 100,
-            }),
+      async function confirmPaymentWithStripe(stripe, elements){
+        if (!stripe || !elements) {
+          return
+        }
+        try {
+          const { error } = await stripe.confirmPayment({
+            elements,
+            redirect: "if_required"
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            confirmPaymentWithStripe(paymentMethod, data.clientSecret);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment denide from server'}))
-        });
+        if(!error){
+          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message: 'Payment confirmed'}))
+          var container = document.querySelector('#form-container')
+          container.style.display = 'none'
+        }
+        } catch (error) {
+          console.log(error)
+          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment is not confirmed'}))
+        }
       }
-      function confirmPaymentWithStripe(paymentMethod, clientSecret) {
-        stripe.confirmCardPayment(clientSecret, {
-          payment_method: paymentMethod.id,
-        })
-        .then(result => {
-            if (result.error) {
-                console.error(result.error.message);
-                unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment is not confirmed'}))
-            } else {
-                console.log(result.paymentIntent);
-                unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message: 'Payment confirmed'}))
-                var container = document.querySelector('#form-container')
-                container.style.display = 'none'
-            }
-        })
-      }
-      //above is payment!!!!
+      //-----------------------------------------------------------------------above is payment!!!!
       function GoogleAuth(){
         firebase.auth().signInWithPopup(googleProvider)
           .then(result => {
@@ -149,7 +146,7 @@
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var warningBanner = document.querySelector("#unity-warning");
-
+ 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
@@ -173,7 +170,7 @@
         }
         updateBannerVisibility();
       }
-
+ 
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/public.loader.js";
       var config = {
@@ -186,14 +183,14 @@
         productVersion: "1.0",
         showBanner: unityShowBanner,
       };
-
+ 
       // By default Unity keeps WebGL canvas render target size matched with
       // the DOM size of the canvas element (scaled by window.devicePixelRatio)
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
       // config.matchWebGLToCanvasSize = false;
-
+ 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
@@ -201,9 +198,9 @@
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
       }
-
+ 
       loadingBar.style.display = "block";
-
+ 
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
@@ -217,9 +214,9 @@
         });
       };
       document.body.appendChild(script);
-
+ 
       let inputEl = document.querySelector('#input')
-
+ 
       function DisplayKeyboard(){
         inputEl.value = ''
         inputEl.focus()
@@ -231,7 +228,7 @@
       inputEl.addEventListener('input', (e) => {
         unity.SendMessage('JavaScriptManager', 'SetInput', e.target.value)
       })
-      
+ 
     </script>
   </body>
 </html>

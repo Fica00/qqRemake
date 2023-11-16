@@ -13,7 +13,6 @@ public class SellPassPanel : BasePanel
     [SerializeField] private TextMeshProUGUI coinsDisplay;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Button listButton;
-    [SerializeField] private GamePassStorageDisplay passesDisplay;
     private GamePass showingPass;
     
     private void OnEnable()
@@ -60,7 +59,6 @@ public class SellPassPanel : BasePanel
     public override void Show()
     {
         ShowPass(-1);
-        passesDisplay.Show();
         gameObject.SetActive(true);
     }
 
@@ -138,7 +136,6 @@ public class SellPassPanel : BasePanel
             DataManager.Instance.PlayerData.RemoveGamePass(showingPass);
             showingPass = default;
             ShowPass(-1);
-            passesDisplay.Show();
         }
         else
         {

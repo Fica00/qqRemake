@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class BuyPassPanel : BasePanel
@@ -14,7 +13,6 @@ public class BuyPassPanel : BasePanel
     [SerializeField] private TextMeshProUGUI storageDisplay;
     [SerializeField] private Button buyButton;
     [SerializeField] private TMP_Dropdown gamePassSelection;
-    [SerializeField] private GamePassOffersDisplay offersDisplay;
     private GamePassOffer selectedOffer;
     
     private void OnEnable()
@@ -36,14 +34,9 @@ public class BuyPassPanel : BasePanel
         ShopPanel.Instance.ShowMarketplace(true);
     }
 
-    public void SetOffer(GamePassOffer _offer)
-    {
-        selectedOffer = _offer;
-        ShowOffer();
-    }
-
     private void SetupDropDown()
     {
+        gamePassSelection.ClearOptions();
         List<string> _newOptions = new List<string> ();
         _newOptions.Add("Please select option");
         foreach (var _gamePassOffer in GetOffersInOrder())
@@ -58,13 +51,13 @@ public class BuyPassPanel : BasePanel
     {
         if (_indexOfOffer==0)
         {
-            SetOffer(default);
-            offersDisplay.ShowSelected(default);
-            return;
+            selectedOffer = default;
+        }
+        else
+        {
+            selectedOffer = GetOffersInOrder()[_indexOfOffer-1];
         }
 
-        GamePassOffer _offer = GetOffersInOrder()[_indexOfOffer-1];
-        offersDisplay.SetOffer(_offer);
         ShowOffer();
     }
 
@@ -73,7 +66,6 @@ public class BuyPassPanel : BasePanel
         selectedOffer = default;
         ShowOffer();
         SetupDropDown();
-        offersDisplay.SetOffer(default);
         gameObject.SetActive(true);
     }
 
@@ -115,18 +107,13 @@ public class BuyPassPanel : BasePanel
     {
         if (selectedOffer==default)
         {
-            UIManager.Instance.OkDialog.Setup("Please elect the game pass");
+            UIManager.Instance.OkDialog.Setup("Please select the game pass");
             return;
         }
 
-        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesBuy);
-        UIManager.Instance.YesNoDialog.Setup("Continue with the purchase?");
-    }
-
-    private void YesBuy()
-    {
         StripeManager.Instance.Purchase(selectedOffer.Cost,HandlePurchaseResult);
     }
+
 
     private void HandlePurchaseResult(PurchaseResponse _result)
     {

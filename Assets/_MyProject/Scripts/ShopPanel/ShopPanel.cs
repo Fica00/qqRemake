@@ -5,7 +5,6 @@ public class ShopPanel : BasePanel
     public static ShopPanel Instance;
     [SerializeField] private PassPanel passPanel;
     [SerializeField] private MarketplacePanel marketplacePanel;
-    [SerializeField] private GamePassOffersDisplay offersDisplay;
     
     private void Awake()
     {
@@ -32,14 +31,12 @@ public class ShopPanel : BasePanel
     {
         CloseAll();
         passPanel.Show();
-        offersDisplay.Show();
     }
     
     private void CloseAll()
     {
         passPanel.Close();
         marketplacePanel.Close();
-        offersDisplay.Close();
     }
 
     public override void Show()

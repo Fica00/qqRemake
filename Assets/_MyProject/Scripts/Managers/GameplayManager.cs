@@ -141,7 +141,7 @@ public class GameplayManager : MonoBehaviour
         yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(_player));
 
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
-        for (int i = _amountOfCardsInHand; i < _startingAmountOfCards; i++)
+        for (int i = 0; i < _startingAmountOfCards; i++)
         {
             DrawCard(_player);
         }
