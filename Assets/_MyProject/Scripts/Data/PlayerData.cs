@@ -30,7 +30,7 @@ public class PlayerData
         DeckData _starterDeck = new DeckData
         {
             Id = 0,
-            Name = "Started",
+            Name = "Starter",
             CardsInDeck = new List<int>
             {
                 28,

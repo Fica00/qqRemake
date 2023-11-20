@@ -33,6 +33,7 @@ public class ModeHandler : MonoBehaviour
 
     private void OnEnable()
     {
+        mode = GameMode.VsPlayer;
         changeModeButton.onClick.AddListener(ChangeMode);
         OnUpdatedMode += ShowMode;
         ShowMode();
@@ -46,9 +47,10 @@ public class ModeHandler : MonoBehaviour
 
     private void ChangeMode()
     {
-        int _modeCount = Enum.GetValues(typeof(GameMode)).Length;
-        int _nextMode = ((int)Mode + 1) % _modeCount;
-        Mode = (GameMode)_nextMode;
+        // int _modeCount = Enum.GetValues(typeof(GameMode)).Length;
+        // int _nextMode = ((int)Mode + 1) % _modeCount;
+        // Mode = (GameMode)_nextMode;
+        Mode = mode==GameMode.VsPlayer ? GameMode.VsAi : GameMode.VsPlayer;
     }
 
     private void ShowMode()

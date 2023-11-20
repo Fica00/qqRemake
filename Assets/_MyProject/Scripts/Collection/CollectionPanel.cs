@@ -62,7 +62,6 @@ public class CollectionPanel : BasePanel
         }
 
         DataManager.Instance.PlayerData.AddNewDeck();
-        UIManager.Instance.OkDialog.Setup("Successfully bought new lineup");
         Show();
     }
 

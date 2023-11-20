@@ -141,7 +141,7 @@ public class GameplayManager : MonoBehaviour
         yield return StartCoroutine(CheckForCardsThatShouldMoveToHand(_player));
 
         int _amountOfCardsInHand = _player.AmountOfCardsInHand;
-        for (int i = 0; i < _startingAmountOfCards; i++)
+        for (int i = 0; i < startingAmountOfCards-_amountOfCardsInHand; i++)
         {
             DrawCard(_player);
         }
@@ -211,7 +211,7 @@ public class GameplayManager : MonoBehaviour
             StartCoroutine(RevealLocation());
             yield return new WaitUntil(() => locationRevealed);
             yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
-            if (!DrewCardDirectlyToHand)
+            if (!DrewCardDirectlyToHand||CurrentRound!=1)
             {
                 RoundDrawCard();
             }
