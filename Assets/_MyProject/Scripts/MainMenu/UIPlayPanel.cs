@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,7 +61,16 @@ public class UIPlayPanel : MonoBehaviour
             return;
         }
         ManageInteractables(false);
-        PhotonManager.Instance.JoinRandomRoom();
+        StartCoroutine(SearchForMatch());
+        IEnumerator SearchForMatch()
+        {
+            while (!PhotonManager.IsOnMasterServer || !PhotonManager.CanCreateRoom)
+            {
+                yield return null;
+            }
+            
+            PhotonManager.Instance.JoinRandomRoom();
+        }
     }
 
     private void Close()

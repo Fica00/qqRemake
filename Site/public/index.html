@@ -59,7 +59,8 @@
       function cancelPayment(){//canceling payment
         var container = document.querySelector('#form-container')
         container.style.display = 'none'
-        unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment canceled'}))
+        unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 0, message: 
+                  'Payment canceled'}))
       }
       btnCancelPayment.addEventListener('click', cancelPayment)
  
@@ -94,7 +95,8 @@
         document.getElementById('btn-submit').addEventListener('click', async () => confirmPaymentWithStripe(stripe, elements));
         } catch (error) {
           console.log(error)
-          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment denide from server'}))
+          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message: 
+                    'Payment denied from server'}))
         }
       }
       async function confirmPaymentWithStripe(stripe, elements){
@@ -107,13 +109,15 @@
             redirect: "if_required"
         })
         if(!error){
-          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message: 'Payment confirmed'}))
+          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 2, message: 
+                    'Payment confirmed'}))
           var container = document.querySelector('#form-container')
           container.style.display = 'none'
         }
         } catch (error) {
           console.log(error)
-          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: -1, message: 'Payment is not confirmed'}))
+          unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message: 
+                    'Payment is not confirmed'}))
         }
       }
       //-----------------------------------------------------------------------above is payment!!!!

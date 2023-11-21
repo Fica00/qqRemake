@@ -15,6 +15,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public static Action OnILeftRoom;
     public static Action OnOpponentLeftRoom;
     private static bool isInit;
+    public static bool IsOnMasterServer=> PhotonNetwork.Server== ServerConnection.MasterServer;
+    public static bool CanCreateRoom=> PhotonNetwork.NetworkClientState== ClientState.ConnectedToMasterServer;
     private List<string> roomNames = new() { "Room1","Room2","Room3","Room4","Room5","Room6","Room7","Room8","Room9","Room10","Room11","Room12","Room13","Room14","Room15"};
 
     private byte maxPlayersPerRoom = 2;

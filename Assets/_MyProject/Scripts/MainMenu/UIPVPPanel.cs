@@ -16,6 +16,7 @@ public class UIPVPPanel : MonoBehaviour
 
     private void OnEnable()
     {
+        StopAllCoroutines();
         ManageInteractables(true);
         StartCoroutine(SearchingAnimation());
 
@@ -76,4 +77,5 @@ public class UIPVPPanel : MonoBehaviour
     {
         cancelButton.interactable = _status;
     }
+    
 }

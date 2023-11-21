@@ -29,18 +29,12 @@ public class CryptoManager : MonoBehaviour
          {
             if (_status)
             {
-               _callBack?.Invoke(new PurchaseResponse()
-               {
-                  Successfully = true
-               });
+               _callBack?.Invoke(new PurchaseResponse { Message = string.Empty, Result = PurchaseResult.Successful });
             }
             else
             {
                UIManager.Instance.OkDialog.Setup("Something went wrong while sending founds to owner, please contract our support");
-               _callBack?.Invoke(new PurchaseResponse()
-               {
-                  Successfully = false
-               });
+               _callBack?.Invoke(new PurchaseResponse { Message = string.Empty, Result = PurchaseResult.Failed });
             }
          });
         

@@ -211,7 +211,7 @@ public class GameplayManager : MonoBehaviour
             StartCoroutine(RevealLocation());
             yield return new WaitUntil(() => locationRevealed);
             yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
-            if (!DrewCardDirectlyToHand||CurrentRound!=1)
+            if (!DrewCardDirectlyToHand||CurrentRound==1)
             {
                 RoundDrawCard();
             }

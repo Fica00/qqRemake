@@ -117,16 +117,13 @@ public class BuyPassPanel : BasePanel
 
     private void HandlePurchaseResult(PurchaseResponse _result)
     {
-        if (_result.Successfully)
+        if (_result.Result == PurchaseResult.Successful)
         {
             GamePass _newGamePass = new GamePass(selectedOffer.GamePass);
             DataManager.Instance.PlayerData.AddGamePass(_newGamePass);
             gamePassSelection.value = 0;
-            UIManager.Instance.OkDialog.Setup("Successfully purchased!");
         }
-        else
-        {
-            UIManager.Instance.OkDialog.Setup(_result.Message);
-        }
+        
+        PurchaseResultDisplay.Instance.Setup(_result);
     }
 }

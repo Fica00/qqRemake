@@ -107,15 +107,16 @@ public class MarketplacePanel : BasePanel
 
     private void HandlePurchaseResult(PurchaseResponse _result)
     {
-        if (_result.Successfully)
+        if (_result.Result == PurchaseResult.Successful)
         {
             GamePass _newGamePass = new GamePass(selectedOffer.GamePass);
             DataManager.Instance.PlayerData.AddGamePass(_newGamePass);
             DataManager.Instance.PlayerData.USDC -= selectedOffer.Cost;
             DataManager.Instance.GameData.RemoveOfferFromMarketplace(selectedOffer);
-            UIManager.Instance.OkDialog.Setup("Successfully purchased!");
             Show(true);
         }
+        
+        PurchaseResultDisplay.Instance.Setup(_result);
     }
 
     public override void Close()
