@@ -1291,7 +1291,7 @@ function _CloseKeyboard() {
 }
 
 function _DoSetUserId(id) {
- SetUserId(UTF8ToString(url));
+ SetUserId(UTF8ToString(id));
 }
 
 var JS_Accelerometer = null;
