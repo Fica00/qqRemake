@@ -38,10 +38,11 @@ public class BuyPassPanel : BasePanel
     {
         gamePassSelection.ClearOptions();
         List<string> _newOptions = new List<string> ();
-        _newOptions.Add("Please select option");
+        _newOptions.Add("Select option");
         foreach (var _gamePassOffer in GetOffersInOrder())
         {
-            _newOptions.Add(_gamePassOffer.GamePass.Name);
+            string _option = $"{_gamePassOffer.GamePass.Name} (USD{_gamePassOffer.Cost})";
+            _newOptions.Add(_option);
         }
 
         gamePassSelection.AddOptions(_newOptions);
