@@ -25,8 +25,13 @@ mergeInto(LibraryManager.library,
         	window.location.href = UTF8ToString(url);
 	},
 
-        StripePurchaseInit: function(cost)
+    StripePurchaseInit: function(cost)
 	{
 	 	StripePurchase(cost)
+	}
+	
+	DoSetUserId: function(id)
+	{
+	    SetUserId(UTF8ToString(url));
 	}
 });

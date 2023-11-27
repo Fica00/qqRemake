@@ -26,6 +26,9 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern void StripePurchaseInit(double _cost);
+    
+    [DllImport("__Internal")]
+    public static extern void DoSetUserId(string _id);
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
 
@@ -76,6 +79,11 @@ public class JavaScriptManager : MonoBehaviour
         CloseKeyboard();
     }
 
+    public void SetUserId(string _id)
+    {
+        DoSetUserId(_id);
+    }
+
     public void PurchaseResult(string _resultData)
     {
         PurchaseResponseServer _result = JsonConvert.DeserializeObject<PurchaseResponseServer>(_resultData);
@@ -107,5 +115,15 @@ public class JavaScriptManager : MonoBehaviour
     public void LoadURL(string _url)
     {
         OpenURL(_url);
+    }
+
+    public void OnUpdatedDiamonds(double _value)
+    {
+        DataManager.Instance.PlayerData.Coins = _value;
+    }
+
+    public void OnUpdatedUSDC(double _value)
+    {
+        DataManager.Instance.PlayerData.USDC = _value;
     }
 }
