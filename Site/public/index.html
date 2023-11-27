@@ -40,11 +40,25 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="./config.js"></script>
     <script>
+      let userId = null
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
       const btnCancelPayment = document.querySelector('#btn-cancelPayment')
       const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
+
+      function SetUserId(id){
+        userId = id
+
+        var ref = firebase.database().ref(`users/${userId}`);
+        firebase.database().ref().on('value', function(snapshot) {
+          if(snapshot.exists()){
+            const user = snapshot.val()
+            unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', user.Coins)
+            unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', user.USDC)
+          }
+        });
+      }
  
       const options = {
         layout: {
