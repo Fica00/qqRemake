@@ -27,9 +27,10 @@
         <div id="card-element">
         </div>
         <div id="card-errors" role="alert"></div>
+        <div id="card-cost"></div>
         <div style="display: flex; justify-content: center; align-items: center;">
-          <p id="btn-cancelPayment" style="width: fit-content; margin-right: 10px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Cancel</p>
-          <button id="btn-submit" style="border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; ">Submit</button>
+          <p id="btn-cancelPayment" style="width: fit-content; margin-right: 10px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">Cancel</p>
+          <button id="btn-submit" style="border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">Submit</button>
         </div>
       </div>
     </div>
@@ -65,6 +66,8 @@
       btnCancelPayment.addEventListener('click', cancelPayment)
  
       async function StripePurchase(cost){
+        const costNote = document.querySelector('#card-cost')
+        costNote.textContent = ''
         try {
           const res = await fetch('https://us-central1-qqweb-b75ae.cloudfunctions.net/createPaymentIntent', {
             method: 'POST',
@@ -82,6 +85,7 @@
           container.style.display = 'flex'
           const elements = stripe.elements({ clientSecret, appearance });
           const card = elements.create('payment', options);
+          costNote.textContent = `You will be charged ${cost}$`
           card.mount('#card-element');
  
           card.addEventListener('change', function (event) {
