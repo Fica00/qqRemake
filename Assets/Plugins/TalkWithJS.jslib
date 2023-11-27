@@ -32,6 +32,6 @@ mergeInto(LibraryManager.library,
 	
 	DoSetUserId: function(id)
 	{
-	    SetUserId(UTF8ToString(url));
+	    SetUserId(UTF8ToString(id));
 	}
 });
