@@ -47,13 +47,18 @@ public class MarketplacePanel : BasePanel
         canBuy = _canBuyOffers;
         ClearShownOffers();
 
-        foreach (var _offer in DataManager.Instance.GameData.Marketplace.Values)
+        if (DataManager.Instance.GameData.Marketplace!=null)
         {
-            GamePassOfferMarketplace _offerDisplay = Instantiate(offerPrefab, offerHolder);
-            _offerDisplay.Setup(_offer,_canBuyOffers);
-            _offerDisplay.OnClicked += TryToBuy;
-            shownOffers.Add(_offerDisplay);
+            foreach (var _offer in DataManager.Instance.GameData.Marketplace.Values)
+            {
+                GamePassOfferMarketplace _offerDisplay = Instantiate(offerPrefab, offerHolder);
+                _offerDisplay.Setup(_offer,_canBuyOffers);
+                _offerDisplay.OnClicked += TryToBuy;
+                shownOffers.Add(_offerDisplay);
+            }
         }
+
+        
         
         gameObject.SetActive(true);
     }
