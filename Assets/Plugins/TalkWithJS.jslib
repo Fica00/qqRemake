@@ -28,7 +28,7 @@ mergeInto(LibraryManager.library,
     StripePurchaseInit: function(cost)
 	{
 	 	StripePurchase(cost)
-	}
+	},
 	
 	DoSetUserId: function(id)
 	{

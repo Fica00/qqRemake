@@ -1155,26 +1155,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 5325832: function() {
+ 5325864: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 5325887: function($0) {
+ 5325919: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5325935: function($0) {
+ 5325967: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5325983: function() {
+ 5326015: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 5326038: function() {
+ 5326070: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 5326099: function() {
+ 5326131: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1288,6 +1288,10 @@ function _AuthWithGoogle() {
 
 function _CloseKeyboard() {
  HideKeyboard();
+}
+
+function _DoSetUserId(id) {
+ SetUserId(UTF8ToString(url));
 }
 
 var JS_Accelerometer = null;
@@ -13903,6 +13907,7 @@ var asmLibraryArg = {
  "AuthWithFacebook": _AuthWithFacebook,
  "AuthWithGoogle": _AuthWithGoogle,
  "CloseKeyboard": _CloseKeyboard,
+ "DoSetUserId": _DoSetUserId,
  "JS_Accelerometer_IsRunning": _JS_Accelerometer_IsRunning,
  "JS_Accelerometer_Start": _JS_Accelerometer_Start,
  "JS_Accelerometer_Stop": _JS_Accelerometer_Stop,
