@@ -36,10 +36,9 @@
     </div>
     <input id="input" type="text">
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <!-- <script src="./config.js"></script> -->
     <script>
       const firebaseConfig = {
         apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
@@ -52,12 +51,10 @@
         measurementId: "G-FW64GXVQ28",
       }
       firebase.initializeApp(firebaseConfig);
-      console.log(firebase.database())
       let userId = null
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
-      // const database = firebase.database();
       const btnCancelPayment = document.querySelector('#btn-cancelPayment')
       const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
@@ -65,7 +62,6 @@
         userId = id
 
         var ref = firebase.database().ref(`users/${userId}`);
-        console.log(ref, 'referenca na bazu')
         ref.on('value', function(snapshot) {
           if(snapshot.exists()){
             const user = snapshot.val()
