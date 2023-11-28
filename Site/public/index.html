@@ -55,14 +55,14 @@
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
-      const database = firebase.database();
+      // const database = firebase.database();
       const btnCancelPayment = document.querySelector('#btn-cancelPayment')
       const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
       function SetUserId(id){
         userId = id
 
-        var ref = database.ref(`users/${userId}`);
+        var ref = firebase.database().ref(`users/${userId}`);
         console.log(ref, 'referenca na bazu')
         ref.on('value', function(snapshot) {
           if(snapshot.exists()){
