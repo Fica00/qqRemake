@@ -27,9 +27,9 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
+    NetworkLogging: 0
   DevRegion: eu
-  PunLogging: 0
+  PunLogging: 1
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -57,5 +57,5 @@ MonoBehaviour:
   - OpponentAddedPowerToQommons
   - OpponentDiscardedACard
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
   DevRegionSetOnce: 1

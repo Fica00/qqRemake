@@ -27,7 +27,7 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
     {
         cardId = _cardId;
         CardObject _card = CardsManager.Instance.GetCardObject(_cardId);
-        qommonDisplay.sprite = _card.Details.Sprite;
+        qommonDisplay.sprite = _card.Details.SpriteInHand;
         manaDisplay.text = _card.Details.Mana.ToString();
         powerDisplay.text = _card.Details.Power.ToString();
         manaHolder.SetActive(true);
