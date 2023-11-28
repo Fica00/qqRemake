@@ -52,7 +52,8 @@
         userId = id
 
         var ref = firebase.database.ref(`users/${userId}`);
-        firebase.database.ref().on('value', function(snapshot) {
+        console.log(ref, 'referenca na bazu')
+        ref.on('value', function(snapshot) {
           if(snapshot.exists()){
             const user = snapshot.val()
             unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', user.Coins)
