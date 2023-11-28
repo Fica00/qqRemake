@@ -38,20 +38,31 @@
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="./config.js"></script>
+    <!-- <script src="./config.js"></script> -->
     <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
+        authDomain: "qqweb-b75ae.firebaseapp.com",
+        databaseURL: "https://qqweb-b75ae-default-rtdb.firebaseio.com",
+        projectId: "qqweb-b75ae",
+        storageBucket: "qqweb-b75ae.appspot.com",
+        messagingSenderId: "964235423017",
+        appId: "1:964235423017:web:d8c714d7e198e8e9261b38",
+        measurementId: "G-FW64GXVQ28",
+      }
+      firebase.initializeApp(firebaseConfig);
       let userId = null
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
-      // const database = firebase.database().ref();
+      const database = firebase.database();
       const btnCancelPayment = document.querySelector('#btn-cancelPayment')
       const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
       function SetUserId(id){
         userId = id
 
-        var ref = firebase.database.ref(`users/${userId}`);
+        var ref = database.ref(`users/${userId}`);
         console.log(ref, 'referenca na bazu')
         ref.on('value', function(snapshot) {
           if(snapshot.exists()){
