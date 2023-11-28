@@ -36,6 +36,7 @@
     </div>
     <input id="input" type="text">
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <!-- <script src="./config.js"></script> -->
@@ -51,6 +52,7 @@
         measurementId: "G-FW64GXVQ28",
       }
       firebase.initializeApp(firebaseConfig);
+      console.log(firebase.database())
       let userId = null
       let unity = null
       const googleProvider = new firebase.auth.GoogleAuthProvider();
