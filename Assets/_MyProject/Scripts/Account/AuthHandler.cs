@@ -8,7 +8,6 @@ public class AuthHandler : MonoBehaviour
     public static AuthHandler Instance;
 
     [SerializeField] private RegisterHandler registerHandler;
-    [SerializeField] private GameObject loadingObject;
 
     private Action<bool> callBackForOAUTh;
 
@@ -23,7 +22,6 @@ public class AuthHandler : MonoBehaviour
         if (_authMethod==-1)
         {
             registerHandler.Setup();
-            loadingObject.SetActive(false);
         }
         else if (_authMethod == (int) AuthMethod.Email)
         {

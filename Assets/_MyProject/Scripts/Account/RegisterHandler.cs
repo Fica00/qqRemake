@@ -15,6 +15,8 @@ public class RegisterHandler : MonoBehaviour
     
     public void Setup()
     {
+        LoginAsGuest();
+        return;
         emailInput.text = string.Empty;
         passwordInput.text = string.Empty;
         gameObject.SetActive(true);

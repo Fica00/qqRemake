@@ -57,8 +57,6 @@ public class MarketplacePanel : BasePanel
                 shownOffers.Add(_offerDisplay);
             }
         }
-
-        
         
         gameObject.SetActive(true);
     }

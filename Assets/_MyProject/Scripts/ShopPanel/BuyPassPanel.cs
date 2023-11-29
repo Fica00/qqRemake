@@ -11,6 +11,7 @@ public class BuyPassPanel : BasePanel
     [SerializeField] private Image offerDisplay;
     [SerializeField] private TextMeshProUGUI coinsDisplay;
     [SerializeField] private TextMeshProUGUI storageDisplay;
+    [SerializeField] private TextMeshProUGUI gamePassLabel;
     [SerializeField] private Button buyButton;
     [SerializeField] private TMP_Dropdown gamePassSelection;
     private GamePassOffer selectedOffer;
@@ -34,6 +35,7 @@ public class BuyPassPanel : BasePanel
         ShopPanel.Instance.ShowMarketplace(true);
     }
 
+    
     private void SetupDropDown()
     {
         gamePassSelection.ClearOptions();
@@ -81,10 +83,11 @@ public class BuyPassPanel : BasePanel
         {
             noOfferImage.SetActive(true);
             offerDisplay.gameObject.SetActive(false);
-            coinsDisplay.text = "x";
-            storageDisplay.text = "x";
+            coinsDisplay.text = "X";
+            storageDisplay.text = "X";
             buyButton.enabled = false;
             gamePassSelection.SetValueWithoutNotify(0);
+            gamePassLabel.fontSize = 40;
         }
         else
         {
@@ -96,6 +99,7 @@ public class BuyPassPanel : BasePanel
             storageDisplay.text = _offer.GamePass.StorageSize.ToString();
             buyButton.enabled = true;
             gamePassSelection.captionText.text = _offer.Cost.ToString();
+            gamePassLabel.fontSize = coinsDisplay.fontSize;
         }
     }
 

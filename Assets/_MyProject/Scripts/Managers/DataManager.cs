@@ -56,7 +56,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedSelectedDeck += SaveSelectedDeck;
         PlayerData.UpdatedCardsInDeck += SaveOwnedDecks;
         PlayerData.UpdatedName += SaveName;
-        PlayerData.BoughtNewDeck += SaveOwnedDecks;
+        PlayerData.UpdatedDecks += SaveOwnedDecks;
         PlayerData.UpdatedDeckName += SaveDeckName;
         PlayerData.UpdatedGamePasses += SaveGamePasses;
         PlayerData.UpdatedCoins += SaveCoins;
@@ -74,7 +74,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedSelectedDeck -= SaveSelectedDeck;
         PlayerData.UpdatedCardsInDeck -= SaveOwnedDecks;
         PlayerData.UpdatedName -= SaveName;
-        PlayerData.BoughtNewDeck -= SaveOwnedDecks;
+        PlayerData.UpdatedDecks -= SaveOwnedDecks;
         PlayerData.UpdatedDeckName -= SaveDeckName;
         PlayerData.UpdatedGamePasses -= SaveGamePasses;
         PlayerData.UpdatedCoins -= SaveCoins;

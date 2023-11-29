@@ -20,13 +20,27 @@ public class LineUpHandler : MonoBehaviour
     private void ChangeLineUp()
     {
         PlayerData _playerData = DataManager.Instance.PlayerData;
-        int _indexOfCurrentLineUp = _playerData.SelectedDeck;
-        _indexOfCurrentLineUp++;
-        if (_playerData.Decks.Count<=_indexOfCurrentLineUp)
+        DeckData _nextDeck = default;
+        bool _fetchNext = false;
+        foreach (var _deck in _playerData.Decks)
         {
-            _indexOfCurrentLineUp = 0;
+            if (_deck.Id==_playerData.SelectedDeck)
+            {
+                _fetchNext = true;
+                continue;
+            }
+
+            if (_fetchNext)
+            {
+                _nextDeck = _deck;
+            }
         }
 
-        _playerData.SelectedDeck = _indexOfCurrentLineUp;
+        if (_nextDeck==default)
+        {
+            _nextDeck = _playerData.Decks[0];
+        }
+
+        _playerData.SelectedDeck = _nextDeck.Id;
     }
 }

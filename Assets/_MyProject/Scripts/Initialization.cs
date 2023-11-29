@@ -50,7 +50,6 @@ public class Initialization : MonoBehaviour
     
     private void FinishInit()
     {
-        JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
         SceneManager.LoadMainMenu();
     }
 }

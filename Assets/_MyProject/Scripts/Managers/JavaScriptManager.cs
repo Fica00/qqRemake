@@ -81,6 +81,10 @@ public class JavaScriptManager : MonoBehaviour
 
     public void SetUserId(string _id)
     {
+        if (Application.isEditor)
+        {
+            return;
+        }
         DoSetUserId(_id);
     }
 

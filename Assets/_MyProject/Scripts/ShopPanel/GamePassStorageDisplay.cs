@@ -6,11 +6,13 @@ public class GamePassStorageDisplay : BasePanel
     [SerializeField] private Transform offersHolder;
     [SerializeField] private GamePassDisplay offerPrefab;
     [SerializeField] private SellPassPanel sellPanel;
+    [SerializeField] private GameObject noPassLabel;
 
     private List<GamePassDisplay> shownOffers = new(); 
     
     public override void Show()
     {
+        noPassLabel.SetActive(false);
         ClearShownOffers();
         
         foreach (var _offer in DataManager.Instance.PlayerData.GamePasses)
@@ -19,6 +21,11 @@ public class GamePassStorageDisplay : BasePanel
             _display.Setup(_offer);
             _display.OnSelected += ShowSelected;
             shownOffers.Add(_display);
+        }
+
+        if (DataManager.Instance.PlayerData.GamePasses.Count==0)
+        {
+            noPassLabel.SetActive(true);
         }
         gameObject.SetActive(true);
     }
