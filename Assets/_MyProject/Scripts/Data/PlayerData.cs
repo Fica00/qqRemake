@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 [Serializable]
 public class PlayerData
@@ -17,7 +19,7 @@ public class PlayerData
     public static Action UpdatedName;
     public static Action UpdatedSelectedDeck;
     public static Action UpdatedCardsInDeck;
-    public static Action BoughtNewDeck;
+    public static Action UpdatedDecks;
     public static Action UpdatedDeckName;
     public static Action UpdatedGamePasses;
     public static Action UpdatedCoins;
@@ -63,7 +65,7 @@ public class PlayerData
         
         DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
         {
-            28,10,20,37,46,42,33,25,36,2,45,7
+            28,10,20,46,46,42,33,25,36,2,45,7
         } };
         decks.Add(_summonSmall);   
         
@@ -125,7 +127,26 @@ public class PlayerData
     public void AddNewDeck()
     {
         decks.Add(new DeckData { Id = decks.Count, CardsInDeck = new() });
-        BoughtNewDeck?.Invoke();
+        UpdatedDecks?.Invoke();
+    }
+    
+    public void DeleteSelectedDeck()
+    {
+        if (decks.Count==1)
+        {
+            UIManager.Instance.OkDialog.Setup("You need to have latest 1 deck");
+            return;
+        }
+
+        DataManager.Instance.GetComponent<MonoBehaviour>().StartCoroutine(DeleteDeck());
+        IEnumerator DeleteDeck()
+        {
+            DeckData _selectedDeck = GetSelectedDeck();
+            decks.Remove(_selectedDeck);
+            yield return null;
+            SelectedDeck = decks[0].Id;
+            UpdatedDecks?.Invoke();
+        }
     }
 
     public List<int> OwnedQommons
@@ -150,12 +171,16 @@ public class PlayerData
 
     public void UpdateDeckName(string _name)
     {
-        DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
+        DeckData _deck = GetSelectedDeck();
+        if (_deck==null)
+        {
+            return;
+        }
         _deck.Name = _name;
         UpdatedDeckName?.Invoke();
     }
 
-    public DeckData GetDeck(int _id)
+    public DeckData GetSelectedDeck()
     {
         DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
         return _deck;

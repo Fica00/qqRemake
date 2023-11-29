@@ -7,6 +7,7 @@ public class DeckBuilderPanel : BasePanel
 {
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button deleteButton;
     [SerializeField] private CollectionQommonDisplay[] qommonDisplays;
     [SerializeField] private CollectionQommonDisplay qommonPrefab;
     [SerializeField] private Transform collectionHolder;
@@ -21,6 +22,7 @@ public class DeckBuilderPanel : BasePanel
         CollectionQommonDisplay.OnClicked += ShowDetails;
         CollectionQommonDisplay.OnHold += ChangeDeck;
         DeckBuildQommonDetails.OnChangeDeck += ChangeDeck;
+        deleteButton.onClick.AddListener(DeleteDeck);
     }
 
     private void OnDisable()
@@ -30,6 +32,7 @@ public class DeckBuilderPanel : BasePanel
         CollectionQommonDisplay.OnHold -= ChangeDeck;
         DeckBuildQommonDetails.OnChangeDeck -= ChangeDeck;
         DataManager.Instance.PlayerData.UpdateDeckName(nameInput.text);
+        deleteButton.onClick.RemoveListener(DeleteDeck);
     }
 
     private void ShowDetails(int _cardId)
@@ -70,7 +73,7 @@ public class DeckBuilderPanel : BasePanel
     public void Show(int _deckId)
     {
         DataManager.Instance.PlayerData.SelectedDeck = _deckId;
-        nameInput.text = DataManager.Instance.PlayerData.GetDeck(_deckId).Name;
+        nameInput.text = DataManager.Instance.PlayerData.GetSelectedDeck().Name;
         ShowQommonsInDeck();
         ShowQommonsInCollection();
         qommonDetails.Close();
@@ -123,5 +126,11 @@ public class DeckBuilderPanel : BasePanel
     {
         gameObject.SetActive(false);
         collectionPanel.SubscribeForQommonDetails();
+    }
+    
+    private void DeleteDeck()
+    {
+        DataManager.Instance.PlayerData.DeleteSelectedDeck();
+        Close();
     }
 }
