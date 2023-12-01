@@ -98,8 +98,7 @@ public class BuyPassPanel : BasePanel
             coinsDisplay.text = _offer.GamePass.Coins.ToString();
             storageDisplay.text = _offer.GamePass.StorageSize.ToString();
             buyButton.enabled = true;
-            gamePassSelection.captionText.text = _offer.Cost.ToString();
-            gamePassLabel.fontSize = coinsDisplay.fontSize;
+            gamePassLabel.fontSize = 40;
         }
     }
 
