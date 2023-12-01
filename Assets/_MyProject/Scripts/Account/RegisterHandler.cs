@@ -11,12 +11,13 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField] private Button loginWithGoogle;
     [SerializeField] private Button loginWithFacebook;
     [SerializeField] private Button guestButton;
+
+    [SerializeField] private GameObject loginAnimation;
     
     
     public void Setup()
     {
-        LoginAsGuest();
-        return;
+        loginAnimation.SetActive(false);
         emailInput.text = string.Empty;
         passwordInput.text = string.Empty;
         gameObject.SetActive(true);
