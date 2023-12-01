@@ -7,7 +7,7 @@ public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
     
-    public const string GAME_LINK = "https://qqweb-b75ae.web.app";
+    public const string GAME_LINK = "https://www.qoonova.com/play";
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();
