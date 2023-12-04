@@ -1,20 +1,34 @@
-using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Initialization : MonoBehaviour
 {
     public static Initialization Instance;
+    [SerializeField] private Button startButton;
+    [SerializeField] private GameObject startHolder;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        InitPhoton();
+        startButton.onClick.AddListener(EnterFullScreen);
     }
 
+    private void OnDisable()
+    {
+        startButton.onClick.RemoveListener(EnterFullScreen);
+    }
+
+
+    private void EnterFullScreen()
+    {
+        JavaScriptManager.Instance.EnterFullScreen();
+        InitPhoton();
+        startHolder.SetActive(false);
+    }
 
     private void InitPhoton()
     {

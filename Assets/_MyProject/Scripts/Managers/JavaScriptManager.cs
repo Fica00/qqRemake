@@ -29,6 +29,10 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern void DoSetUserId(string _id);
+    
+    [DllImport("__Internal")]
+    public static extern void DoEnterFullScreen();
+    
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
 
@@ -77,6 +81,15 @@ public class JavaScriptManager : MonoBehaviour
 #endif
         UpdatedInput?.RemoveAllListeners();
         CloseKeyboard();
+    }
+
+    public void EnterFullScreen()
+    {
+        if (Application.isEditor)
+        {
+            return;
+        }
+        DoEnterFullScreen();
     }
 
     public void SetUserId(string _id)

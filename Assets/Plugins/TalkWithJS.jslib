@@ -33,5 +33,10 @@ mergeInto(LibraryManager.library,
 	DoSetUserId: function(id)
     {
         SetUserId(UTF8ToString(id));
+    },
+    
+    DoEnterFullScreen: function()
+    {
+        EnterFullScreen();
     }
 });
