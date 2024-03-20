@@ -17,8 +17,9 @@ public class GameplayPlayer : MonoBehaviour
 
     [field: SerializeField] public bool IsMy { get; private set; }
 
-    [SerializeField] private CardsInHandHandler cardsInHandHandler = null;
-    [SerializeField] private EnergyDisplayHandler energyDisplayHandler = null;
+    [SerializeField] private CardsInHandHandler cardsInHandHandler;
+    [SerializeField] private EnergyDisplayHandler energyDisplayHandler;
+    [SerializeField] protected PlayerDisplay playerDisplay;
 
     protected List<CardObject> cardsInDeck;
     protected List<CardObject> cardsInHand;
@@ -29,7 +30,11 @@ public class GameplayPlayer : MonoBehaviour
     public List<CardObject> CardsOnMid;
     public List<CardObject> CardsOnBot;
 
+    private int amountOfDestroyedCards;
+
     public int AmountOfCardsInHand => cardsInHand.Count;
+    public int AmountOfDiscardedCards => cardsInDiscardPile.Count;
+    public int AmountOfDestroyedCards => amountOfDestroyedCards;
     public int Energy
     {
         get
@@ -61,6 +66,7 @@ public class GameplayPlayer : MonoBehaviour
         CardsOnBot = new List<CardObject>();
         cardsInHandHandler.Setup(this);
         energyDisplayHandler.Setup(this);
+        playerDisplay.Setup(this);
     }
 
     protected void ShuffleDeck()
@@ -339,6 +345,7 @@ public class GameplayPlayer : MonoBehaviour
 
         void FinishDestroy()
         {
+            amountOfDestroyedCards++;
             Destroy(_card.gameObject);
         }
     }

@@ -427,6 +427,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2325568401880813122, guid: de1806abc5ccacd4c9aa6a3e7789cadd, type: 3}
+      propertyPath: playerDisplay
+      value: 
+      objectReference: {fileID: 5686523579364797517}
+    - target: {fileID: 2325568401880813122, guid: de1806abc5ccacd4c9aa6a3e7789cadd, type: 3}
       propertyPath: cardsInHandHandler
       value: 
       objectReference: {fileID: 1248135228}
@@ -610,8 +614,6 @@ MonoBehaviour:
   <MaxAmountOfCardsInHand>k__BackingField: 12
   <DurationOfRound>k__BackingField: 120
   <TableHandler>k__BackingField: {fileID: 3441719200825644172}
-  <MyPlayerDisplay>k__BackingField: {fileID: 5686523579364797517}
-  <OpponentPlayerDisplay>k__BackingField: {fileID: 5686523579364797516}
   endTurnHandler: {fileID: 204213062}
   maxRounds: 6
   lanes:
@@ -782,6 +784,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5686523579563763471, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: endTurn.Gradiant
+      value: 
+      objectReference: {fileID: 21300000, guid: 2be3cff166a960a4eae617e82af8ec9c, type: 3}
+    - target: {fileID: 5686523579563763471, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: endTurn.Background
+      value: 
+      objectReference: {fileID: 21300000, guid: 738f82409e4e7ee43b996fc20346b929, type: 3}
+    - target: {fileID: 5686523579563763471, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: endTurn.Foreground
+      value: 
+      objectReference: {fileID: 21300000, guid: 741fe87918e854d458cd15eaa788f565, type: 3}
     - target: {fileID: 5686523579615860507, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1063,17 +1077,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4421099021532766987, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
   m_PrefabInstance: {fileID: 5686523579364797513}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5686523579364797516 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2702615320035579283, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
-  m_PrefabInstance: {fileID: 5686523579364797513}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa138a6b10e63e4fae7bc6ba6d8677e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5686523579364797517 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2361776628685425948, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}

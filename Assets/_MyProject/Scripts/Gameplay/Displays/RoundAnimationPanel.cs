@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using NaughtyAttributes;
 
 public class RoundAnimationPanel : MonoBehaviour
 {

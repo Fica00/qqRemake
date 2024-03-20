@@ -138,6 +138,7 @@ public class AuthHandler : MonoBehaviour
             return;
         }
         
+        JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
         Initialization.Instance.CheckForStartingData();
     }
 }

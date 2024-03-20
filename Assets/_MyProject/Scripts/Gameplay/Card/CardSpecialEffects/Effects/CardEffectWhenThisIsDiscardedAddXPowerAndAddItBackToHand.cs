@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffectBase
 {
     [SerializeField] private int power;
-    [SerializeField] private GameObject animation;
+    [SerializeField] private new GameObject animation;
     [SerializeField] private TextMeshProUGUI powerDisplay;
     [SerializeField] private TMP_FontAsset winningFont;
     public static bool IsActive;

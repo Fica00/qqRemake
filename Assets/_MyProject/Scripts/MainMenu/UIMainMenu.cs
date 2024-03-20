@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIMainMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI lineupNameDisplay;
-    
+
     private void Start()
     {
         DataManager.Instance.Subscribe();

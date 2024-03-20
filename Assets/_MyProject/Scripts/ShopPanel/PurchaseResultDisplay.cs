@@ -35,7 +35,6 @@ public class PurchaseResultDisplay : MonoBehaviour
 
     public void Setup(PurchaseResponse _response)
     {
-        Debug.Log(123);
         resultImage.sprite = images.Find(_image => _image.Result == _response.Result).Sprite;
         resultDisplay.text = _response.Message;
         holder.SetActive(true);

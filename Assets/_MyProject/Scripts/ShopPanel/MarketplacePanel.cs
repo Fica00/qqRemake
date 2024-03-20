@@ -87,12 +87,6 @@ public class MarketplacePanel : BasePanel
         }
         
         selectedOffer = _offer;
-        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesBuy);
-        UIManager.Instance.YesNoDialog.Setup("Continue with the purchase?");
-    }
-    
-    private void YesBuy()
-    {
         FirebaseManager.Instance.RemoveGamePassFromMarketplace(selectedOffer,HandleRemovedProduct);
     }
 
@@ -112,6 +106,7 @@ public class MarketplacePanel : BasePanel
     {
         if (_result.Result == PurchaseResult.Successful)
         {
+            _result.Message = "Purchase Successful!";
             GamePass _newGamePass = new GamePass(selectedOffer.GamePass);
             DataManager.Instance.PlayerData.AddGamePass(_newGamePass);
             DataManager.Instance.PlayerData.USDC -= selectedOffer.Cost;

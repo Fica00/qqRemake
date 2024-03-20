@@ -11,6 +11,8 @@ public class UIPlayPanel : MonoBehaviour
     [SerializeField]
     private UIPVPPanel pvpPanel;
 
+    public static bool PlayAgain;
+
     private void OnEnable()
     {
         playButton.onClick.AddListener(StartMatch);
@@ -25,6 +27,16 @@ public class UIPlayPanel : MonoBehaviour
 
         PhotonManager.OnIJoinedRoom -= JoinedRoom;
         PhotonManager.OnILeftRoom -= ILeftRoom;
+    }
+
+    private void Start()
+    {
+        if (!PlayAgain)
+        {
+            return;
+        }
+        PlayAgain = false;
+        StartMatch();
     }
 
     private void StartMatch()

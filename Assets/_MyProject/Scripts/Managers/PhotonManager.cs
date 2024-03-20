@@ -8,6 +8,11 @@ using UnityEngine;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
+    public const string NAME = "name";
+    public const string AMOUNT_OF_CARDS_IN_HAND = "amountOfCardsInHand";
+    public const string AMOUNT_OF_DISCARDED_CARDS = "amountOfDiscardedCards";
+    public const string AMOUNT_OF_DESTROYED_CARDS = "amountOfDestroyedCards";
+    public const string AMOUNT_OF_CARDS_IN_COLLECTION = "amountOfCardsInCollection";
     public static PhotonManager Instance;
     public static Action OnFinishedInit;
     public static Action OnIJoinedRoom;
@@ -63,8 +68,26 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private void SetPhotonPlayerProperties()
     {
         Hashtable myProperties = new Hashtable();
-        myProperties["name"] = UnityEngine.Random.Range(0, 100);
+        myProperties[NAME] = DataManager.Instance.PlayerData.Name;
+        myProperties[AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQommons.Count;
         PhotonNetwork.LocalPlayer.CustomProperties = myProperties;
+    }
+
+    public string GetOpponentsProperty(string _key)
+    {
+        Player _opponent = default;
+        foreach (var _potentialOpponent in PhotonNetwork.CurrentRoom.Players)
+        {
+            if (_potentialOpponent.Value.IsLocal)
+            {
+                continue;
+            }
+
+            _opponent = _potentialOpponent.Value;
+            break;
+        }
+
+        return _opponent.CustomProperties[_key].ToString();
     }
 
     private void TryJoinRoom()

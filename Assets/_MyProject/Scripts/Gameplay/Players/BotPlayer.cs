@@ -6,15 +6,12 @@ using UnityEngine;
 
 public class BotPlayer : GameplayPlayer
 {
-
     [SerializeField] private float waitTimeBeforeMove = 0;
     
     private Coroutine playCoroutine;
     private bool hasPlayedThisRound;
-    public static List<int> CardsInDeck = new List<int>() { 28,8,7,29,5,1,0,11,3,4,21,9};
+    public static List<int> CardsInDeck = new () { 28,8,7,29,5,1,0,11,3,4,21,9};
     
-    
-
     public override void Setup()
     {
         List<int> _cardsInDeck = CardsInDeck;
@@ -29,6 +26,7 @@ public class BotPlayer : GameplayPlayer
         cardsInHand = new List<CardObject>();
         cardsInDiscardPile = new List<CardObject>();
         GameplayManager.UpdatedGameState += ManageGameState;
+        playerDisplay.Setup(this);
     }
 
     private void OnDisable()
@@ -154,7 +152,6 @@ public class BotPlayer : GameplayPlayer
                     {
                         return;
                     }
-                    
                 }
             }
            

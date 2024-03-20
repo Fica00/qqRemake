@@ -29,8 +29,6 @@ public class GameplayManager : MonoBehaviour
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
     [field: SerializeField] public int DurationOfRound { get; private set; }
     [field: SerializeField] public TableHandler TableHandler { get; private set; }
-    [field: SerializeField] public PlayerDisplay MyPlayerDisplay { get; private set; }
-    [field: SerializeField] public PlayerDisplay OpponentPlayerDisplay { get; private set; }
 
     public CommandsHandler CommandsHandler = new CommandsHandler();
 
@@ -114,15 +112,21 @@ public class GameplayManager : MonoBehaviour
         IsPvpGame = false;
     }
 
-    protected virtual void Start()
+    private void Start()
+    {
+        GameplayUI.Instance.StartingAnimations(StartGameplay);   
+    }
+
+    protected virtual void StartGameplay()
     {
         CommandsHandler.Setup();
         CurrentRound = 0;
         SetupPlayers();
         TableHandler.Setup();
         StartCoroutine(GameplayRoutine());
-
     }
+    
+    
 
     protected virtual void SetupPlayers()
     {

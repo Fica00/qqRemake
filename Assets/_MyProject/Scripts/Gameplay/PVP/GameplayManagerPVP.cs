@@ -39,9 +39,9 @@ public class GameplayManagerPVP : GameplayManager
         PhotonManager.Instance.LeaveRoom();
     }
 
-    protected override void Start()
+    protected override void StartGameplay()
     {
-        base.Start();
+        base.StartGameplay();
         StartCoroutine(DelayStart());
     }
 
@@ -280,8 +280,7 @@ public class GameplayManagerPVP : GameplayManager
     [PunRPC]
     private void OpponentWantsToBet()
     {
-        OpponentPlayerDisplay.RemoveGlow();
-        FindObjectOfType<DrumClickHandler>().ShowOpponentWantsToIncreaseBet();
+        FindObjectOfType<BetClickHandler>().ShowOpponentWantsToIncreaseBet();
 
     }
 

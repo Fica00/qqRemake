@@ -9,13 +9,14 @@ public class EndTurnHandler : MonoBehaviour
     public static Action OnEndTurn;
     
     [SerializeField] private TextMeshProUGUI textDisplay;
-    [SerializeField] private Image foregroundImage;
     [SerializeField] private Button button;
     [SerializeField] private GameObject roundDisplay;
     [SerializeField] private GameObject leaveDisplay;
-    [SerializeField] private Sprite waitingSprite;
-    [SerializeField] private Sprite playingSprite;
-    [SerializeField] private Sprite timerSprite;
+    
+    [SerializeField] private GradiantValueBar gradiantBar;
+    [SerializeField] private Sprite playing;
+    [SerializeField] private Sprite waiting;
+    [SerializeField] private GradiantSprite endTurn;
 
     private int roundDuration;
     private float timeLeft;
@@ -45,7 +46,7 @@ public class EndTurnHandler : MonoBehaviour
             case GameplayState.ResolvingBeginingOfRound:
                 textDisplay.text = "Playing";
                 button.interactable = false;
-                foregroundImage.sprite = playingSprite;
+                gradiantBar.SetForeground(playing,true);
                 timeLeft = roundDuration;
                 break;
             case GameplayState.Playing:
@@ -56,12 +57,12 @@ public class EndTurnHandler : MonoBehaviour
                 }
                 textDisplay.text = "End Turn";
                 button.interactable = true;
-                foregroundImage.sprite = timerSprite;
+                gradiantBar.SetSprites(endTurn);
                 break;
             case GameplayState.Waiting:
                 textDisplay.text = "Waiting";
                 button.interactable = false;
-                foregroundImage.sprite = waitingSprite;
+                gradiantBar.SetForeground(waiting,true);
                 break;
             case GameplayState.ResolvingEndOfRound:
                 if (roundDurationRoutine != null)
@@ -71,10 +72,8 @@ public class EndTurnHandler : MonoBehaviour
                 }
                 textDisplay.text = "Playing";
                 button.interactable = false;
-                foregroundImage.sprite = playingSprite;
-                foregroundImage.fillAmount = 0;
-                break;
-            default:
+                gradiantBar.SetForeground(playing,true);
+                gradiantBar.SetAmount(0);
                 break;
         }
     }
@@ -83,8 +82,7 @@ public class EndTurnHandler : MonoBehaviour
     {
         button.onClick.RemoveListener(EndTurn);
         button.onClick.AddListener(LeaveScene);
-        foregroundImage.fillAmount = 1;
-        foregroundImage.sprite = timerSprite;
+        gradiantBar.SetSprites(endTurn);
         Destroy(roundDisplay);
         Destroy(textDisplay.gameObject);
         leaveDisplay.SetActive(true);
@@ -117,7 +115,8 @@ public class EndTurnHandler : MonoBehaviour
     {
         while (timeLeft > 0)
         {
-            foregroundImage.fillAmount = timeLeft / roundDuration;
+            float _value = timeLeft / roundDuration;
+            gradiantBar.SetAmount(_value);
             timeLeft -= Time.deltaTime;
             yield return null;
         }

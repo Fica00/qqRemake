@@ -2,16 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DrumClickHandler : MonoBehaviour
+public class BetClickHandler : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI betDisplay;
     [SerializeField] private TextMeshProUGUI nextBetDisplay;
-    [SerializeField] private GameObject soundWawe;
 
     private Button button;
     private int maxBet = 16;
     private bool didOpponentInitBetIncrease;
-    private bool didIBet = false;
+    private bool didIBet;
 
     private void Awake()
     {
@@ -35,7 +34,6 @@ public class DrumClickHandler : MonoBehaviour
     private void Disable(GameResult _result)
     {
         button.interactable = false;
-        soundWawe.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -71,8 +69,6 @@ public class DrumClickHandler : MonoBehaviour
 
         ShowNextRoundBet();
         GameplayManager.Instance.Bet();
-        GameplayManager.Instance.MyPlayerDisplay.RemoveGlow();
-        soundWawe.SetActive(false);
         didIBet = true;
     }
 

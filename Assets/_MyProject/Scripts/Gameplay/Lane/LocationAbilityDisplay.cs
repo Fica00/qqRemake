@@ -20,43 +20,17 @@ public class LocationAbilityDisplay : MonoBehaviour
         callback = _callback;
         abilityDesc.text = _desc;
         shiningDesc.text = _desc;
-        FlashEffect();
+        StartCoroutine(ShowAnimation());
     }
 
-    private void FlashEffect()
+    private IEnumerator ShowAnimation()
     {
-        Sequence _sequence = DOTween.Sequence();
-        Color _color = lightUpEffect.color;
-        _color.a = 1;
-        float _duration = 0.2f;
-        _sequence.Append(lightUpEffect.DOColor(_color, _duration));
-        _color.a = 0;
-        _sequence.Append(lightUpEffect.DOColor(_color, _duration));
-        _color.a = 1;
-        _sequence.Append(lightUpEffect.DOColor(_color, _duration));
-        _color.a = 0;
-        _sequence.Append(lightUpEffect.DOColor(_color, _duration));
-        _sequence.OnComplete(() =>
-            {
-                ShowDesc();
-            });
-        _sequence.Play();
+        //todo animator koji ce da pusti animaciju
+        //todo kada se animacija zavrsi             callback?.Invoke();
+        yield return new WaitForSeconds(2);
+        callback?.Invoke();
     }
 
-    private void ShowDesc()
-    {
-        Sequence _sequence = DOTween.Sequence();
-        float _duration = 0.5f;
-        _sequence.Append(tableDisplay.DOColor(new Color(1, 1, 1, 1), _duration));
-        Color _color = abilityDesc.color;
-        _color.a = 1;
-        _sequence.Join(abilityDesc.DOColor(_color, _duration));
-        _sequence.OnComplete(() =>
-        {
-            callback?.Invoke();
-        });
-    }
-    
     public void AbilityShowAsActive()
     {
         if (descFlashing!=null)

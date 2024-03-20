@@ -1,15 +1,46 @@
+using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class GameplayUI : MonoBehaviour
 {
+    private const string STARTING_ANIMATION_KEY = "start";
     public static GameplayUI Instance;
     [field: SerializeField] public GameplayYesNo YesNoDialog { get; private set; }
-    public Transform Canvas;
+    [field: SerializeField] private ResultHandler resultHandler;
+    [SerializeField] private GameObject[] topHud;
+    [SerializeField] private GameObject[] bottomHud;
+    [SerializeField] private GameObject[] topLane;
+    [SerializeField] private GameObject[] midLane;
+    [SerializeField] private GameObject[] botLane;
+    [SerializeField] private GameObject startingAnimation;
+    [SerializeField] private Animator animator;
+    private Action initialAnimationCallBack;
+    
 
     private void Awake()
     {
         Instance = this;
+        startingAnimation.SetActive(true);
+        MinimizeTopAndBottomHudElements();
+    }
+
+    private void MinimizeTopAndBottomHudElements()
+    {
+        MinimizeHud(topHud);
+        MinimizeHud(bottomHud);
+        MinimizeHud(topLane);
+        MinimizeHud(botLane);
+        MinimizeHud(midLane);
+    
+        void MinimizeHud(GameObject[] _objects)
+        {
+            foreach (var _gameObject in _objects)
+            {
+                _gameObject.transform.localScale = Vector3.zero;
+            }
+        }
     }
 
     private void OnEnable()
@@ -30,30 +61,43 @@ public class GameplayUI : MonoBehaviour
     private IEnumerator ShowResultRoutine(GameResult _result)
     {
         yield return new WaitForSeconds(0.2f);
-        string _resultText = string.Empty;
-        string _fontKey = string.Empty;
-        switch (_result)
+        resultHandler.Show(_result);
+    }
+
+    public void StartingAnimations(Action _callBack)
+    {
+        initialAnimationCallBack = _callBack;
+        animator.SetTrigger(STARTING_ANIMATION_KEY);
+    }
+
+    //called from animation
+    private void AnimateTopAndBotHud()
+    {
+        startingAnimation.SetActive(false);
+        StartCoroutine(StartingAnimationsRoutine());
+        IEnumerator StartingAnimationsRoutine()
         {
-            case GameResult.IWon:
-                _resultText = "You won!";
-                _fontKey = GameplayYesNo.FONT_GREEN;
-                break;
-            case GameResult.ILost:
-                _resultText = "You lost!";
-                _fontKey = GameplayYesNo.FONT_RED;
-                break;
-            case GameResult.Draw:
-                _resultText = "Tied!";
-                _fontKey = GameplayYesNo.FONT_RED;
-                break;
-            case GameResult.IForefiet:
-                _resultText = "Escaped";
-                _fontKey = GameplayYesNo.FONT_RED;
-                break;
-            default:
-                break;
+            float _duration = 2f;
+            ScaleUpObjects(topHud,_duration);
+            yield return new WaitForSeconds(_duration);
+            ScaleUpObjects(bottomHud,_duration);
+            yield return new WaitForSeconds(_duration);
+            _duration = 1;
+            ScaleUpObjects(topLane,_duration);
+            yield return new WaitForSeconds(_duration);
+            ScaleUpObjects(midLane,_duration);
+            yield return new WaitForSeconds(_duration);
+            ScaleUpObjects(botLane,_duration);
+            yield return new WaitForSeconds(_duration);
+            initialAnimationCallBack?.Invoke();
         }
 
-        YesNoDialog.Setup(_resultText, _fontKey);
+        void ScaleUpObjects(GameObject[] _objects,float _duration)
+        {
+            foreach (var _gameObject in _objects)
+            {
+                _gameObject.transform.DOScale(Vector3.one, _duration);
+            }
+        }
     }
 }
