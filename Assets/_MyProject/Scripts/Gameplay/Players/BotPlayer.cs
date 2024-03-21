@@ -15,16 +15,16 @@ public class BotPlayer : GameplayPlayer
     public override void Setup()
     {
         List<int> _cardsInDeck = CardsInDeck;
-        cardsInDeck = new List<CardObject>();
+        base.CardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
         {
             CardObject _cardObject = CardsManager.Instance.CreateCard(_cardInDeck, IsMy);
             _cardObject.transform.SetParent(transform);
-            cardsInDeck.Add(_cardObject);
+            base.CardsInDeck.Add(_cardObject);
         }
         ShuffleDeck();
-        cardsInHand = new List<CardObject>();
-        cardsInDiscardPile = new List<CardObject>();
+        CardsInHand = new List<CardObject>();
+        CardsInDiscardPile = new List<CardObject>();
         GameplayManager.UpdatedGameState += ManageGameState;
         playerDisplay.Setup(this);
     }
@@ -89,7 +89,7 @@ public class BotPlayer : GameplayPlayer
                 }
                 if (_i == 0)
                 {
-                    foreach (var _card in cardsInHand.ToList())
+                    foreach (var _card in CardsInHand.ToList())
                     {
                         if (_playerPower[_j] > _botPower[_j] && _playerPower[_j] < _botPower[_j] + _card.Stats.Power)
                         {
@@ -99,7 +99,7 @@ public class BotPlayer : GameplayPlayer
                 }
                 else if (_i == 1)
                 {
-                    foreach (var _card in cardsInHand.ToList())
+                    foreach (var _card in CardsInHand.ToList())
                     {
                         if (_playerPower[_j] == _botPower[_j])
                         {
@@ -109,7 +109,7 @@ public class BotPlayer : GameplayPlayer
                 }
                 else if (_i == 2)
                 {
-                    foreach (var _card in cardsInHand.ToList())
+                    foreach (var _card in CardsInHand.ToList())
                     {
                         PlaceCard(_card, _botPower, _j);
                     }

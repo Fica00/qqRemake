@@ -67,10 +67,30 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void SetPhotonPlayerProperties()
     {
-        Hashtable myProperties = new Hashtable();
-        myProperties[NAME] = DataManager.Instance.PlayerData.Name;
-        myProperties[AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQommons.Count;
-        PhotonNetwork.LocalPlayer.CustomProperties = myProperties;
+        Hashtable _myProperties = new Hashtable
+            {
+                [NAME] = DataManager.Instance.PlayerData.Name,
+                [AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQommons.Count,
+                [AMOUNT_OF_CARDS_IN_HAND] = 0,
+                [AMOUNT_OF_DESTROYED_CARDS] = 0,
+                [AMOUNT_OF_DISCARDED_CARDS] = 0
+            };
+        PhotonNetwork.LocalPlayer.CustomProperties = _myProperties;
+    }
+
+    public void TryUpdateCustomProperty(string _key, string _value)
+    {
+        if (PhotonNetwork.CurrentRoom is null or null)
+        {
+            return;
+        }
+        Hashtable _existingProperties = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (!_existingProperties.ContainsKey(_key))
+        {
+            return;
+        }
+        _existingProperties[_key] = _value;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_existingProperties);
     }
 
     public string GetOpponentsProperty(string _key)
@@ -95,12 +115,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomNames[roomNameIndex]);
     }
     
-    public override void OnJoinRoomFailed(short returnCode, string message)
+    public override void OnJoinRoomFailed(short _returnCode, string _message)
     {
         CreateRoom();
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message)
+    public override void OnCreateRoomFailed(short _returnCode, string _message)
     {
         TryJoinRoom();
     }

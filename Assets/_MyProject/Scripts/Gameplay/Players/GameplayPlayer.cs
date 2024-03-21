@@ -21,9 +21,30 @@ public class GameplayPlayer : MonoBehaviour
     [SerializeField] private EnergyDisplayHandler energyDisplayHandler;
     [SerializeField] protected PlayerDisplay playerDisplay;
 
-    protected List<CardObject> cardsInDeck;
-    protected List<CardObject> cardsInHand;
-    protected List<CardObject> cardsInDiscardPile;
+    private List<CardObject> cardsInHand;
+    private List<CardObject> cardsInDiscardPile;
+
+    protected List<CardObject> CardsInDeck;
+
+    protected List<CardObject> CardsInHand
+    {
+        get => cardsInHand;
+        set
+        {
+            cardsInHand = value;
+            PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
+        }
+    }
+
+    protected List<CardObject> CardsInDiscardPile
+    {
+        get => cardsInDiscardPile;
+        set
+        {
+            cardsInDiscardPile = value;
+            PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS,cardsInDiscardPile.Count.ToString());
+        }
+    }
     protected int energy;
 
     public List<CardObject> CardsOnTop;
@@ -31,10 +52,19 @@ public class GameplayPlayer : MonoBehaviour
     public List<CardObject> CardsOnBot;
 
     private int amountOfDestroyedCards;
+    
+    public int AmountOfCardsInHand => CardsInHand.Count;
+    public int AmountOfDiscardedCards => CardsInDiscardPile.Count;
 
-    public int AmountOfCardsInHand => cardsInHand.Count;
-    public int AmountOfDiscardedCards => cardsInDiscardPile.Count;
-    public int AmountOfDestroyedCards => amountOfDestroyedCards;
+    public int AmountOfDestroyedCards
+    {
+        get => amountOfDestroyedCards;
+        set
+        {
+            amountOfDestroyedCards = value;
+            PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS,amountOfDestroyedCards.ToString());
+        }
+    }
     public int Energy
     {
         get
@@ -51,16 +81,16 @@ public class GameplayPlayer : MonoBehaviour
     public virtual void Setup()
     {
         List<int> _cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsInDeck);
-        cardsInDeck = new List<CardObject>();
+        CardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
         {
             CardObject _cardObject = CardsManager.Instance.CreateCard(_cardInDeck, IsMy);
             _cardObject.transform.SetParent(transform);
-            cardsInDeck.Add(_cardObject);
+            CardsInDeck.Add(_cardObject);
         }
         ShuffleDeck();
-        cardsInHand = new List<CardObject>();
-        cardsInDiscardPile = new List<CardObject>();
+        CardsInHand = new List<CardObject>();
+        CardsInDiscardPile = new List<CardObject>();
         CardsOnTop = new List<CardObject>();
         CardsOnMid = new List<CardObject>();
         CardsOnBot = new List<CardObject>();
@@ -71,19 +101,19 @@ public class GameplayPlayer : MonoBehaviour
 
     protected void ShuffleDeck()
     {
-        cardsInDeck = cardsInDeck.OrderBy(element => Guid.NewGuid()).ToList();
+        CardsInDeck = CardsInDeck.OrderBy(element => Guid.NewGuid()).ToList();
 
         //check for cards that should get in hand in certain runds and send them on bottom of the deck
-        for (int i = cardsInDeck.Count - 1; i >= 0; i--)
+        for (int i = CardsInDeck.Count - 1; i >= 0; i--)
         {
-            var _specialEffects = CardsManager.Instance.GetCardEffects(cardsInDeck[i].Details.Id);
+            var _specialEffects = CardsManager.Instance.GetCardEffects(CardsInDeck[i].Details.Id);
             foreach (var _specialEffect in _specialEffects)
             {
                 if (_specialEffect is CardEffectAddCardToHandOnRound)
                 {
-                    var _card = cardsInDeck[i];
-                    cardsInDeck.RemoveAt(i);
-                    cardsInDeck.Add(_card);
+                    var _card = CardsInDeck[i];
+                    CardsInDeck.RemoveAt(i);
+                    CardsInDeck.Add(_card);
                 }
             }
         }
@@ -106,11 +136,11 @@ public class GameplayPlayer : MonoBehaviour
 
     public CardObject DrawCard()
     {
-        if (cardsInDeck.Count==0)
+        if (CardsInDeck.Count==0)
         {
             return null;
         }
-        CardObject _card = cardsInDeck[0];
+        CardObject _card = CardsInDeck[0];
         return DrawCard(_card, true);
     }
 
@@ -118,9 +148,9 @@ public class GameplayPlayer : MonoBehaviour
     {
         if (_updateDeck)
         {
-            if (cardsInDeck.Contains(_card))
+            if (CardsInDeck.Contains(_card))
             {
-                cardsInDeck.Remove(_card);
+                CardsInDeck.Remove(_card);
             }
         }
         
@@ -130,7 +160,7 @@ public class GameplayPlayer : MonoBehaviour
 
     public void AddCardToHand(CardObject _cardObject, bool _showAnimation=true)
     {
-        cardsInHand.Add(_cardObject);
+        CardsInHand.Add(_cardObject);
         _cardObject.SetCardLocation(CardLocation.Hand);
         AddedCardToHand?.Invoke(_cardObject,_showAnimation);
     }
@@ -138,9 +168,9 @@ public class GameplayPlayer : MonoBehaviour
     
     public void RemoveCardFromHand(CardObject _cardObject)
     {
-        if (cardsInHand.Contains(_cardObject))
+        if (CardsInHand.Contains(_cardObject))
         {
-            cardsInHand.Remove(_cardObject);
+            CardsInHand.Remove(_cardObject);
         }
         RemovedCardFromHand?.Invoke(_cardObject);
     }
@@ -152,7 +182,7 @@ public class GameplayPlayer : MonoBehaviour
         IEnumerator CheckForCardsThatShouldMoveToHandRoutine()
         {
             List<CardObject> _cardsThatShouldStartInHand = new List<CardObject>();
-            foreach (var _cardId in cardsInDeck)
+            foreach (var _cardId in CardsInDeck)
             {
                 var _specialEffects = CardsManager.Instance.GetCardEffects(_cardId.Details.Id);
                 foreach (var _specialEffect in _specialEffects)
@@ -264,12 +294,12 @@ public class GameplayPlayer : MonoBehaviour
 
     public void UpdateQommonCost(int _amount)
     {
-        foreach (var _card in cardsInHand)
+        foreach (var _card in CardsInHand)
         {
             _card.Stats.Energy += _amount;
         }
 
-        foreach (var _card in cardsInDeck)
+        foreach (var _card in CardsInDeck)
         {
             _card.Stats.Energy += _amount;
         }
@@ -277,9 +307,9 @@ public class GameplayPlayer : MonoBehaviour
 
     public CardObject GetQommonFromHand()
     {
-        if (cardsInHand.Count > 0)
+        if (CardsInHand.Count > 0)
         {
-            return cardsInHand[UnityEngine.Random.Range(0, cardsInHand.Count)];
+            return CardsInHand[UnityEngine.Random.Range(0, CardsInHand.Count)];
         }
 
         return null;
@@ -287,14 +317,14 @@ public class GameplayPlayer : MonoBehaviour
     
     public CardObject GetHigestCostQommon()
     {
-        if (cardsInHand.Count == 0)
+        if (CardsInHand.Count == 0)
         {
             return null;
         }
         
-        CardObject _highestCostQommon = cardsInHand[0];
+        CardObject _highestCostQommon = CardsInHand[0];
 
-        foreach (var _qommonInHand in cardsInHand)
+        foreach (var _qommonInHand in CardsInHand)
         {
             if (_qommonInHand.Stats.Energy>_highestCostQommon.Stats.Energy)
             {
@@ -307,17 +337,17 @@ public class GameplayPlayer : MonoBehaviour
 
     public void ReturnCardsToDeck()
     {
-        foreach (var _cardInHand in cardsInHand.ToList())
+        foreach (var _cardInHand in CardsInHand.ToList())
         {
             RemoveCardFromHand(_cardInHand);
-            cardsInDeck.Add(_cardInHand);
+            CardsInDeck.Add(_cardInHand);
             _cardInHand.transform.SetParent(transform);
         }
     }
 
     public void DiscardCardFromHand(CardObject _card)
     {
-        cardsInHand.Remove(_card);
+        CardsInHand.Remove(_card);
         GameplayManager.Instance.TellOpponentThatIDiscardedACard(_card);
         AnimateRoutine();
 
@@ -328,7 +358,7 @@ public class GameplayPlayer : MonoBehaviour
             void FinishDiscard()
             {
                 RemoveCardFromHand(_card);
-                cardsInDiscardPile.Add(_card);
+                CardsInDiscardPile.Add(_card);
                 _card.SetCardLocation(CardLocation.Discarded);
                 _card.transform.SetParent(null);
                 DiscardedCard?.Invoke(_card);
@@ -345,7 +375,7 @@ public class GameplayPlayer : MonoBehaviour
 
         void FinishDestroy()
         {
-            amountOfDestroyedCards++;
+            AmountOfDestroyedCards++;
             Destroy(_card.gameObject);
         }
     }
