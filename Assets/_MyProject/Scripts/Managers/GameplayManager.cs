@@ -98,6 +98,7 @@ public class GameplayManager : MonoBehaviour
     {
         GameplayState = GameplayState.Waiting;
         iFinished = true;
+        MyPlayer.FinishedTurn?.Invoke();
     }
 
     protected virtual void Forfiet()

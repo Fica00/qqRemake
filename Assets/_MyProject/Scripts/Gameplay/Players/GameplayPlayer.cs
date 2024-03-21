@@ -14,6 +14,7 @@ public class GameplayPlayer : MonoBehaviour
     public Action<CardObject,bool> AddedCardToHand;
     public Action<CardObject> RemovedCardFromHand;
     public Action UpdatedEnergy;
+    public Action FinishedTurn;
 
     [field: SerializeField] public bool IsMy { get; private set; }
 
@@ -164,7 +165,6 @@ public class GameplayPlayer : MonoBehaviour
         _cardObject.SetCardLocation(CardLocation.Hand);
         AddedCardToHand?.Invoke(_cardObject,_showAnimation);
     }
-    
     
     public void RemoveCardFromHand(CardObject _cardObject)
     {

@@ -41,6 +41,8 @@ public class CardInHandDisplay : MonoBehaviour
     {
         GameplayManager.Instance.MyPlayer.UpdatedEnergy += ShowIfPlayerHasEnaughtEnergy;
         cardObject.Stats.UpdatedMana += ShowIfPlayerHasEnaughtEnergy;
+        GameplayManager.Instance.MyPlayer.FinishedTurn += ShowAllQommonsAsAvailable;
+        GameplayManager.UpdatedGameState += CheckState;
     }
 
     private void OnDisable()
@@ -49,6 +51,16 @@ public class CardInHandDisplay : MonoBehaviour
         cardObject.Stats.UpdatedPower -= ShowPower;
         GameplayManager.Instance.MyPlayer.UpdatedEnergy -= ShowIfPlayerHasEnaughtEnergy;
         cardObject.Stats.UpdatedMana -= ShowIfPlayerHasEnaughtEnergy;
+        GameplayManager.Instance.MyPlayer.FinishedTurn -= ShowAllQommonsAsAvailable;
+        GameplayManager.UpdatedGameState -= CheckState;
+    }
+
+    private void CheckState()
+    {
+        if (GameplayManager.Instance.GameplayState == GameplayState.Playing)
+        {
+            ShowIfPlayerHasEnaughtEnergy();
+        }
     }
 
     private void ShowIfPlayerHasEnaughtEnergy(ChangeStatus status)
@@ -78,6 +90,13 @@ public class CardInHandDisplay : MonoBehaviour
             borderShadow.SetActive(true);
         }
 
+        qommonDisplay.color = _color;
+    }
+
+    private void ShowAllQommonsAsAvailable()
+    {
+        Color _color = qommonDisplay.color;
+        _color.a = 1f;
         qommonDisplay.color = _color;
     }
 

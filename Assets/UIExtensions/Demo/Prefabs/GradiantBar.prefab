@@ -180,8 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a43ef46bdace37469e651a98fd3d8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  background: {fileID: 2285070134825588436}
   foreground: {fileID: 2285070135406494828}
-  gradiant: {fileID: 2285070134771512167}
+  gradiantRect: {fileID: 2285070134771512167}
+  transparent: {fileID: 21300000, guid: 63c60f6e87f5bc643b310c4d923d63f1, type: 2}
 --- !u!1 &2285070135406494830
 GameObject:
   m_ObjectHideFlags: 0

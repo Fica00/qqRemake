@@ -6,6 +6,7 @@ public class GradiantValueBar : MonoBehaviour
     [SerializeField] private Image background;
     [SerializeField] private Image foreground;
     [SerializeField] private RectTransform gradiantRect;
+    [SerializeField] private Sprite transparent;
     private Image gradiant;
 
     private void Awake()
@@ -23,7 +24,6 @@ public class GradiantValueBar : MonoBehaviour
 
     public void SetSprites(GradiantSprite _sprite)
     {
-        Debug.Log(_sprite);
         background.sprite = _sprite.Background;
         foreground.sprite = _sprite.Foreground;
         gradiant.sprite = _sprite.Gradiant;
@@ -31,11 +31,12 @@ public class GradiantValueBar : MonoBehaviour
 
     public void SetForeground(Sprite _sprite, bool _setAmountToFull=false)
     {
-        Debug.Log(_sprite.name);
         foreground.sprite = _sprite;
         if (_setAmountToFull)
         {
             SetAmount(1);
         }
+
+        gradiant.sprite = transparent;
     }
 }

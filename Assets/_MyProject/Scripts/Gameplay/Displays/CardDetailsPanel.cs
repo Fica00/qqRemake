@@ -18,6 +18,8 @@ public class CardDetailsPanel : MonoBehaviour
     [SerializeField] private GameObject hideHandPanel;
 
     private Vector2 startingRect;
+    private Vector3 originalPosition; // To store the original position of the qommon
+    private Vector2 originalSize; // To store the original size of the qommon
 
     private Sequence sequence;
 
@@ -43,6 +45,10 @@ public class CardDetailsPanel : MonoBehaviour
     {
         showHandPanel.SetActive(false);
         hideHandPanel.SetActive(false);
+        
+        RectTransform _cardRectNew = _cardObject.GetComponent<RectTransform>();
+        originalPosition = _cardRectNew.position;
+        originalSize = new Vector2(_cardRectNew.rect.width, _cardRectNew.rect.height);
 
         if (_cardObject.CardLocation == CardLocation.Table)
         {
@@ -96,6 +102,23 @@ public class CardDetailsPanel : MonoBehaviour
             sequence.Kill();
         }
 
-        detailsHolder.SetActive(false);
+        manaHolder.SetActive(false);
+        powerHolder.SetActive(false);
+        nameDispaly.text = string.Empty;
+        descDisplay.text = string.Empty;
+        manaDisplay.text = string.Empty;
+        powerDisplay.text = string.Empty;
+        
+        RectTransform _rectTransform = qommonDisplay.GetComponent<RectTransform>();
+        Sequence _closeSequence = DOTween.Sequence();
+
+        _closeSequence.Append(_rectTransform.DOSizeDelta(originalSize, 0.4f));
+        _closeSequence.Join(_rectTransform.DOMove(originalPosition, 0.4f));
+
+        _closeSequence.OnComplete(() => {
+            detailsHolder.SetActive(false);
+        });
+
+        _closeSequence.Play();
     }
 }

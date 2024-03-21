@@ -8,6 +8,7 @@ using DG.Tweening;
 public class LocationAbilityDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI abilityDesc;
+    [SerializeField] private GameObject abilityDescHolder;
     [SerializeField] private TextMeshProUGUI shiningDesc;
     [SerializeField] private Image lightUpEffect;
     [SerializeField] private Image tableDisplay;
@@ -25,8 +26,7 @@ public class LocationAbilityDisplay : MonoBehaviour
 
     private IEnumerator ShowAnimation()
     {
-        //todo animator koji ce da pusti animaciju
-        //todo kada se animacija zavrsi             callback?.Invoke();
+        abilityDescHolder.SetActive(true);
         yield return new WaitForSeconds(2);
         callback?.Invoke();
     }
