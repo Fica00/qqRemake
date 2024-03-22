@@ -21,6 +21,7 @@ public class UIPVPPanel : MonoBehaviour
         StartCoroutine(SearchingAnimation());
 
         cancelButton.onClick.AddListener(Cancel);
+        PhotonManager.OnIJoinedRoom += TryShowTransition;
         PhotonManager.OnILeftRoom += Close;
         PhotonManager.OnOpponentJoinedRoom += OpponentJoined;
     }
@@ -29,8 +30,17 @@ public class UIPVPPanel : MonoBehaviour
     {
         cancelButton.onClick.RemoveListener(Cancel);
 
+        PhotonManager.OnIJoinedRoom -= TryShowTransition;
         PhotonManager.OnILeftRoom -= Close;
         PhotonManager.OnOpponentJoinedRoom -= OpponentJoined;
+    }
+
+    private void TryShowTransition()
+    {
+        if (PhotonManager.Instance.CurrentRoom.PlayerCount==2)
+        {
+            UIMainMenu.Instance.ShowSceneTransition();
+        }
     }
 
     private void Cancel()
@@ -47,7 +57,13 @@ public class UIPVPPanel : MonoBehaviour
     private void OpponentJoined()
     {
         ManageInteractables(false);
-        SceneManager.LoadPVPGameplay();
+        StartCoroutine(OpponentJoinedRoutine());
+        IEnumerator OpponentJoinedRoutine()
+        {
+            yield return new WaitForSeconds(2.5f);
+            UIMainMenu.Instance.ShowSceneTransition();
+            SceneManager.LoadPVPGameplay();
+        }
     }
 
     private IEnumerator SearchingAnimation()

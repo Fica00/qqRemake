@@ -28,6 +28,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private int roomNameIndex = 0;
     private int roomTriesCounter = 0;
 
+    public Room CurrentRoom => PhotonNetwork.CurrentRoom;
+
     private void Awake()
     {
         if (Instance == null)

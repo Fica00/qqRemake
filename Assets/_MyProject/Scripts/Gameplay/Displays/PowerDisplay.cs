@@ -74,15 +74,15 @@ public class PowerDisplay : MonoBehaviour
             return;
         }
         TextMeshProUGUI _text = _myPower > _opponentPower ? myPower : opponentPower;
-        float _currentSize = _text.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, winFontSize, 0.1f)
-            .OnUpdate(() => _text.fontSize = _currentSize).
-            OnComplete(() =>
-            {
-                DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 0.1f)
-                    .OnUpdate(() => _text.fontSize = _currentSize).
-                    OnComplete(()=> _callBack?.Invoke()).SetDelay(0.3f);
-            });
+        _text.GetComponentInParent<Animator>().SetTrigger("Win");
+        StartCoroutine(CallCallBackRoutine());
+        
+        IEnumerator CallCallBackRoutine()
+        {
+            yield return new WaitForSeconds(1.5f);
+            _callBack?.Invoke();
+        }
+
     }
 
     public void EnlargedPowerAnimation(bool _showMyPower)

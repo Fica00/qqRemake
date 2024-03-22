@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameplayUI : MonoBehaviour
 {
-    private const string STARTING_ANIMATION_KEY = "start";
+    private const string STARTING_ANIMATION_KEY = "Part2";
     public static GameplayUI Instance;
     [field: SerializeField] public GameplayYesNo YesNoDialog { get; private set; }
     [field: SerializeField] private ResultHandler resultHandler;
@@ -14,7 +14,6 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] private GameObject[] topLane;
     [SerializeField] private GameObject[] midLane;
     [SerializeField] private GameObject[] botLane;
-    [SerializeField] private GameObject startingAnimation;
     [SerializeField] private Animator animator;
     private Action initialAnimationCallBack;
     
@@ -22,7 +21,6 @@ public class GameplayUI : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        startingAnimation.SetActive(true);
         MinimizeTopAndBottomHudElements();
     }
 
@@ -66,14 +64,20 @@ public class GameplayUI : MonoBehaviour
 
     public void StartingAnimations(Action _callBack)
     {
+        animator.gameObject.SetActive(true);
         initialAnimationCallBack = _callBack;
         animator.SetTrigger(STARTING_ANIMATION_KEY);
+        StartCoroutine(AnimateRoutine());
+        IEnumerator AnimateRoutine()
+        {
+            yield return new WaitForSeconds(2.5f);
+            AnimateTopAndBotHud();
+        }
     }
 
-    //called from animation
     private void AnimateTopAndBotHud()
     {
-        startingAnimation.SetActive(false);
+        animator.gameObject.SetActive(false);
         StartCoroutine(StartingAnimationsRoutine());
         IEnumerator StartingAnimationsRoutine()
         {

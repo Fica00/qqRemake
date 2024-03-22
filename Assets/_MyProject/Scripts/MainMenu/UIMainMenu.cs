@@ -3,7 +3,14 @@ using UnityEngine;
 
 public class UIMainMenu : MonoBehaviour
 {
+    public static UIMainMenu Instance;
     [SerializeField] private TextMeshProUGUI lineupNameDisplay;
+    [SerializeField] private GameObject sceneTransition;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -27,5 +34,10 @@ public class UIMainMenu : MonoBehaviour
     {
         lineupNameDisplay.text =
             DataManager.Instance.PlayerData.GetSelectedDeck().Name;
+    }
+
+    public void ShowSceneTransition()
+    {
+        sceneTransition.SetActive(true);
     }
 }

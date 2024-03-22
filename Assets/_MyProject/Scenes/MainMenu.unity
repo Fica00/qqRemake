@@ -13160,6 +13160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineupNameDisplay: {fileID: 1809849157}
+  sceneTransition: {fileID: 959257898}
 --- !u!114 &1017926789
 MonoBehaviour:
   m_ObjectHideFlags: 0
