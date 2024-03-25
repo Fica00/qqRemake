@@ -21,6 +21,12 @@ public class PlayerDisplay : MonoBehaviour
 
     private void ShowStats()
     {
+        if (statsDisplay.IsOpen)
+        {
+            statsDisplay.Close();
+            return;
+        }
+        
         if (player.IsMy)
         {
             statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, DataManager.Instance.PlayerData.OwnedQommons.Count, player.AmountOfDestroyedCards);

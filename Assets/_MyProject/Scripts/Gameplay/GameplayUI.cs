@@ -81,16 +81,13 @@ public class GameplayUI : MonoBehaviour
         StartCoroutine(StartingAnimationsRoutine());
         IEnumerator StartingAnimationsRoutine()
         {
-            float _duration = 2f;
+            float _duration = 1;
             ScaleUpObjects(topHud,_duration);
             yield return new WaitForSeconds(_duration);
             ScaleUpObjects(bottomHud,_duration);
             yield return new WaitForSeconds(_duration);
-            _duration = 1;
             ScaleUpObjects(topLane,_duration);
-            yield return new WaitForSeconds(_duration);
             ScaleUpObjects(midLane,_duration);
-            yield return new WaitForSeconds(_duration);
             ScaleUpObjects(botLane,_duration);
             yield return new WaitForSeconds(_duration);
             initialAnimationCallBack?.Invoke();

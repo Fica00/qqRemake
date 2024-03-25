@@ -19,50 +19,37 @@ public class LanePlaceIdentifier : MonoBehaviour
 
     private void OnEnable()
     {
-        CardInteractions.DragStarted += CheckIfTileIsAvailable;
-        CardInteractions.DragEnded += TurnOffAvailableColor;
         GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
     private void OnDisable()
     {
-        CardInteractions.DragStarted -= CheckIfTileIsAvailable;
-        CardInteractions.DragEnded -= TurnOffAvailableColor;
         GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
-    private void CheckIfTileIsAvailable(CardObject _cardObject)
+    public bool CheckIfTileIsAvailable(CardObject _cardObject)
     {
         if (!IsMine)
         {
-            return;
+            return false;
         }
 
         if (!CanPlace())
         {
-            return;
+            return false;
         }
 
         if (!laneDisplay.CanPlace(_cardObject))
         {
-            return;
+            return false;
         }
 
         if (GameplayManager.Instance.MyPlayer.Energy<_cardObject.Stats.Energy)
         {
-            return;
+            return false;
         }
 
-        Color _color = image.color;
-        _color.a = 0.4f;
-        image.color = _color;
-    }
-
-    private void TurnOffAvailableColor()
-    {
-        Color _color = image.color;
-        _color.a = 0f;
-        image.color = _color;
+        return true;
     }
 
     private void CheckIfShouldDestroyChild(PlaceCommand _command)

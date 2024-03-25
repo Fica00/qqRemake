@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class CardReveal : MonoBehaviour
 {
-    public static Action<CardObject> ShowRevealCard;
     [SerializeField] private GameObject shadowObject;
     [SerializeField] private GameObject revealObject;
     private CardObject cardObject;
@@ -40,8 +38,6 @@ public class CardReveal : MonoBehaviour
         yield return new WaitForSeconds(1f);//duration of reveal animation
         revealObject.SetActive(false);
         Finish();
-        ShowRevealCard?.Invoke(cardObject);
-        yield return new WaitForSeconds(2.5f);//duration of showing reveal card
     }
 
     public void Finish()

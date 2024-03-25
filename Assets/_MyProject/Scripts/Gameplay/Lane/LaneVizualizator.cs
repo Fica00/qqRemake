@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using System;
 
 public class LaneVizualizator : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class LaneVizualizator : MonoBehaviour
     [SerializeField]
     private List<LanePlaceIdentifier> myPlaces;
     [SerializeField] private Image myLane;
+    [SerializeField] private GameObject laneIndicator;
     [Space()]
     [SerializeField]
     private List<LanePlaceIdentifier> opponentPlaces;
@@ -31,7 +31,10 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnHideHighlightWholePlace += HideHighlihtWholePlace;
         GameplayManager.OnHideHighlightWholePlaceDotted += HideHighlihtWholePlaceDotted;
         GameplayManager.OnFlashAllSpotsOnLocation += FlashAllSpotsOnLocation;
+        CardInteractions.DragStarted += CheckIfLaneIsAvailable;
+        CardInteractions.DragEnded += TurnOffAvailableColor;
     }
+
 
     private void OnDisable()
     {
@@ -42,7 +45,10 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnHideHighlightWholePlace -= HideHighlihtWholePlace;
         GameplayManager.OnHideHighlightWholePlaceDotted -= HideHighlihtWholePlaceDotted;
         GameplayManager.OnFlashAllSpotsOnLocation -= FlashAllSpotsOnLocation;
+        CardInteractions.DragStarted -= CheckIfLaneIsAvailable;
+        CardInteractions.DragEnded -= TurnOffAvailableColor;
     }
+
 
     private void FlashSpot(int _locatoinId, Color _color, int _amount)
     {
@@ -226,5 +232,24 @@ public class LaneVizualizator : MonoBehaviour
         float _animationTime=0.5f;
         DOTween.To(() => _color.a, x => _color.a = x, 1, _animationTime)
             .OnUpdate(() => { wholeLaneBlue.color = _color; });
+    }
+
+    private void CheckIfLaneIsAvailable(CardObject _card)
+    {
+        foreach (var _myPlace in myPlaces)
+        {
+            if (_myPlace.CheckIfTileIsAvailable(_card))
+            {
+                laneIndicator.SetActive(true);
+                return;
+            }
+        }
+        
+        laneIndicator.SetActive(false);
+    }
+    
+    private void TurnOffAvailableColor()
+    {
+        laneIndicator.SetActive(false);
     }
 }
