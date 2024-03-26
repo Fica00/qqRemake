@@ -61,6 +61,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedGamePasses += SaveGamePasses;
         PlayerData.UpdatedCoins += SaveCoins;
         PlayerData.UpdatedUSDC += SaveUSDC;
+        PlayerData.UpdatedExp += SaveExp;
     }
 
     private void Unsubscribe()
@@ -79,6 +80,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedGamePasses -= SaveGamePasses;
         PlayerData.UpdatedCoins -= SaveCoins;
         PlayerData.UpdatedUSDC -= SaveUSDC;
+        PlayerData.UpdatedExp -= SaveExp;
     }
 
     private void SaveSelectedDeck()
@@ -114,5 +116,10 @@ public class DataManager : MonoBehaviour
     private void SaveUSDC()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.USDC),JsonConvert.SerializeObject(PlayerData.USDC));
+    }    
+    
+    private void SaveExp()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Exp),JsonConvert.SerializeObject(PlayerData.Exp));
     }
 }

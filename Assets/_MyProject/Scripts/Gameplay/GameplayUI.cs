@@ -15,6 +15,7 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] private GameObject[] midLane;
     [SerializeField] private GameObject[] botLane;
     [SerializeField] private Animator animator;
+    [SerializeField] private ClaimReward claimReward;
     private Action initialAnimationCallBack;
     
 
@@ -59,6 +60,18 @@ public class GameplayUI : MonoBehaviour
     private IEnumerator ShowResultRoutine(GameResult _result)
     {
         yield return new WaitForSeconds(0.2f);
+        if (_result is GameResult.IForefiet or GameResult.ILost)
+        {
+            ShowResultHandler(_result);
+        }
+        else
+        {
+            claimReward.Setup(_result);
+        }
+    }
+
+    public void ShowResultHandler(GameResult _result)
+    {
         resultHandler.Show(_result);
     }
 

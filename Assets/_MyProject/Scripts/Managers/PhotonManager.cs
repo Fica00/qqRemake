@@ -9,6 +9,7 @@ using UnityEngine;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     public const string NAME = "name";
+    public const string DECK_NAME = "deckName";
     public const string AMOUNT_OF_CARDS_IN_HAND = "amountOfCardsInHand";
     public const string AMOUNT_OF_DISCARDED_CARDS = "amountOfDiscardedCards";
     public const string AMOUNT_OF_DESTROYED_CARDS = "amountOfDestroyedCards";
@@ -22,6 +23,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private static bool isInit;
     public static bool IsOnMasterServer=> PhotonNetwork.Server== ServerConnection.MasterServer;
     public static bool CanCreateRoom=> PhotonNetwork.NetworkClientState== ClientState.ConnectedToMasterServer;
+
+    public bool IsMasterClient => PhotonNetwork.IsMasterClient;
     private List<string> roomNames = new() { "Room1","Room2","Room3","Room4","Room5","Room6","Room7","Room8","Room9","Room10","Room11","Room12","Room13","Room14","Room15"};
 
     private byte maxPlayersPerRoom = 2;
@@ -72,6 +75,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Hashtable _myProperties = new Hashtable
             {
                 [NAME] = DataManager.Instance.PlayerData.Name,
+                [DECK_NAME] = DataManager.Instance.PlayerData.GetSelectedDeck().Name,
                 [AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQommons.Count,
                 [AMOUNT_OF_CARDS_IN_HAND] = 0,
                 [AMOUNT_OF_DESTROYED_CARDS] = 0,

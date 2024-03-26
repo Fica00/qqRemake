@@ -1,16 +1,20 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 
 public class UIPVPPanel : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI searchingText;
     [SerializeField] private Button cancelButton;
+    [SerializeField] private MatchMakingPlayerDisplay myPlayer;
+    [SerializeField] private MatchMakingPlayerDisplay opponentPlayer;
+    [SerializeField] private GameObject matchingLabel;
 
     public void Setup()
     {
+        matchingLabel.SetActive(true);
+        opponentPlayer.gameObject.SetActive(false);
         ManageInteractables(true);
+        myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
         gameObject.SetActive(true);
     }
 
@@ -18,7 +22,6 @@ public class UIPVPPanel : MonoBehaviour
     {
         StopAllCoroutines();
         ManageInteractables(true);
-        StartCoroutine(SearchingAnimation());
 
         cancelButton.onClick.AddListener(Cancel);
         PhotonManager.OnIJoinedRoom += TryShowTransition;
@@ -39,7 +42,8 @@ public class UIPVPPanel : MonoBehaviour
     {
         if (PhotonManager.Instance.CurrentRoom.PlayerCount==2)
         {
-            UIMainMenu.Instance.ShowSceneTransition();
+            LoadGameplay();
+            ShowOpponent();
         }
     }
 
@@ -57,34 +61,28 @@ public class UIPVPPanel : MonoBehaviour
     private void OpponentJoined()
     {
         ManageInteractables(false);
+        ShowOpponent();
+        LoadGameplay();
+    }
+
+    private void ShowOpponent()
+    {
+        opponentPlayer.Setup(
+            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME),
+            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.DECK_NAME));
+        opponentPlayer.gameObject.SetActive(true);
+    }
+
+    private void LoadGameplay()
+    {
         StartCoroutine(OpponentJoinedRoutine());
         IEnumerator OpponentJoinedRoutine()
         {
             yield return new WaitForSeconds(2.5f);
             UIMainMenu.Instance.ShowSceneTransition();
-            SceneManager.LoadPVPGameplay();
-        }
-    }
-
-    private IEnumerator SearchingAnimation()
-    {
-        while (gameObject.activeSelf)
-        {
-            int _counter = 0;
-            string _sentence = "Searching for opponent";
-            while (_counter < 6)
+            if (PhotonManager.Instance.IsMasterClient)
             {
-                if (_counter < 3)
-                {
-                    _sentence += ".";
-                }
-                else
-                {
-                    _sentence = _sentence.Remove(_sentence.Length - 1);
-                }
-                _counter++;
-                searchingText.text = _sentence;
-                yield return new WaitForSeconds(0.5f);
+                SceneManager.LoadPVPGameplay();
             }
         }
     }

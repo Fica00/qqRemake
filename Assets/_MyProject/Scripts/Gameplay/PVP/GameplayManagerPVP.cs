@@ -239,7 +239,7 @@ public class GameplayManagerPVP : GameplayManager
     {
         StopAllCoroutines();
         UIManager.Instance.OkDialog.Setup("Opponent has forfieted the match!\nYouWin!");
-        GameEnded?.Invoke(GameResult.IWon);
+        GameEnded?.Invoke(GameResult.Escaped);
     }
 
     [PunRPC]

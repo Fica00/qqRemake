@@ -104,7 +104,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void Forfiet()
     {
         StopAllCoroutines();
-        GameEnded?.Invoke(GameResult.ILost);
+        GameEnded?.Invoke(GameResult.IForefiet);
     }
 
     protected virtual void Awake()

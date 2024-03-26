@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerData
 {
     private string name;
+    private int exp;
     private List<DeckData> decks = new();
     private int selectedDeck;
     private List<int> ownedQommons = new();
@@ -24,6 +25,7 @@ public class PlayerData
     public static Action UpdatedGamePasses;
     public static Action UpdatedCoins;
     public static Action UpdatedUSDC;
+    public static Action UpdatedExp;
 
     public void CreateNewPlayer()
     {
@@ -229,4 +231,23 @@ public class PlayerData
         gamePasses.Remove(_gamePass);
         UpdatedGamePasses?.Invoke();
     }
+
+    public int Exp
+    {
+        get => exp;
+        set
+        {
+            exp = value;
+            UpdatedExp?.Invoke();
+        }
+    }
+    
+    [JsonIgnore]
+    public int Level => Exp / 100;
+
+    [JsonIgnore]
+    public float LevelPercentage => (Exp % 100) / 100.0f;
+
+    [JsonIgnore]
+    public int CurrentExpOnLevel => Exp % 100;
 }
