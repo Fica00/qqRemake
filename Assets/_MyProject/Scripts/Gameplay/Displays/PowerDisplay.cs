@@ -12,10 +12,10 @@ public class PowerDisplay : MonoBehaviour
     [SerializeField] private TMP_FontAsset lossingFontAsset;
     [SerializeField] private TMP_FontAsset drawFontAsset;
 
-    private int increasedFontSize = 90;
-    private int decreasedFontSize = 70;
+    private int increasedFontSize = 80;
+    private int decreasedFontSize = 80;
     private int normalFontSize = 80;
-    private int winFontSize = 115;
+    private int winFontSize = 80;
 
     public void ShowPower(int _myPower, int _opponentPower)
     {
