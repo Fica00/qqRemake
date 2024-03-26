@@ -4,12 +4,18 @@ public static class SceneManager
     private const string GAMEPLAYPVP = "GameplayPVP";
     private const string GAMEPLAYAI = "GameplayAI";
     private const string DATA_COLLECTOR = "DataCollector";
+    private const string ALPHA_CODE = "AlphaCode";
 
     public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAYAI;
 
     public static void LoadMainMenu()
     {
         LoadScene(MAIN_MENU);
+    }
+
+    public static void LoadAlphaCode()
+    {
+        LoadScene(ALPHA_CODE);
     }
 
     public static void LoadPVPGameplay()

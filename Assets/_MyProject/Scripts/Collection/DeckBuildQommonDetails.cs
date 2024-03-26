@@ -11,7 +11,6 @@ public class DeckBuildQommonDetails : MonoBehaviour
     [SerializeField] private TextMeshProUGUI manaDisplay;
     [SerializeField] private TextMeshProUGUI nameDisplay;
     [SerializeField] private TextMeshProUGUI descDisplay;
-    [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private Button addToDeckButton;
     [SerializeField] private RectTransform collectionHolder;
     [SerializeField] private Sprite removeSprite;
@@ -57,16 +56,7 @@ public class DeckBuildQommonDetails : MonoBehaviour
         manaDisplay.text = _card.Details.Mana.ToString();
         nameDisplay.text = _card.Details.Name;
         descDisplay.text = _card.Details.Description.Replace("\\n", "\n");
-        if (DataManager.Instance.PlayerData.CardIdsInDeck.Contains(_cardId))
-        {
-            buttonText.text = "Remove";
-            addToDeckButton.image.sprite = removeSprite;
-        }
-        else
-        {
-            buttonText.text = "Add";
-            addToDeckButton.image.sprite = addSprite;
-        }
+        addToDeckButton.image.sprite = DataManager.Instance.PlayerData.CardIdsInDeck.Contains(_cardId) ? removeSprite : addSprite;
         gameObject.SetActive(true);
     }
 

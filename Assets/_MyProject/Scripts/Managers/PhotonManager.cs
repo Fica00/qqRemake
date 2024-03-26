@@ -3,7 +3,6 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
@@ -23,13 +22,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private static bool isInit;
     public static bool IsOnMasterServer=> PhotonNetwork.Server== ServerConnection.MasterServer;
     public static bool CanCreateRoom=> PhotonNetwork.NetworkClientState== ClientState.ConnectedToMasterServer;
-
     public bool IsMasterClient => PhotonNetwork.IsMasterClient;
-    private List<string> roomNames = new() { "Room1","Room2","Room3","Room4","Room5","Room6","Room7","Room8","Room9","Room10","Room11","Room12","Room13","Room14","Room15"};
 
     private byte maxPlayersPerRoom = 2;
-    private int roomNameIndex = 0;
-    private int roomTriesCounter = 0;
 
     public Room CurrentRoom => PhotonNetwork.CurrentRoom;
 
@@ -64,10 +59,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public void JoinRandomRoom()
     {
-        roomNameIndex = 0;
-        roomTriesCounter = 0;
         SetPhotonPlayerProperties();
-        TryJoinRoom();
+        TryJoinRandomRoom();
     }
 
     private void SetPhotonPlayerProperties()
@@ -116,19 +109,19 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         return _opponent.CustomProperties[_key].ToString();
     }
 
-    private void TryJoinRoom()
+    private void TryJoinRandomRoom()
     {
-        PhotonNetwork.JoinRoom(roomNames[roomNameIndex]);
+        PhotonNetwork.JoinRandomRoom();
     }
-    
-    public override void OnJoinRoomFailed(short _returnCode, string _message)
+
+    public override void OnJoinRandomFailed(short _returnCode, string _message)
     {
         CreateRoom();
     }
 
     public override void OnCreateRoomFailed(short _returnCode, string _message)
     {
-        TryJoinRoom();
+        CreateRoom();
     }
 
     private void CreateRoom()
@@ -139,16 +132,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(.3f);
             RoomOptions _roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = maxPlayersPerRoom };
-            roomTriesCounter++;
-            if (roomTriesCounter%3==0)
-            {
-                roomNameIndex++;
-            }
-            if (roomNameIndex>= roomNames.Count)
-            {
-                roomNameIndex = 0;
-            }
-            PhotonNetwork.CreateRoom(roomNames[roomNameIndex], _roomOptions, TypedLobby.Default);
+            PhotonNetwork.CreateRoom(null, _roomOptions, TypedLobby.Default);
         }
     }
     

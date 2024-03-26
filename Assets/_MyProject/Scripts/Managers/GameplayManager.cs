@@ -85,6 +85,7 @@ public class GameplayManager : MonoBehaviour
     {
         EndTurnHandler.OnEndTurn += EndTurn;
         FlagClickHandler.OnForefiet += Forfiet;
+        GameEnded += UpdateQommonsWinLose;
     }
 
     protected virtual void OnDisable()
@@ -92,6 +93,7 @@ public class GameplayManager : MonoBehaviour
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
         FlagClickHandler.OnForefiet -= Forfiet;
+        GameEnded -= UpdateQommonsWinLose;
     }
 
     protected virtual void EndTurn()
@@ -105,6 +107,19 @@ public class GameplayManager : MonoBehaviour
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.IForefiet);
+    }
+    
+    private void UpdateQommonsWinLose(GameResult _result)
+    {
+        switch (_result)
+        {
+            case GameResult.IForefiet or GameResult.ILost:
+                FirebaseManager.Instance.UpdateCardsWinLoseCount(DataManager.Instance.PlayerData.CardIdsInDeck, false);
+                break;
+            case GameResult.IWon or GameResult.Escaped:
+                FirebaseManager.Instance.UpdateCardsWinLoseCount(DataManager.Instance.PlayerData.CardIdsInDeck, true);
+                break;
+        }
     }
 
     protected virtual void Awake()

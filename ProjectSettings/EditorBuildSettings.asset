@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_MyProject/Scenes/AlphaCode.unity
+    guid: c69ce54610d86b84594bbe1fb8bd3d4c
+  - enabled: 1
     path: Assets/_MyProject/Scenes/DataCollector.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1

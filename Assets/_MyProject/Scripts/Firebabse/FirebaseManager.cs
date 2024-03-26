@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -17,6 +18,7 @@ public class FirebaseManager : MonoBehaviour
     public string UserDataLink => $"{projectLink}/users/{userLocalId}/";
     public string UsersLink => $"{projectLink}/users/";
     private string GameDataLink => $"{projectLink}/gameData/";
+    private string QommonStatistic => $"{projectLink}/gameData/QommonStatistic/";
     private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
     public string PlayerId => userLocalId;
@@ -243,6 +245,38 @@ public class FirebaseManager : MonoBehaviour
             Debug.Log(_error);
             _callBack?.Invoke(false);
         }));
+    }
+
+    public void UpdateCardsWinLoseCount(List<int> _qommons, bool _didIWin)
+    {
+        string _sectionKey = _didIWin ? "win" : "lose";
+        foreach (var _qommon in _qommons)
+        {
+            string _qommonName = CardsManager.Instance.GetCardObject(_qommon).Details.Name.RemoveWhitespace();
+            string _url = QommonStatistic + _qommonName;
+            StartCoroutine(Get(_url + "/"+_sectionKey+".json", _stringValue =>
+            {
+                int _amount = 0;
+                try
+                {
+                    _amount = Convert.ToInt32(_stringValue);
+                }
+                catch
+                {
+                    // ignored
+                }
+
+                _amount++;
+                string _valueString = "{\"" + _sectionKey + "\":" + _amount + "}";
+                StartCoroutine(Patch(_url+ ".json", _valueString, _ =>
+                {
+                }, _ =>
+                {
+                }));
+            }, _ =>
+            {
+            }));
+        }
     }
 
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)
