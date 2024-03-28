@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -5,11 +6,19 @@ public class UIMainMenu : MonoBehaviour
 {
     public static UIMainMenu Instance;
     [SerializeField] private TextMeshProUGUI lineupNameDisplay;
-    [SerializeField] private GameObject sceneTransition;
+    [SerializeField] private TransitionAnimation transition;
+
+    public static bool ShowStartingAnimation;
 
     private void Awake()
     {
         Instance = this;
+        if (!ShowStartingAnimation)
+        {
+            return;
+        }
+        transition.EndTransition(null);
+        ShowStartingAnimation = false;
     }
 
     private void Start()
@@ -36,8 +45,8 @@ public class UIMainMenu : MonoBehaviour
             DataManager.Instance.PlayerData.GetSelectedDeck().Name;
     }
 
-    public void ShowSceneTransition()
+    public void ShowSceneTransition(Action _callBack)
     {
-        sceneTransition.SetActive(true);
+        transition.StartTransition(_callBack);
     }
 }

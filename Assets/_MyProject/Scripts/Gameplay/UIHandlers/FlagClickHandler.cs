@@ -33,6 +33,10 @@ public class FlagClickHandler : MonoBehaviour
 
     private void Forfiet()
     {
+        if (GameplayManager.Instance.GameplayState == GameplayState.StartingAnimation)
+        {
+            return;   
+        }
         GameplayUI.Instance.YesNoDialog.Setup("Are you sure you\nwant to escape?", "No","Yes",GameplayYesNo.FONT_RED);
         GameplayUI.Instance.YesNoDialog.OnRightButtonPressed.AddListener(YesForefiet);
     }

@@ -64,13 +64,7 @@ public class UIPlayPanel : MonoBehaviour
             return;
         }
 
-        StartCoroutine(ShowAIGameplayRoutine());
-        IEnumerator ShowAIGameplayRoutine()
-        {
-            UIMainMenu.Instance.ShowSceneTransition();
-            yield return new WaitForSeconds(2.5f);
-            SceneManager.LoadAIGameplay();
-        }
+        UIMainMenu.Instance.ShowSceneTransition(SceneManager.LoadAIGameplay);
     }
 
     private void ShowPVPPanel()

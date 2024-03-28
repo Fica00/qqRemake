@@ -91,8 +91,6 @@ public class CardObject : MonoBehaviour
                 cardInputInteractions.CancelDrag();
                 cardInputInteractions.CanDrag = false;
                 break;
-            default:
-                throw new Exception("Dont know how to handle state: " + GameplayManager.Instance.GameplayState);
         }
     }
 

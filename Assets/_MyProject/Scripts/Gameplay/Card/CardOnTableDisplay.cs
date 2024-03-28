@@ -30,6 +30,14 @@ public class CardOnTableDisplay : MonoBehaviour
     {
         ShowPower(ChangeStatus.Same);
         gameObject.SetActive(true);
+        float _newScale = cardObject.Stats.Energy switch
+        {
+            6 => 1.1f,
+            1 => 0.9f,
+            _ => 1
+        };
+
+        transform.localScale = new Vector3(_newScale, _newScale, _newScale);
     }
 
     public void Hide()

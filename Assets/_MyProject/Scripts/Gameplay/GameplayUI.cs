@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GameplayUI : MonoBehaviour
 {
-    private const string STARTING_ANIMATION_KEY = "Part2";
     public static GameplayUI Instance;
     [field: SerializeField] public GameplayYesNo YesNoDialog { get; private set; }
     [field: SerializeField] private ResultHandler resultHandler;
@@ -14,8 +13,8 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] private GameObject[] topLane;
     [SerializeField] private GameObject[] midLane;
     [SerializeField] private GameObject[] botLane;
-    [SerializeField] private Animator animator;
-    [SerializeField] private ClaimReward claimReward;
+    [SerializeField] private TransitionAnimation transitionAnimation;
+
     private Action initialAnimationCallBack;
     
 
@@ -60,37 +59,22 @@ public class GameplayUI : MonoBehaviour
     private IEnumerator ShowResultRoutine(GameResult _result)
     {
         yield return new WaitForSeconds(0.2f);
-        if (_result is GameResult.IForefiet or GameResult.ILost)
-        {
-            ShowResultHandler(_result);
-        }
-        else
-        {
-            claimReward.Setup(_result);
-        }
-    }
-
-    public void ShowResultHandler(GameResult _result)
-    {
         resultHandler.Show(_result);
     }
 
     public void StartingAnimations(Action _callBack)
     {
-        animator.gameObject.SetActive(true);
+        transitionAnimation.EndTransition(AnimateTopAndBotHud);
         initialAnimationCallBack = _callBack;
-        animator.SetTrigger(STARTING_ANIMATION_KEY);
-        StartCoroutine(AnimateRoutine());
-        IEnumerator AnimateRoutine()
-        {
-            yield return new WaitForSeconds(2.5f);
-            AnimateTopAndBotHud();
-        }
+    }
+    
+    public void ClosingAnimation(Action _callBack)
+    {
+        transitionAnimation.StartTransition(_callBack);
     }
 
     private void AnimateTopAndBotHud()
     {
-        animator.gameObject.SetActive(false);
         StartCoroutine(StartingAnimationsRoutine());
         IEnumerator StartingAnimationsRoutine()
         {

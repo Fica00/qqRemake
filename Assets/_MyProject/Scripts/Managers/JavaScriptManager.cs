@@ -34,7 +34,6 @@ public class JavaScriptManager : MonoBehaviour
 
     private void Awake()
     {
-        
         if (Instance == null)
         {
             Instance = this;

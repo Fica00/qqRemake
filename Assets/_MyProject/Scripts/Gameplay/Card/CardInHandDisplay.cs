@@ -18,7 +18,6 @@ public class CardInHandDisplay : MonoBehaviour
     [SerializeField] private Image qommonDisplay;
     [SerializeField] private GameObject manaHolder;
     [SerializeField] private GameObject powerHolder;
-    [SerializeField] private GameObject borderShadow;
 
     public Image QommonDisplay => qommonDisplay;
 
@@ -79,16 +78,7 @@ public class CardInHandDisplay : MonoBehaviour
     private void ShowIfPlayerHasEnaughtEnergy()
     {
         Color _color = qommonDisplay.color;
-        if (GameplayManager.Instance.MyPlayer.Energy < cardObject.Stats.Energy)
-        {
-            _color.a = 0.3f;
-            borderShadow.SetActive(false);
-        }
-        else
-        {
-            _color.a = 1f;
-            borderShadow.SetActive(true);
-        }
+        _color.a = GameplayManager.Instance.MyPlayer.Energy < cardObject.Stats.Energy ? 0.3f : 1f;
 
         qommonDisplay.color = _color;
     }

@@ -75,15 +75,13 @@ public class UIPVPPanel : MonoBehaviour
 
     private void LoadGameplay()
     {
-        StartCoroutine(OpponentJoinedRoutine());
-        IEnumerator OpponentJoinedRoutine()
+        if (PhotonManager.Instance.IsMasterClient)
         {
-            yield return new WaitForSeconds(2.5f);
-            UIMainMenu.Instance.ShowSceneTransition();
-            if (PhotonManager.Instance.IsMasterClient)
-            {
-                SceneManager.LoadPVPGameplay();
-            }
+            UIMainMenu.Instance.ShowSceneTransition(SceneManager.LoadPVPGameplay);
+        }
+        else
+        {
+            UIMainMenu.Instance.ShowSceneTransition(null);
         }
     }
 

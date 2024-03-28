@@ -1,3 +1,5 @@
+using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +17,10 @@ public class ClaimReward : MonoBehaviour
    
    [SerializeField] private Sprite won;
    [SerializeField] private Sprite escaped;
-
-   private GameResult result;
+   [SerializeField] private Sprite transparent;
+   [SerializeField] private FadeAnimations treasureFade;
+   [SerializeField] private FadeAnimations claimFade;
+   [SerializeField] private FadeAnimations levelFade;
 
    private void OnEnable()
    {
@@ -32,26 +36,60 @@ public class ClaimReward : MonoBehaviour
 
    private void ShowLevel()
    {
-      claimHolder.SetActive(false);
-      levelHolder.SetActive(true);
+      treasureFade.FadeOut(1, null);
+      claimFade.FadeOut(1,() =>
+      {
+         claimHolder.SetActive(false);
+         levelHolder.SetActive(true);
+         levelFade.FadeIn(1, () =>
+         {
+            levelFill.DOFillAmount(DataManager.Instance.PlayerData.LevelPercentage, 3f);
+         });
+      });
    }
 
    private void Leave()
    {
-      GameplayUI.Instance.ShowResultHandler(result);
-      gameObject.SetActive(false);
+      next.interactable=false;
+      GameplayUI.Instance.ClosingAnimation(() =>
+      {
+         UIMainMenu.ShowStartingAnimation = true;
+         SceneManager.LoadMainMenu();
+      });
    }
 
    public void Setup(GameResult _result)
    {
-      DataManager.Instance.PlayerData.Exp += 25;
-      result = _result;
-      resultDisplay.sprite = _result == GameResult.IWon ? won : escaped;
-      levelDisplay.text = DataManager.Instance.PlayerData.Level.ToString();
-      progressDisplay.text = $"{DataManager.Instance.PlayerData.CurrentExpOnLevel}/100";
-      levelFill.fillAmount = DataManager.Instance.PlayerData.LevelPercentage;
       claimHolder.SetActive(true);
       levelHolder.SetActive(false);
       gameObject.SetActive(true);
+      Sprite _sprite;
+      switch (_result)
+      {
+         case GameResult.IWon:
+            _sprite = won;
+            break;
+         case GameResult.ILost:
+            _sprite = transparent;
+            break;
+         case GameResult.Draw:
+            _sprite = transparent;
+            break;
+         case GameResult.IForefiet:
+            _sprite = escaped;
+            break;
+         case GameResult.Escaped:
+            _sprite = escaped;
+            break;
+         default:
+            throw new ArgumentOutOfRangeException(nameof(_result), _result, null);
+      }
+
+      levelFill.fillAmount = 0;
+      resultDisplay.sprite = _sprite;
+      int _expReward = 10;
+      DataManager.Instance.PlayerData.Exp += _expReward;
+      levelDisplay.text = DataManager.Instance.PlayerData.Level.ToString();
+      progressDisplay.text = $"{DataManager.Instance.PlayerData.CurrentExpOnLevel}/100";
    }
 }

@@ -38,7 +38,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected GameObject[] flags;
     [SerializeField] protected GameObject[] playsFirstDisplays;
 
-    private GameplayState gameplayState;
+    private GameplayState gameplayState = GameplayState.StartingAnimation;
     private int currentRound;
 
     protected bool opponentFinished;
@@ -142,8 +142,6 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(GameplayRoutine());
     }
     
-    
-
     protected virtual void SetupPlayers()
     {
         MyPlayer.Setup();

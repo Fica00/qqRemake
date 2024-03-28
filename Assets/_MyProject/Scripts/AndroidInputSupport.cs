@@ -5,6 +5,7 @@ public class AndroidInputSupport : MonoBehaviour
 {
     private TMP_InputField inputField;
     private bool isAndroid;
+    
     private void Awake()
     {
         isAndroid = Screen.height > Screen.width;
