@@ -36,6 +36,7 @@ public class ClaimReward : MonoBehaviour
 
    private void ShowLevel()
    {
+      levelFill.fillAmount = DataManager.Instance.PlayerData.LevelPercentage;
       treasureFade.FadeOut(1, null);
       claimFade.FadeOut(1,() =>
       {
@@ -43,7 +44,9 @@ public class ClaimReward : MonoBehaviour
          levelHolder.SetActive(true);
          levelFade.FadeIn(1, () =>
          {
-            levelFill.DOFillAmount(DataManager.Instance.PlayerData.LevelPercentage, 3f);
+            DataManager.Instance.PlayerData.Exp += GameplayManager.Instance.CurrentBet;
+            levelFill.DOFillAmount(DataManager.Instance.PlayerData.LevelPercentage, 1f);
+            ShowProgress();
          });
       });
    }
@@ -85,11 +88,13 @@ public class ClaimReward : MonoBehaviour
             throw new ArgumentOutOfRangeException(nameof(_result), _result, null);
       }
 
-      levelFill.fillAmount = 0;
       resultDisplay.sprite = _sprite;
-      int _expReward = 10;
-      DataManager.Instance.PlayerData.Exp += _expReward;
       levelDisplay.text = DataManager.Instance.PlayerData.Level.ToString();
-      progressDisplay.text = $"{DataManager.Instance.PlayerData.CurrentExpOnLevel}/100";
+      ShowProgress();
+   }
+
+   private void ShowProgress()
+   {
+      progressDisplay.text = $"{DataManager.Instance.PlayerData.CurrentExpOnLevel}/{DataManager.Instance.PlayerData.GetXpForNextLevel()}";
    }
 }

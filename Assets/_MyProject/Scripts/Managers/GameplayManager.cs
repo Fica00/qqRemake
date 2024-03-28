@@ -227,6 +227,7 @@ public class GameplayManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1f); //duration of round animation
             StartCoroutine(RevealLocation());
+            StartCoroutine(ShowRevealText());
             yield return new WaitUntil(() => locationRevealed);
             yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
             if (!DrewCardDirectlyToHand||CurrentRound==1)
@@ -245,6 +246,12 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitForSeconds(2.5f);
         }
 
+        if (!BetClickHandler.Instance.IsMaxBet)
+        {
+            AutoBet();
+            yield return new WaitForSeconds(1);
+        }
+        
         bool _canContinue = false;
         for (int i = 0; i < Lanes.Count; i++)
         {
@@ -260,6 +267,11 @@ public class GameplayManager : MonoBehaviour
         {
             _canContinue = true;
         }
+    }
+
+    protected virtual void AutoBet()
+    {
+        OpponentAcceptedBet();
     }
 
     protected virtual bool ReadyToStart()
@@ -288,6 +300,31 @@ public class GameplayManager : MonoBehaviour
 
         LaneAbility _laneAbility = GetLaneAbility();
         yield return RevealLocation(_laneAbility.Id);
+    }
+    
+    private IEnumerator ShowRevealText()
+    {
+        if (currentRound > 3)
+        {
+            yield break;
+        }
+
+        int _laneCounter = 0;
+        for (int _i =currentRound; _i < 3; _i++)
+        {
+            string _text = string.Empty;
+            if (_laneCounter==0)
+            {
+                _text = "Will be revealed next turn";
+            }
+            else if (_laneCounter == 1)
+            {
+                _text = "Will be revealed in 2 turns";
+            }
+
+            _laneCounter++;
+            lanes[_i].AbilityDisplay.Reveal(_text);
+        }
     }
 
     protected virtual LaneAbility GetLaneAbility()

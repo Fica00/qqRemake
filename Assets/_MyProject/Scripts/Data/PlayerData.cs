@@ -242,12 +242,61 @@ public class PlayerData
         }
     }
     
-    [JsonIgnore]
-    public int Level => Exp / 100;
+    private const int MaxLevel = 12;
 
     [JsonIgnore]
-    public float LevelPercentage => (Exp % 100) / 100.0f;
+    public int Level
+    {
+        get
+        {
+            int _level = 1;
+            while (_level < MaxLevel && GetXpForLevel(_level + 1) <= Exp)
+            {
+                _level++;
+            }
+            return _level;
+        }
+    }
 
     [JsonIgnore]
-    public int CurrentExpOnLevel => Exp % 100;
+    public float LevelPercentage
+    {
+        get
+        {
+            if (Level >= MaxLevel)
+            {
+                return 1.0f;
+            }
+
+            int _currentLevelXp = GetXpForLevel(Level);
+            int _nextLevelXp = GetXpForLevel(Level + 1);
+            return (Exp - _currentLevelXp) / (float)(_nextLevelXp - _currentLevelXp);
+        }
+    }
+
+    [JsonIgnore]
+    public int CurrentExpOnLevel
+    {
+        get
+        {
+            if (Level >= MaxLevel)
+            {
+                return GetXpForLevel(MaxLevel) - GetXpForLevel(MaxLevel - 1); // Return XP required to reach max level
+            }
+            return Exp - GetXpForLevel(Level);
+        }
+    }
+    
+    public int GetXpForLevel(int _level)
+    {
+        if (_level < 1) return 0;
+        if (_level <= 10) return (_level - 1) * 10 + 10;
+        return 100 * (_level - 10) + 90; // For levels 11 and 12, the XP required is 100
+    }
+    
+    public int GetXpForNextLevel()
+    {
+        if (Level >= MaxLevel) return 0;
+        return GetXpForLevel(Level + 1);
+    }
 }

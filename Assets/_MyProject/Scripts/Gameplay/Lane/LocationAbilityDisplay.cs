@@ -2,8 +2,9 @@ using UnityEngine;
 using TMPro;
 using System;
 using System.Collections;
-using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class LocationAbilityDisplay : MonoBehaviour
 {
@@ -12,13 +13,24 @@ public class LocationAbilityDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI shiningDesc;
     [SerializeField] private Image lightUpEffect;
     [SerializeField] private Image tableDisplay;
+    [SerializeField] private Image background;
     [SerializeField] private Color unactiveColor;
+    [SerializeField] private Color greyColor;
     private Action callback;
     private Sequence descFlashing;
 
     public void Reveal(string _desc, Action _callback)
     {
+        background.color = Color.black;
         callback = _callback;
+        abilityDesc.text = _desc;
+        shiningDesc.text = _desc;
+        StartCoroutine(ShowAnimation());
+    }
+    
+    public void Reveal(string _desc)
+    {
+        background.color = greyColor;
         abilityDesc.text = _desc;
         shiningDesc.text = _desc;
         StartCoroutine(ShowAnimation());
@@ -26,6 +38,8 @@ public class LocationAbilityDisplay : MonoBehaviour
 
     private IEnumerator ShowAnimation()
     {
+        abilityDescHolder.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
         abilityDescHolder.SetActive(true);
         yield return new WaitForSeconds(2);
         callback?.Invoke();

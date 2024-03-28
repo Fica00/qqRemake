@@ -111,6 +111,14 @@ public class GameplayManagerPVP : GameplayManager
         photonView.RPC("OpponentWantsToBet", RpcTarget.Others);
     }
 
+    protected override void AutoBet()
+    {
+        if (PhotonManager.Instance.IsMasterClient)
+        {
+            OpponentAcceptedBet();
+        }
+    }
+
     public override void OpponentAcceptedBet()
     {
         base.OpponentAcceptedBet();
@@ -281,7 +289,6 @@ public class GameplayManagerPVP : GameplayManager
     private void OpponentWantsToBet()
     {
         FindObjectOfType<BetClickHandler>().ShowOpponentWantsToIncreaseBet();
-
     }
 
     [PunRPC]

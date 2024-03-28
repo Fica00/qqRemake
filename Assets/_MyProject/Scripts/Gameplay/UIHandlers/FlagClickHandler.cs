@@ -37,6 +37,12 @@ public class FlagClickHandler : MonoBehaviour
         {
             return;   
         }
+
+        if (BetClickHandler.Instance.DidIBetThisRound)
+        {
+            return;
+        }
+        
         GameplayUI.Instance.YesNoDialog.Setup("Are you sure you\nwant to escape?", "No","Yes",GameplayYesNo.FONT_RED);
         GameplayUI.Instance.YesNoDialog.OnRightButtonPressed.AddListener(YesForefiet);
     }
