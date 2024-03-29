@@ -328,6 +328,7 @@ MonoBehaviour:
   qommonDisplay: {fileID: 2431157460736668500}
   manaDisplay: {fileID: 1623424927395919346}
   powerDisplay: {fileID: 7561113376915583261}
+  border: {fileID: 2981846277085352207}
   emptySprite: {fileID: 21300000, guid: b2c44676a1f4a6945849bee228fd561f, type: 3}
   manaHolder: {fileID: 5225496441798966720}
   powerHolder: {fileID: 1051977934322838574}

@@ -17,7 +17,8 @@ public class ClaimReward : MonoBehaviour
    
    [SerializeField] private Sprite won;
    [SerializeField] private Sprite escaped;
-   [SerializeField] private Sprite transparent;
+   [SerializeField] private Sprite draw;
+   [SerializeField] private Sprite lost;
    [SerializeField] private FadeAnimations treasureFade;
    [SerializeField] private FadeAnimations claimFade;
    [SerializeField] private FadeAnimations levelFade;
@@ -73,10 +74,10 @@ public class ClaimReward : MonoBehaviour
             _sprite = won;
             break;
          case GameResult.ILost:
-            _sprite = transparent;
+            _sprite = lost;
             break;
          case GameResult.Draw:
-            _sprite = transparent;
+            _sprite = draw;
             break;
          case GameResult.IForefiet:
             _sprite = escaped;

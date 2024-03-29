@@ -13665,7 +13665,8 @@ MonoBehaviour:
   next: {fileID: 9131332283110467584}
   won: {fileID: 21300000, guid: c4a195c34eaf05244940d852fd15e369, type: 3}
   escaped: {fileID: 21300000, guid: ab0acba77ff65ca44b576222e5f9dcb9, type: 3}
-  transparent: {fileID: 21300000, guid: 34f0413f08ab20c4a899f7d91ea1b623, type: 3}
+  draw: {fileID: 21300000, guid: 86fc75d798e459f42a475757b19d3a9e, type: 3}
+  lost: {fileID: 21300000, guid: 92e2e1f1a093edf42bbc6d6ce947ff91, type: 3}
   treasureFade: {fileID: 7452991745314432123}
   claimFade: {fileID: 3388026505236184746}
   levelFade: {fileID: 6132236341315898950}

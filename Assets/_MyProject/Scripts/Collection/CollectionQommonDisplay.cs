@@ -12,6 +12,7 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
     [SerializeField] private Image qommonDisplay;
     [SerializeField] private TextMeshProUGUI manaDisplay;
     [SerializeField] private TextMeshProUGUI powerDisplay;
+    [SerializeField] private Image border;
 
     [SerializeField] private Sprite emptySprite;
     [SerializeField] private GameObject manaHolder;
@@ -25,6 +26,7 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
 
     public void Setup(int _cardId, bool _checkIfInDeck=false)
     {
+        border.color = new Color(1, 1, 1, 1);
         cardId = _cardId;
         CardObject _card = CardsManager.Instance.GetCardObject(_cardId);
         qommonDisplay.sprite = _card.Details.SpriteInHand;
@@ -38,6 +40,7 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
     public void SetupEmpty()
     {
         cardId = -1;
+        border.color = new Color(1, 1, 1, 0);
         qommonDisplay.sprite = emptySprite;
         manaHolder.SetActive(false);
         powerHolder.SetActive(false);
