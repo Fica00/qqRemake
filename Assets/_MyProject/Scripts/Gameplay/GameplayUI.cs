@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameplayUI : MonoBehaviour
 {
+    private const string SHAKE_KEY = "";
     public static GameplayUI Instance;
     [field: SerializeField] public GameplayYesNo YesNoDialog { get; private set; }
     [field: SerializeField] private ResultHandler resultHandler;
@@ -14,7 +15,8 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] private GameObject[] midLane;
     [SerializeField] private GameObject[] botLane;
     [SerializeField] private TransitionAnimation transitionAnimation;
-
+    [SerializeField] private Animator shakeAnimator;
+    
     private Action initialAnimationCallBack;
     
 
@@ -96,6 +98,17 @@ public class GameplayUI : MonoBehaviour
             {
                 _gameObject.transform.DOScale(Vector3.one, _duration);
             }
+        }
+    }
+
+    public void ShakeScreen(float _duration)
+    {
+        StartCoroutine(ShakeRoutine());
+        IEnumerator ShakeRoutine()
+        {
+            shakeAnimator.SetBool(SHAKE_KEY,true);
+            yield return new WaitForSeconds(_duration);
+            shakeAnimator.SetBool(SHAKE_KEY,false);
         }
     }
 }

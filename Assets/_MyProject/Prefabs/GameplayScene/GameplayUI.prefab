@@ -15231,7 +15231,7 @@ MonoBehaviour:
   topHud:
   - {fileID: 5844831324519372191}
   - {fileID: 6078216943795375376}
-  - {fileID: 8280964355442799152}
+  - {fileID: 6747078785034178250}
   - {fileID: 6956521143252519410}
   bottomHud:
   - {fileID: 5686523580533105776}
@@ -15247,6 +15247,7 @@ MonoBehaviour:
   - {fileID: 7188371676720275619}
   - {fileID: 8329183545751341621}
   transitionAnimation: {fileID: 2231192901650720979}
+  shakeAnimator: {fileID: 4515416751016696842}
 --- !u!95 &4515416751016696842
 Animator:
   serializedVersion: 4
@@ -17084,7 +17085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &855044034129659107
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17251,8 +17252,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c8777605769ae4a81462402745be12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holder: {fileID: 6747078785034178250}
+  pulsingLight: {fileID: 8208694519226004121}
   betDisplay: {fileID: 6657125024597406859}
+  betDisplayAnimation: {fileID: 1692963862049202005}
   nextBetDisplay: {fileID: 1795592151588447830}
+  stakeAnimator: {fileID: 1817965273315496389}
 --- !u!95 &1817965273315496389
 Animator:
   serializedVersion: 4
