@@ -297,6 +297,8 @@ public class PlayerData
     public int GetXpForNextLevel()
     {
         if (Level >= MaxLevel) return 0;
-        return GetXpForLevel(Level + 1);
+        int _xpForCurrentLevel = GetXpForLevel(Level);
+        int _xpForNextLevel = GetXpForLevel(Level + 1);
+        return _xpForNextLevel - _xpForCurrentLevel;
     }
 }
