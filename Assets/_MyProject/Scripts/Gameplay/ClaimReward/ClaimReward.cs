@@ -89,12 +89,12 @@ public class ClaimReward : MonoBehaviour
       }
 
       resultDisplay.sprite = _sprite;
-      levelDisplay.text = DataManager.Instance.PlayerData.Level.ToString();
       ShowProgress();
    }
 
    private void ShowProgress()
    {
       progressDisplay.text = $"{DataManager.Instance.PlayerData.CurrentExpOnLevel}/{DataManager.Instance.PlayerData.GetXpForNextLevel()}";
+      levelDisplay.text = DataManager.Instance.PlayerData.Level.ToString();
    }
 }
