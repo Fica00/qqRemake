@@ -28,6 +28,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public Room CurrentRoom => PhotonNetwork.CurrentRoom;
 
+    public bool CanStartMatch => IsOnMasterServer && CanCreateRoom && PhotonNetwork.Server != ServerConnection.GameServer;
+
     private void Awake()
     {
         if (Instance == null)
