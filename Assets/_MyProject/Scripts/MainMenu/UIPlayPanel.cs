@@ -41,6 +41,10 @@ public class UIPlayPanel : MonoBehaviour
 
     private void StartMatch()
     {
+        if (!PhotonManager.Instance.CanStartMatch)
+        {
+            return;
+        }
         switch (ModeHandler.Instance.Mode)
         {
             case GameMode.VsAi:

@@ -95,7 +95,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void ShowBet()
     {
         int _betAmount = GameplayManager.Instance.CurrentBet;
-        betDisplayAnimation.text=betDisplay.text = _betAmount < 10 ? "0 " + _betAmount : "1" + (_betAmount - 10);
+        betDisplayAnimation.text=betDisplay.text = _betAmount.ToString();
         nextBetDisplay.text = string.Empty;
     }
 

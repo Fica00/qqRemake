@@ -79,8 +79,8 @@ public class GameplayManagerPVP : GameplayManager
 
     protected override void Forfiet()
     {
+        photonView.RPC(nameof(OpponentEscaped), RpcTarget.Others);
         base.Forfiet();
-        photonView.RPC("OpponentForfited", RpcTarget.Others);
     }
 
     protected override void SetupPlayers()
@@ -243,10 +243,9 @@ public class GameplayManagerPVP : GameplayManager
     }
 
     [PunRPC]
-    private void OpponentForfited()
+    private void OpponentEscaped()
     {
         StopAllCoroutines();
-        UIManager.Instance.OkDialog.Setup("Opponent has forfieted the match!\nYouWin!");
         GameEnded?.Invoke(GameResult.Escaped);
     }
 

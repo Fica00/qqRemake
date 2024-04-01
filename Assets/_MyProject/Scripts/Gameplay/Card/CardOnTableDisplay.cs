@@ -50,12 +50,27 @@ public class CardOnTableDisplay : MonoBehaviour
         cardObject.Stats.UpdatedPower -= ShowPower;
     }
 
-    private void ShowPower(ChangeStatus _status)
+    private void ShowPower(ChangeStatus _)
     {
-        powerDisplay.text = (cardObject.Stats.Power+cardObject.Stats.ChagePowerDueToLocation).ToString();
+        int _cardPower = cardObject.Stats.Power + cardObject.Stats.ChagePowerDueToLocation;
+        powerDisplay.text = _cardPower.ToString();
+        ChangeStatus _status;
+        if (_cardPower > cardObject.Details.Power)
+        {
+            _status = ChangeStatus.Increased;
+        }
+        else if (_cardPower<cardObject.Details.Power)
+        {
+            _status = ChangeStatus.Decreased;
+        }
+        else
+        {
+            _status = ChangeStatus.Same;
+        }
         switch (_status)
         {
             case ChangeStatus.Same:
+                powerDisplay.font = normalFont;
                 break;
             case ChangeStatus.Increased:
                 powerDisplay.font = valueIncreasedFont;

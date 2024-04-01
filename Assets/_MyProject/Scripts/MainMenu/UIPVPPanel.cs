@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TMPro;
 
 public class UIPVPPanel : MonoBehaviour
@@ -19,6 +19,7 @@ public class UIPVPPanel : MonoBehaviour
         myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
         header.text = "Searching for opponent";
         gameObject.SetActive(true);
+        TryShowTransition();
     }
 
     private void OnEnable()
@@ -79,13 +80,18 @@ public class UIPVPPanel : MonoBehaviour
 
     private void LoadGameplay()
     {
-        if (PhotonManager.Instance.IsMasterClient)
+        StartCoroutine(Delay());
+        IEnumerator Delay()
         {
-            UIMainMenu.Instance.ShowSceneTransition(SceneManager.LoadPVPGameplay);
-        }
-        else
-        {
-            UIMainMenu.Instance.ShowSceneTransition(null);
+            yield return new WaitForSeconds(2);
+            if (PhotonManager.Instance.IsMasterClient)
+            {
+                UIMainMenu.Instance.ShowSceneTransition(SceneManager.LoadPVPGameplay);
+            }
+            else
+            {
+                UIMainMenu.Instance.ShowSceneTransition(null);
+            }
         }
     }
 

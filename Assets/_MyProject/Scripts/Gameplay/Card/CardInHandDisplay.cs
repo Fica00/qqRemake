@@ -95,18 +95,34 @@ public class CardInHandDisplay : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void ShowMana(ChangeStatus _status)
+    private void ShowMana(ChangeStatus _)
     {
-        manaDisplay.text = cardObject.Stats.Energy.ToString();
+        int _cardMana = cardObject.Stats.Energy;
+        manaDisplay.text = _cardMana.ToString();
+
+        ChangeStatus _status;
+        if (_cardMana > cardObject.Details.Mana)
+        {
+            _status = ChangeStatus.Increased;
+        }
+        else if (_cardMana<cardObject.Details.Mana)
+        {
+            _status = ChangeStatus.Decreased;
+        }
+        else
+        {
+            _status = ChangeStatus.Same;
+        }
         switch (_status)
         {
             case ChangeStatus.Same:
+                manaDisplay.font = normalFont;
                 break;
             case ChangeStatus.Increased:
-                manaDisplay.font = valueIncreasedFont;
+                manaDisplay.font = valueDecreasedFont;
                 break;
             case ChangeStatus.Decreased:
-                manaDisplay.font = valueDecreasedFont;
+                manaDisplay.font = valueIncreasedFont;
                 break;
             default:
                 throw new System.Exception("Don't know how to resolve state: " + _status);
