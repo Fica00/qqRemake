@@ -156,6 +156,7 @@
               unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
             })
             .catch(err => {
+              unity.SendMessage('JavaScriptManager','FailedToAuth');
               console.log(err.code)
             })
   }
@@ -165,6 +166,7 @@
               unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
             })
             .catch(err => {
+              unity.SendMessage('JavaScriptManager','FailedToAuth');
               console.log(err.code)
             })
   }

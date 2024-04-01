@@ -141,4 +141,9 @@ public class AuthHandler : MonoBehaviour
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
         Initialization.Instance.CheckForStartingData();
     }
+
+    public void AuthFailed()
+    {
+        callBackForOAUTh?.Invoke(false);
+    }
 }

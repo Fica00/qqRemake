@@ -97,6 +97,11 @@ public class JavaScriptManager : MonoBehaviour
         AuthHandler.Instance.AuthWithFacebook(_response.Id);
     }
 
+    public void FailedToAuth()
+    {
+        AuthHandler.Instance.AuthFailed();
+    }
+
     public void LoadURL(string _url)
     {
         OpenURL(_url);

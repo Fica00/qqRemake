@@ -153,7 +153,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 317276444}
   - {fileID: 252343918}
   m_Father: {fileID: 931403667}
   m_RootOrder: -1
@@ -5988,13 +5987,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1380341}
+  m_Father: {fileID: 931403667}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -174}
-  m_SizeDelta: {x: 931.5457, y: 77.191895}
+  m_AnchoredPosition: {x: -5.0486, y: -526.1715}
+  m_SizeDelta: {x: 991.1198, y: 229.7547}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &317276445
 MonoBehaviour:
@@ -6043,10 +6042,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 117.05
+  m_fontSizeBase: 107.2
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 300
   m_fontStyle: 0
@@ -6059,7 +6058,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -7814,7 +7813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: -500}
+  m_AnchoredPosition: {x: -0.000015258789, y: 890}
   m_SizeDelta: {x: 838.3671, y: 196.6326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &404158164
@@ -7837,7 +7836,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Match making
+  m_text: Making...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
   m_sharedMaterial: {fileID: -8492591010878448660, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
@@ -7864,8 +7863,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 79.98
+  m_fontSizeBase: 79.98
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -16320,9 +16319,10 @@ RectTransform:
   - {fileID: 1380341}
   - {fileID: 1140133191}
   - {fileID: 1671368913}
-  - {fileID: 404158163}
+  - {fileID: 317276444}
   - {fileID: 1914244019}
   - {fileID: 348430906}
+  - {fileID: 404158163}
   m_Father: {fileID: 1017926787}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16347,6 +16347,7 @@ MonoBehaviour:
   myPlayer: {fileID: 1958997340222413487}
   opponentPlayer: {fileID: 1914244020}
   matchingLabel: {fileID: 404158162}
+  header: {fileID: 317276445}
 --- !u!1 &940824578
 GameObject:
   m_ObjectHideFlags: 0

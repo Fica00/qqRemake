@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class UIPVPPanel : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class UIPVPPanel : MonoBehaviour
     [SerializeField] private MatchMakingPlayerDisplay myPlayer;
     [SerializeField] private MatchMakingPlayerDisplay opponentPlayer;
     [SerializeField] private GameObject matchingLabel;
+    [SerializeField] private TextMeshProUGUI header;
 
     public void Setup()
     {
@@ -15,6 +17,7 @@ public class UIPVPPanel : MonoBehaviour
         opponentPlayer.gameObject.SetActive(false);
         ManageInteractables(true);
         myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
+        header.text = "Searching for opponent";
         gameObject.SetActive(true);
     }
 
@@ -71,6 +74,7 @@ public class UIPVPPanel : MonoBehaviour
             PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME),
             PhotonManager.Instance.GetOpponentsProperty(PhotonManager.DECK_NAME));
         opponentPlayer.gameObject.SetActive(true);
+        header.text = "Opponent found!";
     }
 
     private void LoadGameplay()

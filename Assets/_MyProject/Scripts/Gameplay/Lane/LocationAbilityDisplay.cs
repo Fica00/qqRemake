@@ -18,9 +18,17 @@ public class LocationAbilityDisplay : MonoBehaviour
     [SerializeField] private Color greyColor;
     private Action callback;
     private Sequence descFlashing;
+    private Color abilityColor;
+
+    private void OnEnable()
+    {
+        abilityDesc.text = string.Empty;
+        abilityColor = abilityDesc.color;
+    }
 
     public void Reveal(string _desc, Action _callback)
     {
+        abilityDesc.color = abilityColor;
         background.color = Color.black;
         callback = _callback;
         abilityDesc.text = _desc;
@@ -31,8 +39,15 @@ public class LocationAbilityDisplay : MonoBehaviour
     public void Reveal(string _desc)
     {
         background.color = greyColor;
+        string _text = abilityDesc.text;
         abilityDesc.text = _desc;
         shiningDesc.text = _desc;
+        abilityDesc.color = Color.grey;
+        if (!string.IsNullOrEmpty(_text))
+        {
+            callback?.Invoke();
+            return;
+        }
         StartCoroutine(ShowAnimation());
     }
 
