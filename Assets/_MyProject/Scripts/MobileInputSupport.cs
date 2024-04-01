@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class AndroidInputSupport : MonoBehaviour
@@ -15,19 +14,19 @@ public class AndroidInputSupport : MonoBehaviour
         }
         inputField = GetComponent<TMP_InputField>();
     }
-
+    
     private void OnEnable()
     {
         inputField.onSelect.AddListener(EnableAndroidInput);
         inputField.onDeselect.AddListener(DisableAndroidInput);
     }
-
+    
     private void OnDisable()
     {
         inputField.onSelect.RemoveListener(EnableAndroidInput);
         inputField.onDeselect.RemoveListener(DisableAndroidInput);
     }
-
+    
     private void DisableAndroidInput(string _arg0)
     {
         if (!isAndroid)
@@ -36,7 +35,7 @@ public class AndroidInputSupport : MonoBehaviour
         }
         JavaScriptManager.Instance.HideKeyboard();
     }
-
+    
     private void EnableAndroidInput(string _arg0)
     {
         if (!isAndroid)
@@ -45,13 +44,13 @@ public class AndroidInputSupport : MonoBehaviour
         }
         EnableAndroidInput();
     }
-
+    
     private void EnableAndroidInput()
     {
         JavaScriptManager.Instance.DisplayKeyboard();
         JavaScriptManager.Instance.UpdatedInput.AddListener(ShowInput);
     }
-
+    
     private void ShowInput(string _text)
     {
         inputField.text = _text;
