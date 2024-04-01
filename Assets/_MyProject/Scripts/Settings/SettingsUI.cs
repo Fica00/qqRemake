@@ -7,7 +7,7 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Button show;
     [SerializeField] private GameObject holder;
     [SerializeField] private Button logoutButton;
-    [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private InputField nameInput;
     [SerializeField] private Button linkWithFacebook;
     [SerializeField] private Button linkWithGoogle;
     [SerializeField] private Button redeemCode;

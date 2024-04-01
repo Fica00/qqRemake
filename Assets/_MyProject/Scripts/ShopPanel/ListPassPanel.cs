@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +5,9 @@ using UnityEngine.UI;
 public class ListPassPanel : BasePanel
 {
     [SerializeField] private Button closeButton;
-    [SerializeField] private TMP_InputField coinsInput;
+    [SerializeField] private InputField coinsInput;
     [SerializeField] private TextMeshProUGUI coinsInputLabel;
-    [SerializeField] private TMP_InputField costInput;
+    [SerializeField] private InputField costInput;
     [SerializeField] private TextMeshProUGUI suggestionLabel;
     [SerializeField] private TextMeshProUGUI suggestionDisplay;
     [SerializeField] private SellPassPanel sellPassPanel;

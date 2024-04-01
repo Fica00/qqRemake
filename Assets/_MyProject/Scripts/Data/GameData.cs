@@ -7,6 +7,7 @@ public class GameData
     public int AmountOfDecksPerPlayer;
     public List<GamePassOffer> GamePassOffers = new ();
     public Dictionary<string,GamePassOffer> Marketplace = new ();
+    public List<LevelReward> LevelRewards = new ();
 
     public void RemoveOfferFromMarketplace(GamePassOffer _offer)
     {

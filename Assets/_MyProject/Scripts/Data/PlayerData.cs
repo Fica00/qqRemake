@@ -11,10 +11,11 @@ public class PlayerData
     private int exp;
     private List<DeckData> decks = new();
     private int selectedDeck;
-    private List<int> ownedQommons = new();
+    private List<int> ownedQoomons = new();
     private List<GamePass> gamePasses = new();
     private double coins;
     private double usdc;
+    private List<int> claimedLevelRewards = new ();
 
 
     public static Action UpdatedName;
@@ -26,6 +27,8 @@ public class PlayerData
     public static Action UpdatedCoins;
     public static Action UpdatedUSDC;
     public static Action UpdatedExp;
+    public static Action UpdatedOwnedQoomons;
+    public static Action UpdatedClaimedLevelRewards;
 
     public void CreateNewPlayer()
     {
@@ -53,39 +56,18 @@ public class PlayerData
         };
         decks.Add(_starterDeck);
 
-        DeckData _discardAndDestroy = new DeckData() { Id = 1, Name="Discard & Destroy", CardsInDeck = new List<int>
-        {
-            7,1,11,4,14,16,30,17,31,27,18,19
-        } };
-        decks.Add(_discardAndDestroy);
-        
-        DeckData _summon = new DeckData() { Id = 2, Name="Summon", CardsInDeck = new List<int>
-        {
-            8,1,0,3,9,10,12,15,24,32,35,13
-        } };
-        decks.Add(_summon);    
-        
-        DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
-        {
-            28,10,20,46,46,42,33,25,36,2,45,7
-        } };
-        decks.Add(_summonSmall);   
-        
-        DeckData _ongoing = new DeckData() { Id = 4, Name="Ongoing", CardsInDeck = new List<int>
-        {
-            4,21,6,20,22,42,38,39,40,41,43,44
-        } };
-        decks.Add(_ongoing);
-
-        for (int _i = 0; _i < 47; _i++)
-        {
-            if (_i is 37 or 34 or 23)
-            {
-                continue;
-            }
-
-            ownedQommons.Add(_i);
-        }
+        ownedQoomons.Add(28);
+        ownedQoomons.Add(8);
+        ownedQoomons.Add(7);
+        ownedQoomons.Add(29);
+        ownedQoomons.Add(5);
+        ownedQoomons.Add(1);
+        ownedQoomons.Add(0);
+        ownedQoomons.Add(11);
+        ownedQoomons.Add(3);
+        ownedQoomons.Add(4);
+        ownedQoomons.Add(21);
+        ownedQoomons.Add(9);
     }
 
     public string Name
@@ -151,10 +133,10 @@ public class PlayerData
         }
     }
 
-    public List<int> OwnedQommons
+    public List<int> OwnedQoomons
     {
-        get => ownedQommons;
-        set => ownedQommons = value;
+        get => ownedQoomons;
+        set => ownedQoomons = value;
     }
 
     public void AddCardToSelectedDeck(int _cardId)
@@ -232,6 +214,8 @@ public class PlayerData
         UpdatedGamePasses?.Invoke();
     }
 
+    int[] expBorders = { 10,30,60,100,150,210,280,360,450,550,650,750};
+
     public int Exp
     {
         get => exp;
@@ -241,20 +225,26 @@ public class PlayerData
             UpdatedExp?.Invoke();
         }
     }
-    
-    private const int MaxLevel = 12;
 
     [JsonIgnore]
     public int Level
     {
         get
         {
-            int _level = 1;
-            while (_level < MaxLevel && GetXpForLevel(_level + 1) <= Exp)
+            int _level = 0;
+            while (true)
             {
+                if (exp<expBorders[_level])
+                {
+                    return _level;
+                }
+
                 _level++;
+                if (_level>=expBorders.Length)
+                {
+                    return _level;
+                }
             }
-            return _level;
         }
     }
 
@@ -263,14 +253,14 @@ public class PlayerData
     {
         get
         {
-            if (Level >= MaxLevel)
+            if (Level >= expBorders.Length)
             {
                 return 1.0f;
             }
 
-            int _currentLevelXp = GetXpForLevel(Level);
-            int _nextLevelXp = GetXpForLevel(Level + 1);
-            return (Exp - _currentLevelXp) / (float)(_nextLevelXp - _currentLevelXp);
+            int _currentLevelXp = Level == 0 ? exp : Exp-GetXpForLevel(Level-1);
+            int _nextLevelXp = GetXpForLevel(Level);
+            return (float)_currentLevelXp / _nextLevelXp;
         }
     }
 
@@ -279,26 +269,51 @@ public class PlayerData
     {
         get
         {
-            if (Level >= MaxLevel)
+            if (Level >= expBorders.Length)
             {
-                return GetXpForLevel(MaxLevel) - GetXpForLevel(MaxLevel - 1); // Return XP required to reach max level
+                return Exp - GetXpForLevel(expBorders.Length-1);
             }
-            return Exp - GetXpForLevel(Level);
+
+            if (Level==0)
+            {
+                return exp;
+            }
+            
+            return exp-GetXpForLevel(Level-1);
         }
+    }
+
+    public int GetXpForNextLevel()
+    {
+        if (Level==0)
+        {
+            return expBorders[Level];
+        }
+
+        return expBorders[Level] - expBorders[Level-1];
     }
     
     public int GetXpForLevel(int _level)
     {
-        if (_level < 1) return 0;
-        if (_level <= 10) return (_level - 1) * 10 + 10;
-        return 100 * (_level - 10) + 90; // For levels 11 and 12, the XP required is 100
+        if (Level >= expBorders.Length)
+        {
+            return 0;
+        }
+        
+        return expBorders[_level];
     }
-    
-    public int GetXpForNextLevel()
+
+    public List<int> ClaimedLevelRewards => claimedLevelRewards;
+
+    public void AddQoomon(int _qoomonId)
     {
-        if (Level >= MaxLevel) return 0;
-        int _xpForCurrentLevel = GetXpForLevel(Level);
-        int _xpForNextLevel = GetXpForLevel(Level + 1);
-        return _xpForNextLevel - _xpForCurrentLevel;
+        ownedQoomons.Add(_qoomonId);
+        UpdatedOwnedQoomons?.Invoke();
+    }
+
+    public void ClaimedLevelReward(int _level)
+    {
+        DataManager.Instance.PlayerData.ClaimedLevelRewards.Add(_level);
+        UpdatedClaimedLevelRewards?.Invoke();
     }
 }

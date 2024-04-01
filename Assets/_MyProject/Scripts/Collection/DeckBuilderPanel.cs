@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DeckBuilderPanel : BasePanel
 {
-    [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private InputField nameInput;
     [SerializeField] private Button backButton;
     [SerializeField] private Button deleteButton;
     [SerializeField] private CollectionQommonDisplay[] qommonDisplays;
@@ -74,6 +74,7 @@ public class DeckBuilderPanel : BasePanel
     {
         DataManager.Instance.PlayerData.SelectedDeck = _deckId;
         nameInput.text = DataManager.Instance.PlayerData.GetSelectedDeck().Name;
+        Debug.Log(DataManager.Instance.PlayerData.GetSelectedDeck().Name);
         ShowQommonsInDeck();
         ShowQommonsInCollection();
         qommonDetails.Close();
@@ -104,7 +105,7 @@ public class DeckBuilderPanel : BasePanel
     {
         ClearQommonsInCollection();
         
-        foreach (var _qommon in Helpers.OrderQommons(DataManager.Instance.PlayerData.OwnedQommons))
+        foreach (var _qommon in Helpers.OrderQommons(DataManager.Instance.PlayerData.OwnedQoomons))
         {
             CollectionQommonDisplay _qommonDisplay = Instantiate(qommonPrefab, collectionHolder);
             _qommonDisplay.Setup(_qommon.Details.Id,true);

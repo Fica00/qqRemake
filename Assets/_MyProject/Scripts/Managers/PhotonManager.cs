@@ -69,7 +69,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             {
                 [NAME] = DataManager.Instance.PlayerData.Name,
                 [DECK_NAME] = DataManager.Instance.PlayerData.GetSelectedDeck().Name,
-                [AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQommons.Count,
+                [AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQoomons.Count,
                 [AMOUNT_OF_CARDS_IN_HAND] = 0,
                 [AMOUNT_OF_DESTROYED_CARDS] = 0,
                 [AMOUNT_OF_DISCARDED_CARDS] = 0

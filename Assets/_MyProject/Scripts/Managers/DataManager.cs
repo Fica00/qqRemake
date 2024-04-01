@@ -1,4 +1,3 @@
-using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -62,6 +61,8 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedCoins += SaveCoins;
         PlayerData.UpdatedUSDC += SaveUSDC;
         PlayerData.UpdatedExp += SaveExp;
+        PlayerData.UpdatedOwnedQoomons += SaveOwnedQommons;
+        PlayerData.UpdatedClaimedLevelRewards += SaveClaimedRewards;
     }
 
     private void Unsubscribe()
@@ -81,6 +82,8 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedCoins -= SaveCoins;
         PlayerData.UpdatedUSDC -= SaveUSDC;
         PlayerData.UpdatedExp -= SaveExp;
+        PlayerData.UpdatedOwnedQoomons -= SaveOwnedQommons;
+        PlayerData.UpdatedClaimedLevelRewards -= SaveClaimedRewards;
     }
 
     private void SaveSelectedDeck()
@@ -121,5 +124,16 @@ public class DataManager : MonoBehaviour
     private void SaveExp()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Exp),JsonConvert.SerializeObject(PlayerData.Exp));
+    }
+    
+    private void SaveOwnedQommons()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.OwnedQoomons),JsonConvert.SerializeObject(PlayerData.OwnedQoomons));
+    }
+    
+    private void SaveClaimedRewards()
+    {
+        Debug.Log(123);
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.ClaimedLevelRewards),JsonConvert.SerializeObject(PlayerData.ClaimedLevelRewards));
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +7,7 @@ public class AccessCodeValidator : MonoBehaviour
 {
     private const string HAS_VERIFIED = "hasVerified";
     [SerializeField] private GameObject holder;
-    [SerializeField] private TMP_InputField accessCode;
+    [SerializeField] private InputField accessCode;
     [SerializeField] private string validAccessCode;
     [SerializeField] private Button validate;
     [SerializeField] private GameObject wrongAccessCode;

@@ -29,7 +29,7 @@ public class PlayerDisplay : MonoBehaviour
         
         if (player.IsMy)
         {
-            statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, DataManager.Instance.PlayerData.OwnedQommons.Count, player.AmountOfDestroyedCards);
+            statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, DataManager.Instance.PlayerData.OwnedQoomons.Count, player.AmountOfDestroyedCards);
         }
         else
         {

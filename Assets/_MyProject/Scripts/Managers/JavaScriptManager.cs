@@ -60,24 +60,6 @@ public class JavaScriptManager : MonoBehaviour
         StripePurchaseInit(_cost);
     }
 
-    public void DisplayKeyboard()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-        WebGLInput.captureAllKeyboardInput = false;
-#endif
-        UpdatedInput?.RemoveAllListeners();
-        ShowKeyboard();
-    }
-
-    public void HideKeyboard()
-    {
-#if !UNITY_EDITOR && UNITY_WEBGL
-        WebGLInput.captureAllKeyboardInput = true;
-#endif
-        UpdatedInput?.RemoveAllListeners();
-        CloseKeyboard();
-    }
-
     public void SetUserId(string _id)
     {
         if (Application.isEditor)
