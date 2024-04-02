@@ -10535,7 +10535,6 @@ MonoBehaviour:
   holder: {fileID: 964404507}
   quickDisplay: {fileID: 2397897695084864674, guid: 4cd05ad2194b4c346ac3f0e3954d8ec6, type: 3}
   close: {fileID: 1598913957}
-  collectionPanel: {fileID: 0}
 --- !u!114 &1598913957
 MonoBehaviour:
   m_ObjectHideFlags: 0

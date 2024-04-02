@@ -1,8 +1,5 @@
 {
   "projects": {
-    "default": "qqweb-b75ae",
-    "asd": "qqweb-b75ae"
-  },
-  "targets": {},
-  "etags": {}
+    "default": "qqstaging"
+  }
 }
