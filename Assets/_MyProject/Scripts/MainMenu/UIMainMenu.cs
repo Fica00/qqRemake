@@ -8,13 +8,11 @@ public class UIMainMenu : MonoBehaviour
     public static UIMainMenu Instance;
     
     [SerializeField] private TransitionAnimation transition;
-    [SerializeField] private Button showRanked;
-    [SerializeField] private GameObject rankedHolder;
     [SerializeField] private Button deckQuickButton;
     [SerializeField] private DeckQuickPanel deckQuickPanel;
     [SerializeField] private TextMeshProUGUI deckNameDisplay;
     [SerializeField] private Button showLevelRewards;
-    [SerializeField] private LevelRewardsPanel levelRewardsPanel; 
+    [SerializeField] private Button showSettings;
     public static bool ShowStartingAnimation;
 
     private void Awake()
@@ -37,9 +35,9 @@ public class UIMainMenu : MonoBehaviour
     {
         PlayerData.UpdatedDeckName += ShowDeckName;
         PlayerData.UpdatedSelectedDeck += ShowDeckName;
-        showRanked.onClick.AddListener(ShowRanked);
         deckQuickButton.onClick.AddListener(ShowQuickDeck);
         showLevelRewards.onClick.AddListener(ShowLevelRewards);
+        showSettings.onClick.AddListener(ShowSettings);
 
         ShowDeckName();
     }
@@ -48,19 +46,14 @@ public class UIMainMenu : MonoBehaviour
     {
         PlayerData.UpdatedDeckName -= ShowDeckName;
         PlayerData.UpdatedSelectedDeck -= ShowDeckName;
-        showRanked.onClick.RemoveListener(ShowRanked);
         deckQuickButton.onClick.RemoveListener(ShowQuickDeck);
         showLevelRewards.onClick.RemoveListener(ShowLevelRewards);
+        showSettings.onClick.RemoveListener(ShowSettings);
     }
 
     public void ShowSceneTransition(Action _callBack)
     {
         transition.StartTransition(_callBack);
-    }
-
-    private void ShowRanked()
-    {
-        rankedHolder.SetActive(false);
     }
 
     private void ShowQuickDeck()
@@ -75,6 +68,11 @@ public class UIMainMenu : MonoBehaviour
     
     private void ShowLevelRewards()
     {
-        levelRewardsPanel.Setup();
+        SceneManager.Instance.LoadLevelPage();
+    }
+
+    private void ShowSettings()
+    {
+        SceneManager.Instance.LoadSettingsPage();
     }
 }

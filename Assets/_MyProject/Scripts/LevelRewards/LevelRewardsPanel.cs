@@ -14,7 +14,7 @@ public class LevelRewardsPanel : MonoBehaviour
    [SerializeField] private TextMeshProUGUI currentLevelDisplay;
    private List<GameObject> shownRewards = new();
 
-   public void Setup()
+   private void Start()
    {
       foreach (var _shownReward in shownRewards)
       {
@@ -67,11 +67,11 @@ public class LevelRewardsPanel : MonoBehaviour
       }
       
       OnUnlockedNewQoomon?.Invoke(_reward.QoomonId);
-      Setup();
+      Start();
    }
 
    private void Close()
    {
-      gameObject.SetActive(false);
+      SceneManager.Instance.LoadMainMenu();
    }
 }

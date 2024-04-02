@@ -1,11 +1,8 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsUI : MonoBehaviour
 {
-    [SerializeField] private Button show;
-    [SerializeField] private GameObject holder;
     [SerializeField] private Button logoutButton;
     [SerializeField] private InputField nameInput;
     [SerializeField] private Button linkWithFacebook;
@@ -21,7 +18,6 @@ public class SettingsUI : MonoBehaviour
     private void OnEnable()
     {
         logoutButton.onClick.AddListener(Logout);
-        show.onClick.AddListener(Setup);
         linkWithFacebook.onClick.AddListener(LinkWithFacebook);
         linkWithGoogle.onClick.AddListener(LinkWithGoogle);
         redeemCode.onClick.AddListener(RedeemCode);
@@ -36,7 +32,6 @@ public class SettingsUI : MonoBehaviour
     private void OnDisable()
     {
         logoutButton.onClick.RemoveListener(Logout);
-        show.onClick.RemoveListener(Setup);
         linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
         linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
         redeemCode.onClick.AddListener(RedeemCode);
@@ -98,9 +93,8 @@ public class SettingsUI : MonoBehaviour
         UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
-    private void Setup()
+    private void Start()
     {
-        holder.SetActive(true);
         nameInput.text = DataManager.Instance.PlayerData.Name;
     }
 
@@ -111,7 +105,7 @@ public class SettingsUI : MonoBehaviour
             return;
         }
         
-        holder.SetActive(false);
+        SceneManager.Instance.LoadMainMenu();
     }
 
     private bool TryUpdateName()

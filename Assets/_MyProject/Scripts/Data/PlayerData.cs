@@ -160,6 +160,12 @@ public class PlayerData
         {
             return;
         }
+
+        if (_deck.Name == _name)
+        {
+            return;
+        }
+        
         _deck.Name = _name;
         UpdatedDeckName?.Invoke();
     }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class CollectionQommonDisplayFullScreen : MonoBehaviour
 {
+    [SerializeField] private GameObject holder;
     [SerializeField] private Button closeButton;
     [SerializeField] private Image qommonDisplay;
     [SerializeField] private TextMeshProUGUI powerDisplay;
@@ -19,7 +20,7 @@ public class CollectionQommonDisplayFullScreen : MonoBehaviour
         manaDisplay.text = _qommon.Details.Mana.ToString();
         nameDisplay.text = _qommon.Details.Name;
         descDisplay.text = _qommon.Details.Description.Replace("\\n", "\n");
-        gameObject.SetActive(true);
+        holder.SetActive(true);
     }
 
     private void OnEnable()
@@ -34,6 +35,6 @@ public class CollectionQommonDisplayFullScreen : MonoBehaviour
 
     private void Close()
     {
-        gameObject.SetActive(false);
+        holder.SetActive(false);
     }
 }

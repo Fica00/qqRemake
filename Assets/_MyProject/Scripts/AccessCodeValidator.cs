@@ -16,7 +16,7 @@ public class AccessCodeValidator : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(HAS_VERIFIED))
         {
-            SceneManager.LoadDataCollector();
+            SceneManager.Instance.LoadDataCollector();
         }
         else
         {
@@ -39,7 +39,7 @@ public class AccessCodeValidator : MonoBehaviour
         if (String.Equals(accessCode.text, validAccessCode, StringComparison.CurrentCultureIgnoreCase))
         {
             PlayerPrefs.SetInt(HAS_VERIFIED,1);
-            SceneManager.LoadDataCollector();
+            SceneManager.Instance.LoadDataCollector();
         }
         else
         {

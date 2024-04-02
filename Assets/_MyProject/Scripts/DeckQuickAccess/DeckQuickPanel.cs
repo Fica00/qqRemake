@@ -7,8 +7,8 @@ public class DeckQuickPanel : MonoBehaviour
     [SerializeField] private Transform holder;
     [SerializeField] private DeckQuickDisplay quickDisplay;
     [SerializeField] private Button close;
-    [SerializeField] private CollectionPanel collectionPanel;
     private List<GameObject> showObjects = new();
+    public static int ShortcutToDeck=-1;
 
     public void Setup()
     {
@@ -50,8 +50,8 @@ public class DeckQuickPanel : MonoBehaviour
     
     private void EditDeck(int _deckId)
     {
-        collectionPanel.EditDeckShortcut(_deckId);
-        Close();
+        ShortcutToDeck = _deckId;
+        SceneManager.Instance.LoadCollectionPage();
     }
     
     private void Close()

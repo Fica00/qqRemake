@@ -24,7 +24,7 @@ public class CollectionPanel : BasePanel
     {
         buyMoreDecks.onClick.AddListener(BuyAnotherDeck);
         showNextDeck.onClick.AddListener(MoveLayout);
-        closeButton.onClick.AddListener(ClosePanel);
+        closeButton.onClick.AddListener(Close);
 
         CollectionDeckDisplay.OnShowDeck += ShowDeck;
         SubscribeForQommonDetails();
@@ -33,24 +33,17 @@ public class CollectionPanel : BasePanel
     public void SubscribeForQommonDetails()
     {
         CollectionQommonDisplay.OnClicked += ShowDetails;
-        ClearShownDecks();
-        ShowDecks();
+        Start();
     }
 
     private void OnDisable()
     {
         buyMoreDecks.onClick.RemoveListener(BuyAnotherDeck);
         showNextDeck.onClick.RemoveListener(MoveLayout);
-        closeButton.onClick.RemoveListener(ClosePanel);
+        closeButton.onClick.RemoveListener(Close);
         
         CollectionDeckDisplay.OnShowDeck -= ShowDeck;
         CollectionQommonDisplay.OnClicked -= ShowDetails;
-    }
-
-    private void ClosePanel()
-    {
-        Close();
-        BotHudHandler.Instance.ShowMain();
     }
 
     private void BuyAnotherDeck()
@@ -72,14 +65,19 @@ public class CollectionPanel : BasePanel
         _itemsPosition.x -= moveAmount;
         _deckHolderTransform.position = _itemsPosition;
     }
-
-    public override void Show()
+    
+    private void Start()
     {
         ClearShownDecks();
         ClearOwnedQommons();
         ShowDecks();
         ShowQommons();
         gameObject.SetActive(true);
+        if (DeckQuickPanel.ShortcutToDeck!=-1)
+        {
+            EditDeckShortcut(DeckQuickPanel.ShortcutToDeck);
+            DeckQuickPanel.ShortcutToDeck = -1;
+        }
     }
 
     private void ClearShownDecks()
@@ -123,9 +121,8 @@ public class CollectionPanel : BasePanel
         }   
     }
 
-    public void EditDeckShortcut(int _deckId)
+    private void EditDeckShortcut(int _deckId)
     {
-        Show();
         ShowDeck(_deckId);
     }
 
@@ -143,6 +140,6 @@ public class CollectionPanel : BasePanel
     public override void Close()
     {
         OnClosed?.Invoke();
-        gameObject.SetActive(false);
+        SceneManager.Instance.LoadMainMenu();
     }
 }

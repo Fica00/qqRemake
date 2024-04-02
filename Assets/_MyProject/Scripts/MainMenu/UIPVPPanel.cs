@@ -86,7 +86,7 @@ public class UIPVPPanel : MonoBehaviour
             yield return new WaitForSeconds(2);
             if (PhotonManager.Instance.IsMasterClient)
             {
-                UIMainMenu.Instance.ShowSceneTransition(SceneManager.LoadPVPGameplay);
+                UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay();});
             }
             else
             {

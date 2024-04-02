@@ -11,16 +11,6 @@ public class ShopPanel : BasePanel
         Instance = this;
     }
 
-    private void OnEnable()
-    {
-        ShowMain();
-    }
-
-    private void OnDisable()
-    {
-        
-    }
-
     public void ShowMarketplace(bool _canBuy)
     {
         CloseAll();
@@ -37,15 +27,5 @@ public class ShopPanel : BasePanel
     {
         passPanel.Close();
         marketplacePanel.Close();
-    }
-
-    public override void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public override void Close()
-    {
-        gameObject.SetActive(false);
     }
 }
