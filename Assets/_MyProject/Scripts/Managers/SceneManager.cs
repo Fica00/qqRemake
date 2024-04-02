@@ -1,8 +1,10 @@
 using SceneManagement;
+using UnityEngine;
 
 public class SceneManager : SceneLoader
 {
     public static SceneManager Instance;
+    [SerializeField] private bool useAsync;
     private const string MAIN_MENU = "MainMenu";
     private const string LEVEL_PAGE = "LevelPage";
     private const string SETTINGS_PAGE = "SettingsPage";
@@ -74,6 +76,6 @@ public class SceneManager : SceneLoader
 
     private void DoLoadScene(string _key, bool _useAsyncLoading=true)
     {
-        LoadScene(_key, false);
+        LoadScene(_key, useAsync&&_useAsyncLoading);
     }
 }
