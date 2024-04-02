@@ -808,6 +808,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayUI
       objectReference: {fileID: 0}
+    - target: {fileID: 5686523579697816810, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1566964865}
+    - target: {fileID: 5686523579697816810, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: m_RenderMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686523579697816811, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5686523579697816813, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -843,6 +855,18 @@ PrefabInstance:
     - target: {fileID: 5686523579697816813, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
       propertyPath: m_SizeDelta.y
       value: 2556
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686523579697816813, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9933881
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686523579697816813, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9933881
+      objectReference: {fileID: 0}
+    - target: {fileID: 5686523579697816813, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9933881
       objectReference: {fileID: 0}
     - target: {fileID: 5686523579697816813, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
       propertyPath: m_LocalPosition.x
