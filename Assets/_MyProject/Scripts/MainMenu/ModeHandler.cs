@@ -18,6 +18,11 @@ public class ModeHandler : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        Mode = GameMode.VsAi;
+    }
+
     public GameMode Mode
     {
         get
@@ -47,9 +52,6 @@ public class ModeHandler : MonoBehaviour
 
     private void ChangeMode()
     {
-        // int _modeCount = Enum.GetValues(typeof(GameMode)).Length;
-        // int _nextMode = ((int)Mode + 1) % _modeCount;
-        // Mode = (GameMode)_nextMode;
         Mode = mode==GameMode.VsPlayer ? GameMode.VsAi : GameMode.VsPlayer;
     }
 

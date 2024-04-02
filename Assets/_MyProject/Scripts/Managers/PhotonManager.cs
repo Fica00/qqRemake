@@ -36,6 +36,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             Instance = this;
             PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.GameVersion = "demo";
         }
         else
         {

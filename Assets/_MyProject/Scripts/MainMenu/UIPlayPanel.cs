@@ -68,7 +68,7 @@ public class UIPlayPanel : MonoBehaviour
             return;
         }
 
-        UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadAIGameplay();});
+        UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadAIGameplay(false);});
     }
 
     private void ShowPVPPanel()
