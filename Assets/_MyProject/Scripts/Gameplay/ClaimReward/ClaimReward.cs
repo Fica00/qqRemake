@@ -58,7 +58,7 @@ public class ClaimReward : MonoBehaviour
       GameplayUI.Instance.ClosingAnimation(() =>
       {
          UIMainMenu.ShowStartingAnimation = true;
-         SceneManager.LoadMainMenu();
+         SceneManager.Instance.LoadMainMenu();
       });
    }
 

@@ -1,6 +1,12 @@
-public static class SceneManager
+using SceneManagement;
+
+public class SceneManager : SceneLoader
 {
+    public static SceneManager Instance;
     private const string MAIN_MENU = "MainMenu";
+    private const string LEVEL_PAGE = "LevelPage";
+    private const string SETTINGS_PAGE = "SettingsPage";
+    private const string COLLECTION_PAGE = "CollectionPage";
     private const string GAMEPLAYPVP = "GameplayPVP";
     private const string GAMEPLAYAI = "GameplayAI";
     private const string DATA_COLLECTOR = "DataCollector";
@@ -8,38 +14,66 @@ public static class SceneManager
 
     public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAYAI;
 
-    public static void LoadMainMenu()
+    private void Awake()
     {
-        LoadScene(MAIN_MENU);
+        if (Instance==null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public static void LoadAlphaCode()
+    public void LoadMainMenu(bool _useAsyncLoading=true)
     {
-        LoadScene(ALPHA_CODE);
+        DoLoadScene(MAIN_MENU,_useAsyncLoading);
+    }    
+    
+    public void LoadLevelPage(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(LEVEL_PAGE,_useAsyncLoading);
+    }    
+    
+    public void LoadSettingsPage(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(SETTINGS_PAGE,_useAsyncLoading);
+    }    
+    
+    public void LoadCollectionPage(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(COLLECTION_PAGE,_useAsyncLoading);
     }
 
-    public static void LoadPVPGameplay()
+    public void LoadAlphaCode(bool _useAsyncLoading=true)
     {
-        LoadScene(GAMEPLAYPVP);
+        DoLoadScene(ALPHA_CODE,_useAsyncLoading);
     }
 
-    public static void LoadAIGameplay()
+    public void LoadPvpGameplay(bool _useAsyncLoading=true)
     {
-        LoadScene(GAMEPLAYAI);
+        DoLoadScene(GAMEPLAYPVP,_useAsyncLoading);
     }
 
-    public static void LoadDataCollector()
+    public void LoadAIGameplay(bool _useAsyncLoading=true)
     {
-        LoadScene(DATA_COLLECTOR);
+        DoLoadScene(GAMEPLAYAI,_useAsyncLoading);
+    }
+
+    public void LoadDataCollector(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(DATA_COLLECTOR,_useAsyncLoading);
     } 
     
-    public static void ReloadScene()
+    public void ReloadScene(bool _useAsyncLoading=true)
     {
-        LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        DoLoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,_useAsyncLoading);
     }
 
-    private static void LoadScene(string _key)
+    private void DoLoadScene(string _key, bool _useAsyncLoading=true)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(_key);
+        LoadScene(_key, false);
     }
 }

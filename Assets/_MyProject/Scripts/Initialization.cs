@@ -49,6 +49,6 @@ public class Initialization : MonoBehaviour
     
     private void FinishInit()
     {
-        SceneManager.LoadMainMenu();
+        SceneManager.Instance.LoadMainMenu();
     }
 }

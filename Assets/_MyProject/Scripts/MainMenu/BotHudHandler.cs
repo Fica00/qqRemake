@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +9,6 @@ public class BotHudHandler : MonoBehaviour
     [SerializeField] private Button mainButton;
     [SerializeField] private Button collectionButton;
     
-    [SerializeField] private CollectionPanel collectionPanel;
-    [SerializeField] private ShopPanel shopPanel;
-    [SerializeField] private GameObject mainMenuPanel;
-
-
     private void Awake()
     {
         Instance = this;
@@ -34,28 +28,17 @@ public class BotHudHandler : MonoBehaviour
         collectionButton.onClick.RemoveListener(ShowCollection);
     }
 
-    public void ShowShop()
+    private void ShowShop()
     {
-        CloseAll();
-        shopPanel.Show();
     }
 
-    public void ShowMain()
+    private void ShowMain()
     {
-        CloseAll();
-        mainMenuPanel.SetActive(true);
+        SceneManager.Instance.LoadMainMenu();
     }
 
-    public void ShowCollection()
+    private void ShowCollection()
     {
-        CloseAll();
-        collectionPanel.Show();
-    }
-
-    private void CloseAll()
-    {
-        mainMenuPanel.SetActive(false);
-        collectionPanel.Close();
-        shopPanel.Close();
+        SceneManager.Instance.LoadCollectionPage();
     }
 }

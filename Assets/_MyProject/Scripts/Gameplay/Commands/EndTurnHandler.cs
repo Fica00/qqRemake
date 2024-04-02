@@ -92,7 +92,7 @@ public class EndTurnHandler : MonoBehaviour
 
     private void LeaveScene()
     {
-        SceneManager.LoadMainMenu();
+        SceneManager.Instance.LoadMainMenu();
     }
 
     private void EndTurn()

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +7,7 @@ public class DeckBuilderPanel : BasePanel
     [SerializeField] private InputField nameInput;
     [SerializeField] private Button backButton;
     [SerializeField] private Button deleteButton;
+    [SerializeField] private GameObject holder;
     [SerializeField] private CollectionQommonDisplay[] qommonDisplays;
     [SerializeField] private CollectionQommonDisplay qommonPrefab;
     [SerializeField] private Transform collectionHolder;
@@ -74,11 +74,10 @@ public class DeckBuilderPanel : BasePanel
     {
         DataManager.Instance.PlayerData.SelectedDeck = _deckId;
         nameInput.text = DataManager.Instance.PlayerData.GetSelectedDeck().Name;
-        Debug.Log(DataManager.Instance.PlayerData.GetSelectedDeck().Name);
         ShowQommonsInDeck();
         ShowQommonsInCollection();
         qommonDetails.Close();
-        gameObject.SetActive(true);
+        holder.SetActive(true);
     }
 
     private void ShowQommonsInDeck()
@@ -125,7 +124,8 @@ public class DeckBuilderPanel : BasePanel
 
     public override void Close()
     {
-        gameObject.SetActive(false);
+        DataManager.Instance.PlayerData.UpdateDeckName(nameInput.text);
+        holder.SetActive(false);
         collectionPanel.SubscribeForQommonDetails();
     }
     
