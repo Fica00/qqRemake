@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingPrefab: {fileID: 737901795872899117, guid: 66f24f843cfc0c14da122884ae212346, type: 3}
-  minimumLoadingDuration: 2
+  minimumLoadingDuration: 1
   useAsync: 1
 --- !u!1 &2129292848
 GameObject:
