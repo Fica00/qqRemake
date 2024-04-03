@@ -16,6 +16,7 @@ public class PlayerData
     private double coins;
     private double usdc;
     private List<int> claimedLevelRewards = new ();
+    private int weeklyMissionCount;
 
 
     public static Action UpdatedName;
@@ -29,8 +30,82 @@ public class PlayerData
     public static Action UpdatedExp;
     public static Action UpdatedOwnedQoomons;
     public static Action UpdatedClaimedLevelRewards;
+    public static Action UpdatedWeeklyMissionCount;
 
     public void CreateNewPlayer()
+    {
+        if (JavaScriptManager.Instance.IsDemo)
+        {
+            SetupDemo();
+        }
+        else
+        {
+            Setup();
+        }
+    }
+
+    private void SetupDemo()
+    {
+        name = "Player" + UnityEngine.Random.Range(0, 10000);
+        selectedDeck = 0;
+        DeckData _starterDeck = new DeckData
+        {
+            Id = 0,
+            Name = "Starter",
+            CardsInDeck = new List<int>
+            {
+                28,
+                8,
+                7,
+                29,
+                1,
+                0,
+                11,
+                3,
+                4,
+                21,
+                9,
+                5
+            }
+        };
+        decks.Add(_starterDeck);
+
+        DeckData _discardAndDestroy = new DeckData() { Id = 1, Name="Discard & Destroy", CardsInDeck = new List<int>
+        {
+            7,1,11,4,14,16,30,17,31,27,18,19
+        } };
+        decks.Add(_discardAndDestroy);
+        
+        DeckData _summon = new DeckData() { Id = 2, Name="Summon", CardsInDeck = new List<int>
+        {
+            8,1,0,3,9,10,12,15,24,32,35,13
+        } };
+        decks.Add(_summon);    
+        
+        DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
+        {
+            28,10,20,46,46,42,33,25,36,2,45,7
+        } };
+        decks.Add(_summonSmall);   
+        
+        DeckData _ongoing = new DeckData() { Id = 4, Name="Ongoing", CardsInDeck = new List<int>
+        {
+            4,21,6,20,22,42,38,39,40,41,43,44
+        } };
+        decks.Add(_ongoing);
+
+        for (int _i = 0; _i < 47; _i++)
+        {
+            if (_i is 37 or 34 or 23)
+            {
+                continue;
+            }
+
+            ownedQoomons.Add(_i);
+        }
+    }
+
+    private void Setup()
     {
         name = "Player" + UnityEngine.Random.Range(0, 10000);
         selectedDeck = 0;
@@ -342,5 +417,15 @@ public class PlayerData
     {
         DataManager.Instance.PlayerData.ClaimedLevelRewards.Add(_level);
         UpdatedClaimedLevelRewards?.Invoke();
+    }
+    
+    public int WeeklyMissionCount
+    {
+        get => weeklyMissionCount;
+        set
+        {
+            weeklyMissionCount = value;
+            UpdatedWeeklyMissionCount?.Invoke();
+        }
     }
 }

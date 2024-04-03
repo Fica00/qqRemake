@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_MyProject/Scenes/MainMenuScreens/ShopPage.unity
     guid: 3a1eff6259af1bb439a5d3a71bfc20eb
+  - enabled: 1
+    path: Assets/_MyProject/Scenes/MainMenuScreens/MissionsPage.unity
+    guid: 41116f8be0148264b9dc97e155ff331e
   m_configObjects: {}

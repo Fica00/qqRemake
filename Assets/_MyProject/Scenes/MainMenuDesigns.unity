@@ -3801,7 +3801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &201515576
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9197,7 +9197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &462944563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19582,8 +19582,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508ee9551dd64fc4ab57dcac965d43be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineupNameDisplay: {fileID: 1809849157}
   transition: {fileID: 0}
+  deckQuickButton: {fileID: 0}
+  deckQuickPanel: {fileID: 0}
+  deckNameDisplay: {fileID: 0}
+  showLevelRewards: {fileID: 0}
+  showSettings: {fileID: 0}
 --- !u!114 &1017926789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19864,6 +19868,7 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   opponentPlayer: {fileID: 0}
   matchingLabel: {fileID: 0}
+  header: {fileID: 0}
 --- !u!114 &1027998520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21394,9 +21399,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButton: {fileID: 2126012518}
-  coinsInput: {fileID: 1076796191}
+  coinsInput: {fileID: 0}
   coinsInputLabel: {fileID: 2058622427}
-  costInput: {fileID: 32956998}
+  costInput: {fileID: 0}
   suggestionLabel: {fileID: 437696050}
   suggestionDisplay: {fileID: 1728378153}
   sellPassPanel: {fileID: 774557823}
@@ -21599,7 +21604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1112532940
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27170,9 +27175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2bd90b41dc8fcc4aa7263b451ee01ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameInput: {fileID: 1744437353}
+  nameInput: {fileID: 0}
   backButton: {fileID: 674835419}
   deleteButton: {fileID: 2128537761}
+  holder: {fileID: 0}
   qommonDisplays:
   - {fileID: 1345210471}
   - {fileID: 1715023988}
@@ -28061,19 +28067,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500906738}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1489913626}
   - {fileID: 580399933}
-  m_Father: {fileID: 1922300326}
+  m_Father: {fileID: 1740697365}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13.1, y: 463}
+  m_AnchoredPosition: {x: 70, y: -167}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1500906740
@@ -29499,6 +29505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e031557713726e4e960b1fe4cfd83b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holder: {fileID: 0}
   closeButton: {fileID: 1578535514}
   qommonDisplay: {fileID: 248727431}
   powerDisplay: {fileID: 1135525555}
@@ -33276,6 +33283,7 @@ RectTransform:
   - {fileID: 210884551}
   - {fileID: 629743493}
   - {fileID: 772677185}
+  - {fileID: 1500906739}
   - {fileID: 1463321615}
   m_Father: {fileID: 81621002}
   m_RootOrder: -1
@@ -33683,9 +33691,6 @@ MonoBehaviour:
   shopButton: {fileID: 517071354}
   mainButton: {fileID: 246352628}
   collectionButton: {fileID: 33475792}
-  collectionPanel: {fileID: 1555893854}
-  shopPanel: {fileID: 1940037066}
-  mainMenuPanel: {fileID: 462944562}
 --- !u!1 &1755673207
 GameObject:
   m_ObjectHideFlags: 0
@@ -37192,7 +37197,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 464203703}
-  - {fileID: 1500906739}
   m_Father: {fileID: 81621002}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

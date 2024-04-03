@@ -18,6 +18,10 @@ public class CanvasHandler : MonoBehaviour
     {
         if (Screen.height > Screen.width || Application.platform == RuntimePlatform.WindowsEditor)
         {
+            if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
+            {
+                yield break;   
+            }
             canvas.renderMode = RenderMode.ScreenSpaceCamera;
             yield return null;
             yield return null;
@@ -27,6 +31,10 @@ public class CanvasHandler : MonoBehaviour
         }
         else
         {
+            if (canvas.renderMode == RenderMode.WorldSpace)
+            {
+                yield break;   
+            }
             canvas.renderMode = RenderMode.WorldSpace;
         }
     }

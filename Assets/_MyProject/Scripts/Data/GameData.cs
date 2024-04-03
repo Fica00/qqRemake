@@ -8,7 +8,8 @@ public class GameData
     public List<GamePassOffer> GamePassOffers = new ();
     public Dictionary<string,GamePassOffer> Marketplace = new ();
     public List<LevelReward> LevelRewards = new ();
-
+    public List<MissionRewards> MissionRewards = new ();
+    
     public void RemoveOfferFromMarketplace(GamePassOffer _offer)
     {
         var _offerInMarketplace = GetMarketplaceOffer(_offer,Marketplace);
