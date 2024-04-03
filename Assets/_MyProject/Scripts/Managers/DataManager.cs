@@ -63,6 +63,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedExp += SaveExp;
         PlayerData.UpdatedOwnedQoomons += SaveOwnedQommons;
         PlayerData.UpdatedClaimedLevelRewards += SaveClaimedRewards;
+        PlayerData.UpdatedWeeklyMissionCount += SaveWeeklyCount;
     }
 
     private void Unsubscribe()
@@ -84,6 +85,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedExp -= SaveExp;
         PlayerData.UpdatedOwnedQoomons -= SaveOwnedQommons;
         PlayerData.UpdatedClaimedLevelRewards -= SaveClaimedRewards;
+        PlayerData.UpdatedWeeklyMissionCount -= SaveWeeklyCount;
     }
 
     private void SaveSelectedDeck()
@@ -133,7 +135,11 @@ public class DataManager : MonoBehaviour
     
     private void SaveClaimedRewards()
     {
-        Debug.Log(123);
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.ClaimedLevelRewards),JsonConvert.SerializeObject(PlayerData.ClaimedLevelRewards));
+    }
+    
+    private void SaveWeeklyCount()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.WeeklyMissionCount),JsonConvert.SerializeObject(PlayerData.WeeklyMissionCount));
     }
 }

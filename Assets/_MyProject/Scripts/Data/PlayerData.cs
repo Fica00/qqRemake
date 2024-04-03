@@ -16,6 +16,7 @@ public class PlayerData
     private double coins;
     private double usdc;
     private List<int> claimedLevelRewards = new ();
+    private int weeklyMissionCount;
 
 
     public static Action UpdatedName;
@@ -29,6 +30,7 @@ public class PlayerData
     public static Action UpdatedExp;
     public static Action UpdatedOwnedQoomons;
     public static Action UpdatedClaimedLevelRewards;
+    public static Action UpdatedWeeklyMissionCount;
 
     public void CreateNewPlayer()
     {
@@ -394,5 +396,15 @@ public class PlayerData
     {
         DataManager.Instance.PlayerData.ClaimedLevelRewards.Add(_level);
         UpdatedClaimedLevelRewards?.Invoke();
+    }
+    
+    public int WeeklyMissionCount
+    {
+        get => weeklyMissionCount;
+        set
+        {
+            weeklyMissionCount = value;
+            UpdatedWeeklyMissionCount?.Invoke();
+        }
     }
 }
