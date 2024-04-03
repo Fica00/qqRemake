@@ -17,7 +17,13 @@ public class PlayerData
     private double usdc;
     private List<int> claimedLevelRewards = new ();
     private int weeklyMissionCount;
+    private DateTime lastDayConnected;
+    private int daysConnectedInRow;
+    private int rankPoints;
+    private int amountOfRankGamesPlayed;
+    private List<int> claimedRankRewards = new ();
 
+    public DateTime DateCreatedAccount;
 
     public static Action UpdatedName;
     public static Action UpdatedSelectedDeck;
@@ -31,9 +37,21 @@ public class PlayerData
     public static Action UpdatedOwnedQoomons;
     public static Action UpdatedClaimedLevelRewards;
     public static Action UpdatedWeeklyMissionCount;
+    public static Action UpdatedLastDayConnected;
+    public static Action UpdatedDaysConnectedInRow;
+    public static Action UpdatedRankPoints;
+    public static Action UpdatedAmountOfRankGamesPlayed;
+    public static Action UpdatedClaimedRankRewards;
+    
 
     public void CreateNewPlayer()
     {
+        name = "Player" + UnityEngine.Random.Range(0, 10000);
+        selectedDeck = 0;
+        DateCreatedAccount = DateTime.UtcNow.Date;
+        lastDayConnected = DateCreatedAccount;
+        daysConnectedInRow=1;
+        
         if (JavaScriptManager.Instance.IsDemo)
         {
             SetupDemo();
@@ -46,8 +64,6 @@ public class PlayerData
 
     private void SetupDemo()
     {
-        name = "Player" + UnityEngine.Random.Range(0, 10000);
-        selectedDeck = 0;
         DeckData _starterDeck = new DeckData
         {
             Id = 0,
@@ -107,8 +123,6 @@ public class PlayerData
 
     private void Setup()
     {
-        name = "Player" + UnityEngine.Random.Range(0, 10000);
-        selectedDeck = 0;
         DeckData _starterDeck = new DeckData
         {
             Id = 0,
@@ -427,5 +441,61 @@ public class PlayerData
             weeklyMissionCount = value;
             UpdatedWeeklyMissionCount?.Invoke();
         }
+    }
+
+    public DateTime LastDayConnected
+    {
+        get => lastDayConnected;
+        set
+        {
+            lastDayConnected = value;
+            UpdatedLastDayConnected?.Invoke();
+        }
+    }
+
+    public int DaysConnectedInRow
+    {
+        get => daysConnectedInRow;
+        set
+        {
+            daysConnectedInRow = value;
+            UpdatedDaysConnectedInRow?.Invoke();
+        }
+    }
+
+    public int RankPoints
+    {
+        get => rankPoints;
+        set
+        {
+            rankPoints = value;
+            if (rankPoints<0)
+            {
+                rankPoints = 0;
+            }
+            UpdatedRankPoints?.Invoke();
+        }
+    }
+
+    public int AmountOfRankGamesPlayed
+    {
+        get => amountOfRankGamesPlayed;
+        set
+        {
+            amountOfRankGamesPlayed = value;
+            UpdatedAmountOfRankGamesPlayed?.Invoke();
+        }
+    }
+
+    public List<int> ClaimedRankRewards
+    {
+        get => claimedRankRewards;
+        set => claimedRankRewards = value;
+    }
+
+    public void ClaimRankReward(int _rewardNumber)
+    {
+        claimedRankRewards.Add(_rewardNumber);
+        UpdatedClaimedRankRewards?.Invoke();
     }
 }

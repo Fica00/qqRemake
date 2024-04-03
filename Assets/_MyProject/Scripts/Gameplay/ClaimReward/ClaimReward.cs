@@ -22,7 +22,11 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private FadeAnimations treasureFade;
    [SerializeField] private FadeAnimations claimFade;
    [SerializeField] private FadeAnimations levelFade;
-
+   [SerializeField] private int expReward;
+   [SerializeField] private TextMeshProUGUI expDisplay;
+   [SerializeField] private Image rankImage;
+   private bool didIWin;
+   
    private void OnEnable()
    {
       claim.onClick.AddListener(ShowLevel);
@@ -37,7 +41,7 @@ public class ClaimReward : MonoBehaviour
 
    private void ShowLevel()
    {
-      levelFill.fillAmount = DataManager.Instance.PlayerData.LevelPercentage;
+      levelFill.fillAmount = RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage;
       treasureFade.FadeOut(1, null);
       claimFade.FadeOut(1,() =>
       {
@@ -45,8 +49,15 @@ public class ClaimReward : MonoBehaviour
          levelHolder.SetActive(true);
          levelFade.FadeIn(1, () =>
          {
-            DataManager.Instance.PlayerData.Exp += GameplayManager.Instance.CurrentBet;
-            levelFill.DOFillAmount(DataManager.Instance.PlayerData.LevelPercentage, 1f);
+            if (didIWin)
+            {
+               DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+            }
+            else
+            {
+               DataManager.Instance.PlayerData.RankPoints -= GameplayManager.Instance.CurrentBet;
+            }
+            levelFill.DOFillAmount(RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage, 1f);
             ShowProgress();
          });
       });
@@ -67,22 +78,27 @@ public class ClaimReward : MonoBehaviour
       claimHolder.SetActive(true);
       levelHolder.SetActive(false);
       gameObject.SetActive(true);
+      expDisplay.text = $"+{expReward} XP";
       Sprite _sprite;
       switch (_result)
       {
          case GameResult.IWon:
             _sprite = won;
+            didIWin = true;
             break;
          case GameResult.ILost:
             _sprite = lost;
             break;
          case GameResult.Draw:
+            didIWin = true;
+            GameplayManager.Instance.HalfCurrentBetWithoutNotify();
             _sprite = draw;
             break;
          case GameResult.IForefiet:
             _sprite = escaped;
             break;
          case GameResult.Escaped:
+            didIWin = true;
             _sprite = escaped;
             break;
          default:
@@ -90,12 +106,15 @@ public class ClaimReward : MonoBehaviour
       }
 
       resultDisplay.sprite = _sprite;
+      DataManager.Instance.PlayerData.Exp += expReward;
       ShowProgress();
    }
 
    private void ShowProgress()
    {
-      progressDisplay.text = $"{DataManager.Instance.PlayerData.CurrentExpOnLevel}/{DataManager.Instance.PlayerData.GetXpForNextLevel()}";
-      levelDisplay.text = DataManager.Instance.PlayerData.Level.ToString();
+      RankData _rankData = RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints);
+      progressDisplay.text = $"{_rankData.PointsOnRank}/{_rankData.RankSo.RequirementPerSubRank}";
+      levelDisplay.text = _rankData.SubRank.ToString();
+      rankImage.sprite = _rankData.RankSo.Sprite;
    }
 }

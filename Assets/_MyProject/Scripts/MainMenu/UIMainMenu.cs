@@ -13,6 +13,7 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI deckNameDisplay;
     [SerializeField] private Button showLevelRewards;
     [SerializeField] private Button showSettings;
+    [SerializeField] private Button showRank;
     public static bool ShowStartingAnimation;
 
     private void Awake()
@@ -38,6 +39,7 @@ public class UIMainMenu : MonoBehaviour
         deckQuickButton.onClick.AddListener(ShowQuickDeck);
         showLevelRewards.onClick.AddListener(ShowLevelRewards);
         showSettings.onClick.AddListener(ShowSettings);
+        showRank.onClick.AddListener(ShowRankRewards);
 
         ShowDeckName();
     }
@@ -49,6 +51,7 @@ public class UIMainMenu : MonoBehaviour
         deckQuickButton.onClick.RemoveListener(ShowQuickDeck);
         showLevelRewards.onClick.RemoveListener(ShowLevelRewards);
         showSettings.onClick.RemoveListener(ShowSettings);
+        showRank.onClick.RemoveListener(ShowRankRewards);
     }
 
     public void ShowSceneTransition(Action _callBack)
@@ -74,5 +77,10 @@ public class UIMainMenu : MonoBehaviour
     private void ShowSettings()
     {
         SceneManager.Instance.LoadSettingsPage();
+    }
+    
+    private void ShowRankRewards()
+    {
+        SceneManager.Instance.LoadRankRewardsPage();
     }
 }

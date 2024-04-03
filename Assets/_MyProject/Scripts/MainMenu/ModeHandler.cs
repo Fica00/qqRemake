@@ -73,4 +73,12 @@ public class ModeHandler : MonoBehaviour
 
         modeDisplay.text = _modeName;
     }
+
+    private void Start()
+    {
+        if (JavaScriptManager.Instance.IsDemo)
+        {
+            Mode = GameMode.VsAi;
+        }
+    }
 }

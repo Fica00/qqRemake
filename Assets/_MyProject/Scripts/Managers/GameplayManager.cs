@@ -109,6 +109,12 @@ public class GameplayManager : MonoBehaviour
         GameEnded?.Invoke(GameResult.IForefiet);
     }
     
+    public void ForceEndGame(GameResult _result)
+    {
+        StopAllCoroutines();
+        GameEnded?.Invoke(_result);
+    }
+    
     private void UpdateQommonsWinLose(GameResult _result)
     {
         switch (_result)
@@ -515,5 +521,16 @@ public class GameplayManager : MonoBehaviour
     protected void ShowOpponentDiscardedACard(int _cardId)
     {
         OpponentDiscardedCardDisplay.Instance.Show(_cardId);
+    }
+
+
+    public void HalfCurrentBetWithoutNotify()
+    {
+        if (currentBet==1)
+        {
+            return;
+        }
+
+        currentBet /= 2;
     }
 }

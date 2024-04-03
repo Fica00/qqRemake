@@ -11,6 +11,7 @@ public class Initialization : MonoBehaviour
 
     private void Start()
     {
+        RankSo.Init();
         InitPhoton();
     }
 

@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
@@ -116,5 +117,18 @@ public class JavaScriptManager : MonoBehaviour
     public void OnUpdatedUSDC(double _value)
     {
         DataManager.Instance.PlayerData.USDC = _value;
+    }
+
+    [Button("test ranks")]
+    private void test()
+    {
+        RankSo.Init();
+        Debug.Log("Points: 0, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(0)));
+        Debug.Log("Points: 1, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(1)));
+        Debug.Log("Points: 5, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(5)));
+        Debug.Log("Points: 8, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(8)));
+        Debug.Log("Points: 18, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(18)));
+        Debug.Log("Points: 25, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(25)));
+        Debug.Log("Points: 1000, output: "+JsonConvert.SerializeObject(RankSo.GetRankData(1000)));
     }
 }

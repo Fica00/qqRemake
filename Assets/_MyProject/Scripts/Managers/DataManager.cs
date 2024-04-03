@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
 using Newtonsoft.Json;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    public static Action NewGameDay;
     public static DataManager Instance;
     public PlayerData PlayerData { get; private set; }
     public GameData GameData { get; private set; }
@@ -37,8 +40,35 @@ public class DataManager : MonoBehaviour
     public void SetPlayerData(string _data)
     {
         PlayerData = JsonConvert.DeserializeObject<PlayerData>(_data);
+        StartCoroutine(CheckForNewGameDay());
     }
 
+    IEnumerator CheckForNewGameDay()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            DateTime _nextDate = PlayerData.LastDayConnected.AddDays(1);
+            DateTime _currentDate = DateTime.UtcNow.Date;
+            if (_nextDate<_currentDate)
+            {
+                continue;
+            }
+
+            if ((_nextDate-_currentDate).TotalDays<1)
+            {
+                PlayerData.DaysConnectedInRow++;
+            }
+            else
+            {
+                PlayerData.DaysConnectedInRow = 1;
+            }
+        
+            PlayerData.LastDayConnected = DateTime.UtcNow.Date;
+            NewGameDay?.Invoke();
+        }
+    }
+    
     private void OnDisable()
     {
         Unsubscribe();
@@ -64,6 +94,10 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedOwnedQoomons += SaveOwnedQommons;
         PlayerData.UpdatedClaimedLevelRewards += SaveClaimedRewards;
         PlayerData.UpdatedWeeklyMissionCount += SaveWeeklyCount;
+        PlayerData.UpdatedLastDayConnected += SaveLastDayConnected;
+        PlayerData.UpdatedDaysConnectedInRow += SaveDaysConnectedInARow;
+        PlayerData.UpdatedRankPoints += SaveRankPoints;
+        PlayerData.UpdatedAmountOfRankGamesPlayed += SaveAmountOfRankGamesPlayed;
     }
 
     private void Unsubscribe()
@@ -86,6 +120,10 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedOwnedQoomons -= SaveOwnedQommons;
         PlayerData.UpdatedClaimedLevelRewards -= SaveClaimedRewards;
         PlayerData.UpdatedWeeklyMissionCount -= SaveWeeklyCount;
+        PlayerData.UpdatedLastDayConnected -= SaveLastDayConnected;
+        PlayerData.UpdatedDaysConnectedInRow -= SaveDaysConnectedInARow;
+        PlayerData.UpdatedRankPoints -= SaveRankPoints;
+        PlayerData.UpdatedAmountOfRankGamesPlayed -= SaveAmountOfRankGamesPlayed;
     }
 
     private void SaveSelectedDeck()
@@ -141,5 +179,25 @@ public class DataManager : MonoBehaviour
     private void SaveWeeklyCount()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.WeeklyMissionCount),JsonConvert.SerializeObject(PlayerData.WeeklyMissionCount));
+    }
+    
+    private void SaveLastDayConnected()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.LastDayConnected),JsonConvert.SerializeObject(PlayerData.LastDayConnected));
+    }
+
+    private void SaveDaysConnectedInARow()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.DaysConnectedInRow),JsonConvert.SerializeObject(PlayerData.DaysConnectedInRow));
+    }
+
+    private void SaveRankPoints()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.RankPoints),JsonConvert.SerializeObject(PlayerData.RankPoints));
+    }
+    
+    private void SaveAmountOfRankGamesPlayed()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.AmountOfRankGamesPlayed),PlayerData.AmountOfRankGamesPlayed);
     }
 }

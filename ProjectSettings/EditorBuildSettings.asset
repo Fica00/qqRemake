@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_MyProject/Scenes/MainMenuScreens/MissionsPage.unity
     guid: 41116f8be0148264b9dc97e155ff331e
+  - enabled: 1
+    path: Assets/_MyProject/Scenes/MainMenuScreens/RankPage.unity
+    guid: b825ff3a5a1728543902d674ec40ba67
   m_configObjects: {}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89174024e475745419d0c6c169707eff, type: 3}
+  m_Name: 0_Initiate
+  m_EditorClassIdentifier: 
+  <Id>k__BackingField: 0
+  <Name>k__BackingField: Initiate
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 62726523988832b47b4a23716e421a54, type: 3}
+  <RequirementPerSubRank>k__BackingField: 7
+  <AmountOfSubRanks>k__BackingField: 1
