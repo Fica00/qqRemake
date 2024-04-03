@@ -98,6 +98,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedDaysConnectedInRow += SaveDaysConnectedInARow;
         PlayerData.UpdatedRankPoints += SaveRankPoints;
         PlayerData.UpdatedAmountOfRankGamesPlayed += SaveAmountOfRankGamesPlayed;
+        PlayerData.UpdatedClaimedRankRewards += SaveClaimedRankRewards;
     }
 
     private void Unsubscribe()
@@ -124,6 +125,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedDaysConnectedInRow -= SaveDaysConnectedInARow;
         PlayerData.UpdatedRankPoints -= SaveRankPoints;
         PlayerData.UpdatedAmountOfRankGamesPlayed -= SaveAmountOfRankGamesPlayed;
+        PlayerData.UpdatedClaimedRankRewards -= SaveClaimedRankRewards;
     }
 
     private void SaveSelectedDeck()
@@ -199,5 +201,10 @@ public class DataManager : MonoBehaviour
     private void SaveAmountOfRankGamesPlayed()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.AmountOfRankGamesPlayed),PlayerData.AmountOfRankGamesPlayed);
+    }
+    
+    private void SaveClaimedRankRewards()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.ClaimedRankRewards),JsonConvert.SerializeObject(PlayerData.ClaimedRankRewards));
     }
 }

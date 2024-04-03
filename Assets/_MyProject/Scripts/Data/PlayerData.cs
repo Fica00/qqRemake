@@ -498,4 +498,30 @@ public class PlayerData
         claimedRankRewards.Add(_rewardNumber);
         UpdatedClaimedRankRewards?.Invoke();
     }
+
+
+    public void ClaimReward(ItemType _type, int _value)
+    {
+        if (_type == ItemType.Qoomon)
+        {
+            if (ownedQoomons.Contains(_value))
+            {
+                return;
+            }
+            
+            AddQoomon(_value);
+            return;
+        }
+
+        switch (_type)
+        {
+            case ItemType.None:
+                break;
+            case ItemType.Exp:
+                Exp += _value;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(_type), _type, null);
+        }
+    }
 }

@@ -12,8 +12,8 @@ public class RankDisplay : MonoBehaviour
     private void OnEnable()
     {
         PlayerData.UpdatedExp += ShowCurrentRank;
+        
         ShowCurrentRank();
-        ShowRewards();
     }
 
     private void OnDisable()
@@ -28,10 +28,5 @@ public class RankDisplay : MonoBehaviour
         progress.fillAmount = _rank.Percentage;
         progressDisplay.text = $"{_rank.PointsOnRank}/{_rank.RankSo.RequirementPerSubRank}";
         rankName.text = $"{_rank.RankSo.Name} ({_rank.SubRank})";
-    }
-
-    private void ShowRewards()
-    {
-
     }
 }

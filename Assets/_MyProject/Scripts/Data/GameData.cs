@@ -9,6 +9,7 @@ public class GameData
     public Dictionary<string,GamePassOffer> Marketplace = new ();
     public List<LevelReward> LevelRewards = new ();
     public List<MissionRewards> MissionRewards = new ();
+    public List<RankReward> RankRewards = new ();
     
     public void RemoveOfferFromMarketplace(GamePassOffer _offer)
     {

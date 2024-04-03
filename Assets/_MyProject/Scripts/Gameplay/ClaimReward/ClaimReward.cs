@@ -105,6 +105,7 @@ public class ClaimReward : MonoBehaviour
             throw new ArgumentOutOfRangeException(nameof(_result), _result, null);
       }
 
+      DataManager.Instance.PlayerData.AmountOfRankGamesPlayed++;
       resultDisplay.sprite = _sprite;
       DataManager.Instance.PlayerData.Exp += expReward;
       ShowProgress();
