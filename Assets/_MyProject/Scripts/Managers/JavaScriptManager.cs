@@ -6,8 +6,9 @@ using UnityEngine.Events;
 public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
-    
-    public const string GAME_LINK = "https://qqweb-b75ae.web.app";
+
+    [field: SerializeField] public bool IsDemo { get; private set; }
+    public string GameLink => IsDemo? "https://qqweb-b75ae.web.app": "https://qqstaging.web.app/";
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();

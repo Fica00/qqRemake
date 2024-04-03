@@ -49,7 +49,7 @@ public class SettingsUI : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-       JavaScriptManager.Instance.LoadURL(JavaScriptManager.GAME_LINK);
+       JavaScriptManager.Instance.LoadURL(JavaScriptManager.Instance.GameLink);
 #endif
     }
 
