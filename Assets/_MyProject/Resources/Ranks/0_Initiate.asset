@@ -15,5 +15,5 @@ MonoBehaviour:
   <Id>k__BackingField: 0
   <Name>k__BackingField: Initiate
   <Sprite>k__BackingField: {fileID: 21300000, guid: 62726523988832b47b4a23716e421a54, type: 3}
-  <RequirementPerSubRank>k__BackingField: 7
-  <AmountOfSubRanks>k__BackingField: 1
+  <RequirementPerSubRank>k__BackingField: 2
+  <AmountOfSubRanks>k__BackingField: 2
