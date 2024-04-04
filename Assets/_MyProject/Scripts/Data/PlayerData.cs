@@ -90,40 +90,18 @@ public class PlayerData
             }
         };
         decks.Add(_starterDeck);
-
-        DeckData _discardAndDestroy = new DeckData() { Id = 1, Name="Discard & Destroy", CardsInDeck = new List<int>
-        {
-            7,1,11,4,14,16,30,17,31,27,18,19
-        } };
-        decks.Add(_discardAndDestroy);
-        
-        DeckData _summon = new DeckData() { Id = 2, Name="Summon", CardsInDeck = new List<int>
-        {
-            8,1,0,3,9,10,12,15,24,32,35,13
-        } };
-        decks.Add(_summon);    
-        
-        DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
-        {
-            28,10,20,46,46,42,33,25,36,2,45,7
-        } };
-        decks.Add(_summonSmall);   
-        
-        DeckData _ongoing = new DeckData() { Id = 4, Name="Ongoing", CardsInDeck = new List<int>
-        {
-            4,21,6,20,22,42,38,39,40,41,43,44
-        } };
-        decks.Add(_ongoing);
-
-        for (int _i = 0; _i < 47; _i++)
-        {
-            if (_i is 37 or 34 or 23)
-            {
-                continue;
-            }
-
-            ownedQoomons.Add(_i);
-        }
+        ownedQoomons.Add(28);
+        ownedQoomons.Add(8);
+        ownedQoomons.Add(7);
+        ownedQoomons.Add(29);
+        ownedQoomons.Add(1);
+        ownedQoomons.Add(0);
+        ownedQoomons.Add(11);
+        ownedQoomons.Add(3);
+        ownedQoomons.Add(4);
+        ownedQoomons.Add(21);
+        ownedQoomons.Add(9);
+        ownedQoomons.Add(5);
     }
 
     private void Setup()
