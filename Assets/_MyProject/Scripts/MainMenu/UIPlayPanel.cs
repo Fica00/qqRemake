@@ -43,8 +43,14 @@ public class UIPlayPanel : MonoBehaviour
     {
         if (!PhotonManager.Instance.CanStartMatch)
         {
+            UIManager.Instance.OkDialog.Setup("Cleaning up previous game, please try again in a minute");
+            if (PhotonManager.Instance.CurrentRoom != default)
+            {
+                PhotonManager.Instance.LeaveRoom();
+            }
             return;
         }
+        
         switch (ModeHandler.Instance.Mode)
         {
             case GameMode.VsAi:
