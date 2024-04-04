@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Unity WebGL Player | QommonQuest</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <link rel="stylesheet" href="TemplateData/style.css">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+  <link rel="stylesheet" href="TemplateData/style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
 </head>
-<style>
-
-</style>
 <body>
 <div id="unity-container">
-  <canvas id="unity-canvas" width=1179 height=2556></canvas>
+  <canvas id="unity-canvas" width="1179" height="2556"></canvas>
   <div id="unity-loading-bar">
     <div id="unity-logo"></div>
     <div id="unity-progress-bar-empty">
       <div id="unity-progress-bar-full"></div>
     </div>
   </div>
-  <div id="unity-warning"> </div>
+  <div id="unity-warning"></div>
 </div>
 <div id="form-container" style="position: fixed; width: 100%; height: 100vh; display: none; justify-content: center; align-items: center;">
   <div id="payment-form" style="width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; text-align: center; background-color: #f2f2f2;">
-    <div id="card-element">
-    </div>
+    <div id="card-element"></div>
     <div id="card-errors" role="alert"></div>
     <div id="card-cost"></div>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <p id="btn-cancelPayment" style="width: fit-content; margin-right: 10px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">Cancel</p>
-      <button id="btn-submit" style="border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">Submit</button>
+      <p
+              id="btn-cancelPayment"
+              style="width: fit-content; margin-right: 10px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;"
+      >
+        Cancel
+      </p>
+      <button id="btn-submit" style="border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">
+        Submit
+      </button>
     </div>
   </div>
 </div>
@@ -40,141 +43,518 @@
 <script src="https://js.stripe.com/v3/"></script>
 <script>
   const firebaseConfig = {
+
+
+
     apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
+
+
+
     authDomain: "qqweb-b75ae.firebaseapp.com",
+
+
+
     databaseURL: "https://qqweb-b75ae-default-rtdb.firebaseio.com",
+
+
+
     projectId: "qqweb-b75ae",
+
+
+
     storageBucket: "qqweb-b75ae.appspot.com",
+
+
+
     messagingSenderId: "964235423017",
+
+
+
     appId: "1:964235423017:web:d8c714d7e198e8e9261b38",
+
+
+
     measurementId: "G-FW64GXVQ28",
+
+
+
   }
+
+
+
   firebase.initializeApp(firebaseConfig);
+
+
+
   let userId = null
+
+
+
   let unity = null
+
+
+
   const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+
+
   const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
+
+
   const btnCancelPayment = document.querySelector('#btn-cancelPayment')
+
+
+
   const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
+
+
+
+
   function SetUserId(id){
+
+
+
     userId = id
 
+
+
+
+
     var ref = firebase.database().ref(`users/${userId}`);
+
+
+
     ref.on('value', function(snapshot) {
+
+
+
       if(snapshot.exists()){
+
+
+
         const user = snapshot.val()
+
+
+
         unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', user.Coins)
+
+
+
         unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', user.USDC)
+
+
+
       }
+
+
+
     });
+
+
+
   }
+
+
+
+
 
   const options = {
+
+
+
     layout: {
+
+
+
       type: 'tabs',
+
+
+
       defaultCollapsed: true,
+
+
+
     }
+
+
+
   };
+
+
+
   const appearance = {
+
+
+
     theme: 'flat',
+
+
+
     variables: { colorPrimaryText: '#262626' }
+
+
+
   };
+
+
+
+
 
   function cancelPayment(){//canceling payment
+
+
+
     var container = document.querySelector('#form-container')
+
+
+
     container.style.display = 'none'
+
+
+
     unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 0, message:
+
+
+
               'Payment canceled'}))
+
+
+
   }
+
+
+
   btnCancelPayment.addEventListener('click', cancelPayment)
 
+
+
+
+
   async function StripePurchase(cost){
+
+
+
     const costNote = document.querySelector('#card-cost')
+
+
+
     costNote.textContent = ''
+
+
+
     try {
+
+
+
       const res = await fetch('https://us-central1-qqweb-b75ae.cloudfunctions.net/createPaymentIntent', {
+
+
+
         method: 'POST',
+
+
+
         headers: {
+
+
+
           'Content-Type': 'application/json',
+
+
+
         },
+
+
+
         body: JSON.stringify({
+
+
+
           amount: cost * 100,
+
+
+
         }),
+
+
+
       })
+
+
+
       const response = await res.json()
+
+
+
       const clientSecret = response.clientSecret
 
+
+
+
+
       var container = document.querySelector('#form-container')
+
+
+
       container.style.display = 'flex'
+
+
+
       const elements = stripe.elements({ clientSecret, appearance });
+
+
+
       const card = elements.create('payment', options);
+
+
+
       costNote.textContent = `You will be charged ${cost}$`
+
+
+
       card.mount('#card-element');
 
+
+
+
+
       card.addEventListener('change', function (event) {
+
+
+
         var displayError = document.getElementById('card-errors');
+
+
+
         if (event.error) {
+
+
+
           displayError.textContent = event.error.message;
+
+
+
         } else {
+
+
+
           displayError.textContent = '';
+
+
+
         }
+
+
+
       });
+
+
+
       document.getElementById('btn-submit').addEventListener('click', async () => confirmPaymentWithStripe(stripe, elements));
+
+
+
     } catch (error) {
+
+
+
       console.log(error)
+
+
+
       unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message:
+
+
+
                 'Payment denied from server'}))
+
+
+
     }
+
+
+
   }
+
+
+
   async function confirmPaymentWithStripe(stripe, elements){
+
+
+
     if (!stripe || !elements) {
+
+
+
       return
+
+
+
     }
+
+
+
     try {
+
+
+
       const { error } = await stripe.confirmPayment({
+
+
+
         elements,
+
+
+
         redirect: "if_required"
+
+
+
       })
+
+
+
       if(!error){
+
+
+
         unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 2, message:
+
+
+
                   'Payment confirmed'}))
+
+
+
         var container = document.querySelector('#form-container')
+
+
+
         container.style.display = 'none'
+
+
+
       }
+
+
+
     } catch (error) {
+
+
+
       console.log(error)
+
+
+
       unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message:
+
+
+
                 'Payment is not confirmed'}))
+
+
+
     }
+
+
+
   }
+
+
+
   //-----------------------------------------------------------------------above is payment!!!!
+
+
+
   function GoogleAuth(){
+
+
+
     firebase.auth().signInWithPopup(googleProvider)
+
+
+
             .then(result => {
+
+
+
               unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
+
+
+
             })
+
+
+
             .catch(err => {
+
+
+
               unity.SendMessage('JavaScriptManager','FailedToAuth');
+
+
+
               console.log(err.code)
+
+
+
             })
+
+
+
   }
+
+
+
   function FacebookAuth(){
+
+
+
     firebase.auth().signInWithPopup(facebookProvider)
+
+
+
             .then(result => {
+
+
+
               unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
+
+
+
             })
+
+
+
             .catch(err => {
+
+
+
               unity.SendMessage('JavaScriptManager','FailedToAuth');
+
+
+
               console.log(err.code)
+
+
+
             })
+
+
+
   }
+
+
+
   // -----------------separate old code
   window.addEventListener("load", function () {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("ServiceWorker.js");
     }
   });
+
   var container = document.querySelector("#unity-container");
   var canvas = document.querySelector("#unity-canvas");
   var loadingBar = document.querySelector("#unity-loading-bar");
@@ -208,9 +588,9 @@
   var buildUrl = "Build";
   var loaderUrl = buildUrl + "/public.loader.js";
   var config = {
-    dataUrl: buildUrl + "/public.data",
-    frameworkUrl: buildUrl + "/public.framework.js",
-    codeUrl: buildUrl + "/public.wasm",
+    dataUrl: buildUrl + "/public.data.br",
+    frameworkUrl: buildUrl + "/public.framework.js.br",
+    codeUrl: buildUrl + "/public.wasm.br",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "MagmaDev",
     productName: "QommonQuest",
@@ -242,13 +622,11 @@
       progressBarFull.style.width = 100 * progress + "%";
     }).then((unityInstance) => {
       loadingBar.style.display = "none";
-      unity = unityInstance;
     }).catch((message) => {
       alert(message);
     });
   };
   document.body.appendChild(script);
-
 </script>
 </body>
 </html>
