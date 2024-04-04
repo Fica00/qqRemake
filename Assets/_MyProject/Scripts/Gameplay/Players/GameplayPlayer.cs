@@ -161,6 +161,10 @@ public class GameplayPlayer : MonoBehaviour
 
     public void AddCardToHand(CardObject _cardObject, bool _showAnimation=true)
     {
+        if (IsMy)
+        {
+            EventsManager.DrawCard?.Invoke();
+        }
         CardsInHand.Add(_cardObject);
         _cardObject.SetCardLocation(CardLocation.Hand);
         AddedCardToHand?.Invoke(_cardObject,_showAnimation);

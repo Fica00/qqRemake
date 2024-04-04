@@ -10,6 +10,7 @@ public class SceneManager : SceneLoader
     private const string SETTINGS_PAGE = "SettingsPage";
     private const string COLLECTION_PAGE = "CollectionPage";
     private const string RANK_REWARDS_PAGE = "RankPage";
+    private const string MISSIONS_PAGE = "MissionsPage";
     private const string GAMEPLAYPVP = "GameplayPVP";
     private const string GAMEPLAYAI = "GameplayAI";
     private const string DATA_COLLECTOR = "DataCollector";
@@ -38,6 +39,11 @@ public class SceneManager : SceneLoader
     public void LoadLevelPage(bool _useAsyncLoading=true)
     {
         DoLoadScene(LEVEL_PAGE,_useAsyncLoading);
+    }     
+    
+    public void LoadMissionsPage(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(MISSIONS_PAGE,_useAsyncLoading);
     }       
     
     public void LoadRankRewardsPage(bool _useAsyncLoading=true)

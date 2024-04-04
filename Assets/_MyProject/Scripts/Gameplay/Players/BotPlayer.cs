@@ -10,7 +10,22 @@ public class BotPlayer : GameplayPlayer
     
     private Coroutine playCoroutine;
     private bool hasPlayedThisRound;
-    public static List<int> CardsInDeck = new () { 28,8,7,29,5,1,0,11,3,4,21,9};
+
+    public static List<int> CardsInDeck = new()
+    {
+        28,
+        8,
+        7,
+        29,
+        1,
+        0,
+        11,
+        3,
+        4,
+        21,
+        9,
+        5
+    };
     
     public override void Setup()
     {

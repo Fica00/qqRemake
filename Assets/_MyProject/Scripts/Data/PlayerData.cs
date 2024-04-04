@@ -16,12 +16,15 @@ public class PlayerData
     private double coins;
     private double usdc;
     private List<int> claimedLevelRewards = new ();
-    private int weeklyMissionCount;
+    private int weeklyLoginAmount;
     private DateTime lastDayConnected;
     private int daysConnectedInRow;
     private int rankPoints;
     private int amountOfRankGamesPlayed;
     private List<int> claimedRankRewards = new ();
+    private List<int> claimedLoginRewards = new ();
+    private List<MissionProgress> missionProgresses = new();
+    private DateTime nextDailyChallenges;
 
     public DateTime DateCreatedAccount;
 
@@ -36,12 +39,14 @@ public class PlayerData
     public static Action UpdatedExp;
     public static Action UpdatedOwnedQoomons;
     public static Action UpdatedClaimedLevelRewards;
-    public static Action UpdatedWeeklyMissionCount;
+    public static Action UpdatedWeeklyLoginAmount;
     public static Action UpdatedLastDayConnected;
     public static Action UpdatedDaysConnectedInRow;
     public static Action UpdatedRankPoints;
     public static Action UpdatedAmountOfRankGamesPlayed;
     public static Action UpdatedClaimedRankRewards;
+    public static Action UpdatedNextDailyChallenges;
+    public static Action UpdatedLoginRewards;
     
 
     public void CreateNewPlayer()
@@ -423,6 +428,10 @@ public class PlayerData
 
     public void AddQoomon(int _qoomonId)
     {
+        if (DataManager.Instance.PlayerData.OwnedQoomons.Contains(_qoomonId))
+        {
+            return;
+        }
         ownedQoomons.Add(_qoomonId);
         UpdatedOwnedQoomons?.Invoke();
     }
@@ -433,13 +442,13 @@ public class PlayerData
         UpdatedClaimedLevelRewards?.Invoke();
     }
     
-    public int WeeklyMissionCount
+    public int WeeklyLoginAmount
     {
-        get => weeklyMissionCount;
+        get => weeklyLoginAmount;
         set
         {
-            weeklyMissionCount = value;
-            UpdatedWeeklyMissionCount?.Invoke();
+            weeklyLoginAmount = value;
+            UpdatedWeeklyLoginAmount?.Invoke();
         }
     }
 
@@ -504,11 +513,6 @@ public class PlayerData
     {
         if (_type == ItemType.Qoomon)
         {
-            if (ownedQoomons.Contains(_value))
-            {
-                return;
-            }
-            
             AddQoomon(_value);
             return;
         }
@@ -524,4 +528,33 @@ public class PlayerData
                 throw new ArgumentOutOfRangeException(nameof(_type), _type, null);
         }
     }
+
+    public List<MissionProgress> MissionsProgress
+    {
+        get => missionProgresses;
+        set => missionProgresses = value;
+    }
+
+    public DateTime NextDailyChallenges
+    {
+        get => nextDailyChallenges;
+        set
+        {
+            nextDailyChallenges = value;
+            UpdatedNextDailyChallenges?.Invoke();
+        }
+    }
+
+    public List<int> ClaimedLoginRewards
+    {
+        get => claimedLoginRewards;
+        set => claimedLoginRewards = value;
+    }
+
+    public void AddClaimedLoginReward(int _number)
+    {
+        claimedLoginRewards.Add(_number);
+        UpdatedLoginRewards?.Invoke();
+    }
+
 }

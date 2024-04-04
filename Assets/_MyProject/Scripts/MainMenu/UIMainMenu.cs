@@ -14,6 +14,7 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button showLevelRewards;
     [SerializeField] private Button showSettings;
     [SerializeField] private Button showRank;
+    [SerializeField] private Button showMissions;
     public static bool ShowStartingAnimation;
 
     private void Awake()
@@ -40,6 +41,7 @@ public class UIMainMenu : MonoBehaviour
         showLevelRewards.onClick.AddListener(ShowLevelRewards);
         showSettings.onClick.AddListener(ShowSettings);
         showRank.onClick.AddListener(ShowRankRewards);
+        showMissions.onClick.AddListener(ShowMissions);
 
         ShowDeckName();
     }
@@ -52,6 +54,7 @@ public class UIMainMenu : MonoBehaviour
         showLevelRewards.onClick.RemoveListener(ShowLevelRewards);
         showSettings.onClick.RemoveListener(ShowSettings);
         showRank.onClick.RemoveListener(ShowRankRewards);
+        showMissions.onClick.RemoveListener(ShowMissions);
     }
 
     public void ShowSceneTransition(Action _callBack)
@@ -82,5 +85,10 @@ public class UIMainMenu : MonoBehaviour
     private void ShowRankRewards()
     {
         SceneManager.Instance.LoadRankRewardsPage();
+    }
+
+    private void ShowMissions()
+    {
+        SceneManager.Instance.LoadMissionsPage();
     }
 }

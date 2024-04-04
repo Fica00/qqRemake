@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class LevelRewardsPanel : MonoBehaviour
 {
-   public static Action<int> OnUnlockedNewQoomon;
    [SerializeField] private Transform holder;
    [SerializeField] private LevelRewardDisplay rewardPrefab;
    [SerializeField] private Button close;
    [SerializeField] private TextMeshProUGUI currentLevelDisplay;
+   [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
    private List<GameObject> shownRewards = new();
 
    private void Start()
@@ -60,13 +60,10 @@ public class LevelRewardsPanel : MonoBehaviour
       }
       
       DataManager.Instance.PlayerData.ClaimedLevelReward(_reward.Level);
+      DataManager.Instance.PlayerData.AddQoomon(_reward.QoomonId);
 
-      if (!DataManager.Instance.PlayerData.OwnedQoomons.Contains(_reward.QoomonId))
-      {
-         DataManager.Instance.PlayerData.AddQoomon(_reward.QoomonId);
-      }
       
-      OnUnlockedNewQoomon?.Invoke(_reward.QoomonId);
+      qoomonUnlockingPanel.Setup(_reward.QoomonId,null);
       Start();
    }
 

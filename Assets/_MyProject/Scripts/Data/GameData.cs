@@ -8,9 +8,10 @@ public class GameData
     public List<GamePassOffer> GamePassOffers = new ();
     public Dictionary<string,GamePassOffer> Marketplace = new ();
     public List<LevelReward> LevelRewards = new ();
-    public List<MissionRewards> MissionRewards = new ();
+    public List<LoginReward> LoginRewards = new ();
     public List<RankReward> RankRewards = new ();
-    
+    public List<MissionData> Missions = new ();
+
     public void RemoveOfferFromMarketplace(GamePassOffer _offer)
     {
         var _offerInMarketplace = GetMarketplaceOffer(_offer,Marketplace);
@@ -34,5 +35,10 @@ public class GameData
         }
 
         return new KeyValuePair<string, GamePassOffer>();
+    }
+
+    public MissionData GetMission(int _id)
+    {
+        return Missions.Find(_mission => _mission.Id == _id);
     }
 }

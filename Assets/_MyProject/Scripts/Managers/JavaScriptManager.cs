@@ -9,7 +9,7 @@ public class JavaScriptManager : MonoBehaviour
     public static JavaScriptManager Instance;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
-    public string GameLink => IsDemo? "https://qqweb-b75ae.web.app": "https://qqstaging.web.app/";
+    public string GameLink => IsDemo? "https://qq-remake-mauve.vercel.app/": "https://qq-remake-development.vercel.app/";
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();
