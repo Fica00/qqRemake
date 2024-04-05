@@ -107,7 +107,7 @@ public class DataManager : MonoBehaviour
             PlayerData.LastDayConnected = DateTime.UtcNow.Date;
             if (PlayerData.LastDayConnected.DayOfWeek == DayOfWeek.Monday)
             {
-                PlayerData.WeeklyLoginAmount = 0;
+                PlayerData.WeeklyLoginAmount = 1;
                 PlayerData.ClaimedLoginRewards.Clear();
                 PlayerData.UpdatedLoginRewards?.Invoke();
             }

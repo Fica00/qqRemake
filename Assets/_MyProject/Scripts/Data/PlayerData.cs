@@ -16,7 +16,7 @@ public class PlayerData
     private double coins;
     private double usdc;
     private List<int> claimedLevelRewards = new ();
-    private int weeklyLoginAmount;
+    private int weeklyLoginAmount = 1;
     private DateTime lastDayConnected;
     private int daysConnectedInRow;
     private int rankPoints;
@@ -426,6 +426,10 @@ public class PlayerData
         set
         {
             weeklyLoginAmount = value;
+            if (weeklyLoginAmount>7)
+            {
+                weeklyLoginAmount = 7;
+            }
             UpdatedWeeklyLoginAmount?.Invoke();
         }
     }
