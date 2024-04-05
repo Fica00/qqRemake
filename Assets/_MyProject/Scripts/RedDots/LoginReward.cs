@@ -14,7 +14,13 @@ namespace RedDot
 
         private void OnEnable()
         {
+            PlayerData.UpdatedWeeklyLoginAmount += Check;
             Check();
+        }
+        
+        private void OnDisable()
+        {
+            PlayerData.UpdatedWeeklyLoginAmount -= Check;
         }
 
         private void Check()
