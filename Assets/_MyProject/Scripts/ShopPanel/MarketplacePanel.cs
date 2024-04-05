@@ -28,7 +28,7 @@ public class MarketplacePanel : BasePanel
     {
         if (reloadCooldown>0)
         {
-            UIManager.Instance.OkDialog.Setup($"Refresh will be available in {(int)reloadCooldown}s");
+            DialogsManager.Instance.OkDialog.Setup($"Refresh will be available in {(int)reloadCooldown}s");
             return;
         }
 
@@ -76,13 +76,13 @@ public class MarketplacePanel : BasePanel
     {
         if (_offer.Owner == FirebaseManager.Instance.PlayerId)
         {
-            UIManager.Instance.OkDialog.Setup("You can't buy your own game pass!");
+            DialogsManager.Instance.OkDialog.Setup("You can't buy your own game pass!");
             return;
         }
 
         if (DataManager.Instance.PlayerData.USDC<_offer.Cost)
         {
-            UIManager.Instance.OkDialog.Setup("You don't have enough USDC");
+            DialogsManager.Instance.OkDialog.Setup("You don't have enough USDC");
             return;
         }
         
@@ -98,7 +98,7 @@ public class MarketplacePanel : BasePanel
         }
         else
         {
-            UIManager.Instance.OkDialog.Setup("Something went wrong, please try again later");
+            DialogsManager.Instance.OkDialog.Setup("Something went wrong, please try again later");
         }
     }
 

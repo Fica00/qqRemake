@@ -211,7 +211,7 @@ public class PlayerData
     {
         if (decks.Count==1)
         {
-            UIManager.Instance.OkDialog.Setup("You need to have latest 1 deck");
+            DialogsManager.Instance.OkDialog.Setup("You need to have latest 1 deck");
             return;
         }
 

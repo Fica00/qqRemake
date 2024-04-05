@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -12,6 +11,7 @@ public class LevelRewardsPanel : MonoBehaviour
    [SerializeField] private Button close;
    [SerializeField] private TextMeshProUGUI currentLevelDisplay;
    [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
+   [SerializeField] ScrollRect scrollRect;
    private List<GameObject> shownRewards = new();
 
    private void Start()
@@ -30,7 +30,7 @@ public class LevelRewardsPanel : MonoBehaviour
          shownRewards.Add(_display.gameObject);
          _counter++;
       }
-
+      scrollRect.verticalNormalizedPosition = 0f;
       currentLevelDisplay.text = "Current level: " + DataManager.Instance.PlayerData.Level;
       gameObject.SetActive(true);
    }

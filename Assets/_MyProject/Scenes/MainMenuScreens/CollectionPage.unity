@@ -5265,6 +5265,10 @@ PrefabInstance:
       propertyPath: m_ConstraintCount
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1865399706413551528, guid: 00a59268ac498e642b376eab4426a45b, type: 3}
+      propertyPath: m_Padding.m_Bottom
+      value: 222
+      objectReference: {fileID: 0}
     - target: {fileID: 1865399706413551535, guid: 00a59268ac498e642b376eab4426a45b, type: 3}
       propertyPath: m_SizeDelta.x
       value: -200

@@ -111,7 +111,7 @@ public class BuyPassPanel : BasePanel
     {
         if (selectedOffer==default)
         {
-            UIManager.Instance.OkDialog.Setup("Please select the game pass");
+            DialogsManager.Instance.OkDialog.Setup("Please select the game pass");
             return;
         }
 

@@ -15718,7 +15718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54774458198da7b4e8576038dbc2a471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalLayoutGroup: {fileID: 0}
+  horizontalLayoutGroup: {fileID: 5686523580436398524}
   energyDisplays:
   - {fileID: 5686523580414998548}
   - {fileID: 153273694551857156}

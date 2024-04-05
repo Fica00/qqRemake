@@ -7,19 +7,19 @@ public static class CredentialsValidator
     {
         if (string.IsNullOrEmpty(_email))
         {
-            UIManager.Instance.OkDialog.Setup("Please enter email");
+            DialogsManager.Instance.OkDialog.Setup("Please enter email");
             return false;
         }
 
         if (_email.Length < minimumEmailLength)
         {
-            UIManager.Instance.OkDialog.Setup($"Email must contain at least {minimumEmailLength} characters");
+            DialogsManager.Instance.OkDialog.Setup($"Email must contain at least {minimumEmailLength} characters");
             return false;
         }
 
         if (!_email.Contains("@"))
         {
-            UIManager.Instance.OkDialog.Setup("Please enter valid email");
+            DialogsManager.Instance.OkDialog.Setup("Please enter valid email");
             return false;
         }
 
@@ -30,12 +30,12 @@ public static class CredentialsValidator
     {
         if (string.IsNullOrEmpty(_password))
         {
-            UIManager.Instance.OkDialog.Setup("Please enter password");
+            DialogsManager.Instance.OkDialog.Setup("Please enter password");
             return false;
         }
         if (_password.Length < minimumPasswordLength)
         {
-            UIManager.Instance.OkDialog.Setup($"Password must contain atleast {minimumPasswordLength} characters");
+            DialogsManager.Instance.OkDialog.Setup($"Password must contain atleast {minimumPasswordLength} characters");
             return false;
         }
 

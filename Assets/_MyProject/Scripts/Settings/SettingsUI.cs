@@ -55,42 +55,42 @@ public class SettingsUI : MonoBehaviour
 
     private void LinkWithFacebook()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void LinkWithGoogle()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
     
     private void RedeemCode()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void ReportABug()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void PlayerSupport()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void Privacy()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void TermsOfService()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void DeleteAccount()
     {
-        UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void Start()
@@ -113,13 +113,13 @@ public class SettingsUI : MonoBehaviour
         string _name = nameInput.text;
         if (string.IsNullOrEmpty(_name))
         {
-            UIManager.Instance.OkDialog.Setup("Please enter name");
+            DialogsManager.Instance.OkDialog.Setup("Please enter name");
             return false;
         }
 
         if (_name.Length<3 || _name.Length>10)
         {
-            UIManager.Instance.OkDialog.Setup("Name must contain more than 3 characters and less than 10");
+            DialogsManager.Instance.OkDialog.Setup("Name must contain more than 3 characters and less than 10");
             return false;
         }
         

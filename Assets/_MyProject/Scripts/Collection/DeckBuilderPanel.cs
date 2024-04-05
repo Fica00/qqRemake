@@ -62,7 +62,7 @@ public class DeckBuilderPanel : BasePanel
     {
         if (DataManager.Instance.PlayerData.CardIdsInDeck.Count>=12)
         {
-            UIManager.Instance.OkDialog.Setup("Your lineup is full!");
+            DialogsManager.Instance.OkDialog.Setup("Your lineup is full!");
             return;
         }
 

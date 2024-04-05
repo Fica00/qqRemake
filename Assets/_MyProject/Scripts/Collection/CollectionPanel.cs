@@ -50,7 +50,7 @@ public class CollectionPanel : BasePanel
     {
         if (DataManager.Instance.PlayerData.Decks.Count>= DataManager.Instance.GameData.AmountOfDecksPerPlayer)
         {
-            UIManager.Instance.OkDialog.Setup("You already own max amount of lineups");
+            DialogsManager.Instance.OkDialog.Setup("You already own max amount of lineups");
             return;
         }
 

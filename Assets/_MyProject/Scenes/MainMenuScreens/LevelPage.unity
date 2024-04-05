@@ -735,8 +735,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 60
-    m_Bottom: 100
+    m_Top: 200
+    m_Bottom: 200
   m_ChildAlignment: 4
   m_Spacing: 260
   m_ChildForceExpandWidth: 0
@@ -942,6 +942,7 @@ MonoBehaviour:
   close: {fileID: 1590163344}
   currentLevelDisplay: {fileID: 1879741234}
   qoomonUnlockingPanel: {fileID: 509340350}
+  scrollRect: {fileID: 20416344}
 --- !u!4 &1632711325
 Transform:
   m_ObjectHideFlags: 0

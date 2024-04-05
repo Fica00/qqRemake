@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class CollectionQommonDisplay : MonoBehaviour, IPointerClickHandler
 {
     public static Action<int> OnClicked;
     public static Action<int> OnHold;
@@ -46,21 +46,6 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
         powerHolder.SetActive(false);
         alreadyInDeck.SetActive(false);
     }
-    
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        isButtonHeld = true;
-        holdStartTime = Time.time;
-    }
-
-    public void OnPointerUp(PointerEventData _eventData)
-    {
-        isButtonHeld = false;
-        if (Time.time - holdStartTime < holdDuration)
-        {
-            CardClicked();
-        }
-    }
 
     private void Update()
     {
@@ -74,12 +59,8 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerDownHandler, IPoin
         }
     }
 
-    private void CardClicked()
+    public void OnPointerClick(PointerEventData _eventData)
     {
-        if (cardId == -1)
-        {
-            return;
-        }
         OnClicked?.Invoke(cardId);
     }
 }

@@ -54,6 +54,60 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    public void FixSelf()
+    {
+        Reconnect();
+        
+        void Reconnect()
+        {
+            if (PhotonNetwork.IsConnected)
+            {
+                DoLeaveRoom();
+            }
+            else
+            {
+                OnFinishedInit += FinishedConnecting;
+                PhotonNetwork.ConnectUsingSettings();
+            }
+        }
+        
+        void FinishedConnecting()
+        {
+            OnFinishedInit -= FinishedConnecting;
+            DoLeaveRoom();
+        }
+
+        void  DoLeaveRoom()
+        {
+            if (PhotonNetwork.InRoom && PhotonNetwork.NetworkClientState != ClientState.Leaving)
+            {
+                OnILeftRoom += FinishDoSomething;
+                DoLeaveRoom();
+            }
+            else
+            {
+                FinishFixSelf();
+            }
+        }
+
+        void FinishDoSomething()
+        {
+            OnILeftRoom -= FinishDoSomething;
+            FinishFixSelf();
+        }
+
+        void FinishFixSelf()
+        {
+            StartCoroutine(DelayCall());
+            IEnumerator DelayCall()
+            {
+                yield return new WaitForSeconds(1);
+            }
+        }
+        
+    }
+
+
     public override void OnConnectedToMaster()
     {
         isInit = true;

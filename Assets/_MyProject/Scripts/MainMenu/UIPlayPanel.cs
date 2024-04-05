@@ -43,11 +43,8 @@ public class UIPlayPanel : MonoBehaviour
     {
         if (!PhotonManager.Instance.CanStartMatch)
         {
-            UIManager.Instance.OkDialog.Setup("Cleaning up previous game, please try again in a minute");
-            if (PhotonManager.Instance.CurrentRoom != default)
-            {
-                PhotonManager.Instance.LeaveRoom();
-            }
+            PhotonManager.Instance.FixSelf();
+            DialogsManager.Instance.OkDialog.Setup("Cleaning up the data, please try again in few moments");
             return;
         }
         
@@ -60,7 +57,7 @@ public class UIPlayPanel : MonoBehaviour
                 ShowPVPPanel();
                 break;
             case GameMode.Friendly:
-                UIManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+                DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -123,7 +120,7 @@ public class UIPlayPanel : MonoBehaviour
         {
             if (DataManager.Instance.PlayerData.CardIdsInDeck.Count!=12)
             {
-                UIManager.Instance.OkDialog.Setup("You need to have 12 qommons in deck");
+                DialogsManager.Instance.OkDialog.Setup("You need to have 12 qommons in deck");
                 return false;
             }
 

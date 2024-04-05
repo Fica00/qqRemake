@@ -75,8 +75,8 @@ public class ListPassPanel : BasePanel
             return;
         }
 
-        UIManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesList);
-        UIManager.Instance.YesNoDialog.Setup("Proceed with listing this game pass?");
+        DialogsManager.Instance.YesNoDialog.OnYesPressed.AddListener(YesList);
+        DialogsManager.Instance.YesNoDialog.Setup("Proceed with listing this game pass?");
     }
     
     private void YesList()

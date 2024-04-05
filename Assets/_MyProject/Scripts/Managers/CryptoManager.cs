@@ -33,7 +33,7 @@ public class CryptoManager : MonoBehaviour
             }
             else
             {
-               UIManager.Instance.OkDialog.Setup("Something went wrong while sending founds to owner, please contract our support");
+               DialogsManager.Instance.OkDialog.Setup("Something went wrong while sending founds to owner, please contract our support");
                _callBack?.Invoke(new PurchaseResponse { Message = string.Empty, Result = PurchaseResult.Failed });
             }
          });

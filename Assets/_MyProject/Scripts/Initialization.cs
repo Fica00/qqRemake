@@ -40,7 +40,7 @@ public class Initialization : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.Instance.OkDialog.Setup("Something went wrong while setting starting data");
+                    DialogsManager.Instance.OkDialog.Setup("Something went wrong while setting starting data");
                 }
             });
             return;
