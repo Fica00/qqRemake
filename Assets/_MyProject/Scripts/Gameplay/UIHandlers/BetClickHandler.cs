@@ -22,7 +22,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public bool DidIBetThisRound { get; private set; }
 
-    public bool IsMaxBet => GameplayManager.Instance.CurrentBet == maxBet;
 
     private void Awake()
     {
@@ -102,6 +101,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void ShowOpponentWantsToIncreaseBet()
     {
         didOpponentInitBetIncrease = true;
+        OnPointerDown(null);
         GameplayManager.UpdatedGameState += ManageRoundEnded;
         ShowNextRoundBet();
         GameplayUI.Instance.ShakeScreen(1);
@@ -140,5 +140,16 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerUp(PointerEventData _eventData)
     {
         IncreaseBet();
+    }
+
+    public void OfferBet()
+    {
+        didOpponentInitBetIncrease = true;
+        OnPointerDown(null);
+        ShowNextRoundBet();
+        GameplayManager.Instance.Bet();
+        GameplayManager.UpdatedRound += TurnOffDidIBetThisRound;
+        GameplayUI.Instance.ShakeScreen(1);
+        pulsingLight.gameObject.SetActive(true);
     }
 }

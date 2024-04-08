@@ -35,7 +35,7 @@ public class RankSo : ScriptableObject
                     return _rankData;
                 }
 
-                _rankData.SubRank = _index + 1;
+                _rankData.SubRank += 1;
                 _points -= _rank.RequirementPerSubRank;
             }
         }

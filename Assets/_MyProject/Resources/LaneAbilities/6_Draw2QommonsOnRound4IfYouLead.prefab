@@ -17,6 +17,10 @@ PrefabInstance:
       value: Asgard
       objectReference: {fileID: 0}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <FontSize>k__BackingField
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Description>k__BackingField
       value: At the end of turn 4, whoever is winning here draws 2 Qoomons.
       objectReference: {fileID: 0}
@@ -96,5 +100,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d2b32edec45734d9dcb3a4ab3c5a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  round: 5
+  round: 4
   amountOfCards: 2

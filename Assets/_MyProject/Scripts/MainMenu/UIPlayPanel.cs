@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIPlayPanel : MonoBehaviour
 {
     [SerializeField] private Button playButton;
-
+    [SerializeField] private GameObject inputBlocker;
     [Space()]
     [SerializeField]
     private UIPVPPanel pvpPanel;
@@ -47,6 +47,8 @@ public class UIPlayPanel : MonoBehaviour
             DialogsManager.Instance.OkDialog.Setup("Cleaning up the data, please try again in few moments");
             return;
         }
+        
+        inputBlocker.SetActive(true);
         
         switch (ModeHandler.Instance.Mode)
         {
@@ -100,6 +102,7 @@ public class UIPlayPanel : MonoBehaviour
 
     private void JoinedRoom()
     {
+        inputBlocker.SetActive(false);
         ManageInteractables(false);
         pvpPanel.Setup();
     }

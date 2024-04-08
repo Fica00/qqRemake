@@ -25,6 +25,7 @@ public class PlayerData
     private List<int> claimedLoginRewards = new ();
     private List<MissionProgress> missionProgresses = new();
     private DateTime nextDailyChallenges;
+    private int isDemoPlayer;
 
     public DateTime DateCreatedAccount;
 
@@ -47,6 +48,7 @@ public class PlayerData
     public static Action UpdatedClaimedRankRewards;
     public static Action UpdatedNextDailyChallenges;
     public static Action UpdatedLoginRewards;
+    public static Action UpdatedIsDemoPlayer;
     
 
     public void CreateNewPlayer()
@@ -537,6 +539,16 @@ public class PlayerData
     {
         claimedLoginRewards.Add(_number);
         UpdatedLoginRewards?.Invoke();
+    }
+
+    public int IsDemoPlayer
+    {
+        get => isDemoPlayer;
+        set
+        {
+            isDemoPlayer = value;
+            UpdatedIsDemoPlayer?.Invoke();
+        }
     }
 
 }

@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BotPlayer : GameplayPlayer
 {
-    [SerializeField] private float waitTimeBeforeMove = 0;
-    
     private Coroutine playCoroutine;
     private bool hasPlayedThisRound;
+    private BotType botType;
 
     public static List<int> CardsInDeck = new()
     {
@@ -29,6 +29,7 @@ public class BotPlayer : GameplayPlayer
     
     public override void Setup()
     {
+        botType = BotTypeSelection.BotType;
         List<int> _cardsInDeck = CardsInDeck;
         base.CardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
@@ -75,11 +76,26 @@ public class BotPlayer : GameplayPlayer
 
     private IEnumerator PlayCards()
     {
-        //todo uncomment me
-        //int _waitRandomTime = UnityEngine.Random.Range(0, GameplayManager.Instance.DurationOfRound - 2);
-       // int _waitRandomTime = UnityEngine.Random.Range(10, 20);
-
-        yield return new WaitForSeconds(waitTimeBeforeMove);
+        if (botType is BotType.Version2 or BotType.Version3)
+        {
+            yield return new WaitUntil(() => GameplayManager.Instance.IFinished);
+            int _randomNumber = Random.Range(0, 10);
+            if (_randomNumber > 5)
+            {
+                if (_randomNumber < 7)
+                {
+                    yield return new WaitForSeconds(2);
+                }
+                else if (_randomNumber < 9)
+                {
+                    yield return new WaitForSeconds(4);
+                }
+                else
+                {
+                    yield return new WaitForSeconds(6);
+                }
+            }
+        }
 
         int[] _playerPower = GameplayManager.Instance.TableHandler.GetAllPower(true).ToArray();
         int[] _botPower = GameplayManager.Instance.TableHandler.GetAllPower(false).ToArray();
@@ -91,6 +107,13 @@ public class BotPlayer : GameplayPlayer
             //i==0 first time when going through try to place card that would change power scale in bots favor
             //i==1 try to equalise somewhere
             //i==2 just place card anywhere
+            if (botType == BotType.Version3)
+            {
+                if (GameplayManager.Instance.CurrentRound is 4 or 6)
+                {
+                    _i = 2;
+                }
+            }
             _canPlaceCard[0] = GameplayManager.Instance.Lanes[0].GetPlaceLocation(false);
             _canPlaceCard[1] = GameplayManager.Instance.Lanes[1].GetPlaceLocation(false);
             _canPlaceCard[2] = GameplayManager.Instance.Lanes[2].GetPlaceLocation(false);

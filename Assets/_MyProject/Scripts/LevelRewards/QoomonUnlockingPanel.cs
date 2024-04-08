@@ -14,20 +14,32 @@ public class QoomonUnlockingPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI qommonName;
     [SerializeField] private TextMeshProUGUI qommonDesc;
     [SerializeField] private Button claim;
+    [SerializeField] private GameObject backHolder;
+    [SerializeField] private Button backButton;
     private Action callBack;
     
     private void OnEnable()
     {
-        claim.onClick.AddListener(Close);
+        claim.onClick.AddListener(ShowBack);
+        backButton.onClick.AddListener(Close);
     }
 
     private void OnDisable()
     {
-        claim.onClick.RemoveListener(Close);
+        claim.onClick.RemoveListener(ShowBack);
+        backButton.onClick.RemoveListener(Close);
+    }
+
+    private void ShowBack()
+    {
+        claim.gameObject.SetActive(false);
+        backHolder.SetActive(true);
     }
 
     private void Close()
     {
+        claim.gameObject.SetActive(true);
+        backHolder.SetActive(false);
         holder.SetActive(false);
         callBack?.Invoke();
     }

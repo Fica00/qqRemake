@@ -17,4 +17,17 @@ public class DialogsManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void UpdateCanvasOrder()
+    {
+        Canvas _canvas = GetComponent<Canvas>();
+        if (_canvas.sortingOrder == 100)
+        {
+            _canvas.sortingOrder--;
+        }
+        else
+        {
+            _canvas.sortingOrder++;
+        }
+    }
 }

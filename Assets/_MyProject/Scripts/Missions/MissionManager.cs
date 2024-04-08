@@ -188,6 +188,9 @@ public class MissionManager : MonoBehaviour
                     break;
                 case MissionType.PlayCardsOfPowerWorth:
                     EventsManager.PlayCardsOfPowerWorth += _missionProgress.IncreaseAmount;
+                    break;         
+                case MissionType.WinMatchWithADouble:
+                    EventsManager.WinMatchWithADouble += _missionProgress.IncreaseAmount;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -254,6 +257,9 @@ public class MissionManager : MonoBehaviour
                     break;
                 case MissionType.PlayCardsOfPowerWorth:
                     EventsManager.PlayCardsOfPowerWorth -= _missionProgress.IncreaseAmount;
+                    break;
+                case MissionType.WinMatchWithADouble:
+                    EventsManager.WinMatchWithADouble -= _missionProgress.IncreaseAmount;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

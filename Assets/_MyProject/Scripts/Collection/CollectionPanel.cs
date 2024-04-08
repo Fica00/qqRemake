@@ -56,8 +56,9 @@ public class CollectionPanel : BasePanel
 
         DataManager.Instance.PlayerData.AddNewDeck();
         Show();
+        Start();
     }
-
+    
     private void MoveLayout()
     {
         var _deckHolderTransform = deckHolder.transform;
@@ -75,7 +76,7 @@ public class CollectionPanel : BasePanel
         gameObject.SetActive(true);
         if (DeckQuickPanel.ShortcutToDeck!=-1)
         {
-            EditDeckShortcut(DeckQuickPanel.ShortcutToDeck);
+            ShowDeck(DeckQuickPanel.ShortcutToDeck);
             DeckQuickPanel.ShortcutToDeck = -1;
         }
     }
@@ -119,11 +120,6 @@ public class CollectionPanel : BasePanel
             _qommonDisplay.name = _qommon.name;
             shownQommons.Add(_qommonDisplay.gameObject);
         }   
-    }
-
-    private void EditDeckShortcut(int _deckId)
-    {
-        ShowDeck(_deckId);
     }
 
     private void ShowDeck(int _deckId)

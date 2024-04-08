@@ -26,13 +26,15 @@ public class LocationAbilityDisplay : MonoBehaviour
         abilityColor = abilityDesc.color;
     }
 
-    public void Reveal(string _desc, Action _callback)
+    public void Reveal(string _desc,int _fontSize, Action _callback)
     {
         abilityDesc.color = abilityColor;
         background.color = Color.black;
         callback = _callback;
         abilityDesc.text = _desc;
-        shiningDesc.text = _desc;
+        shiningDesc.text = _desc;        
+        abilityDesc.fontSize = _fontSize;
+        shiningDesc.fontSize = _fontSize;
         StartCoroutine(ShowAnimation());
     }
     

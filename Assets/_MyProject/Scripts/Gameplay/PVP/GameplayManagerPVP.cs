@@ -115,7 +115,7 @@ public class GameplayManagerPVP : GameplayManager
     {
         if (PhotonManager.Instance.IsMasterClient)
         {
-            OpponentAcceptedBet();
+            BetClickHandler.Instance.OfferBet();
         }
     }
 

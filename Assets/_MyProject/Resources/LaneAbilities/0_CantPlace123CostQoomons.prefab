@@ -21,6 +21,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6120998827806423395}
     - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
+      propertyPath: <FontSize>k__BackingField
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 3937750735446277213, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: <Description>k__BackingField
       value: "1,2, and 3-Cost Qoomon can\u2019t be played here"
       objectReference: {fileID: 0}

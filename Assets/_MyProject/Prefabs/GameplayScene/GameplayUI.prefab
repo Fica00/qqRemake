@@ -15268,7 +15268,7 @@ RectTransform:
   - {fileID: 4587314179903032388}
   - {fileID: 7017736789966197149}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15319,7 +15319,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &5686523579697816808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17676,8 +17676,8 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: 8b7c8b2bd87958541a5829e8ddf5326f, type: 3}
     Treasure: {fileID: 21300000, guid: a3b3134e7405bb24a866b820bd41f4a4, type: 3}
   - Result: 4
-    Sprite: {fileID: 21300000, guid: 8b7c8b2bd87958541a5829e8ddf5326f, type: 3}
-    Treasure: {fileID: 21300000, guid: a3b3134e7405bb24a866b820bd41f4a4, type: 3}
+    Sprite: {fileID: 21300000, guid: a9c3837c6ae8d5141a486a9c46789831, type: 3}
+    Treasure: {fileID: 21300000, guid: ded081115cfb656418fc18326a4f626f, type: 3}
   claimReward: {fileID: 2926287160558364067}
   fadeAnimations: {fileID: 7431161413145712676}
 --- !u!114 &7431161413145712676

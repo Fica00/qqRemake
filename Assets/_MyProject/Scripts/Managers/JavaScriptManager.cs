@@ -30,9 +30,27 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void StripePurchaseInit(double _cost);
     
     [DllImport("__Internal")]
-    public static extern void DoSetUserId(string _id);
+    public static extern void DoSetUserId(string _id);    
+    
+    [DllImport("__Internal")]
+    public static extern bool CheckLaunchedFromBrowser();
+    
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
+
+
+    public bool IsBrowser
+    {
+        get
+        {
+            if (Application.isEditor)
+            {
+                return false;
+            }
+            
+            return CheckLaunchedFromBrowser();
+        }
+    }
 
     private void Awake()
     {

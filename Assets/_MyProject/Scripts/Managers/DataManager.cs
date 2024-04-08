@@ -77,9 +77,11 @@ public class DataManager : MonoBehaviour
         MissionManager.OnGeneratedNewChallenges += SaveMissions;
         MissionProgress.UpdatedProgress += SaveProgress;
         PlayerData.UpdatedLoginRewards += SaveLoginRewards;
+        PlayerData.UpdatedIsDemoPlayer += SaveIsDemoPlayer;
         
         StartCoroutine(CheckForNewGameDay());
         MissionManager.Instance.Setup();
+        PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
     }
     
     IEnumerator CheckForNewGameDay()
@@ -146,6 +148,7 @@ public class DataManager : MonoBehaviour
         MissionManager.OnGeneratedNewChallenges -= SaveMissions;
         MissionProgress.UpdatedProgress -= SaveProgress;
         PlayerData.UpdatedLoginRewards -= SaveLoginRewards;
+        PlayerData.UpdatedIsDemoPlayer -= SaveIsDemoPlayer;
     }
 
     private void SaveSelectedDeck()
@@ -241,6 +244,11 @@ public class DataManager : MonoBehaviour
     private void SaveMissions()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.MissionsProgress),JsonConvert.SerializeObject(PlayerData.MissionsProgress));
+    }
+    
+    private void SaveIsDemoPlayer()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.IsDemoPlayer),PlayerData.IsDemoPlayer);
     }
     
     private void SaveProgress(int _missionId)

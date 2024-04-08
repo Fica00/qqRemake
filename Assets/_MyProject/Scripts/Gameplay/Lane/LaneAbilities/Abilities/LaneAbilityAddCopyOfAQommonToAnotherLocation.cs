@@ -14,6 +14,7 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
         {
             return;
         }
+        
         TableHandler.OnRevealdCard -= AddCopyOfAQommon;
     }
 
@@ -31,22 +32,20 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
         
         CardObject _copyOfCard = CardsManager.Instance.CreateCard(_card.Details.Id, _card.IsMy);
         LaneDisplay _choosendLane = null;
-        int[] _randomIndexses = new[] { 0, 1, 2 };
-        _randomIndexses = _randomIndexses.OrderBy(_element => System.Guid.NewGuid()).ToArray();
+        int[] _randomIndexses = { 0, 1, 2 };
+        _randomIndexses = _randomIndexses.OrderBy(_ => System.Guid.NewGuid()).ToArray();
         for (int _i = 0; _i < _randomIndexses.Length; _i++)
         {
-            int _laneIndex = +_randomIndexses[_i];
+            int _laneIndex = _randomIndexses[_i];
+            
             if (_laneIndex == (int)laneDisplay.Location)
             {
                 continue;
             }
+            
             if (GameplayManager.Instance.Lanes[_laneIndex].GetPlaceLocation(_copyOfCard.IsMy) != null)
             {
                 bool _shouldSkip = false;
-                if (!GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex]))
-                {
-                    continue;
-                }
                 var _laneAbility = GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex])?
                     GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]]:
                     null;

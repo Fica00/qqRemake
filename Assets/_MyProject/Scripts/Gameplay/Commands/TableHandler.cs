@@ -305,10 +305,14 @@ public class TableHandler : MonoBehaviour
     {
         int _myAmountOfWinningLocations = 0;
         int _opponentAmountOfWinningLocations = 0;
+        int _myTotalPower = 0;
+        int _opponentsTotalPower = 0;
         for (int i = 0; i < myPower.Length; i++)
         {
             int _myPowerOnLane = GetPower(true, (LaneLocation)(i));
+            _myTotalPower += _myTotalPower;
             int _opponentPowerOnLane = GetPower(false, (LaneLocation)(i));
+            _opponentsTotalPower += _opponentsTotalPower;
             if (_myPowerOnLane > _opponentPowerOnLane)
             {
                 _myAmountOfWinningLocations++;
@@ -323,14 +327,23 @@ public class TableHandler : MonoBehaviour
         {
             return GameResult.IWon;
         }
-        else if (_myAmountOfWinningLocations == _opponentAmountOfWinningLocations)
+        
+        if (_myAmountOfWinningLocations == _opponentAmountOfWinningLocations)
         {
-            return GameResult.Draw;
-        }
-        else
-        {
+            if (_myTotalPower==_opponentsTotalPower)
+            {
+                return GameResult.Draw;
+            }
+            
+            if(_myTotalPower>_opponentsTotalPower)
+            {
+                return GameResult.IWon;
+            }
+
             return GameResult.ILost;
         }
+
+        return GameResult.ILost;
     }
 
     public int[] GetAllPower(bool _getPlayers)

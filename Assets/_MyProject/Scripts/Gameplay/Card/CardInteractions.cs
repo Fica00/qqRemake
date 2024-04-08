@@ -95,14 +95,9 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         foreach (RaycastResult _result in _results)
         {
-            LanePlaceIdentifier placeIdentifier = _result.gameObject.GetComponent<LanePlaceIdentifier>();
-            if (placeIdentifier != null)
+            if (_result.gameObject.name == "MyCommonPlaces")
             {
-                if (!placeIdentifier.IsMine)
-                {
-                    continue;
-                }
-                cardObject.TryToPlace(placeIdentifier);
+                cardObject.TryToPlace(_result.gameObject.GetComponentInChildren<LanePlaceIdentifier>());
                 return;
             }
         }

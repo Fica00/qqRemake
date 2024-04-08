@@ -69,7 +69,7 @@ public class UIMainMenu : MonoBehaviour
 
     private void ShowDeckName()
     {
-        deckNameDisplay.text = "Lineup\n"+DataManager.Instance.PlayerData.GetSelectedDeck().Name;
+        deckNameDisplay.text = DataManager.Instance.PlayerData.GetSelectedDeck().Name;
     }
     
     private void ShowLevelRewards()

@@ -14,4 +14,5 @@ public enum MissionType
     WinALocationWith1Card=11,
     WinALocationWith4Card=12,
     PlayCardsOfPowerWorth=13,
+    WinMatchWithADouble=14,
 }

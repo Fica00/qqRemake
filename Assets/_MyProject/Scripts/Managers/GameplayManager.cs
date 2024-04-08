@@ -49,6 +49,8 @@ public class GameplayManager : MonoBehaviour
     protected List<int> excludeLaneAbilities = new List<int>();
     protected bool locationRevealed;
 
+    public bool IFinished => iFinished;
+
     public GameplayState GameplayState
     {
         get
@@ -136,7 +138,11 @@ public class GameplayManager : MonoBehaviour
         {
             return;
         }
-        
+
+        if (CurrentBet>2)
+        {
+            EventsManager.WinMatchWithADouble?.Invoke();
+        }
         EventsManager.WinMatch?.Invoke();
         
         CheckForPowerEvents(TableHandler.GetPower(true,LaneLocation.Top));
@@ -286,22 +292,29 @@ public class GameplayManager : MonoBehaviour
             }
 
             DrewCardDirectlyToHand = false;
-
+            if (CurrentRound==maxRounds-1)
+            {
+                AutoBet();
+                yield return new WaitForSeconds(1);
+            }
+            
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);
 
             GameplayState = GameplayState.ResolvingEndOfRound;
+            var _addQommonOnEndOfTheTurn = FindObjectOfType<LaneAbilityOnTurnXAllPutCardHere>();
+            if (_addQommonOnEndOfTheTurn)
+            {
+                if (_addQommonOnEndOfTheTurn.Round == currentRound)
+                {
+                    yield return new WaitForSeconds(2);
+                }
+            }
             StartCoroutine(RevealCards(_whoPlaysFirst));
             yield return new WaitUntil(() => resolvedEndOfTheRound);
             yield return new WaitForSeconds(2.5f);
         }
 
-        if (!BetClickHandler.Instance.IsMaxBet)
-        {
-            AutoBet();
-            yield return new WaitForSeconds(1);
-        }
-        
         bool _canContinue = false;
         for (int i = 0; i < Lanes.Count; i++)
         {
@@ -390,7 +403,7 @@ public class GameplayManager : MonoBehaviour
         excludeLaneAbilities.Add(_abilityID);
         int _laneIndex = currentRound - 1;
         _laneAbility.Setup(lanes[_laneIndex]);
-        lanes[_laneIndex].AbilityDisplay.Reveal(_laneAbility.Description, Revealed);
+        lanes[_laneIndex].AbilityDisplay.Reveal(_laneAbility.Description,_laneAbility.FontSize, Revealed);
         _canContinue = false;
 
         yield return new WaitUntil(() => _canContinue);

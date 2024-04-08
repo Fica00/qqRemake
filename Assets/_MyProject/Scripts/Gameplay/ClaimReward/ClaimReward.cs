@@ -99,7 +99,7 @@ public class ClaimReward : MonoBehaviour
             break;
          case GameResult.Escaped:
             didIWin = true;
-            _sprite = escaped;
+            _sprite = won;
             break;
          default:
             throw new ArgumentOutOfRangeException(nameof(_result), _result, null);

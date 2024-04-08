@@ -12,11 +12,6 @@ public class PowerDisplay : MonoBehaviour
     [SerializeField] private TMP_FontAsset lossingFontAsset;
     [SerializeField] private TMP_FontAsset drawFontAsset;
 
-    private int increasedFontSize = 80;
-    private int decreasedFontSize = 80;
-    private int normalFontSize = 80;
-    private int winFontSize = 80;
-
     public void ShowPower(int _myPower, int _opponentPower)
     {
         myPower.text = _myPower.ToString();
@@ -25,45 +20,28 @@ public class PowerDisplay : MonoBehaviour
         if (_myPower == _opponentPower)
         {
             myPower.font = drawFontAsset;
-            Normal(myPower);
             opponentPower.font = drawFontAsset;
-            Normal(opponentPower);
         }
         else if (_myPower > _opponentPower)
         {
             myPower.font = winningFontAsset;
-            Increase(myPower);
             opponentPower.font = lossingFontAsset;
-            Decrease(opponentPower);
         }
         else
         {
             myPower.font = lossingFontAsset;
-            Decrease(myPower);
             opponentPower.font = winningFontAsset;
-            Increase(opponentPower);
         }
-    }
 
-    public void Increase(TextMeshProUGUI _text)
-    {
-        float _currentSize = _text.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, increasedFontSize, 1f)
-    .OnUpdate(() => _text.fontSize = _currentSize);
-    }
+        UpdateText(myPower);
+        UpdateText(opponentPower);
 
-    public void Decrease(TextMeshProUGUI _text)
-    {
-        float _currentSize = _text.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, decreasedFontSize, 1f)
-    .OnUpdate(() => _text.fontSize = _currentSize);
-    }
-
-    public void Normal(TextMeshProUGUI _text)
-    {
-        float _currentSize = _text.fontSize;
-        DOTween.To(() => _currentSize, x => _currentSize = x, normalFontSize, 1f)
-    .OnUpdate(() => _text.fontSize = _currentSize);
+        void UpdateText(TextMeshProUGUI _text)
+        {
+            float _currentSize = _text.fontSize;
+            DOTween.To(() => _currentSize, x => _currentSize = x, GetFontSize(Convert.ToInt32(_text.text)), 1f)
+                .OnUpdate(() => _text.fontSize = _currentSize);
+        }
     }
 
     public void ShowWinner(int _myPower,int _opponentPower,Action _callBack)
@@ -90,16 +68,21 @@ public class PowerDisplay : MonoBehaviour
         TextMeshProUGUI _text = _showMyPower ? myPower : opponentPower;
 
         float _currentSize = _text.fontSize;
-        float _desiredSize = winFontSize += 15;
+        float _desiredSize = GetFontSize(Convert.ToInt32(_text.text)) + 15;
         DOTween.To(() => _currentSize, x => _currentSize = x, _desiredSize, 0.1f)
             .OnUpdate(() => _text.fontSize = _currentSize)
             .OnComplete(() =>
             {
                 LaneDisplay _location = GetComponent<LaneDisplay>();
-                int _myPower = GameplayManager.Instance.TableHandler.GetPower(true, _location.Location);
-                int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, _location.Location);
+                GameplayManager.Instance.TableHandler.GetPower(true, _location.Location);
+                GameplayManager.Instance.TableHandler.GetPower(false, _location.Location);
                 DOTween.To(() => _desiredSize, x => _desiredSize = x, _currentSize, 0.1f)
                     .OnUpdate(() => _text.fontSize = _desiredSize).SetDelay(.2f);
             }).SetDelay(.5f);
+    }
+
+    private int GetFontSize(int _power)
+    {
+        return _power > 1000 ? 65 : 80;
     }
 }
