@@ -42,7 +42,7 @@ public class MissionManager : MonoBehaviour
             return;
         }
 
-        if (_missionProgress.Completed)
+        if (!_missionProgress.Completed)
         {
             return;
         }
@@ -186,6 +186,9 @@ public class MissionManager : MonoBehaviour
                 case MissionType.WinALocationWith4Card:
                     EventsManager.WinALocationWith4Card += _missionProgress.IncreaseAmount;
                     break;
+                case MissionType.PlayCardsOfPowerWorth:
+                    EventsManager.PlayCardsOfPowerWorth += _missionProgress.IncreaseAmount;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -248,6 +251,9 @@ public class MissionManager : MonoBehaviour
                     break;
                 case MissionType.WinALocationWith4Card:
                     EventsManager.WinALocationWith4Card -= _missionProgress.IncreaseAmount;
+                    break;
+                case MissionType.PlayCardsOfPowerWorth:
+                    EventsManager.PlayCardsOfPowerWorth -= _missionProgress.IncreaseAmount;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

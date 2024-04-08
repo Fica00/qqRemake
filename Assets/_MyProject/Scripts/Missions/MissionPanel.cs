@@ -11,17 +11,27 @@ public class MissionPanel : MonoBehaviour
     [SerializeField] private Button close;
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
     [SerializeField] private TextMeshProUGUI loggedInText;
+    [SerializeField] private TextMeshProUGUI numberOfTasksCompleted;
+    [SerializeField] private MissionDisplay missionDisplay;
+    [SerializeField] private Transform missionHolder;
 
     private void OnEnable()
     {
         close.onClick.AddListener(Close);
         LoginProgressDisplay.OnClicked += TryClaim;
+        MissionManager.OnClaimed += ShowCompletedText;
     }
 
     private void OnDisable()
     {
         close.onClick.RemoveListener(Close);
         LoginProgressDisplay.OnClicked -= TryClaim;
+        MissionManager.OnClaimed += ShowCompletedText;
+    }
+
+    private void ShowCompletedText(MissionProgress _obj)
+    {
+        ShowCompletedText();
     }
 
     private void Close()
@@ -33,6 +43,13 @@ public class MissionPanel : MonoBehaviour
     {
         ShowLoginRewards();
         loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7";
+        ShowCompletedText();
+        ShowMissions();
+    }
+
+    private void ShowCompletedText()
+    {
+        numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
     private void ShowLoginRewards()
@@ -42,6 +59,15 @@ public class MissionPanel : MonoBehaviour
             LoginProgressDisplay _rewardDisplay = Instantiate(loginProgressDisplay, progressHolder);
             bool _didUnlock = _reward.Days <= DataManager.Instance.PlayerData.WeeklyLoginAmount;
             _rewardDisplay.Setup(_didUnlock,_reward.Days);
+        }
+    }
+
+    private void ShowMissions()
+    {
+        foreach (var _missionProgress in DataManager.Instance.PlayerData.MissionsProgress)
+        {
+            MissionDisplay _missionDisplay = Instantiate(missionDisplay, missionHolder);
+            _missionDisplay.Setup(_missionProgress);
         }
     }
 

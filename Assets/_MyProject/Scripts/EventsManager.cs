@@ -17,6 +17,7 @@ public class EventsManager : MonoBehaviour
     public static Action PlayCardCost4;
     public static Action PlayCardCost5;
     public static Action PlayCardCost6;
+    public static Action<int> PlayCardsOfPowerWorth;
     
 
     private void Awake()

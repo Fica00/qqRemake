@@ -8,7 +8,7 @@ using DG.Tweening;
 public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager Instance;
-    public static bool IsPvpGame = false;
+    public static bool IsPvpGame;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
     public static Action UpdatedBet;
@@ -86,6 +86,7 @@ public class GameplayManager : MonoBehaviour
         EndTurnHandler.OnEndTurn += EndTurn;
         FlagClickHandler.OnForefiet += Forfiet;
         GameEnded += UpdateQommonsWinLose;
+        GameEnded += TriggerGameEndEvents;
     }
 
     protected virtual void OnDisable()
@@ -94,6 +95,7 @@ public class GameplayManager : MonoBehaviour
         EndTurnHandler.OnEndTurn -= EndTurn;
         FlagClickHandler.OnForefiet -= Forfiet;
         GameEnded -= UpdateQommonsWinLose;
+        GameEnded -= TriggerGameEndEvents;
     }
 
     protected virtual void EndTurn()
@@ -125,6 +127,48 @@ public class GameplayManager : MonoBehaviour
             case GameResult.IWon or GameResult.Escaped:
                 FirebaseManager.Instance.UpdateCardsWinLoseCount(DataManager.Instance.PlayerData.CardIdsInDeck, true);
                 break;
+        }
+    }
+    
+    private void TriggerGameEndEvents(GameResult _result)
+    {
+        if (_result is not (GameResult.IWon or GameResult.Escaped))
+        {
+            return;
+        }
+        
+        EventsManager.WinMatch?.Invoke();
+        
+        CheckForPowerEvents(TableHandler.GetPower(true,LaneLocation.Top));
+        CheckForPowerEvents(TableHandler.GetPower(true,LaneLocation.Mid));
+        CheckForPowerEvents(TableHandler.GetPower(true,LaneLocation.Bot));
+        
+        CheckForCardEvents(TableHandler.GetCards(true, LaneLocation.Top).Count);
+        CheckForCardEvents(TableHandler.GetCards(true, LaneLocation.Mid).Count);
+        CheckForCardEvents(TableHandler.GetCards(true, LaneLocation.Bot).Count);
+
+        void CheckForPowerEvents(float _power)
+        {
+            if (_power<=100)
+            {
+                EventsManager.WinALocationWithPowerLess100?.Invoke();
+            }
+            else if (_power>=200)
+            {
+                EventsManager.WinALocationWithPowerMore200?.Invoke();
+            }
+        }
+
+        void CheckForCardEvents(int _cardAmount)
+        {
+            if (_cardAmount==1)
+            {
+                EventsManager.WinALocationWith1Card?.Invoke();
+            }
+            else if (_cardAmount==4)
+            {
+                EventsManager.WinALocationWith4Card?.Invoke();
+            }
         }
     }
 

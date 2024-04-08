@@ -7,43 +7,54 @@ public class MissionDisplay : MonoBehaviour
 {
     public static Action<MissionProgress> OnClaimPressed;
     [SerializeField] private Button claimButton;
-    [SerializeField] private GameObject claimHolder;
+    [SerializeField] private Sprite claim;
+    [SerializeField] private Image backgroundImage;
     [SerializeField] private Image rewardDisplay;
+    [SerializeField] private TextMeshProUGUI rewardText;
     [SerializeField] private TextMeshProUGUI descDisplay;
     [SerializeField] private TextMeshProUGUI progressDisplay;
-    [SerializeField] private GameObject completed;
+    [SerializeField] private Image progressFill;
 
     private MissionProgress missionProgress;
-    
+
     public void Setup(MissionProgress _progress)
     {
-        completed.SetActive(false);
-        claimHolder.SetActive(false);
         missionProgress = _progress;
         MissionData _missionData = DataManager.Instance.GameData.GetMission(_progress.Id);
         MissionTaskData _taskData = _progress.IsHard ? _missionData.Hard : _missionData.Normal;
         if (_progress.Completed)
         {
-            if (_progress.Claimed)
+            if (!_progress.Claimed)
             {
-                completed.SetActive(true);
+                backgroundImage.sprite = claim;
             }
-            else
-            {
-                claimHolder.SetActive(true);
-            }
-            descDisplay.text = string.Empty;
-            progressDisplay.text = string.Empty;
+            
+            progressDisplay.text = "Claim";
+            progressFill.fillAmount = 1;
         }
         else
         {
-            descDisplay.text = _taskData.Description;
             progressDisplay.text = $"{_progress.Value}/{_taskData.AmountNeeded}";
+            progressFill.fillAmount = _progress.Value == 0 ? 0 : (float)_progress.Value / _taskData.AmountNeeded;
+        }
+        
+        descDisplay.text = _taskData.Description;
+        
+        if (_progress.Claimed)
+        {
+            descDisplay.text = "Claimed";
+            progressDisplay.text = string.Empty;
         }
 
-        rewardDisplay.sprite = _taskData.RewardType == ItemType.Qoomon
-            ? SpriteProvider.Instance.GetQoomonSprite(_taskData.RewardAmount)
-            : SpriteProvider.Instance.Get(_taskData.RewardType);
+
+        if (_taskData.RewardType == ItemType.Qoomon)
+        {
+            rewardDisplay.sprite = SpriteProvider.Instance.GetQoomonSprite(_taskData.RewardAmount);
+        }
+        else
+        {
+            rewardText.text = $"{_taskData.RewardAmount}{Utils.GetItemName(_taskData.RewardType)}";
+        }
     }
 
     private void OnEnable()
@@ -58,6 +69,7 @@ public class MissionDisplay : MonoBehaviour
 
     private void Claim()
     {
+        Debug.Log(111);
         OnClaimPressed?.Invoke(missionProgress);
         Setup(missionProgress);
     }

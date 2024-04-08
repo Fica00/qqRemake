@@ -30,4 +30,15 @@ public class MissionProgress
         Value++;
         UpdatedProgress?.Invoke(Id);
     }
+    
+    public void IncreaseAmount(int _amount)
+    {
+        if (Completed)
+        {
+            return;
+        }
+
+        Value+=_amount;
+        UpdatedProgress?.Invoke(Id);
+    }
 }

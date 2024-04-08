@@ -120,6 +120,33 @@ public class TableHandler : MonoBehaviour
                     }
                 }
             }
+
+            if (_command.IsMyPlayer)
+            {
+                EventsManager.PlayCard?.Invoke();
+                EventsManager.PlayCardsOfPowerWorth?.Invoke(_command.Card.Details.Power);
+                switch (_command.Card.Details.Mana)
+                {
+                    case 1:
+                        EventsManager.PlayCardCost1?.Invoke();
+                        break;
+                    case 2:
+                        EventsManager.PlayCardCost2?.Invoke();
+                        break;
+                    case 3:
+                        EventsManager.PlayCardCost3?.Invoke();
+                        break;
+                    case 4:
+                        EventsManager.PlayCardCost4?.Invoke();
+                        break;
+                    case 5:
+                        EventsManager.PlayCardCost5?.Invoke();
+                        break;
+                    case 6:
+                        EventsManager.PlayCardCost6?.Invoke();
+                        break;
+                }
+            }
         }
 
         IEnumerator DoRevealRoutine(PlaceCommand _command)
