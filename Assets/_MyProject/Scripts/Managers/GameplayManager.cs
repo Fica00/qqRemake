@@ -523,7 +523,6 @@ public class GameplayManager : MonoBehaviour
         OpponentDiscardedCardDisplay.Instance.Show(_cardId);
     }
 
-
     public void HalfCurrentBetWithoutNotify()
     {
         if (currentBet==1)

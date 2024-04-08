@@ -198,7 +198,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         IEnumerator TryCreateRoom()
         {
             yield return new WaitForSeconds(.3f);
-            RoomOptions _roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = maxPlayersPerRoom };
+            RoomOptions _roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = maxPlayersPerRoom, PlayerTtl = -1, EmptyRoomTtl = 300000};
             PhotonNetwork.CreateRoom(null, _roomOptions, TypedLobby.Default);
         }
     }
