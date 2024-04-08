@@ -55,6 +55,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    public void Reconnect()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Reconnecting");
+            PhotonNetwork.ReconnectAndRejoin();
+        }
+    }
+
     public void FixSelf()
     {
         Reconnect();

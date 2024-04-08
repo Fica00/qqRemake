@@ -379,4 +379,22 @@ public class GameplayManagerPVP : GameplayManager
     {
         ShowOpponentDiscardedACard(_cardId);
     }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus)
+        {
+            Debug.Log("Unpaused, trying to reconnect");
+            PhotonManager.Instance.Reconnect();
+        }
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+        {
+            Debug.Log("Got focus, trying to reconnect");
+            PhotonManager.Instance.Reconnect();
+        }
+    }
 }
