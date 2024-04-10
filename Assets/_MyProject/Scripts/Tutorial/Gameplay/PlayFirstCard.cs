@@ -46,7 +46,7 @@ namespace Tutorial
         {
             CommandsHandler.AddedNewCommandForMe -= FinishAnimation;
             GameplayTutorial.Instance.ShowMana();
-            gameObject.SetActive(false);
+            dragAnimation.SetActive(false);
         }
     }
 }

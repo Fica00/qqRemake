@@ -25,6 +25,8 @@ namespace Tutorial
         
         public void Setup(Action _callBack)
         {
+            myPlayer.transform.localScale = Vector3.zero;
+            opponentPlayer.transform.localScale = Vector3.zero;
             vsImage.SetAlphaZero();
             searchingForOpponent.SetAlphaZero();
             callBack = _callBack;
@@ -50,11 +52,15 @@ namespace Tutorial
             Utils.DoColor(vsImage,1,1,0, () =>
             {
                 myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
+                myPlayer.transform.localScale = Vector3.one;
                 Utils.DoColor(searchingForOpponent,1,1,0);
                 myPlayer.transform.DOMove(myPlayerPosition.position, 1).OnComplete(() =>
                 {
                     opponentPlayer.Setup(OpponentsName, OpponentsDeck);
-                    Utils.DoColor(searchingForOpponent,1,0,3);
+                    Utils.DoColor(searchingForOpponent,1,0,3, () =>
+                    {
+                        opponentPlayer.transform.localScale = Vector3.one;
+                    });
                     opponentPlayer.transform.DOMove(opponentPlayerPosition.position, 1).SetDelay(3).OnComplete(() =>
                     {
                         int _delay = 2;
