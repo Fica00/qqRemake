@@ -513,6 +513,11 @@ public class GameplayManager : MonoBehaviour
     public virtual void OpponentAcceptedBet()
     {
         currentBet *= 2;
+        if (currentBet>8)
+        {
+            currentBet = 8;
+        }
+        
         UpdatedBet?.Invoke();
     }
 
