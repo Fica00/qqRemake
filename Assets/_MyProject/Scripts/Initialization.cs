@@ -50,6 +50,9 @@ public class Initialization : MonoBehaviour
     
     private void FinishInit()
     {
+        SceneManager.Instance.LoadMainMenu();
+        return;
+        
         if (DataManager.Instance.PlayerData.HasFinishedTutorial==0 && DataManager.Instance.PlayerData.Exp==0)
         {
             DataManager.Instance.Subscribe();

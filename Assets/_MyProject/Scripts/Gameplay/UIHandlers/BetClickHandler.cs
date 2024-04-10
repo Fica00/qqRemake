@@ -64,13 +64,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             return;
         }
 
-        ShowNextRoundBet();
         GameplayManager.Instance.Bet();
         didIBet = true;
         DidIBetThisRound = true;
         GameplayManager.UpdatedRound += TurnOffDidIBetThisRound;
         GameplayUI.Instance.ShakeScreen(1);
         pulsingLight.gameObject.SetActive(true);
+        ShowNextRoundBet();
     }
 
     private void TurnOffDidIBetThisRound()
@@ -134,6 +134,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerDown(PointerEventData _eventData)
     {
+        if (!(GameplayManager.Instance.GameplayState==GameplayState.Waiting || GameplayManager.Instance.GameplayState==GameplayState.Playing))
+        {
+            return;
+        }
         holder.transform.DOScale(Vector3.one*.8f, 1);
     }
 
