@@ -88,6 +88,7 @@ public class UIPVPPanel : MonoBehaviour
             if (PhotonManager.Instance.IsMasterClient)
             {
                 UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
+                PhotonManager.Instance.CloseRoom();
             }
             else
             {

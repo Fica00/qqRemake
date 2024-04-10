@@ -45,6 +45,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void CloseRoom()
+    {
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        PhotonNetwork.CurrentRoom.IsOpen = false;
+    }
+
     public void Init()
     {
         if (isInit)
@@ -189,7 +195,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         IEnumerator TryCreateRoom()
         {
             yield return new WaitForSeconds(.3f);
-            RoomOptions _roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = maxPlayersPerRoom, PlayerTtl = -1, EmptyRoomTtl = 300000};
+            RoomOptions _roomOptions = new RoomOptions { IsOpen = true, MaxPlayers = maxPlayersPerRoom};
             PhotonNetwork.CreateRoom(null, _roomOptions, TypedLobby.Default);
         }
     }
