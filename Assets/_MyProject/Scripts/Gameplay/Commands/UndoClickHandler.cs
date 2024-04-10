@@ -34,6 +34,8 @@ public class UndoClickHandler : MonoBehaviour
                 break;
             case GameplayState.ResolvingEndOfRound:
                 break;
+            case GameplayState.StartingAnimation:
+                break;
             default:
                 throw new System.Exception("Dont know how to handle state: " + GameplayManager.Instance.GameplayState);
         }

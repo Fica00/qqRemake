@@ -12,6 +12,8 @@ public class PlayerDisplay : MonoBehaviour
     private void OnEnable()
     {
         showStats.onClick.AddListener(ShowStats);
+        
+        ShowName();
     }
 
     private void OnDisable()
@@ -43,15 +45,13 @@ public class PlayerDisplay : MonoBehaviour
                 {
                     return;
                 }
-                else
-                {
-                    statsDisplay.Show(
-                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
-                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
-                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_COLLECTION)),            
-                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
-                    );   
-                }
+
+                statsDisplay.Show(
+                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
+                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
+                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_COLLECTION)),            
+                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
+                );
             }
         }
     }
@@ -64,7 +64,7 @@ public class PlayerDisplay : MonoBehaviour
 
     private void ShowName()
     {
-        if (player.IsMy)
+        if (player!= null && player.IsMy)
         {
             nameDisplay.text = DataManager.Instance.PlayerData.Name;
         }

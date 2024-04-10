@@ -16,7 +16,7 @@ public class CanvasHandler : MonoBehaviour
 
     private IEnumerator ManageCanvas()
     {
-        if (Screen.height > Screen.width || Application.platform == RuntimePlatform.WindowsEditor)
+        if (Application.isMobilePlatform || Application.platform == RuntimePlatform.WindowsEditor)
         {
             if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
             {

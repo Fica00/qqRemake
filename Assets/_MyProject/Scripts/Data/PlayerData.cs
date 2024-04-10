@@ -262,6 +262,11 @@ public class PlayerData
         {
             return;
         }
+
+        if (string.IsNullOrEmpty(_name))
+        {
+            return;
+        }
         
         _deck.Name = _name;
         UpdatedDeckName?.Invoke();

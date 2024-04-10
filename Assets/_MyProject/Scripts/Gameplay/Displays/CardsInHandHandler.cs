@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CardsInHandHandler : MonoBehaviour
 {
-    private List<CardObject> cardsInHand = new List<CardObject>();
+    private List<CardObject> cardsInHand = new();
     private GameplayPlayer player;
     private HorizontalLayoutGroup horizontalLayoutGroup;
 

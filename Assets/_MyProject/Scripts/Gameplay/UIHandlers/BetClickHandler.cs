@@ -138,6 +138,11 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             return;
         }
+
+        if (didIBet)
+        {
+            return;
+        }
         holder.transform.DOScale(Vector3.one*.8f, 1);
     }
 

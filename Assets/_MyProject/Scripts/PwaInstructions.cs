@@ -6,11 +6,10 @@ public class PwaInstructions : MonoBehaviour
     
     private void Start()
     {
-        if (!JavaScriptManager.Instance.IsBrowser)
+        Debug.Log("Checking for browser: "+JavaScriptManager.Instance.IsBrowser);
+        if (JavaScriptManager.Instance.IsBrowser)
         {
-            return;
+            holder.SetActive(true);
         }
-       
-        holder.SetActive(true);
     }
 }

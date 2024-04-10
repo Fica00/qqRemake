@@ -611,7 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyPlayer: {fileID: 482681876}
   OpponentPlayer: {fileID: 0}
-  <MaxAmountOfCardsInHand>k__BackingField: 12
+  <MaxAmountOfCardsInHand>k__BackingField: 7
   <DurationOfRound>k__BackingField: 120
   <TableHandler>k__BackingField: {fileID: 3441719200825644172}
   endTurnHandler: {fileID: 204213062}

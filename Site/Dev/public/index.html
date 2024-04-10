@@ -249,6 +249,12 @@
   };
   document.body.appendChild(script);
 
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    unityInstance.SendMessage('JavaScriptManager', 'OpenedFromPwa');
+} else {
+    unityInstance.SendMessage('JavaScriptManager', 'OpenedFromBrowser');
+}
+
 </script>
 </body>
 </html>

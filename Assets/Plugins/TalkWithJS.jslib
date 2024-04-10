@@ -34,9 +34,4 @@ mergeInto(LibraryManager.library,
     {
         SetUserId(UTF8ToString(id));
     },
-    
-    CheckLaunchedFromBrowser: function () 
-    {
-        return document.referrer !== '' && document.referrer !== 'about:blank';
-    }
 });

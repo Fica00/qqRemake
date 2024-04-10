@@ -292,7 +292,7 @@ public class GameplayManager : MonoBehaviour
             }
 
             DrewCardDirectlyToHand = false;
-            if (CurrentRound==maxRounds-1)
+            if (CurrentRound==maxRounds)
             {
                 AutoBet();
                 yield return new WaitForSeconds(1);

@@ -15,6 +15,7 @@ public class ResultHandler : MonoBehaviour
       gameObject.SetActive(true);
       ResultSprite _resultSprite = sprites.Find(_sprite => _sprite.Result == _result);
       resultDisplay.sprite = _resultSprite.Sprite;
+      resultDisplay.SetNativeSize();
       treasureDisplay.sprite = _resultSprite.Treasure;
       fadeAnimations.FadeIn(1, () =>
       {

@@ -1286,10 +1286,6 @@ function _AuthWithGoogle() {
  GoogleAuth();
 }
 
-function _CheckLaunchedFromBrowser() {
- return document.referrer !== "" && document.referrer !== "about:blank";
-}
-
 function _CloseKeyboard() {
  HideKeyboard();
 }
@@ -13910,7 +13906,6 @@ function intArrayFromString(stringy, dontAddNull, length) {
 var asmLibraryArg = {
  "AuthWithFacebook": _AuthWithFacebook,
  "AuthWithGoogle": _AuthWithGoogle,
- "CheckLaunchedFromBrowser": _CheckLaunchedFromBrowser,
  "CloseKeyboard": _CloseKeyboard,
  "DoSetUserId": _DoSetUserId,
  "JS_Accelerometer_IsRunning": _JS_Accelerometer_IsRunning,

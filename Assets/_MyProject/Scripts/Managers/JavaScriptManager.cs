@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,14 +29,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void StripePurchaseInit(double _cost);
     
     [DllImport("__Internal")]
-    public static extern void DoSetUserId(string _id);    
-    
-    [DllImport("__Internal")]
-    public static extern bool CheckLaunchedFromBrowser();
-    
+    public static extern void DoSetUserId(string _id);
+
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
-
 
     public bool IsBrowser
     {
@@ -48,7 +43,7 @@ public class JavaScriptManager : MonoBehaviour
                 return false;
             }
             
-            return CheckLaunchedFromBrowser();
+            return false;
         }
     }
 
