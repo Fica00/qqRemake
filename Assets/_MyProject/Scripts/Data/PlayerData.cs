@@ -26,6 +26,7 @@ public class PlayerData
     private List<MissionProgress> missionProgresses = new();
     private DateTime nextDailyChallenges;
     private int isDemoPlayer;
+    private int hasFinishedTutorial;
 
     public DateTime DateCreatedAccount;
 
@@ -49,6 +50,7 @@ public class PlayerData
     public static Action UpdatedNextDailyChallenges;
     public static Action UpdatedLoginRewards;
     public static Action UpdatedIsDemoPlayer;
+    public static Action UpdatedHasFinishedTutorial;
     
 
     public void CreateNewPlayer()
@@ -548,6 +550,16 @@ public class PlayerData
         {
             isDemoPlayer = value;
             UpdatedIsDemoPlayer?.Invoke();
+        }
+    }
+
+    public int HasFinishedTutorial
+    {
+        get => hasFinishedTutorial;
+        set
+        {
+            hasFinishedTutorial = value;
+            UpdatedHasFinishedTutorial?.Invoke();
         }
     }
 

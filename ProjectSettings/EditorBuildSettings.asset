@@ -15,11 +15,17 @@ EditorBuildSettings:
     path: Assets/_MyProject/Scenes/MainMenu.unity
     guid: 7eec5ecf7f4c55249b634d682cb505e3
   - enabled: 1
+    path: Assets/_MyProject/Scenes/Tutorial.unity
+    guid: b3c78705086be2342bf7120bb475c759
+  - enabled: 1
     path: Assets/_MyProject/Scenes/GameplayAI.unity
     guid: 502f7049c0b555a469e06c163c5ba5e1
   - enabled: 1
     path: Assets/_MyProject/Scenes/GameplayPVP.unity
     guid: 2c8e4cf36c9f3a84785a3ff27f4c7739
+  - enabled: 1
+    path: Assets/_MyProject/Scenes/GameplayTutorial.unity
+    guid: 0f2bb4c882199444dba73493265865d1
   - enabled: 1
     path: Assets/_MyProject/Scenes/MainMenuScreens/LevelPage.unity
     guid: 91471c1339dd01a4c932d0b2cfd5437b

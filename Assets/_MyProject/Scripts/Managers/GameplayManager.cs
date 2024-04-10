@@ -262,7 +262,7 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
-    protected IEnumerator GameplayRoutine()
+    protected virtual IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);
         yield return StartCoroutine(InitialDraw());
@@ -365,7 +365,7 @@ public class GameplayManager : MonoBehaviour
         yield return RevealLocation(_laneAbility.Id);
     }
     
-    private IEnumerator ShowRevealText()
+    protected IEnumerator ShowRevealText()
     {
         if (currentRound > 3)
         {
@@ -467,7 +467,7 @@ public class GameplayManager : MonoBehaviour
         resolvedEndOfTheRound = true;
     }
 
-    private void ShowFlag(int _whoPlaysFirst)
+    protected void ShowFlag(int _whoPlaysFirst)
     {
         if (_whoPlaysFirst == -1)
         {

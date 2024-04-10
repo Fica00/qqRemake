@@ -113,6 +113,10 @@ public class EndTurnHandler : MonoBehaviour
 
     private IEnumerator RoundDurationRoutine()
     {
+        if (SceneManager.IsGameplayTutorialScene)
+        {
+            yield break;
+        }
         while (timeLeft > 0)
         {
             float _value = timeLeft / roundDuration;

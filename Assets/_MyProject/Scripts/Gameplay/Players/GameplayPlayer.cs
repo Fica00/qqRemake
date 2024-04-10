@@ -145,6 +145,11 @@ public class GameplayPlayer : MonoBehaviour
         return DrawCard(_card, true);
     }
 
+    public CardObject GetCardFromDeck(int _cardId)
+    {
+        return CardsInDeck.Find(_card => _card.Details.Id == _cardId);
+    }
+
     public CardObject DrawCard(CardObject _card, bool _updateDeck)
     {
         if (_updateDeck)
@@ -154,7 +159,7 @@ public class GameplayPlayer : MonoBehaviour
                 CardsInDeck.Remove(_card);
             }
         }
-        
+        Debug.Log(_card.name,_card.gameObject);
         DrewCard?.Invoke(_card);
         return _card;
     }

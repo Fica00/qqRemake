@@ -39,12 +39,19 @@ public class PlayerDisplay : MonoBehaviour
             }
             else
             {
-                statsDisplay.Show(
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_COLLECTION)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
+                if (SceneManager.IsGameplayTutorialScene)
+                {
+                    return;
+                }
+                else
+                {
+                    statsDisplay.Show(
+                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
+                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
+                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_COLLECTION)),            
+                        int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
                     );   
+                }
             }
         }
     }
@@ -63,9 +70,21 @@ public class PlayerDisplay : MonoBehaviour
         }
         else
         {
-            nameDisplay.text = SceneManager.IsAIScene 
-                ? "Bot" 
-                : PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME);
+            if (SceneManager.IsAIScene)
+            {
+                nameDisplay.text = "Bot";
+            }
+            else
+            {
+                if (SceneManager.IsGameplayTutorialScene)
+                {
+                    nameDisplay.text = Tutorial.MatchMaking.OpponentsName;
+                }
+                else
+                {
+                    nameDisplay.text = PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME);
+                }
+            }
         }
     }
 }

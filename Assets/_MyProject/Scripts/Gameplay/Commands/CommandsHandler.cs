@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class CommandsHandler
 {
+    public static Action AddedNewCommandForMe;
     public static Action<PlaceCommand> AddedNewCommandDuringTurn;
     private List<PlaceCommand> myCommandsThisTurn = new List<PlaceCommand>();
     private List<PlaceCommand> opponentCommands = new List<PlaceCommand>();
@@ -34,11 +35,13 @@ public class CommandsHandler
         {
             MyCommandsThisTurn.Add(_command);
             MyOriginalCommandsThisTurn.Add(_command);
+            AddedNewCommandForMe?.Invoke();
         }
         else
         {
             opponentCommands.Add(_command);
         }
+        
     }
 
     protected virtual void RemoveCommand(PlaceCommand _command)

@@ -11,12 +11,15 @@ public class SceneManager : SceneLoader
     private const string COLLECTION_PAGE = "CollectionPage";
     private const string RANK_REWARDS_PAGE = "RankPage";
     private const string MISSIONS_PAGE = "MissionsPage";
-    private const string GAMEPLAYPVP = "GameplayPVP";
-    private const string GAMEPLAYAI = "GameplayAI";
+    private const string GAMEPLAY_PVP = "GameplayPVP";
+    private const string GAMEPLAY_AI = "GameplayAI";
     private const string DATA_COLLECTOR = "DataCollector";
     private const string ALPHA_CODE = "AlphaCode";
+    private const string TUTORIAL = "Tutorial";
+    private const string GAMEPLAY_TUTORIAL = "GameplayTutorial";
 
-    public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAYAI;
+    public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_AI;
+    public static bool IsGameplayTutorialScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_TUTORIAL;
 
     private void Awake()
     {
@@ -68,18 +71,28 @@ public class SceneManager : SceneLoader
 
     public void LoadPvpGameplay(bool _useAsyncLoading=true)
     {
-        DoLoadScene(GAMEPLAYPVP,_useAsyncLoading);
+        DoLoadScene(GAMEPLAY_PVP,_useAsyncLoading);
     }
 
     public void LoadAIGameplay(bool _useAsyncLoading=true)
     {
-        DoLoadScene(GAMEPLAYAI,_useAsyncLoading);
+        DoLoadScene(GAMEPLAY_AI,_useAsyncLoading);
     }
 
     public void LoadDataCollector(bool _useAsyncLoading=true)
     {
         DoLoadScene(DATA_COLLECTOR,_useAsyncLoading);
-    } 
+    }
+
+    public void LoadTutorial(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(TUTORIAL,_useAsyncLoading);
+    }
+
+    public void LoadTutorialGameplay(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(GAMEPLAY_TUTORIAL,_useAsyncLoading);
+    }
     
     public void ReloadScene(bool _useAsyncLoading=true)
     {
