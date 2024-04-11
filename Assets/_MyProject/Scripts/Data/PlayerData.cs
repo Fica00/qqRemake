@@ -27,6 +27,9 @@ public class PlayerData
     private DateTime nextDailyChallenges;
     private int isDemoPlayer;
     private int hasFinishedTutorial;
+    private bool playBackgroundMusic;
+    private bool playSoundEffects;
+    
 
     public DateTime DateCreatedAccount;
 
@@ -51,6 +54,8 @@ public class PlayerData
     public static Action UpdatedLoginRewards;
     public static Action UpdatedIsDemoPlayer;
     public static Action UpdatedHasFinishedTutorial;
+    public static Action UpdatedBackgroundMusic;
+    public static Action UpdatedPlaySoundEffects;
     
 
     public void CreateNewPlayer()
@@ -498,8 +503,7 @@ public class PlayerData
         claimedRankRewards.Add(_rewardNumber);
         UpdatedClaimedRankRewards?.Invoke();
     }
-
-
+    
     public void ClaimReward(ItemType _type, int _value)
     {
         if (_type == ItemType.Qoomon)
@@ -565,6 +569,26 @@ public class PlayerData
         {
             hasFinishedTutorial = value;
             UpdatedHasFinishedTutorial?.Invoke();
+        }
+    }
+
+    public bool PlayBackgroundMusic
+    {
+        get => playBackgroundMusic;
+        set
+        {
+            playBackgroundMusic = value;
+            UpdatedBackgroundMusic?.Invoke();
+        }
+    }
+
+    public bool PlaySoundEffects
+    {
+        get => playSoundEffects;
+        set
+        {
+            playSoundEffects = value;
+            UpdatedPlaySoundEffects?.Invoke();
         }
     }
 
