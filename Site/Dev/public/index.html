@@ -51,11 +51,6 @@
   }
   firebase.initializeApp(firebaseConfig);
   
-  if (screen.orientation) {
-     screen.orientation.lock("portrait");
-  }
-
-  
   let userId = null
   let unity = null
   const googleProvider = new firebase.auth.GoogleAuthProvider();
