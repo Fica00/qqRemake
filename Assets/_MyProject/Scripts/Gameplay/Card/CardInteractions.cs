@@ -97,6 +97,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         {
             if (_result.gameObject.name == "MyCommonPlaces")
             {
+                AudioManager.Instance.PlaySoundEffect(AudioManager.CARD_SOUND);
                 cardObject.TryToPlace(_result.gameObject.GetComponentInChildren<LanePlaceIdentifier>());
                 return;
             }
@@ -127,6 +128,7 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             if (dragDelta.magnitude >= dragThreshold)
             {
                 isDragging = true;
+                AudioManager.Instance.PlaySoundEffect(AudioManager.CARD_SOUND);
                 DragStarted?.Invoke(cardObject);
                 if (cardObject.CardLocation==CardLocation.Table)
                 {

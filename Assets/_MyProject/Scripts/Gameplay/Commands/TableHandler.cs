@@ -98,6 +98,7 @@ public class TableHandler : MonoBehaviour
     {
         foreach (var _command in _commands.ToList())
         {
+            AudioManager.Instance.PlaySoundEffect(AudioManager.SUMMON);
             yield return StartCoroutine(DoRevealRoutine(_command));
             if (_command.Card.Details.Id==13 ||_command.Card.Details.Id==42)
             {

@@ -27,8 +27,8 @@ public class PlayerData
     private DateTime nextDailyChallenges;
     private int isDemoPlayer;
     private int hasFinishedTutorial;
-    private bool playBackgroundMusic;
-    private bool playSoundEffects;
+    private bool playBackgroundMusic = true;
+    private bool playSoundEffects = true;
     
 
     public DateTime DateCreatedAccount;

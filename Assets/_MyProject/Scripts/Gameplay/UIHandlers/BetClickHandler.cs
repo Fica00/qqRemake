@@ -100,6 +100,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ShowOpponentWantsToIncreaseBet()
     {
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_INITIATED);
         didOpponentInitBetIncrease = true;
         OnPointerDown(null);
         GameplayManager.UpdatedGameState += ManageRoundEnded;
@@ -117,6 +118,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void AcceptBet()
     {
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
         GameplayManager.UpdatedGameState -= ManageRoundEnded;
         didOpponentInitBetIncrease = false;
         DidIBetThisRound = false;
@@ -143,6 +145,8 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             return;
         }
+        
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_INITIATED);
         holder.transform.DOScale(Vector3.one*.8f, 1);
     }
 

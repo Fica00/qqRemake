@@ -14,6 +14,7 @@ public class UIPVPPanel : MonoBehaviour
 
     public void Setup()
     {
+        AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MATCHMAKING);
         matchingLabel.SetActive(true);
         opponentPlayer.gameObject.SetActive(false);
         ManageInteractables(true);
@@ -60,6 +61,7 @@ public class UIPVPPanel : MonoBehaviour
 
     private void Close()
     {
+        AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
         gameObject.SetActive(false);
     }
 

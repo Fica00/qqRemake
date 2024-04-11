@@ -141,6 +141,8 @@ public class GameplayPlayer : MonoBehaviour
         {
             return null;
         }
+        
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW_CARD);
         CardObject _card = CardsInDeck[0];
         return DrawCard(_card, true);
     }
@@ -159,7 +161,8 @@ public class GameplayPlayer : MonoBehaviour
                 CardsInDeck.Remove(_card);
             }
         }
-        Debug.Log(_card.name,_card.gameObject);
+        
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW_CARD);
         DrewCard?.Invoke(_card);
         return _card;
     }

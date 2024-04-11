@@ -29,6 +29,7 @@ public class RoundAnimationPanel : MonoBehaviour
         {
             return;
         }
+        AudioManager.Instance.PlaySoundEffect(AudioManager.NEW_TURN);
         panelHolder.SetActive(true);
         turnDisplay.sprite = turnImages[_index];
         Sequence _sequence = DOTween.Sequence();

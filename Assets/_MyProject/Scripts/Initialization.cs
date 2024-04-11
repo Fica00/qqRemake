@@ -50,6 +50,7 @@ public class Initialization : MonoBehaviour
     
     private void FinishInit()
     {
+        AudioManager.Instance.Init();
         SceneManager.Instance.LoadMainMenu();
         return;
         

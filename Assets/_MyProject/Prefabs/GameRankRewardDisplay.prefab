@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 133}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 0, y: 133}
+  m_SizeDelta: {x: 398.227, y: 398.227}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2848850682248627370
 CanvasRenderer:
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 08d1362636223504180a776e69e06739, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 62726523988832b47b4a23716e421a54, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 2848850683755525912}
   - component: {fileID: 2848850683755525915}
   - component: {fileID: 5175357609592762177}
+  - component: {fileID: 8107834137489433658}
   m_Layer: 5
   m_Name: Reward
   m_TagString: Untagged
@@ -548,6 +549,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8107834137489433658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848850683755525893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47848ae127ec8674c8bf382f6ba24909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &2848850684269715006
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardImage: {fileID: 2848850683755525915}
+  rankImage: {fileID: 2848850682248627349}
   cloud: {fileID: 5769853925660600648}
   unlockedDisplay: {fileID: 2848850683630991606}
   claimedDisplay: {fileID: 3494918441442197205}

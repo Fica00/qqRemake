@@ -34,4 +34,9 @@ mergeInto(LibraryManager.library,
     {
         SetUserId(UTF8ToString(id));
     },
+    
+    IsPwa: function()
+    {
+       return CheckIsPwa();
+    }
 });

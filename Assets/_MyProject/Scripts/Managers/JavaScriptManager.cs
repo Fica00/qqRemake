@@ -29,7 +29,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void StripePurchaseInit(double _cost);
     
     [DllImport("__Internal")]
-    public static extern void DoSetUserId(string _id);
+    public static extern void DoSetUserId(string _id);    
+    
+    [DllImport("__Internal")]
+    public static extern bool IsPwa();
 
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
@@ -43,7 +46,7 @@ public class JavaScriptManager : MonoBehaviour
                 return false;
             }
             
-            return false;
+            return IsPwa();
         }
     }
 

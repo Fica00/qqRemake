@@ -51,6 +51,11 @@ public class PowerDisplay : MonoBehaviour
             _callBack?.Invoke();
             return;
         }
+
+        if (_myPower>_opponentPower)
+        {
+            AudioManager.Instance.PlaySoundEffect(AudioManager.WIN_LOCATION);
+        }
         TextMeshProUGUI _text = _myPower > _opponentPower ? myPower : opponentPower;
         _text.GetComponentInParent<Animator>().SetTrigger("Win");
         StartCoroutine(CallCallBackRoutine());

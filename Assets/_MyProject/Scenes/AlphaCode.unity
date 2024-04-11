@@ -417,7 +417,6 @@ GameObject:
   - component: {fileID: 231369065}
   - component: {fileID: 231369068}
   - component: {fileID: 231369067}
-  - component: {fileID: 231369066}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -446,62 +445,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &231369066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231369064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 231369067}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 99409791}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &231369067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d264d14b2c2d4064b90ff5da3ac85f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsDemo>k__BackingField: 1
+  <IsDemo>k__BackingField: 0
   UpdatedInput:
     m_PersistentCalls:
       m_Calls: []
@@ -1960,7 +1903,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa74cf4e4ba8cef4cb34649d68e25e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audios: []
+  audios:
+  - Key: Back
+    AudioClip: {fileID: 8300000, guid: 4e02f19c741721741a2a082b9ec227dd, type: 3}
+    Volume: 1
+  - Key: Confirm
+    AudioClip: {fileID: 8300000, guid: 9434fed2e31398843a2be2b25329f14d, type: 3}
+    Volume: 1
+  - Key: Play
+    AudioClip: {fileID: 8300000, guid: bcbca6538e949a0488a261160ff76c1d, type: 3}
+    Volume: 1
+  - Key: MainMenu
+    AudioClip: {fileID: 8300000, guid: a073d814fea3b0f48b95123f5e984483, type: 3}
+    Volume: 1
+  - Key: Game
+    AudioClip: {fileID: 8300000, guid: 4e00e9a1bdc2cd24ba938ce853a0d3c7, type: 3}
+    Volume: 1
+  - Key: Matchmaking
+    AudioClip: {fileID: 8300000, guid: 77ba6f4488e2b62448ce87f162153dea, type: 3}
+    Volume: 1
+  - Key: Summon
+    AudioClip: {fileID: 8300000, guid: 180ba76e0e24aa04d900a968d86dc4bd, type: 3}
+    Volume: 1
+  - Key: Draw
+    AudioClip: {fileID: 8300000, guid: 3713b062a4831774b922dff047fac015, type: 3}
+    Volume: 1
+  - Key: Win
+    AudioClip: {fileID: 8300000, guid: cd68b9f70a196914aadff3d232650128, type: 3}
+    Volume: 1
+  - Key: Lose
+    AudioClip: {fileID: 8300000, guid: ac298cdb28040e04c8a5ac438b5513e0, type: 3}
+    Volume: 1
+  - Key: CardSound
+    AudioClip: {fileID: 8300000, guid: 71c854a6eb4faca4682420e528fdbc61, type: 3}
+    Volume: 1
+  - Key: DrawCard
+    AudioClip: {fileID: 8300000, guid: c83f05773d224674fb4d7d5464689181, type: 3}
+    Volume: 1
+  - Key: NewTurn
+    AudioClip: {fileID: 8300000, guid: 2fb21accc83ee2247ac4293c2e5f6ee9, type: 3}
+    Volume: 1
+  - Key: Reveal
+    AudioClip: {fileID: 8300000, guid: a1445e1b5c2475b4da68d3d88d0f864d, type: 3}
+    Volume: 1
+  - Key: WinLocation
+    AudioClip: {fileID: 8300000, guid: 55c842a85ad151443802a9dfbf60b4ee, type: 3}
+    Volume: 1
+  - Key: DoubleInitiated
+    AudioClip: {fileID: 8300000, guid: abe7a94f6014c8848b8ed16666918faf, type: 3}
+    Volume: 1
+  - Key: DoubleResolved
+    AudioClip: {fileID: 8300000, guid: a6a420f5d30fb7242b7000d8429de028, type: 3}
+    Volume: 1
 --- !u!82 &1913892248
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1971,8 +1965,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: a073d814fea3b0f48b95123f5e984483, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

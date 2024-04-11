@@ -1155,26 +1155,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 5361468: function() {
+ 5363532: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 5361523: function($0) {
+ 5363587: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5361571: function($0) {
+ 5363635: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5361619: function() {
+ 5363683: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 5361674: function() {
+ 5363738: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 5361735: function() {
+ 5363799: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1292,6 +1292,10 @@ function _CloseKeyboard() {
 
 function _DoSetUserId(id) {
  SetUserId(UTF8ToString(id));
+}
+
+function _IsPwa() {
+ return CheckIsPwa();
 }
 
 var JS_Accelerometer = null;
@@ -13908,6 +13912,7 @@ var asmLibraryArg = {
  "AuthWithGoogle": _AuthWithGoogle,
  "CloseKeyboard": _CloseKeyboard,
  "DoSetUserId": _DoSetUserId,
+ "IsPwa": _IsPwa,
  "JS_Accelerometer_IsRunning": _JS_Accelerometer_IsRunning,
  "JS_Accelerometer_Start": _JS_Accelerometer_Start,
  "JS_Accelerometer_Stop": _JS_Accelerometer_Stop,

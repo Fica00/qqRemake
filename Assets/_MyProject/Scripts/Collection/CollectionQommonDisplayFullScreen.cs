@@ -14,6 +14,7 @@ public class CollectionQommonDisplayFullScreen : MonoBehaviour
 
     public void Setup(int _cardId)
     {
+        AudioManager.Instance.PlaySoundEffect(AudioManager.CARD_SOUND);
         CardObject _qommon = CardsManager.Instance.GetCardObject(_cardId);
         qommonDisplay.sprite = _qommon.Details.Sprite;
         powerDisplay.text = _qommon.Details.Power.ToString();

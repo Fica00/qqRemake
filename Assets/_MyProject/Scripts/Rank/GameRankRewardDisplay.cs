@@ -8,6 +8,7 @@ public class GameRankRewardDisplay : MonoBehaviour
     public static Action<RankReward> OnClicked;
     
     [SerializeField] private Image rewardImage;
+    [SerializeField] private Image rankImage;
     [SerializeField] private GameObject cloud;
     [SerializeField] private GameObject unlockedDisplay;
     [SerializeField] private GameObject claimedDisplay;
@@ -35,6 +36,7 @@ public class GameRankRewardDisplay : MonoBehaviour
     public void Setup(RankReward _reward)
     {
         reward = _reward;
+        rankImage.sprite = RankSo.GetRankData(_reward.AmountOfMatches).RankSo.Sprite;
         numberOfMatches.text = reward.AmountOfMatches.ToString();
 
         if (_reward.AmountOfMatches>DataManager.Instance.PlayerData.AmountOfRankGamesPlayed)

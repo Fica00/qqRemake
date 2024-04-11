@@ -5,6 +5,7 @@ public class AuthHandler : MonoBehaviour
 {
     public const string AUTH_METHOD = "AuthMethod";
     public const string AUTH_PARMS = "AuthParms";
+    
     public static AuthHandler Instance;
 
     [SerializeField] private RegisterHandler registerHandler;

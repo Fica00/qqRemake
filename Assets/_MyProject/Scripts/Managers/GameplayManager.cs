@@ -186,6 +186,7 @@ public class GameplayManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.ChangeBackgroundMusic(AudioManager.GAME);
         GameplayUI.Instance.StartingAnimations(StartGameplay);   
     }
 
@@ -282,6 +283,8 @@ public class GameplayManager : MonoBehaviour
                 locationRevealed = false;
             }
             yield return new WaitForSeconds(1f); //duration of round animation
+            
+            AudioManager.Instance.PlaySoundEffect(AudioManager.REVEAL);
             StartCoroutine(RevealLocation());
             StartCoroutine(ShowRevealText());
             yield return new WaitUntil(() => locationRevealed);
@@ -312,9 +315,13 @@ public class GameplayManager : MonoBehaviour
             }
             StartCoroutine(RevealCards(_whoPlaysFirst));
             yield return new WaitUntil(() => resolvedEndOfTheRound);
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(1);
         }
 
+        bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
+        DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
+        yield return new WaitForSeconds(0.5f);
+        
         bool _canContinue = false;
         for (int i = 0; i < Lanes.Count; i++)
         {
@@ -323,6 +330,7 @@ public class GameplayManager : MonoBehaviour
             _canContinue = false;
         }
         yield return new WaitForSeconds(1);
+        DataManager.Instance.PlayerData.PlayBackgroundMusic = _playBackgroundMusic;
         GameResult _result = TableHandler.CalculateWinner();
         GameEnded?.Invoke(_result);
         

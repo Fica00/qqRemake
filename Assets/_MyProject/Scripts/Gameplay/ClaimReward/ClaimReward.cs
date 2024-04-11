@@ -85,20 +85,25 @@ public class ClaimReward : MonoBehaviour
          case GameResult.IWon:
             _sprite = won;
             didIWin = true;
+            AudioManager.Instance.PlaySoundEffect(AudioManager.WIN);
             break;
          case GameResult.ILost:
             _sprite = lost;
+            AudioManager.Instance.PlaySoundEffect(AudioManager.LOSE);
             break;
          case GameResult.Draw:
+            AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW);
             didIWin = true;
             GameplayManager.Instance.HalfCurrentBetWithoutNotify();
             _sprite = draw;
             break;
          case GameResult.IForefiet:
+            AudioManager.Instance.PlaySoundEffect(AudioManager.LOSE);
             _sprite = escaped;
             break;
          case GameResult.Escaped:
             didIWin = true;
+            AudioManager.Instance.PlaySoundEffect(AudioManager.WIN);
             _sprite = won;
             break;
          default:
