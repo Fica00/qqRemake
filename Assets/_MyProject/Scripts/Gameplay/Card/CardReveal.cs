@@ -6,6 +6,7 @@ public class CardReveal : MonoBehaviour
     [SerializeField] private GameObject shadowObject;
     [SerializeField] private GameObject revealObject;
     private CardObject cardObject;
+    public bool IsReveled;
 
     public bool IsRevealing => shadowObject.activeSelf||revealObject.activeSelf;
 
@@ -13,7 +14,6 @@ public class CardReveal : MonoBehaviour
     {
         cardObject = _cardObject;
     }
-
 
     public void PrepareForReveal()
     {
@@ -42,6 +42,7 @@ public class CardReveal : MonoBehaviour
 
     public void Finish()
     {
+        IsReveled = true;
         cardObject.Display.ShowCardOnTable();
     }
 }

@@ -122,6 +122,11 @@ public class CardInteractions : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             return;
         }
 
+        if (!cardObject.IsMy)
+        {
+            return;
+        }
+
         if (!isDragging)
         {
             Vector2 dragDelta = eventData.position - pointerDownPosition;

@@ -47,6 +47,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public void CloseRoom()
     {
+        if (PhotonNetwork.CurrentRoom==null)
+        {
+            return;
+        }
+        
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.CurrentRoom.IsOpen = false;
     }

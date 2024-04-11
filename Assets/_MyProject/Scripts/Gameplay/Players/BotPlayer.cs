@@ -55,6 +55,7 @@ public class BotPlayer : GameplayPlayer
         switch (GameplayManager.Instance.GameplayState)
         {
             case GameplayState.ResolvingBeginingOfRound:
+                hasPlayedThisRound = false;
                 break;
             case GameplayState.Playing:
                 if (playCoroutine != null)
@@ -69,7 +70,6 @@ public class BotPlayer : GameplayPlayer
             case GameplayState.Waiting:
                 break;
             case GameplayState.ResolvingEndOfRound:
-                hasPlayedThisRound = false;
                 break;
         }
     }

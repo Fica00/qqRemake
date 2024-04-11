@@ -43,6 +43,13 @@ public class CardDetailsPanel : MonoBehaviour
 
     private void ShowCardDetails(CardObject _cardObject)
     {
+        if (!_cardObject.IsMy)
+        {
+            if (!_cardObject.Reveal.IsReveled)
+            {
+                return;
+            }
+        }
         AudioManager.Instance.PlaySoundEffect(AudioManager.CARD_SOUND);
         showHandPanel.SetActive(false);
         hideHandPanel.SetActive(false);
