@@ -6,7 +6,6 @@ public class PwaInstructions : MonoBehaviour
     
     private void Start()
     {
-        Debug.Log("Checking for browser: "+JavaScriptManager.Instance.IsBrowser);
         if (JavaScriptManager.Instance.IsBrowser)
         {
             holder.SetActive(true);

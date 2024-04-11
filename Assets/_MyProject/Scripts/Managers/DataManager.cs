@@ -78,6 +78,8 @@ public class DataManager : MonoBehaviour
         MissionProgress.UpdatedProgress += SaveProgress;
         PlayerData.UpdatedLoginRewards += SaveLoginRewards;
         PlayerData.UpdatedIsDemoPlayer += SaveIsDemoPlayer;
+        PlayerData.UpdatedBackgroundMusic += SaveBackgroundMusic;
+        PlayerData.UpdatedPlaySoundEffects += SaveSoundEffects;
         
         StartCoroutine(CheckForNewGameDay());
         MissionManager.Instance.Setup();
@@ -149,6 +151,8 @@ public class DataManager : MonoBehaviour
         MissionProgress.UpdatedProgress -= SaveProgress;
         PlayerData.UpdatedLoginRewards -= SaveLoginRewards;
         PlayerData.UpdatedIsDemoPlayer -= SaveIsDemoPlayer;
+        PlayerData.UpdatedBackgroundMusic -= SaveBackgroundMusic;
+        PlayerData.UpdatedPlaySoundEffects -= SaveSoundEffects;
     }
 
     private void SaveSelectedDeck()
@@ -261,5 +265,15 @@ public class DataManager : MonoBehaviour
     private void SaveLoginRewards()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.ClaimedLoginRewards),JsonConvert.SerializeObject(PlayerData.ClaimedLoginRewards));
+    }
+    
+    private void SaveBackgroundMusic()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.PlayBackgroundMusic),JsonConvert.SerializeObject(PlayerData.PlayBackgroundMusic));
+    }
+
+    private void SaveSoundEffects()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.PlaySoundEffects),JsonConvert.SerializeObject(PlayerData.PlaySoundEffects));
     }
 }

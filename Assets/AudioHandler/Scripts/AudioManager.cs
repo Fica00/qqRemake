@@ -120,4 +120,16 @@ public class AudioManager : MonoBehaviour
 
         return _audio;
     }
+    
+    private void OnApplicationFocus(bool _hasFocus)
+    {
+        if (_hasFocus&& DataManager.Instance.PlayerData.PlayBackgroundMusic)
+        {
+            audioSource.volume = 1;
+        }
+        else
+        {
+            audioSource.volume = 0;
+        }
+    }
 }
