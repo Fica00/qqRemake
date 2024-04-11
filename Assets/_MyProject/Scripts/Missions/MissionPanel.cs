@@ -85,20 +85,39 @@ public class MissionPanel : MonoBehaviour
 
         List<int> _possibleQoomons = new List<int>()
         {
-            43,
+            6,
+            47,
+            46,
             42,
-            41,
-            40,
-            39,
-            38,
-            32,
-            31,
-            30
+            33,
+            36,
+            25,
+            2,
+            41
         };
-        int _randomQoomon = _possibleQoomons[Random.Range(0, _possibleQoomons.Count)];
-        DataManager.Instance.PlayerData.AddQoomon(_randomQoomon);
-        DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
-        qoomonUnlockingPanel.Setup(_randomQoomon, () => SceneManager.Instance.ReloadScene());
+        int _choseQoomon = -1;
+        foreach (var _qoomon in _possibleQoomons)
+        {
+            if (DataManager.Instance.PlayerData.OwnedQoomons.Contains(_qoomon))
+            {
+                continue;
+            }
+
+            _choseQoomon = _qoomon;
+        }
+
+        if (_choseQoomon != -1)
+        {
+            DataManager.Instance.PlayerData.AddQoomon(_choseQoomon);
+            DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
+            qoomonUnlockingPanel.Setup(_choseQoomon, () => SceneManager.Instance.ReloadScene());
+        }
+        else
+        {
+            DataManager.Instance.PlayerData.Exp += 15;
+            SceneManager.Instance.ReloadScene();
+        }
+        
     }
 
 }
