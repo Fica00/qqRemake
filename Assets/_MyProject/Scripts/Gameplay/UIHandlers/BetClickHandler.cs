@@ -169,6 +169,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             {
                 _currentBet /= 2;
             }
+            else if(didOpponentInitBetIncrease && didIAcceptInLastRound)
+            {
+                _currentBet = maxBet;
+            }
 
         }
         else
@@ -184,6 +188,12 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 return;
             }
         }
+
+        if (_currentBet>maxBet)
+        {
+            _currentBet = maxBet;
+        }
+        
         // nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet;
         nextBetDisplay.text = "Next: " + _currentBet;
     }
