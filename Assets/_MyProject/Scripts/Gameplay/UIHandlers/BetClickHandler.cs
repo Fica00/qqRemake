@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,14 +34,24 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         GameplayManager.GameEnded += Disable;
         GameplayManager.UpdatedBet += OpponentAcceptedBet;
+        GameplayManager.UpdatedRound += TryShowNext;
     }
 
     private void OnDisable()
     {
         GameplayManager.GameEnded -= Disable;
         GameplayManager.UpdatedBet -= OpponentAcceptedBet;
+        GameplayManager.UpdatedRound += TryShowNext;
     }
-    
+
+    private void TryShowNext()
+    {
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            ShowNextRoundBet();
+        }
+    }
+
     private void Disable(GameResult _result)
     {
         button.interactable = false;
@@ -116,6 +127,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
     }
 
+    public void AcceptAutoBet()
+    {
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
+        pulsingLight.gameObject.SetActive(false);
+        GameplayManager.Instance.OpponentAcceptedBet();
+    }
+
     private void AcceptBet()
     {
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
@@ -131,6 +149,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void ShowNextRoundBet()
     {
         int _currentBet = GameplayManager.Instance.CurrentBet;
+        if (GameplayManager.Instance.IsLastRound && DidIBetThisRound || didOpponentInitBetIncrease)
+        {
+            Debug.Log("---"+_currentBet);
+            _currentBet *= 2;
+            Debug.Log("++++" +_currentBet);
+        }
+        
         nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet * 2;
     }
 
@@ -153,16 +178,5 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerUp(PointerEventData _eventData)
     {
         IncreaseBet();
-    }
-
-    public void OfferBet()
-    {
-        didOpponentInitBetIncrease = true;
-        OnPointerDown(null);
-        ShowNextRoundBet();
-        GameplayManager.Instance.Bet();
-        GameplayManager.UpdatedRound += TurnOffDidIBetThisRound;
-        GameplayUI.Instance.ShakeScreen(1);
-        pulsingLight.gameObject.SetActive(true);
     }
 }

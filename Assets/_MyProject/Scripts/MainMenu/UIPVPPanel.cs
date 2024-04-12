@@ -10,8 +10,9 @@ public class UIPVPPanel : MonoBehaviour
     [SerializeField] private MatchMakingPlayerDisplay opponentPlayer;
     [SerializeField] private GameObject matchingLabel;
     [SerializeField] private TextMeshProUGUI header;
-
-
+    [SerializeField] private UIPlayPanel playPanel;
+    private IEnumerator botRoutine;
+    
     public void Setup()
     {
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MATCHMAKING);
@@ -22,6 +23,25 @@ public class UIPVPPanel : MonoBehaviour
         header.text = "Searching for opponent";
         gameObject.SetActive(true);
         TryShowTransition();
+
+        if (PhotonManager.Instance.IsMasterClient)
+        {
+            botRoutine = BringBot();
+            StartCoroutine(botRoutine);
+        }
+    }
+
+    private IEnumerator BringBot()
+    {
+        yield return new WaitForSeconds(7);
+        PhotonManager.Instance.CloseRoom();
+        yield return new WaitForSeconds(2);
+        if (PhotonManager.Instance.CurrentRoom.PlayerCount!=1)
+        {
+            yield break;
+        }
+        playPanel.BringBot();
+        Cancel();
     }
 
     private void OnEnable()
@@ -62,6 +82,11 @@ public class UIPVPPanel : MonoBehaviour
     private void Close()
     {
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
+        if (botRoutine!=default)
+        {
+            StopCoroutine(botRoutine);
+            botRoutine = default;
+        }
         gameObject.SetActive(false);
     }
 

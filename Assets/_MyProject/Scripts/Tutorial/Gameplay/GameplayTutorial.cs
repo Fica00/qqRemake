@@ -46,11 +46,6 @@ public class GameplayTutorial : GameplayManager
             }
 
             DrewCardDirectlyToHand = false;
-            if (CurrentRound==maxRounds-1)
-            {
-                AutoBet();
-                yield return new WaitForSeconds(1);
-            }
             
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);

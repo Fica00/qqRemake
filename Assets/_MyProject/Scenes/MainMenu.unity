@@ -7428,6 +7428,7 @@ MonoBehaviour:
   opponentPlayer: {fileID: 1914244020}
   matchingLabel: {fileID: 404158162}
   header: {fileID: 317276445}
+  playPanel: {fileID: 1175484254}
 --- !u!1 &932532980
 GameObject:
   m_ObjectHideFlags: 0

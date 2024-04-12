@@ -41,21 +41,20 @@ public class UIPlayPanel : MonoBehaviour
 
     private void StartMatch()
     {
-        if (!PhotonManager.Instance.CanStartMatch)
-        {
-            PhotonManager.Instance.FixSelf();
-            DialogsManager.Instance.OkDialog.Setup("Cleaning up the data, please try again in few moments");
-            return;
-        }
-        
-        inputBlocker.SetActive(true);
-        
         switch (ModeHandler.Instance.Mode)
         {
             case GameMode.VsAi:
                 ShowAIGameplay();
                 break;
             case GameMode.VsPlayer:
+                if (!PhotonManager.Instance.CanStartMatch)
+                {
+                    PhotonManager.Instance.FixSelf();
+                    DialogsManager.Instance.OkDialog.Setup("Cleaning up the data, please try again in few moments");
+                    return;
+                }
+        
+                inputBlocker.SetActive(true);
                 ShowPVPPanel();
                 break;
             case GameMode.Friendly:
@@ -129,5 +128,17 @@ public class UIPlayPanel : MonoBehaviour
 
             return true;
         }
+    }
+
+    public void BringBot()
+    {
+        PhotonManager.OnILeftRoom += StartVsBot;
+    }
+
+    private void StartVsBot()
+    {
+        PhotonManager.OnILeftRoom -= StartVsBot;
+        ModeHandler.Instance.Mode = GameMode.VsAi;
+        StartMatch();
     }
 }

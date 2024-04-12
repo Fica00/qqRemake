@@ -51,6 +51,8 @@ public class GameplayManager : MonoBehaviour
 
     public bool IFinished => iFinished;
 
+    public bool IsLastRound => CurrentRound == maxRounds;
+
     public GameplayState GameplayState
     {
         get
@@ -295,12 +297,7 @@ public class GameplayManager : MonoBehaviour
             }
 
             DrewCardDirectlyToHand = false;
-            if (CurrentRound==maxRounds)
-            {
-                AutoBet();
-                yield return new WaitForSeconds(1);
-            }
-            
+
             GameplayState = GameplayState.Playing;
             yield return new WaitUntil(() => iFinished && opponentFinished);
 
@@ -317,6 +314,8 @@ public class GameplayManager : MonoBehaviour
             yield return new WaitUntil(() => resolvedEndOfTheRound);
             yield return new WaitForSeconds(1);
         }
+
+        AcceptAutoBet();
 
         bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
         DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
@@ -340,9 +339,9 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    protected virtual void AutoBet()
+    protected virtual void AcceptAutoBet()
     {
-        OpponentAcceptedBet();
+        BetClickHandler.Instance.AcceptAutoBet();
     }
 
     protected virtual bool ReadyToStart()
@@ -513,7 +512,12 @@ public class GameplayManager : MonoBehaviour
         
         IEnumerator BetRoutine()
         {
-            yield return new WaitForSeconds(1);
+            int _currentRound = currentRound;
+            yield return new WaitForSeconds(3);
+            if (_currentRound!=CurrentRound)
+            {
+                yield break;
+            }
             OpponentAcceptedBet();
         }
     }

@@ -106,17 +106,18 @@ public class GameplayManagerPVP : GameplayManager
         }
     }
 
+    protected override void AcceptAutoBet()
+    {
+        if (!PhotonManager.Instance.IsMasterClient)
+        {
+            return;
+        }
+        base.AcceptAutoBet();
+    }
+
     public override void Bet()
     {
         photonView.RPC("OpponentWantsToBet", RpcTarget.Others);
-    }
-
-    protected override void AutoBet()
-    {
-        if (PhotonManager.Instance.IsMasterClient)
-        {
-            BetClickHandler.Instance.OfferBet();
-        }
     }
 
     public override void OpponentAcceptedBet()
