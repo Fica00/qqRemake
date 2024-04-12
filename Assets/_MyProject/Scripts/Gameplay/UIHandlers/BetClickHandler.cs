@@ -164,23 +164,22 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         int _currentBet = GameplayManager.Instance.CurrentBet;
         if (GameplayManager.Instance.IsLastRound && (DidIBetThisRound || didOpponentInitBetIncrease))
         {
+            Debug.Log(1);
             _currentBet *= 4;
             if (didOpponentAcceptInLastRound && !didIAcceptInLastRound)
             {
+                Debug.Log(2);
                 _currentBet /= 2;
             }
-            else if(didOpponentInitBetIncrease && didIAcceptInLastRound)
+            
+            if (didOpponentAcceptInLastRound && didOpponentInitBetIncrease)
             {
                 _currentBet = maxBet;
             }
-            else if (didOpponentAcceptInLastRound && didOpponentInitBetIncrease)
-            {
-                _currentBet = maxBet;
-            }
-
         }
         else
         {
+            Debug.Log(5);
             _currentBet *= 2;
         }
 
