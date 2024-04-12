@@ -16,4 +16,4 @@ MonoBehaviour:
   <Name>k__BackingField: Adept
   <Sprite>k__BackingField: {fileID: 21300000, guid: dbefe5cacd627df4494fc0f12689810d, type: 3}
   <RequirementPerSubRank>k__BackingField: 5
-  <AmountOfSubRanks>k__BackingField: 5
+  <AmountOfSubRanks>k__BackingField: 10

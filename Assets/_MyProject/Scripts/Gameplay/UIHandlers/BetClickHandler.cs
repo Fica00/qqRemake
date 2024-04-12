@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +19,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private int maxBet = 8;
     private bool didOpponentInitBetIncrease;
     private bool didIBet;
+    private bool didOpponentAcceptInLastRound;
 
     public bool DidIBetThisRound { get; private set; }
 
@@ -99,6 +99,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void OpponentAcceptedBet()
     {
         stakeAnimator.SetTrigger(STAKE_KEY);
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            didOpponentAcceptInLastRound = true;
+        }
         ShowBet();
     }
 
@@ -107,6 +111,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         int _betAmount = GameplayManager.Instance.CurrentBet;
         betDisplayAnimation.text=betDisplay.text = _betAmount.ToString();
         nextBetDisplay.text = string.Empty;
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            ShowNextRoundBet();
+        }
     }
 
     public void ShowOpponentWantsToIncreaseBet()
@@ -151,12 +159,26 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         int _currentBet = GameplayManager.Instance.CurrentBet;
         if (GameplayManager.Instance.IsLastRound && (DidIBetThisRound || didOpponentInitBetIncrease))
         {
-            Debug.Log("---"+_currentBet);
-            _currentBet *= 2;
-            Debug.Log("++++" +_currentBet);
+            _currentBet *= 4;
+            if (didOpponentAcceptInLastRound)
+            {
+                _currentBet /= 2;
+            }
         }
-        
-        nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet * 2;
+        else
+        {
+            _currentBet *= 2;
+        }
+
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            if (GameplayManager.Instance.GameplayState == GameplayState.ResolvingEndOfRound)
+            {
+                nextBetDisplay.text = string.Empty;
+                return;
+            }
+        }
+        nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet;
     }
 
     public void OnPointerDown(PointerEventData _eventData)

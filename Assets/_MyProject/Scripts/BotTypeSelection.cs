@@ -4,7 +4,7 @@ using UnityEngine;
 public class BotTypeSelection : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown dropdown;
-    public static BotType BotType = BotType.Version1;
+    public static BotType BotType = BotType.Version3;
 
     private void OnEnable()
     {

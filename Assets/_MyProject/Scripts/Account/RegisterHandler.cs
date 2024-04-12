@@ -18,15 +18,15 @@ public class RegisterHandler : MonoBehaviour
     private void OnEnable()
     {
         loginWithFacebook.onClick.AddListener(LoginWithFacebook);
-        loginWithGoogle.onClick.AddListener(LoginWithGoogle);
-        guestButton.onClick.AddListener(LoginAsGuest);
+        // loginWithGoogle.onClick.AddListener(LoginWithGoogle);
+        // guestButton.onClick.AddListener(LoginAsGuest);
     }
 
     private void OnDisable()
     {
         loginWithFacebook.onClick.RemoveListener(LoginWithFacebook);
-        loginWithGoogle.onClick.RemoveListener(LoginWithGoogle);
-        guestButton.onClick.RemoveListener(LoginAsGuest);
+        // loginWithGoogle.onClick.RemoveListener(LoginWithGoogle);
+        // guestButton.onClick.RemoveListener(LoginAsGuest);
     }
 
     private void LoginAsGuest()

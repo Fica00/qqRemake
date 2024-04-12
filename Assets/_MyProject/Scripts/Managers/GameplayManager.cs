@@ -316,7 +316,7 @@ public class GameplayManager : MonoBehaviour
         }
 
         AcceptAutoBet();
-
+        
         bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
         DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
         yield return new WaitForSeconds(0.5f);

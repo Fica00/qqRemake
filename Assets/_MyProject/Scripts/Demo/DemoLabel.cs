@@ -17,7 +17,11 @@ public class DemoLabel : MonoBehaviour
         _textToDisplay += text;
         if (JavaScriptManager.Instance.IsDemo)
         {
-            _textToDisplay += "\nComing soon";
+            if (!string.IsNullOrEmpty(text))
+            {
+                _textToDisplay += "\n";
+            }
+            _textToDisplay += "Coming soon";
         }
 
         display.text = _textToDisplay;

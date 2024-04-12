@@ -45,14 +45,6 @@ public class ModeHandler : MonoBehaviour
         OnUpdatedMode -= ShowMode;
     }
 
-    private void Start()
-    {
-        if (JavaScriptManager.Instance.IsDemo)
-        {
-            Mode = GameMode.VsAi;
-        }
-    }
-
     private void ChangeMode()
     {
         // int _modeCount = Enum.GetValues(typeof(GameMode)).Length;

@@ -16,4 +16,4 @@ MonoBehaviour:
   <Name>k__BackingField: Luminary
   <Sprite>k__BackingField: {fileID: 21300000, guid: fddcecb2e601484439d9aedacc5bc0d5, type: 3}
   <RequirementPerSubRank>k__BackingField: 5
-  <AmountOfSubRanks>k__BackingField: 5
+  <AmountOfSubRanks>k__BackingField: 10

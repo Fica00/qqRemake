@@ -72,7 +72,7 @@ public class PlayerDisplay : MonoBehaviour
         {
             if (SceneManager.IsAIScene)
             {
-                nameDisplay.text = "Bot";
+                nameDisplay.text = "Player"+Random.Range(1000,10000);
             }
             else
             {
