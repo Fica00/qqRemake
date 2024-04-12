@@ -23,6 +23,10 @@ public class DemoLabel : MonoBehaviour
             }
             _textToDisplay += "Coming soon";
         }
+        else if (string.IsNullOrEmpty(_textToDisplay))
+        {
+            return;
+        }
 
         display.text = _textToDisplay;
     }
