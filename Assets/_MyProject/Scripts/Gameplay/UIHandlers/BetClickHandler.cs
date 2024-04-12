@@ -42,7 +42,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         GameplayManager.GameEnded -= Disable;
         GameplayManager.UpdatedBet -= OpponentAcceptedBet;
-        GameplayManager.UpdatedRound += TryShowNext;
+        GameplayManager.UpdatedRound -= TryShowNext;
     }
 
     private void TryShowNext()
@@ -170,6 +170,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 _currentBet /= 2;
             }
             else if(didOpponentInitBetIncrease && didIAcceptInLastRound)
+            {
+                _currentBet = maxBet;
+            }
+            else if (didOpponentAcceptInLastRound && didOpponentInitBetIncrease)
             {
                 _currentBet = maxBet;
             }
