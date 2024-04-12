@@ -20,6 +20,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool didOpponentInitBetIncrease;
     private bool didIBet;
     private bool didOpponentAcceptInLastRound;
+    private bool didIAcceptInLastRound;
 
     public bool DidIBetThisRound { get; private set; }
 
@@ -144,6 +145,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void AcceptBet()
     {
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            didIAcceptInLastRound = true;
+        }
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
         GameplayManager.UpdatedGameState -= ManageRoundEnded;
         didOpponentInitBetIncrease = false;
@@ -160,10 +165,11 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (GameplayManager.Instance.IsLastRound && (DidIBetThisRound || didOpponentInitBetIncrease))
         {
             _currentBet *= 4;
-            if (didOpponentAcceptInLastRound)
+            if (didOpponentAcceptInLastRound && !didIAcceptInLastRound)
             {
                 _currentBet /= 2;
             }
+
         }
         else
         {
@@ -178,7 +184,8 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 return;
             }
         }
-        nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet;
+        // nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet;
+        nextBetDisplay.text = "Next: " + _currentBet;
     }
 
     public void OnPointerDown(PointerEventData _eventData)

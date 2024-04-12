@@ -15,5 +15,5 @@ MonoBehaviour:
   <Id>k__BackingField: 10
   <Name>k__BackingField: Immortal
   <Sprite>k__BackingField: {fileID: 21300000, guid: 80fadef883f85774985411668dbe0d9f, type: 3}
-  <RequirementPerSubRank>k__BackingField: 5
+  <RequirementPerSubRank>k__BackingField: 7
   <AmountOfSubRanks>k__BackingField: 10
