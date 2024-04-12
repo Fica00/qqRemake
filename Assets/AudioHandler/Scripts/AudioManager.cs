@@ -85,6 +85,7 @@ public class AudioManager : MonoBehaviour
         {
             return;
         }
+        
         audioSource.DOFade(0, 0.5f).OnComplete(() =>
         {
             audioSource.clip = _audio.AudioClip;
