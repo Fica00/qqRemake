@@ -80,6 +80,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedIsDemoPlayer += SaveIsDemoPlayer;
         PlayerData.UpdatedBackgroundMusic += SaveBackgroundMusic;
         PlayerData.UpdatedPlaySoundEffects += SaveSoundEffects;
+        PlayerData.UpdatedHasFinishedTutorial += SaveTutorial;
         
         StartCoroutine(CheckForNewGameDay());
         MissionManager.Instance.Setup();
@@ -153,6 +154,12 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedIsDemoPlayer -= SaveIsDemoPlayer;
         PlayerData.UpdatedBackgroundMusic -= SaveBackgroundMusic;
         PlayerData.UpdatedPlaySoundEffects -= SaveSoundEffects;
+        PlayerData.UpdatedHasFinishedTutorial -= SaveTutorial;
+    }
+
+    private void SaveTutorial()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.HasFinishedTutorial),PlayerData.HasFinishedTutorial);
     }
 
     private void SaveSelectedDeck()
