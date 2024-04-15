@@ -14,7 +14,7 @@ public class GameRankRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject claimedDisplay;
     [SerializeField] private TextMeshProUGUI rewardName;
     [SerializeField] private Button button;
-    [SerializeField] private TextMeshProUGUI numberOfMatches;
+    [SerializeField] private TextMeshProUGUI rankLevel;
     
     private RankReward reward;
 
@@ -36,10 +36,10 @@ public class GameRankRewardDisplay : MonoBehaviour
     public void Setup(RankReward _reward)
     {
         reward = _reward;
-        rankImage.sprite = RankSo.GetRankData(_reward.AmountOfMatches).RankSo.Sprite;
-        numberOfMatches.text = reward.AmountOfMatches.ToString();
+        rankImage.sprite = RankSo.GetRankById(_reward.RankIndex).Sprite;
+        rankLevel.text = reward.RankLevel.ToString();
 
-        if (_reward.AmountOfMatches>DataManager.Instance.PlayerData.AmountOfRankGamesPlayed)
+        if (_reward.RankLevel>RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints))
         {
             cloud.SetActive(true);
         }
@@ -49,7 +49,7 @@ public class GameRankRewardDisplay : MonoBehaviour
                 ? SpriteProvider.Instance.GetQoomonSprite(_reward.Value) 
                 : SpriteProvider.Instance.Get(_reward.ItemType);
             rewardName.text = _reward.Name;
-            if (DataManager.Instance.PlayerData.ClaimedRankRewards.Contains(_reward.AmountOfMatches))
+            if (DataManager.Instance.PlayerData.ClaimedRankRewards.Contains(_reward.RankIndex))
             {
                 claimedDisplay.SetActive(true);
             }

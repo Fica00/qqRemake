@@ -119,8 +119,8 @@ public class ClaimReward : MonoBehaviour
    private void ShowProgress()
    {
       RankData _rankData = RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints);
-      progressDisplay.text = $"{_rankData.PointsOnRank}/{_rankData.RankSo.RequirementPerSubRank}";
-      levelDisplay.text = _rankData.SubRank.ToString();
+      progressDisplay.text = $"{_rankData.PointsOnRank}/{_rankData.RankSo.AmountOfOrbs}";
+      levelDisplay.text = _rankData.Level.ToString();
       rankImage.sprite = _rankData.RankSo.Sprite;
    }
 }

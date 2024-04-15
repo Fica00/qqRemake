@@ -16,6 +16,7 @@ public class SceneManager : SceneLoader
     private const string DATA_COLLECTOR = "DataCollector";
     private const string ALPHA_CODE = "AlphaCode";
     private const string TUTORIAL = "Tutorial";
+    private const string SIMPLE_TUTORIAL = "SimpleTutorial";
     private const string GAMEPLAY_TUTORIAL = "GameplayTutorial";
 
     public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_AI;
@@ -87,6 +88,11 @@ public class SceneManager : SceneLoader
     public void LoadTutorial(bool _useAsyncLoading=true)
     {
         DoLoadScene(TUTORIAL,_useAsyncLoading);
+    }    
+    
+    public void LoadSimpleTutorial(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(SIMPLE_TUTORIAL,_useAsyncLoading);
     }
 
     public void LoadTutorialGameplay(bool _useAsyncLoading=true)

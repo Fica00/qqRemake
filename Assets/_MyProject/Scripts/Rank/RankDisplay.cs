@@ -26,7 +26,7 @@ public class RankDisplay : MonoBehaviour
         RankData _rank = RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints);
         circle.sprite = _rank.RankSo.Sprite;
         progress.fillAmount = _rank.Percentage;
-        progressDisplay.text = $"{_rank.PointsOnRank}/{_rank.RankSo.RequirementPerSubRank}";
-        rankName.text = $"{_rank.RankSo.Name} ({_rank.SubRank})";
+        progressDisplay.text = $"{_rank.PointsOnRank}/{_rank.RankSo.AmountOfOrbs}";
+        rankName.text = $"{_rank.RankSo.Name} ({_rank.Level})";
     }
 }

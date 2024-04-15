@@ -620,7 +620,7 @@ MonoBehaviour:
   claimedDisplay: {fileID: 3494918441442197205}
   rewardName: {fileID: 2848850682660447790}
   button: {fileID: 5175357609592762177}
-  numberOfMatches: {fileID: 2848850682651548545}
+  rankLevel: {fileID: 2848850682651548545}
 --- !u!1 &3494918441442197205
 GameObject:
   m_ObjectHideFlags: 0

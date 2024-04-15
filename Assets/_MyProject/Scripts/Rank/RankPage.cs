@@ -39,10 +39,10 @@ public class RankPage : MonoBehaviour
 
     private void Setup()
     {
-        RankData _rankData = RankSo.GetRankData(DataManager.Instance.PlayerData.Exp);
+        RankData _rankData = RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints);
         circle.sprite = _rankData.RankSo.Sprite;
         rankNameDisplay.text = _rankData.RankSo.Name;
-        subRankDisplay.text = _rankData.SubRank.ToString();
+        subRankDisplay.text = _rankData.Level.ToString();
         
         ShowRewards();
         label.SetActive(DataManager.Instance.PlayerData.AmountOfRankGamesPlayed < 10);
@@ -50,37 +50,47 @@ public class RankPage : MonoBehaviour
     
     private void TryClaim(RankReward _reward)
     {
-        if (DataManager.Instance.PlayerData.AmountOfRankGamesPlayed<_reward.AmountOfMatches)
+        if (RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints)<_reward.RankLevel)
         {
             return;
         }
 
-        if (DataManager.Instance.PlayerData.ClaimedRankRewards.Contains(_reward.AmountOfMatches))
+        if (DataManager.Instance.PlayerData.ClaimedRankRewards.Contains(_reward.RankIndex))
         {
             return;
         }
+
+        if (DataManager.Instance.PlayerData.AmountOfRankGamesPlayed < 10)
+        {
+            return;   
+        }
         
         DataManager.Instance.PlayerData.ClaimReward(_reward.ItemType, _reward.Value);
-        DataManager.Instance.PlayerData.ClaimRankReward(_reward.AmountOfMatches);
+        DataManager.Instance.PlayerData.ClaimRankReward(_reward.RankIndex);
         SceneManager.Instance.ReloadScene();
     }
 
     private void ShowRewards()
     {
-        var _rewards = DataManager.Instance.GameData.RankRewards.OrderBy(_reward => _reward.AmountOfMatches).ToList();
+        var _rewards = DataManager.Instance.GameData.RankRewards.OrderBy(_reward => _reward.RankLevel).ToList();
         int _counter = 0;
+        int _playerLevel = RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints);
+                    Debug.Log(_playerLevel);
         for (int _i = 0; _i < _rewards.Count(); _i++)
         {
             var _rankReward = _rewards[_i];
             if (_i!=0)
             {
-                for (int _index = 0; _index < _rankReward.AmountOfMatches-_rewards[_i-1].AmountOfMatches; _index++)
+                int _rankLevel = _rewards[_i-1].RankLevel;
+                for (int _index = 0; _index < _rankReward.RankLevel-_rewards[_i-1].RankLevel; _index++)
                 {
+                    Debug.Log(_rankLevel);
                     _counter++;
                     GameObject _bar = Instantiate(barPrefab, rewardHolder);
-                    _bar.GetComponentInChildren<Image>().sprite = _counter< DataManager.Instance.PlayerData.AmountOfRankGamesPlayed
+                    _bar.GetComponentInChildren<Image>().sprite = _rankLevel<= _playerLevel
                         ? barFull
                         : barEmpty;
+                    _rankLevel++;
                 }
             }
             GameRankRewardDisplay _display = Instantiate(rewardPrefab, rewardHolder);

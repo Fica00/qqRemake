@@ -15,5 +15,5 @@ MonoBehaviour:
   <Id>k__BackingField: 11
   <Name>k__BackingField: Celestrial
   <Sprite>k__BackingField: {fileID: 21300000, guid: 26ec657ac8ae4c14784a42acd1f56ecd, type: 3}
-  <RequirementPerSubRank>k__BackingField: 7
-  <AmountOfSubRanks>k__BackingField: 10
+  <AmountOfOrbs>k__BackingField: 7
+  <Level>k__BackingField: 100

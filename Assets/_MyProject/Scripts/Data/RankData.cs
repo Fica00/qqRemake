@@ -4,8 +4,8 @@ using System;
 public class RankData
 {
     public RankSo RankSo;
-    public int SubRank;
     public int PointsOnRank;
+    public int Level;
     
     public float Percentage
     {
@@ -16,7 +16,7 @@ public class RankData
                 return 0;
             }
             
-            return (float)PointsOnRank / RankSo.RequirementPerSubRank;
+            return (float)PointsOnRank / RankSo.AmountOfOrbs;
         }
     }
 }

@@ -21,12 +21,12 @@ namespace RedDot
         {
             foreach (var _rankReward in DataManager.Instance.GameData.RankRewards)
             {
-                if (_rankReward.AmountOfMatches>DataManager.Instance.PlayerData.AmountOfRankGamesPlayed)
+                if (_rankReward.RankLevel>RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints))
                 {
                     continue;
                 }
 
-                if (DataManager.Instance.PlayerData.ClaimedRankRewards.Contains(_rankReward.AmountOfMatches))
+                if (DataManager.Instance.PlayerData.ClaimedRankRewards.Contains(_rankReward.RankIndex))
                 {
                     continue;
                 }

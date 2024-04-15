@@ -51,13 +51,11 @@ public class Initialization : MonoBehaviour
     private void FinishInit()
     {
         AudioManager.Instance.Init();
-        SceneManager.Instance.LoadMainMenu();
-        return;
-        
+
         if (DataManager.Instance.PlayerData.HasFinishedTutorial==0 && DataManager.Instance.PlayerData.Exp==0)
         {
             DataManager.Instance.Subscribe();
-            SceneManager.Instance.LoadTutorial();
+            SceneManager.Instance.LoadSimpleTutorial();
         }
         else
         {

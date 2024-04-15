@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,6 +7,15 @@ using UnityEngine.Events;
 public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
+
+    // [SerializeField] private string text;
+    //
+    // [Button()]
+    // private void Test()
+    // {
+    //     DataManager.Instance.PlayerData.RankPoints = int.Parse(text);
+    //     SceneManager.Instance.ReloadScene();
+    // }
 
     [field: SerializeField] public bool IsDemo { get; private set; }
     public string GameLink => IsDemo? "https://qq-remake-mauve.vercel.app/": "https://qq-remake-development.vercel.app/";

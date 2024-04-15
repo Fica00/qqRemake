@@ -14,6 +14,7 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Button termsOfService;
     [SerializeField] private Button deleteAccount;
     [SerializeField] private Button close;
+    [SerializeField] private Button tutorial;
 
     private void OnEnable()
     {
@@ -27,6 +28,7 @@ public class SettingsUI : MonoBehaviour
         termsOfService.onClick.AddListener(TermsOfService);
         deleteAccount.onClick.AddListener(DeleteAccount);
         close.onClick.AddListener(Close);
+        tutorial.onClick.AddListener(ShowTutorial);
     }
 
     private void OnDisable()
@@ -40,7 +42,13 @@ public class SettingsUI : MonoBehaviour
         privacy.onClick.AddListener(Privacy);
         termsOfService.onClick.AddListener(TermsOfService);
         deleteAccount.onClick.AddListener(DeleteAccount);
-        close.onClick.AddListener(Close);
+        close.onClick.AddListener(Close); 
+        tutorial.onClick.RemoveListener(ShowTutorial);
+    }
+
+    private void ShowTutorial()
+    {
+        SceneManager.Instance.LoadSimpleTutorial();
     }
 
     private void Logout()
