@@ -460,8 +460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f1ed4f6b470c5469addd21b5512cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valueIncreasedFont: {fileID: 11400000, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
-  valueDecreasedFont: {fileID: 11400000, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
+  positiveChange: {fileID: 11400000, guid: cc07f59a65e6c1840a0c0fd638cc61e5, type: 2}
+  negativeChange: {fileID: 11400000, guid: d56236996de6f1e468f4ad0badad8f5e, type: 2}
   normalFont: {fileID: 11400000, guid: cc2574239216ccf4bad38f3a5d763ecb, type: 2}
   manaDisplay: {fileID: 3201919128442351651}
   powerDisplay: {fileID: 5910526645007480012}
@@ -1493,6 +1493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shadowObject: {fileID: 100205961747838565}
   revealObject: {fileID: 5939046570312737085}
+  IsReveled: 0
 --- !u!1 &8798959384164403548
 GameObject:
   m_ObjectHideFlags: 0

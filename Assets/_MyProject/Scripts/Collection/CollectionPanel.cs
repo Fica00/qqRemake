@@ -57,6 +57,7 @@ public class CollectionPanel : BasePanel
         DataManager.Instance.PlayerData.AddNewDeck();
         Show();
         Start();
+        ShowDeck(DataManager.Instance.PlayerData.Decks[^1].Id);
     }
     
     private void MoveLayout()

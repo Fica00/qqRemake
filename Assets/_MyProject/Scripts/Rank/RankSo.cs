@@ -24,7 +24,7 @@ public class RankSo : ScriptableObject
     {
         RankData _rankData = new RankData();
         _rankData.Level = GetRankLevel(_points);
-        int _level=0;
+        int _level=1;
         foreach (var _rank in allRanks)
         {
             _rankData.RankSo = _rank;
@@ -58,7 +58,7 @@ public class RankSo : ScriptableObject
 
     public static int GetRankLevel(int _points)
     {
-        int _level = 0;
+        int _level = 1;
         while (_points >= 7)
         {
             _points -= 7;

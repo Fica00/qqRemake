@@ -128,7 +128,7 @@ public class MissionPanel : MonoBehaviour
         List<int> _possibleQoomons = new List<int>()
         {
             6,
-            47,
+            26,
             46,
             42,
             33,
@@ -148,10 +148,10 @@ public class MissionPanel : MonoBehaviour
             _choseQoomon = _qoomon;
         }
 
+        DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
         if (_choseQoomon != -1)
         {
             DataManager.Instance.PlayerData.AddQoomon(_choseQoomon);
-            DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
             return _choseQoomon;
         }
         else

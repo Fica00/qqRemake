@@ -141,4 +141,12 @@ public class JavaScriptManager : MonoBehaviour
     {
         SceneManager.Instance.ReloadScene();
     }
+
+    [SerializeField] private int rankPoints;
+    [Button()]
+    private void SetRankPoints()
+    {
+        DataManager.Instance.PlayerData.RankPoints = rankPoints;
+        ReloadScene();
+    }
 }

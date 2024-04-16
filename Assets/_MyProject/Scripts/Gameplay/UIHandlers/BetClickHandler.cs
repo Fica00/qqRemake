@@ -19,8 +19,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private int maxBet = 8;
     private bool didOpponentInitBetIncrease;
     private bool didIBet;
-    private bool didOpponentAcceptInLastRound;
-    private bool didIAcceptInLastRound;
+    private bool didSomeoneIncreaseInLastRound;
 
     public bool DidIBetThisRound { get; private set; }
 
@@ -76,6 +75,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             return;
         }
 
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            didSomeoneIncreaseInLastRound = true;
+        }
         GameplayManager.Instance.Bet();
         didIBet = true;
         DidIBetThisRound = true;
@@ -100,10 +103,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void OpponentAcceptedBet()
     {
         stakeAnimator.SetTrigger(STAKE_KEY);
-        if (GameplayManager.Instance.IsLastRound)
-        {
-            didOpponentAcceptInLastRound = true;
-        }
         ShowBet();
     }
 
@@ -120,12 +119,23 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void ShowOpponentWantsToIncreaseBet()
     {
+        if (GameplayManager.Instance.IsLastRound)
+        {
+            didSomeoneIncreaseInLastRound = true;
+        }
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_INITIATED);
         didOpponentInitBetIncrease = true;
         OnPointerDown(null);
         GameplayManager.UpdatedGameState += ManageRoundEnded;
         ShowNextRoundBet();
         GameplayUI.Instance.ShakeScreen(1);
+        if (GameplayManager.Instance.IsLastRound && GameplayManager.IsPvpGame)
+        {
+            if (didIBet)
+            {
+                AcceptBet();
+            }
+        }
     }
 
     private void ManageRoundEnded()
@@ -145,10 +155,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void AcceptBet()
     {
-        if (GameplayManager.Instance.IsLastRound)
-        {
-            didIAcceptInLastRound = true;
-        }
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
         GameplayManager.UpdatedGameState -= ManageRoundEnded;
         didOpponentInitBetIncrease = false;
@@ -157,36 +163,30 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         holder.transform.DOScale(Vector3.one,1);
         stakeAnimator.SetTrigger(STAKE_KEY);
         GameplayManager.Instance.OpponentAcceptedBet();
+
+        if (GameplayManager.Instance.IsLastRound && GameplayManager.IsPvpGame)
+        {
+            if (!didIBet)
+            {
+                IncreaseBet();
+            }
+        }
     }
 
     private void ShowNextRoundBet()
     {
         int _currentBet = GameplayManager.Instance.CurrentBet;
-        if (GameplayManager.Instance.IsLastRound && (DidIBetThisRound || didOpponentInitBetIncrease))
+        _currentBet *= 2;
+
+        if (GameplayManager.Instance.IsLastRound && GameplayManager.Instance.GameplayState == GameplayState.ResolvingEndOfRound)
         {
-            _currentBet *= 4;
-            if (didOpponentAcceptInLastRound && !didIAcceptInLastRound)
-            {
-                _currentBet /= 2;
-            }
-            
-            if (didOpponentAcceptInLastRound && didOpponentInitBetIncrease)
-            {
-                _currentBet = maxBet;
-            }
-        }
-        else
-        {
-            _currentBet *= 2;
+            nextBetDisplay.text = string.Empty;
+            return;
         }
 
-        if (GameplayManager.Instance.IsLastRound)
+        if (GameplayManager.IsPvpGame && didSomeoneIncreaseInLastRound)
         {
-            if (GameplayManager.Instance.GameplayState == GameplayState.ResolvingEndOfRound)
-            {
-                nextBetDisplay.text = string.Empty;
-                return;
-            }
+            _currentBet *= 2;
         }
 
         if (_currentBet>maxBet)
@@ -194,7 +194,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             _currentBet = maxBet;
         }
         
-        // nextBetDisplay.text = _currentBet == maxBet ? "MAX" : "Next: " + _currentBet;
         nextBetDisplay.text = "Next: " + _currentBet;
     }
 

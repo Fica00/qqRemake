@@ -151,7 +151,7 @@ public class PlayerData
         
         DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
         {
-            28,10,20,47,46,42,33,25,36,2,45,7
+            28,10,20,47,26,42,33,25,36,2,45,7
         } };
         decks.Add(_summonSmall);   
         
@@ -422,8 +422,11 @@ public class PlayerData
     {
         if (DataManager.Instance.PlayerData.OwnedQoomons.Contains(_qoomonId))
         {
+            Debug.Log(1);
             return;
         }
+        
+        Debug.Log(2);
         ownedQoomons.Add(_qoomonId);
         UpdatedOwnedQoomons?.Invoke();
     }

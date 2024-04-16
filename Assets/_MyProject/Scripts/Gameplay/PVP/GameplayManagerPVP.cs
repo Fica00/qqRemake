@@ -225,7 +225,6 @@ public class GameplayManagerPVP : GameplayManager
     {
         _commandsJson = _commandsJson.Replace("\\\"","\"");
         _commandsJson = _commandsJson.Substring(1, _commandsJson.Length - 2);
-        Debug.Log(_commandsJson);
         List<PlaceCommandJson> _placeCommandsJson = JsonConvert.DeserializeObject<List<PlaceCommandJson>>(_commandsJson);
         List<PlaceCommand> _placeCommands = new List<PlaceCommand>();
 

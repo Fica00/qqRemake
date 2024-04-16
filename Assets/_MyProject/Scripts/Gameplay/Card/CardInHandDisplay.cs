@@ -7,8 +7,8 @@ public class CardInHandDisplay : MonoBehaviour
 {
     private CardObject cardObject;
 
-    [SerializeField] private TMP_FontAsset valueIncreasedFont;
-    [SerializeField] private TMP_FontAsset valueDecreasedFont;
+    [SerializeField] private TMP_FontAsset positiveChange;
+    [SerializeField] private TMP_FontAsset negativeChange;
     [SerializeField] private TMP_FontAsset normalFont;
 
     [Space()]
@@ -119,10 +119,10 @@ public class CardInHandDisplay : MonoBehaviour
                 manaDisplay.font = normalFont;
                 break;
             case ChangeStatus.Increased:
-                manaDisplay.font = valueDecreasedFont;
+                manaDisplay.font = negativeChange;
                 break;
             case ChangeStatus.Decreased:
-                manaDisplay.font = valueIncreasedFont;
+                manaDisplay.font = positiveChange;
                 break;
             default:
                 throw new System.Exception("Don't know how to resolve state: " + _status);
@@ -137,10 +137,10 @@ public class CardInHandDisplay : MonoBehaviour
             case ChangeStatus.Same:
                 break;
             case ChangeStatus.Increased:
-                powerDisplay.font = valueIncreasedFont;
+                powerDisplay.font = normalFont;
                 break;
             case ChangeStatus.Decreased:
-                powerDisplay.font = valueDecreasedFont;
+                powerDisplay.font = normalFont;
                 break;
             default:
                 throw new System.Exception("Don't know how to resolve state: " + _status);
