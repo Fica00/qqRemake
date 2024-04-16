@@ -44,7 +44,7 @@ public class RankPage : MonoBehaviour
         rankNameDisplay.text = _rankData.RankSo.Name;
         subRankDisplay.text = _rankData.Level.ToString();
         
-        ShowRewards();
+        //ShowRewards();
         label.SetActive(DataManager.Instance.PlayerData.AmountOfRankGamesPlayed < 10);
     }
     

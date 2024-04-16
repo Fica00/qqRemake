@@ -103,6 +103,11 @@ public class MissionManager : MonoBehaviour
             }
         }
     }
+
+    public TimeSpan GetResetTime()
+    {
+        return DataManager.Instance.PlayerData.NextDailyChallenges-DateTime.UtcNow;
+    }
     
     private void GenerateNewChallenges(Action _callBack)
     {

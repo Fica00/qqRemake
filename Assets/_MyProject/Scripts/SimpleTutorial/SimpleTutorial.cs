@@ -5,33 +5,25 @@ public class SimpleTutorial : MonoBehaviour
 {
     [SerializeField] private Sprite[] sprites;
     [SerializeField] private Image image;
-    [SerializeField] private Button close;
+    [SerializeField] private Button next;
+    [SerializeField] private Button previous;
     
     private int index;
     
     private void OnEnable()
     {
-        close.onClick.AddListener(Close);
+        next.onClick.AddListener(ShowNext);
+        previous.onClick.AddListener(ShowPrevious);
         SwipeInput.OnSwipedRight += ShowPrevious;
         SwipeInput.OnSwipedLeft += ShowNext;
     }
 
     private void OnDisable()
     {
-        close.onClick.RemoveListener(Close);
+        next.onClick.RemoveListener(ShowNext);
+        previous.onClick.AddListener(ShowPrevious);
         SwipeInput.OnSwipedRight -= ShowPrevious;
         SwipeInput.OnSwipedLeft -= ShowNext;
-    }
-
-    private void Close()
-    {
-        if (index!=4)
-        {
-            return;
-        }
-
-        DataManager.Instance.PlayerData.HasFinishedTutorial = 1;
-        SceneManager.Instance.LoadMainMenu();
     }
 
     private void ShowPrevious()
@@ -49,6 +41,11 @@ public class SimpleTutorial : MonoBehaviour
         if (index<sprites.Length-1)
         {
             index++;
+        }
+        else
+        {
+            DataManager.Instance.PlayerData.HasFinishedTutorial = 1;
+            SceneManager.Instance.LoadMainMenu();
         }
         
         Show();

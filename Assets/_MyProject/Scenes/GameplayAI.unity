@@ -443,7 +443,6 @@ MonoBehaviour:
   CardsOnTop: []
   CardsOnMid: []
   CardsOnBot: []
-  waitTimeBeforeMove: 0
 --- !u!4 &1839096918
 Transform:
   m_ObjectHideFlags: 0

@@ -416,7 +416,6 @@ GameObject:
   - component: {fileID: 296140043}
   - component: {fileID: 296140042}
   - component: {fileID: 296140041}
-  - component: {fileID: 296140044}
   m_Layer: 5
   m_Name: SignInGoogleButton
   m_TagString: Untagged
@@ -526,20 +525,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 296140039}
   m_CullTransparentMesh: 1
---- !u!114 &296140044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296140039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9447bcd3e3274a4b846ae07b2815b12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showOnDemo: 0
-  showOnDev: 1
 --- !u!1 &339238946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2263,7 +2248,6 @@ GameObject:
   - component: {fileID: 1316146005}
   - component: {fileID: 1316146007}
   - component: {fileID: 1316146006}
-  - component: {fileID: 1316146008}
   m_Layer: 5
   m_Name: AlreadyLinkedAccountText
   m_TagString: Untagged
@@ -2388,20 +2372,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316146004}
   m_CullTransparentMesh: 1
---- !u!114 &1316146008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316146004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9447bcd3e3274a4b846ae07b2815b12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showOnDemo: 0
-  showOnDev: 1
 --- !u!1 &1368705551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2780,14 +2750,13 @@ GameObject:
   - component: {fileID: 1580993242}
   - component: {fileID: 1580993241}
   - component: {fileID: 1580993240}
-  - component: {fileID: 1580993243}
   m_Layer: 5
   m_Name: SignInFacebookButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1580993239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2890,20 +2859,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580993238}
   m_CullTransparentMesh: 1
---- !u!114 &1580993243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580993238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9447bcd3e3274a4b846ae07b2815b12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showOnDemo: 0
-  showOnDev: 1
 --- !u!1 &1670300734
 GameObject:
   m_ObjectHideFlags: 0

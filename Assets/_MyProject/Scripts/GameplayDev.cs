@@ -33,4 +33,16 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.ForceEndGame(GameResult.IForefiet);
     }
+
+    [Button("Force last round the match")]
+    private void ForceLastRound()
+    {
+        GameplayManager.Instance.SetCurrentRoundWithoutUpdate(6);
+    }
+
+    [Button("Get mana")]
+    private void GetMana()
+    {
+        GameplayManager.Instance.MyPlayer.Energy++;
+    }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -45,11 +46,42 @@ public class MissionPanel : MonoBehaviour
         loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7";
         ShowCompletedText();
         ShowMissions();
+        StartCoroutine(ShowText());
+    }
+
+    private IEnumerator ShowText()
+    {
+        while (gameObject.activeSelf)
+        {
+            ShowCompletedText();
+            yield return new WaitForSeconds(1);
+        }
     }
 
     private void ShowCompletedText()
     {
-        numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
+        numberOfTasksCompleted.text = $"Daily missions\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
+    }
+
+    private string GetRefreshTime()
+    {
+        var _timeSpan = MissionManager.Instance.GetResetTime();
+        if (_timeSpan.TotalHours >= 1)
+        {
+            return $"{(int)_timeSpan.TotalHours}h {_timeSpan.Minutes}m";
+        }
+
+        if (_timeSpan.TotalMinutes >= 1)
+        {
+            return $"{(int)_timeSpan.TotalMinutes}m";
+        }
+
+        if (_timeSpan.TotalSeconds>0)
+        {
+            return $"{(int)_timeSpan.TotalSeconds}s";
+        }
+        
+        return "0s";
     }
 
     private void ShowLoginRewards()
@@ -73,14 +105,24 @@ public class MissionPanel : MonoBehaviour
 
     private void TryClaim(int _rewardNumber)
     {
-        if (DataManager.Instance.PlayerData.WeeklyLoginAmount < _rewardNumber)
+        int _choseQoomon = DoTryClaim(_rewardNumber);
+        if (_choseQoomon==-1)
         {
             return;
+        }
+        qoomonUnlockingPanel.Setup(_choseQoomon, () => SceneManager.Instance.ReloadScene());
+    }
+
+    public static int DoTryClaim(int _rewardNumber)
+    {
+        if (DataManager.Instance.PlayerData.WeeklyLoginAmount < _rewardNumber)
+        {
+            return -1;
         }
 
         if (DataManager.Instance.PlayerData.ClaimedLoginRewards.Contains(_rewardNumber))
         {
-            return;
+            return -1;
         }
 
         List<int> _possibleQoomons = new List<int>()
@@ -110,14 +152,15 @@ public class MissionPanel : MonoBehaviour
         {
             DataManager.Instance.PlayerData.AddQoomon(_choseQoomon);
             DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
-            qoomonUnlockingPanel.Setup(_choseQoomon, () => SceneManager.Instance.ReloadScene());
+            return _choseQoomon;
         }
         else
         {
             DataManager.Instance.PlayerData.Exp += 15;
             SceneManager.Instance.ReloadScene();
         }
-        
+
+        return -1;
     }
 
 }

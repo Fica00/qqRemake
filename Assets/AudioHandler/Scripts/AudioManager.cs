@@ -91,7 +91,7 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = _audio.AudioClip;
             audioSource.DOFade(_audio.Volume, 0.5f).OnComplete(() =>
             {
-                if (!audioSource.isPlaying)
+                if (!audioSource.isPlaying && DataManager.Instance.PlayerData.PlayBackgroundMusic)
                 {
                     audioSource.Play();
                 }

@@ -606,4 +606,9 @@ public class GameplayManager : MonoBehaviour
 
         currentBet /= 2;
     }
+
+    public void SetCurrentRoundWithoutUpdate(int _amount)
+    {
+        currentRound = _amount;
+    }
 }

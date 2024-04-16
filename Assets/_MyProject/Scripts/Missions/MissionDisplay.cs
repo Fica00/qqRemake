@@ -69,7 +69,6 @@ public class MissionDisplay : MonoBehaviour
 
     private void Claim()
     {
-        Debug.Log(111);
         OnClaimPressed?.Invoke(missionProgress);
         Setup(missionProgress);
     }

@@ -151,7 +151,7 @@ public class PlayerData
         
         DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
         {
-            28,10,20,46,46,42,33,25,36,2,45,7
+            28,10,20,47,46,42,33,25,36,2,45,7
         } };
         decks.Add(_summonSmall);   
         

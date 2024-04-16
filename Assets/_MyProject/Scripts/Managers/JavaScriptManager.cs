@@ -47,7 +47,7 @@ public class JavaScriptManager : MonoBehaviour
                 return false;
             }
             
-            return IsPwa();
+            return !IsPwa();
         }
     }
 
@@ -134,5 +134,11 @@ public class JavaScriptManager : MonoBehaviour
     public void OnUpdatedUSDC(double _value)
     {
         DataManager.Instance.PlayerData.USDC = _value;
+    }
+
+    [Button()]
+    private void ReloadScene()
+    {
+        SceneManager.Instance.ReloadScene();
     }
 }

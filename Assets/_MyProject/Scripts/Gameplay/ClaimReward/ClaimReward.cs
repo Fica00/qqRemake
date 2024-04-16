@@ -25,6 +25,7 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private int expReward;
    [SerializeField] private TextMeshProUGUI expDisplay;
    [SerializeField] private Image rankImage;
+   [SerializeField] private MissionDisplayAfterGame missionDisplayAfterGame;
    private bool didIWin;
    
    private void OnEnable()
@@ -59,6 +60,7 @@ public class ClaimReward : MonoBehaviour
             }
             levelFill.DOFillAmount(RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage, 1f);
             ShowProgress();
+            missionDisplayAfterGame.Setup();
          });
       });
    }
