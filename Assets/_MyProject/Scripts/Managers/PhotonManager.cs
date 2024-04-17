@@ -12,7 +12,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public const string AMOUNT_OF_CARDS_IN_HAND = "amountOfCardsInHand";
     public const string AMOUNT_OF_DISCARDED_CARDS = "amountOfDiscardedCards";
     public const string AMOUNT_OF_DESTROYED_CARDS = "amountOfDestroyedCards";
-    public const string AMOUNT_OF_CARDS_IN_COLLECTION = "amountOfCardsInCollection";
+    public const string AMOUNT_OF_CARDS_IN_DECK = "amountOfCardsInDeck";
     public static PhotonManager Instance;
     public static Action OnFinishedInit;
     public static Action OnIJoinedRoom;
@@ -138,7 +138,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             {
                 [NAME] = DataManager.Instance.PlayerData.Name,
                 [DECK_NAME] = DataManager.Instance.PlayerData.GetSelectedDeck().Name,
-                [AMOUNT_OF_CARDS_IN_COLLECTION] = DataManager.Instance.PlayerData.OwnedQoomons.Count,
+                [AMOUNT_OF_CARDS_IN_DECK] = 12,
                 [AMOUNT_OF_CARDS_IN_HAND] = 0,
                 [AMOUNT_OF_DESTROYED_CARDS] = 0,
                 [AMOUNT_OF_DISCARDED_CARDS] = 0

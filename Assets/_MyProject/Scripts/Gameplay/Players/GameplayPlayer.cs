@@ -33,7 +33,6 @@ public class GameplayPlayer : MonoBehaviour
         set
         {
             cardsInHand = value;
-            PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
         }
     }
 
@@ -56,6 +55,7 @@ public class GameplayPlayer : MonoBehaviour
     
     public int AmountOfCardsInHand => CardsInHand.Count;
     public int AmountOfDiscardedCards => CardsInDiscardPile.Count;
+    public int AmountOfCardsInDeck => CardsInDeck.Count;
 
     public int AmountOfDestroyedCards
     {
@@ -63,7 +63,6 @@ public class GameplayPlayer : MonoBehaviour
         set
         {
             amountOfDestroyedCards = value;
-            PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS,amountOfDestroyedCards.ToString());
         }
     }
     public int Energy
@@ -102,7 +101,7 @@ public class GameplayPlayer : MonoBehaviour
 
     protected void ShuffleDeck()
     {
-        CardsInDeck = CardsInDeck.OrderBy(element => Guid.NewGuid()).ToList();
+        CardsInDeck = CardsInDeck.OrderBy(_ => Guid.NewGuid()).ToList();
 
         //check for cards that should get in hand in certain runds and send them on bottom of the deck
         for (int i = CardsInDeck.Count - 1; i >= 0; i--)
@@ -144,11 +143,13 @@ public class GameplayPlayer : MonoBehaviour
         
         AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW_CARD);
         CardObject _card = CardsInDeck[0];
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK,CardsInDeck.Count.ToString());
         return DrawCard(_card, true);
     }
 
     public CardObject GetCardFromDeck(int _cardId)
     {
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK,CardsInDeck.Count.ToString());
         return CardsInDeck.Find(_card => _card.Details.Id == _cardId);
     }
 
@@ -164,6 +165,7 @@ public class GameplayPlayer : MonoBehaviour
         
         AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW_CARD);
         DrewCard?.Invoke(_card);
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK,CardsInDeck.Count.ToString());
         return _card;
     }
 
@@ -174,6 +176,7 @@ public class GameplayPlayer : MonoBehaviour
             EventsManager.DrawCard?.Invoke();
         }
         CardsInHand.Add(_cardObject);
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
         _cardObject.SetCardLocation(CardLocation.Hand);
         AddedCardToHand?.Invoke(_cardObject,_showAnimation);
     }
@@ -185,6 +188,7 @@ public class GameplayPlayer : MonoBehaviour
             CardsInHand.Remove(_cardObject);
         }
         RemovedCardFromHand?.Invoke(_cardObject);
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
     }
 
     public void CheckForCardsThatShouldMoveToHand(Action _callback)
@@ -362,6 +366,7 @@ public class GameplayPlayer : MonoBehaviour
         CardsInHand.Remove(_card);
         GameplayManager.Instance.TellOpponentThatIDiscardedACard(_card);
         AnimateRoutine();
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
 
         void AnimateRoutine()
         {
@@ -371,6 +376,7 @@ public class GameplayPlayer : MonoBehaviour
             {
                 RemoveCardFromHand(_card);
                 CardsInDiscardPile.Add(_card);
+                PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS,cardsInDiscardPile.Count.ToString());
                 _card.SetCardLocation(CardLocation.Discarded);
                 _card.transform.SetParent(null);
                 DiscardedCard?.Invoke(_card);
@@ -382,7 +388,6 @@ public class GameplayPlayer : MonoBehaviour
     {
         RemoveCardFromTable(_card);
         DestroyedCardFromTable?.Invoke(_card);
-        
         _card.Display.ShowDestroyEffect(FinishDestroy);
 
         void FinishDestroy()

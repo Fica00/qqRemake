@@ -14,11 +14,13 @@ public class MissionDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descDisplay;
     [SerializeField] private TextMeshProUGUI progressDisplay;
     [SerializeField] private Image progressFill;
-
+    [SerializeField] private GameObject redDot;
+    
     private MissionProgress missionProgress;
 
     public void Setup(MissionProgress _progress)
     {
+        redDot.SetActive(false);
         missionProgress = _progress;
         MissionData _missionData = DataManager.Instance.GameData.GetMission(_progress.Id);
         MissionTaskData _taskData = _progress.IsHard ? _missionData.Hard : _missionData.Normal;
@@ -27,6 +29,7 @@ public class MissionDisplay : MonoBehaviour
             if (!_progress.Claimed)
             {
                 backgroundImage.sprite = claim;
+                redDot.SetActive(true);
             }
             
             progressDisplay.text = "Claim";
@@ -56,7 +59,7 @@ public class MissionDisplay : MonoBehaviour
             rewardText.text = $"{_taskData.RewardAmount}{Utils.GetItemName(_taskData.RewardType)}";
         }
     }
-
+    
     private void OnEnable()
     {
         claimButton.onClick.AddListener(Claim);

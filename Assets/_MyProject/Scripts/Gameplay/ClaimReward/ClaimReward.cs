@@ -14,6 +14,7 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private TextMeshProUGUI levelDisplay;
    [SerializeField] private TextMeshProUGUI progressDisplay;
    [SerializeField] private Button next;
+   [SerializeField] private GameObject xpRewardDisplay;
    
    [SerializeField] private Sprite won;
    [SerializeField] private Sprite escaped;
@@ -25,7 +26,6 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private int expReward;
    [SerializeField] private TextMeshProUGUI expDisplay;
    [SerializeField] private Image rankImage;
-   [SerializeField] private MissionDisplayAfterGame missionDisplayAfterGame;
    private bool didIWin;
    
    private void OnEnable()
@@ -60,7 +60,6 @@ public class ClaimReward : MonoBehaviour
             }
             levelFill.DOFillAmount(RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage, 1f);
             ShowProgress();
-            missionDisplayAfterGame.Setup();
          });
       });
    }
@@ -96,7 +95,6 @@ public class ClaimReward : MonoBehaviour
          case GameResult.Draw:
             AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW);
             didIWin = true;
-            GameplayManager.Instance.HalfCurrentBetWithoutNotify();
             _sprite = draw;
             break;
          case GameResult.IForefiet:
@@ -114,7 +112,14 @@ public class ClaimReward : MonoBehaviour
 
       DataManager.Instance.PlayerData.AmountOfRankGamesPlayed++;
       resultDisplay.sprite = _sprite;
-      DataManager.Instance.PlayerData.Exp += expReward;
+      if (_result==GameResult.IForefiet)
+      {
+         xpRewardDisplay.SetActive(false);
+      }
+      else
+      {
+         DataManager.Instance.PlayerData.Exp += expReward;
+      }
       ShowProgress();
    }
 

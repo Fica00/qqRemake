@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Linq;
+using UnityEngine;
 
 public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
 {
@@ -80,5 +82,14 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
         }
 
         _copyOfCard.ForcePlace(_choosendLane);
+        
+        StartCoroutine(DelayPowerIcoliser(_copyOfCard.GetComponentInParent<LanePlaceIdentifier>().Id, _card.Stats.Power - _copyOfCard.Details
+        .Power));
+    }
+
+    private IEnumerator DelayPowerIcoliser(int _placeId, int _power)
+    {
+        yield return new WaitForSeconds(1);
+        GameplayManager.Instance.AddPowerOfQoomonOnPlace(_placeId,_power);
     }
 }

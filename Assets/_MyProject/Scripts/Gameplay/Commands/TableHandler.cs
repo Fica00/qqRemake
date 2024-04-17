@@ -311,9 +311,9 @@ public class TableHandler : MonoBehaviour
         for (int i = 0; i < myPower.Length; i++)
         {
             int _myPowerOnLane = GetPower(true, (LaneLocation)(i));
-            _myTotalPower += _myTotalPower;
+            _myTotalPower += _myPowerOnLane;
             int _opponentPowerOnLane = GetPower(false, (LaneLocation)(i));
-            _opponentsTotalPower += _opponentsTotalPower;
+            _opponentsTotalPower += _opponentPowerOnLane;
             if (_myPowerOnLane > _opponentPowerOnLane)
             {
                 _myAmountOfWinningLocations++;

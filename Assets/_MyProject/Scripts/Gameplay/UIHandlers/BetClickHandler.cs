@@ -103,6 +103,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void OpponentAcceptedBet()
     {
         stakeAnimator.SetTrigger(STAKE_KEY);
+        holder.transform.DOScale(Vector3.one*.8f, 1);
         ShowBet();
     }
 

@@ -38,7 +38,7 @@ public class JavaScriptManager : MonoBehaviour
 
     [HideInInspector] public UnityEvent<string> UpdatedInput;
 
-    public bool IsBrowser
+    public bool ShowPWAWarning
     {
         get
         {
@@ -47,7 +47,7 @@ public class JavaScriptManager : MonoBehaviour
                 return false;
             }
             
-            return !IsPwa();
+            return IsPwa();
         }
     }
 

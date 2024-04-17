@@ -30,7 +30,7 @@ public class GameRankRewardDisplay : MonoBehaviour
 
     private void Press()
     {
-        OnClicked?.Invoke(reward);
+        // OnClicked?.Invoke(reward);
     }
 
     public void Setup(RankReward _reward)
@@ -38,6 +38,7 @@ public class GameRankRewardDisplay : MonoBehaviour
         reward = _reward;
         rankImage.sprite = RankSo.GetRankById(_reward.RankIndex).Sprite;
         rankLevel.text = reward.RankLevel.ToString();
+        return;
 
         if (_reward.RankLevel>RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints))
         {

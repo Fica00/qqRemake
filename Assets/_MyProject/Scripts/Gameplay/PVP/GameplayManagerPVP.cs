@@ -83,6 +83,18 @@ public class GameplayManagerPVP : GameplayManager
         base.Forfiet();
     }
 
+    public override void AddPowerOfQoomonOnPlace(int _placeId, int _power)
+    {
+        base.AddPowerOfQoomonOnPlace(_placeId, _power);
+        photonView.RPC(nameof(DoAddPowerToQoomonOnPlace), RpcTarget.Others, _placeId,_power);
+    }
+
+    [PunRPC]
+    private void DoAddPowerToQoomonOnPlace(int _placeId, int _power)
+    {
+        base.AddPowerOfQoomonOnPlace(_placeId, _power);
+    }
+
     protected override void SetupPlayers()
     {
         MyPlayer.Setup();

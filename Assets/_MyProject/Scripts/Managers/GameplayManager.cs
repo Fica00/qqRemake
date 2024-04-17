@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -190,6 +191,13 @@ public class GameplayManager : MonoBehaviour
     {
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.GAME);
         GameplayUI.Instance.StartingAnimations(StartGameplay);   
+    }
+
+    public virtual void AddPowerOfQoomonOnPlace(int _placeId, int _power)
+    {
+        LanePlaceIdentifier _place = FindObjectsOfType<LanePlaceIdentifier>().ToList().Find(_place => _place.Id == _placeId);
+        CardObject _cardOnPlace = _place.GetComponentInChildren<CardObject>();
+        _cardOnPlace.Stats.Power += _power;
     }
 
     protected virtual void StartGameplay()
@@ -595,16 +603,6 @@ public class GameplayManager : MonoBehaviour
     protected void ShowOpponentDiscardedACard(int _cardId)
     {
         OpponentDiscardedCardDisplay.Instance.Show(_cardId);
-    }
-
-    public void HalfCurrentBetWithoutNotify()
-    {
-        if (currentBet==1)
-        {
-            return;
-        }
-
-        currentBet /= 2;
     }
 
     public void SetCurrentRoundWithoutUpdate(int _amount)

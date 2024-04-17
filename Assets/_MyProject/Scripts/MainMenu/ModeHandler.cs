@@ -30,7 +30,7 @@ public class ModeHandler : MonoBehaviour
             OnUpdatedMode?.Invoke();
         }
     }
-
+    
     private void OnEnable()
     {
         mode = GameMode.VsPlayer;

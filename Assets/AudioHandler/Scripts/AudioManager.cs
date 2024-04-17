@@ -29,7 +29,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private List<AudioSound> audios;
 
     private AudioSource audioSource;
-
+    private AudioSound backgroundSound;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -66,14 +67,14 @@ public class AudioManager : MonoBehaviour
             }
             audioSource.volume = 0;
             audioSource.Play();
-            audioSource.DOFade(1, 1);
+            audioSource.DOFade(GetSoundForBackground(), 1);
         }
         else
         {
             audioSource.DOFade(0, 1).OnComplete((() =>
             {
                 audioSource.Stop();
-                audioSource.volume = 1;
+                audioSource.volume = GetSoundForBackground();
             }));
         }
     }
@@ -81,11 +82,14 @@ public class AudioManager : MonoBehaviour
     public void ChangeBackgroundMusic(string _key)
     {
         AudioSound _audio = GetAudioSound(_key);
+        backgroundSound = _audio;
+        audioSource.volume = backgroundSound.Volume;
+        
         if (_audio.AudioClip == audioSource.clip)
         {
             return;
         }
-        
+
         audioSource.DOFade(0, 0.5f).OnComplete(() =>
         {
             audioSource.clip = _audio.AudioClip;
@@ -128,7 +132,7 @@ public class AudioManager : MonoBehaviour
         {
             if (_hasFocus&& DataManager.Instance.PlayerData.PlayBackgroundMusic)
             {
-                audioSource.volume = 1;
+                audioSource.volume = GetSoundForBackground();
             }
             else
             {
@@ -138,6 +142,16 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        audioSource.volume = _hasFocus ? 1 : 0;
+        audioSource.volume = _hasFocus ? GetSoundForBackground() : 0;
+    }
+
+    private float GetSoundForBackground()
+    {
+        if (backgroundSound==null)
+        {
+            return 0.5f;
+        }
+
+        return backgroundSound.Volume;
     }
 }

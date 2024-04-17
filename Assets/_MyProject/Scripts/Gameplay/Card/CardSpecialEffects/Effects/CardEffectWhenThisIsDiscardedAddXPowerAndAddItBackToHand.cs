@@ -10,7 +10,7 @@ public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffe
     [SerializeField] private TextMeshProUGUI powerDisplay;
     [SerializeField] private TMP_FontAsset winningFont;
     public static bool IsActive;
-
+    public bool Active;
     public override void Subscribe()
     {
         //nothing to do here
@@ -36,6 +36,7 @@ public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffe
         if (_card==cardObject)
         {
             StartCoroutine(ApplyRoutine());
+            Active = true;
         }
     }
 
@@ -59,6 +60,4 @@ public class CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand : CardEffe
         cardObject.Display.ForcePowerTextUpdateOcto();
         IsActive = false;
     }
-    
-    
 }

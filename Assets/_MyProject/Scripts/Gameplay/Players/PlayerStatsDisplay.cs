@@ -10,12 +10,12 @@ public class PlayerStatsDisplay : MonoBehaviour
 
     public bool IsOpen;
 
-    public void Show(int _cardsInHand, int _discard, int _collection, int _destroyed)
+    public void Show(int _cardsInHand, int _discard, int _cardsInDeck, int _destroyed)
     {
         gameObject.SetActive(true);
         cardsInHand.text = _cardsInHand.ToString();
         discarded.text = _discard.ToString();
-        collection.text = _collection.ToString();
+        collection.text = _cardsInDeck.ToString();
         destroyed.text = _destroyed.ToString();
         IsOpen = true;
     }

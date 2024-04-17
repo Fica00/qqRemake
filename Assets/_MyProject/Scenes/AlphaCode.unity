@@ -275,7 +275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &99409792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1195,7 +1195,7 @@ MonoBehaviour:
 
 
     In your browser menu, tap the Share icon and choose add
-    to hope screen in the  options. then open the friend.tech app on your home screen'
+    to hope screen in the  options. then open the Qoomon Quest app on your home screen'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
   m_sharedMaterial: {fileID: -8492591010878448660, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
@@ -1907,22 +1907,22 @@ MonoBehaviour:
   audios:
   - Key: Back
     AudioClip: {fileID: 8300000, guid: 4e02f19c741721741a2a082b9ec227dd, type: 3}
-    Volume: 1
+    Volume: 0.15
   - Key: Confirm
     AudioClip: {fileID: 8300000, guid: 9434fed2e31398843a2be2b25329f14d, type: 3}
-    Volume: 1
+    Volume: 0.15
   - Key: Play
     AudioClip: {fileID: 8300000, guid: bcbca6538e949a0488a261160ff76c1d, type: 3}
     Volume: 1
   - Key: MainMenu
     AudioClip: {fileID: 8300000, guid: a073d814fea3b0f48b95123f5e984483, type: 3}
-    Volume: 1
+    Volume: 0.5
   - Key: Game
     AudioClip: {fileID: 8300000, guid: 4e00e9a1bdc2cd24ba938ce853a0d3c7, type: 3}
-    Volume: 1
+    Volume: 0.5
   - Key: Matchmaking
     AudioClip: {fileID: 8300000, guid: 77ba6f4488e2b62448ce87f162153dea, type: 3}
-    Volume: 1
+    Volume: 0.7
   - Key: Summon
     AudioClip: {fileID: 8300000, guid: 180ba76e0e24aa04d900a968d86dc4bd, type: 3}
     Volume: 1

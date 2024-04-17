@@ -29,15 +29,22 @@ public class PlayerDisplay : MonoBehaviour
             return;
         }
         
-        if (player.IsMy)
+        if (SceneManager.IsAIScene)
         {
-            statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, DataManager.Instance.PlayerData.OwnedQoomons.Count, player.AmountOfDestroyedCards);
+            if (player.IsMy)
+            {
+                statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
+            }
+            else
+            {
+                statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
+            }
         }
         else
         {
-            if (SceneManager.IsAIScene)
+            if (player != default && player.IsMy)
             {
-                statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, 15, player.AmountOfDestroyedCards);
+                statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
             }
             else
             {
@@ -49,7 +56,7 @@ public class PlayerDisplay : MonoBehaviour
                 statsDisplay.Show(
                     int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
                     int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_COLLECTION)),            
+                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK)),            
                     int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
                 );
             }
