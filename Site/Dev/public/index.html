@@ -58,26 +58,19 @@
   const btnCancelPayment = document.querySelector('#btn-cancelPayment')
   const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
-  function CheckIsPwa()
-  {
-    const isInStandaloneMode = () =>
-        (window.matchMedia('(display-mode: standalone)').matches) ||
-        (window.navigator.standalone) ||
-        document.referrer.includes('android-app://');
-
-    // Check if opened on PC
-    const isOnPC = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (isInStandaloneMode()) {
-        console.log("webapp is installed");
-        return false;
-    } else if (isOnPC) {
-        console.log("webapp is opened on PC");
-        return true;
-    } else {
-        console.log("webapp is not installed");
-        return true;
+ function CheckIsPwa() {
+  function isInStandaloneMode() {
+    var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+    const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
+    return res
+  }
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isOnPC = !isIOS && !isAndroid;
+    if(!isOnPC && !isInStandaloneMode()){
+      return true
     }
+    return false
   }
 
   function SetUserId(id){
