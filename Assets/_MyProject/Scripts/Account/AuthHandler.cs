@@ -8,7 +8,7 @@ public class AuthHandler : MonoBehaviour
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
 
-    public static bool IsAuthenticated;
+    public static bool CanAuth;
 
     private void Awake()
     {
@@ -22,25 +22,23 @@ public class AuthHandler : MonoBehaviour
 
     public void Authenticate()
     {
+        CanAuth = true;
+        Debug.Log("--- Requesting authentication data");
         UserLoginData _userData = JavaScriptManager.Instance.GetUserData();
         if (_userData == null || string.IsNullOrEmpty(_userData.UserId))
         {
-            StartCoroutine(ShowLogin());
+            StartCoroutine(ShowRegisterRoutine());
         }
         else
         {
             Auth(_userData.UserId);
         }
+    }
 
-        IEnumerator ShowLogin()
-        {
-            yield return new WaitForSeconds(3);
-            if (!gameObject.activeSelf)
-            {
-                yield break;
-            }
-            registerHandler.Setup();
-        }
+    private IEnumerator ShowRegisterRoutine()
+    {
+        yield return new WaitForSeconds(3);
+        registerHandler.Setup();
     }
 
     public void LoginWithFacebook(Action<bool> _callBack)
@@ -87,7 +85,7 @@ public class AuthHandler : MonoBehaviour
             return;
         }
 
-        IsAuthenticated = true;
+        CanAuth = false;
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
         Initialization.Instance.CheckForStartingData();
     }

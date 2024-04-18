@@ -55,11 +55,11 @@ public class SettingsUI : MonoBehaviour
     private void Logout()
     {
         StartCoroutine(LogOutRoutine());
-        AuthHandler.IsAuthenticated = false;
         
         IEnumerator LogOutRoutine()
         {
             PlayerPrefs.DeleteAll();
+            FirebaseManager.Instance.SignOut();
             if (Application.isEditor)
             {
                 SceneManager.Instance.LoadAlphaCode();

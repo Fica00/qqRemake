@@ -23,6 +23,8 @@ public class FirebaseManager : MonoBehaviour
 
     public string PlayerId => userLocalId;
 
+    public bool IsAuthenticated => !string.IsNullOrEmpty(userLocalId);
+
     private void Awake()
     {
         if (Instance == null)
@@ -105,6 +107,11 @@ public class FirebaseManager : MonoBehaviour
         userLocalId = _firebaseId;
         userIdToken = string.Empty;
         CollectGameData(_callBack);
+    }
+
+    public void SignOut()
+    {
+        userLocalId = string.Empty;
     }
 
     public void SaveValue<T>(string _path, T _value)

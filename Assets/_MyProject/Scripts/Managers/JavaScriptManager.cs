@@ -110,11 +110,18 @@ public class JavaScriptManager : MonoBehaviour
     
     public void AuthFinished(string _data)
     {
-        if (AuthHandler.IsAuthenticated)
+        if (!AuthHandler.CanAuth)
         {
+            Debug.Log("--- Not time for auth");
             return;
         }
         
+        if (FirebaseManager.Instance.IsAuthenticated)
+        {
+            Debug.Log("--- Already authenticated");
+            return;
+        }
+
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
         if (string.IsNullOrEmpty(_data))
@@ -171,6 +178,7 @@ public class JavaScriptManager : MonoBehaviour
         {
             return null;
         }
+
         string _userData = DoCheckIfUserIsLoggedIn();
         if (string.IsNullOrEmpty(_userData))
         {
