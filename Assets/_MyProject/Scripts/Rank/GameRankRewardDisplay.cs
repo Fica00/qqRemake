@@ -15,6 +15,8 @@ public class GameRankRewardDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rewardName;
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI rankLevel;
+    [SerializeField] private TextMeshProUGUI rankName;
+    
     
     private RankReward reward;
 
@@ -38,6 +40,7 @@ public class GameRankRewardDisplay : MonoBehaviour
         reward = _reward;
         rankImage.sprite = RankSo.GetRankById(_reward.RankIndex).Sprite;
         rankLevel.text = reward.RankLevel.ToString();
+        rankName.text = RankSo.GetRankById(_reward.RankIndex).Name;
         return;
 
         if (_reward.RankLevel>RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints))

@@ -22,7 +22,6 @@ public class AuthHandler : MonoBehaviour
         int _authMethod = PlayerPrefs.GetInt(AUTH_METHOD, -1);
         if (_authMethod==-1)
         {
-            registerHandler.Setup();
         }
         else if (_authMethod == (int) AuthMethod.Email)
         {
