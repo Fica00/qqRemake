@@ -55,6 +55,7 @@ public class SettingsUI : MonoBehaviour
     private void Logout()
     {
         StartCoroutine(LogOutRoutine());
+        AuthHandler.IsAuthenticated = false;
         
         IEnumerator LogOutRoutine()
         {

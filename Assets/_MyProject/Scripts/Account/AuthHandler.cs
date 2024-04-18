@@ -8,6 +8,8 @@ public class AuthHandler : MonoBehaviour
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
 
+    public static bool IsAuthenticated;
+
     private void Awake()
     {
         Instance = this;
@@ -84,7 +86,8 @@ public class AuthHandler : MonoBehaviour
             _callBack?.Invoke(false);
             return;
         }
-        
+
+        IsAuthenticated = true;
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
         Initialization.Instance.CheckForStartingData();
     }

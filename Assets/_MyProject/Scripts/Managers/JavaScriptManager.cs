@@ -110,6 +110,11 @@ public class JavaScriptManager : MonoBehaviour
     
     public void AuthFinished(string _data)
     {
+        if (AuthHandler.IsAuthenticated)
+        {
+            return;
+        }
+        
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
         if (string.IsNullOrEmpty(_data))
