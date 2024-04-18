@@ -107,13 +107,6 @@ public class FirebaseManager : MonoBehaviour
         CollectGameData(_callBack);
     }
 
-    public void SignInWithFacebook(string _firebaseId, Action<bool> _callBack)
-    {
-        userLocalId = _firebaseId;
-        userIdToken = string.Empty;
-        CollectGameData(_callBack);
-    }
-
     public void SaveValue<T>(string _path, T _value)
     {
         string _valueString = "{\"" + _path + "\":" + _value + "}";

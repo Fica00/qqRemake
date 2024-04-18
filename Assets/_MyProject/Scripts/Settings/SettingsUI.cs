@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,13 +54,21 @@ public class SettingsUI : MonoBehaviour
 
     private void Logout()
     {
-        PlayerPrefs.DeleteAll();
-        JavaScriptManager.Instance.SignOut();
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-       JavaScriptManager.Instance.ReloadPage();
-#endif
+        StartCoroutine(LogOutRoutine());
+        
+        IEnumerator LogOutRoutine()
+        {
+            PlayerPrefs.DeleteAll();
+            if (Application.isEditor)
+            {
+                SceneManager.Instance.LoadAlphaCode();
+                yield break;
+            }
+        
+            JavaScriptManager.Instance.SignOut();
+            yield return new WaitForSeconds(1);
+            SceneManager.Instance.LoadAlphaCode();
+        }
     }
 
     private void LinkWithFacebook()

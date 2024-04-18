@@ -30,7 +30,7 @@ public class Initialization : MonoBehaviour
 
     public void CheckForStartingData()
     {
-        if (DataManager.Instance.PlayerData == null || DataManager.Instance.PlayerData.Decks == null)
+        if (DataManager.Instance.PlayerData == null || DataManager.Instance.PlayerData.Decks == null || DataManager.Instance.PlayerData.Decks.Count==0)
         {
             FirebaseManager.Instance.SetStartingData((_status) =>
             {

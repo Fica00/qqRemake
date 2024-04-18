@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class AuthHandler : MonoBehaviour
@@ -12,16 +13,31 @@ public class AuthHandler : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     public void Authenticate()
     {
         UserLoginData _userData = JavaScriptManager.Instance.GetUserData();
         if (_userData == null || string.IsNullOrEmpty(_userData.UserId))
         {
-            registerHandler.Setup();
+            StartCoroutine(ShowLogin());
         }
         else
         {
             Auth(_userData.UserId);
+        }
+
+        IEnumerator ShowLogin()
+        {
+            yield return new WaitForSeconds(3);
+            if (!gameObject.activeSelf)
+            {
+                yield break;
+            }
+            registerHandler.Setup();
         }
     }
 
@@ -40,7 +56,17 @@ public class AuthHandler : MonoBehaviour
     public void AnonymousSignIn(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
-        JavaScriptManager.Instance.AnonymousAuth();
+        if (Application.isEditor)
+        {
+            FirebaseManager.Instance.TryLoginAndGetData("unity@help.com", "unity123", (_status) =>
+            {
+                HandleLoginResult(_status,callBackForOAUTh);
+            });
+        }
+        else
+        {
+            JavaScriptManager.Instance.AnonymousAuth();
+        }
     }
 
     public void Auth(string _id)
@@ -51,11 +77,10 @@ public class AuthHandler : MonoBehaviour
         });
     }
 
-    public void HandleLoginResult(bool _status, Action<bool> _callBack)
+    private void HandleLoginResult(bool _status, Action<bool> _callBack)
     {
         if (!_status)
         {
-            Debug.Log("Failed to login????");
             _callBack?.Invoke(false);
             return;
         }

@@ -112,6 +112,21 @@ public class JavaScriptManager : MonoBehaviour
     {
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
+        if (string.IsNullOrEmpty(_data))
+        {
+            return;
+        }
+
+        if (!SceneManager.IsAuthScene)
+        {
+            return;
+        }
+
+        if (AuthHandler.Instance == default)
+        {
+            return;
+        }
+        
         AuthHandler.Instance.Auth(_response.UserId);
     }
 
@@ -127,16 +142,30 @@ public class JavaScriptManager : MonoBehaviour
 
     public void OnUpdatedDiamonds(double _value)
     {
+        if (DataManager.Instance == null || DataManager.Instance.PlayerData == default)
+        {
+            return;
+        }
+        
         DataManager.Instance.PlayerData.Coins = _value;
     }
 
     public void OnUpdatedUSDC(double _value)
     {
+        if (DataManager.Instance == null || DataManager.Instance.PlayerData == default)
+        {
+            return;
+        }
+        
         DataManager.Instance.PlayerData.USDC = _value;
     }
 
     public UserLoginData GetUserData()
     {
+        if (Application.isEditor)
+        {
+            return null;
+        }
         string _userData = DoCheckIfUserIsLoggedIn();
         if (string.IsNullOrEmpty(_userData))
         {
