@@ -1,8 +1,8 @@
 {
-    "name": "QommonQuest",
-    "short_name": "QommonQuest",
+    "name": "Qoomon Quest",
+    "short_name": "Qoomon Quest",
     "start_url": "index.html",
-    "display": "standalone",
+    "display": "fullscreen",
     "background_color": "#231F20",
     "theme_color": "#000",
     "description": "",
