@@ -1155,26 +1155,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 5365100: function() {
+ 5364844: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 5365155: function($0) {
+ 5364899: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5365203: function($0) {
+ 5364947: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5365251: function() {
+ 5364995: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 5365306: function() {
+ 5365050: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 5365367: function() {
+ 5365111: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1286,12 +1286,24 @@ function _AuthWithGoogle() {
  GoogleAuth();
 }
 
-function _CloseKeyboard() {
- HideKeyboard();
+function _DoAnonymousAuth() {
+ return SignInAnonymous();
+}
+
+function _DoCheckIfUserIsLoggedIn() {
+ return CheckUserSession();
+}
+
+function _DoReload() {
+ ReloadPageFromUnity();
 }
 
 function _DoSetUserId(id) {
  SetUserId(UTF8ToString(id));
+}
+
+function _DoSignOut() {
+ SignOut();
 }
 
 function _IsPwa() {
@@ -3051,10 +3063,6 @@ function _JS_WebRequest_SetTimeout(requestId, timeout) {
 
 function _OpenURL(url) {
  window.location.href = UTF8ToString(url);
-}
-
-function _ShowKeyboard() {
- DisplayKeyboard();
 }
 
 var webSocketInstances = [];
@@ -13910,8 +13918,11 @@ function intArrayFromString(stringy, dontAddNull, length) {
 var asmLibraryArg = {
  "AuthWithFacebook": _AuthWithFacebook,
  "AuthWithGoogle": _AuthWithGoogle,
- "CloseKeyboard": _CloseKeyboard,
+ "DoAnonymousAuth": _DoAnonymousAuth,
+ "DoCheckIfUserIsLoggedIn": _DoCheckIfUserIsLoggedIn,
+ "DoReload": _DoReload,
  "DoSetUserId": _DoSetUserId,
+ "DoSignOut": _DoSignOut,
  "IsPwa": _IsPwa,
  "JS_Accelerometer_IsRunning": _JS_Accelerometer_IsRunning,
  "JS_Accelerometer_Start": _JS_Accelerometer_Start,
@@ -13995,7 +14006,6 @@ var asmLibraryArg = {
  "JS_WebRequest_SetRequestHeader": _JS_WebRequest_SetRequestHeader,
  "JS_WebRequest_SetTimeout": _JS_WebRequest_SetTimeout,
  "OpenURL": _OpenURL,
- "ShowKeyboard": _ShowKeyboard,
  "SocketClose": _SocketClose,
  "SocketCreate": _SocketCreate,
  "SocketError": _SocketError,

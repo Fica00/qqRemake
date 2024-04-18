@@ -6,7 +6,7 @@ public class PwaInstructions : MonoBehaviour
     
     private void Start()
     {
-        if (JavaScriptManager.Instance.ShowPWAWarning)
+        if (JavaScriptManager.Instance.ShowPwaWarning)
         {
             holder.SetActive(true);
         }

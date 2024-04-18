@@ -54,10 +54,11 @@ public class SettingsUI : MonoBehaviour
     private void Logout()
     {
         PlayerPrefs.DeleteAll();
+        JavaScriptManager.Instance.SignOut();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-       JavaScriptManager.Instance.LoadURL(JavaScriptManager.Instance.GameLink);
+       JavaScriptManager.Instance.ReloadPage();
 #endif
     }
 

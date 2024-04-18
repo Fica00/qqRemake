@@ -1,7 +1,7 @@
 mergeInto(LibraryManager.library,
 {
 	AuthWithGoogle: function()
-        {
+    {
 		GoogleAuth();	
 	},
 
@@ -38,5 +38,25 @@ mergeInto(LibraryManager.library,
     IsPwa: function()
     {
        return CheckIsPwa();
+    },
+    
+    DoCheckIfUserIsLoggedIn: function()
+    {
+       return CheckUserSession();
+    },
+    
+    DoAnonymousAuth: function()
+    {
+        return SignInAnonymous();
+    },
+    
+    DoReload: function()
+    {
+        ReloadPageFromUnity();
+    },
+    
+    DoSignOut: function()
+    {
+        SignOut();
     }
 });

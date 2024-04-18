@@ -100,19 +100,17 @@ public class FirebaseManager : MonoBehaviour
         }, (_result) => { _callBack?.Invoke(false); }));
     }
 
-    public void SignInWithGoogle(string _firebaseId, Action<bool> _callBack)
+    public void SignIn(string _firebaseId, Action<bool> _callBack)
     {
         userLocalId = _firebaseId;
-        userIdToken = string.Empty; //todo if something isn't working add me
-        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD,(int) AuthMethod.Google);
+        userIdToken = string.Empty;
         CollectGameData(_callBack);
     }
 
     public void SignInWithFacebook(string _firebaseId, Action<bool> _callBack)
     {
         userLocalId = _firebaseId;
-        userIdToken = string.Empty; //todo if something isn't working add me
-        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD,(int) AuthMethod.Facebook);
+        userIdToken = string.Empty;
         CollectGameData(_callBack);
     }
 

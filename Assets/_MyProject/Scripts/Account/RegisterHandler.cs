@@ -31,13 +31,8 @@ public class RegisterHandler : MonoBehaviour
 
     private void LoginAsGuest()
     {
-        string _email = "guest"+System.Guid.NewGuid()+"@help.com";
-        string _password = "paSsword123";
-        if (CredentialsValidator.VerifyEmail(_email) && CredentialsValidator.VerifyPassword(_password))
-        {
-            ManageIntractables(false);
-            AuthHandler.Instance.LoginWithEmail(_email,_password,HandleLoginResult);
-        }
+        ManageIntractables(false);
+        AuthHandler.Instance.AnonymousSignIn(HandleLoginResult);
     }
 
     private void LoginWithGoogle()

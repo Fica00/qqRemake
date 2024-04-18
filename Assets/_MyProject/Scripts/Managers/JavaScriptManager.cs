@@ -1,28 +1,19 @@
 using System.Runtime.InteropServices;
-using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
-    public string GameLink => IsDemo? "https://qq-remake-mauve.vercel.app/": "https://qq-remake-development.vercel.app/";
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();
     
     [DllImport("__Internal")]
     public static extern void AuthWithFacebook();
-    
-    [DllImport("__Internal")]
-    public static extern void ShowKeyboard();  
-    
-    [DllImport("__Internal")]
-    public static extern void CloseKeyboard();
-    
+
     [DllImport("__Internal")]
     public static extern void OpenURL(string _url);
     
@@ -33,12 +24,22 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoSetUserId(string _id);    
     
     [DllImport("__Internal")]
-    public static extern bool IsPwa();
+    public static extern bool IsPwa();    
+    
+    [DllImport("__Internal")]
+    public static extern string DoCheckIfUserIsLoggedIn();
+    
+    [DllImport("__Internal")]
+    public static extern string DoAnonymousAuth();    
+    
+    [DllImport("__Internal")]
+    public static extern void DoReload();    
+    
+    [DllImport("__Internal")]
+    public static extern void DoSignOut();
 
 
-    [HideInInspector] public UnityEvent<string> UpdatedInput;
-
-    public bool ShowPWAWarning
+    public bool ShowPwaWarning
     {
         get
         {
@@ -73,6 +74,11 @@ public class JavaScriptManager : MonoBehaviour
     {
         AuthWithFacebook();
     }
+    
+    public void AnonymousAuth()
+    {
+        DoAnonymousAuth();
+    }
 
     public void StripePurchase(double _cost)
     {
@@ -85,35 +91,28 @@ public class JavaScriptManager : MonoBehaviour
         {
             return;
         }
+        
         DoSetUserId(_id);
     }
 
+    public void SignOut()
+    {
+        DoSignOut();
+    }
+
+
+    //called from JS 
     public void PurchaseResult(string _resultData)
     {
         PurchaseResponseServer _result = JsonConvert.DeserializeObject<PurchaseResponseServer>(_resultData);
-        
         StripeManager.Instance.PurchaseResult(_result);
     }
     
-    public void SetInput(string _key)
+    public void AuthFinished(string _data)
     {
-        UpdatedInput?.Invoke(_key);
-    }
-
-    public void AuthWithGoogle(string _data)
-    {
-        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD, (int)AuthMethod.Google);
-        FirebaseAuthResponse _response = JsonConvert.DeserializeObject<FirebaseAuthResponse>(_data);
+        UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
-        AuthHandler.Instance.AuthWithGoogle(_response.Id);
-    }
-
-    public void AuthWithFacebook(string _data)
-    {
-        PlayerPrefs.SetInt(AuthHandler.AUTH_METHOD, (int)AuthMethod.Facebook);
-        FirebaseAuthResponse _response = JsonConvert.DeserializeObject<FirebaseAuthResponse>(_data);
-        Debug.Log("Got token: "+_data);
-        AuthHandler.Instance.AuthWithFacebook(_response.Id);
+        AuthHandler.Instance.Auth(_response.UserId);
     }
 
     public void FailedToAuth()
@@ -121,9 +120,9 @@ public class JavaScriptManager : MonoBehaviour
         AuthHandler.Instance.AuthFailed();
     }
 
-    public void LoadURL(string _url)
+    public void ReloadPage()
     {
-        OpenURL(_url);
+        DoReload();
     }
 
     public void OnUpdatedDiamonds(double _value)
@@ -136,17 +135,16 @@ public class JavaScriptManager : MonoBehaviour
         DataManager.Instance.PlayerData.USDC = _value;
     }
 
-    [Button()]
-    private void ReloadScene()
+    public UserLoginData GetUserData()
     {
-        SceneManager.Instance.ReloadScene();
-    }
+        string _userData = DoCheckIfUserIsLoggedIn();
+        if (string.IsNullOrEmpty(_userData))
+        {
+            return null;
+        }
+        Debug.Log("Got data from JS: "+_userData);
+        UserLoginData _userLoginData = JsonConvert.DeserializeObject<UserLoginData>(_userData);
 
-    [SerializeField] private int rankPoints;
-    [Button()]
-    private void SetRankPoints()
-    {
-        DataManager.Instance.PlayerData.RankPoints = rankPoints;
-        ReloadScene();
+        return _userLoginData;
     }
 }
