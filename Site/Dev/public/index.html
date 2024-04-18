@@ -7,12 +7,42 @@
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
   <link rel="manifest" href="manifest.webmanifest">
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <style>
+@media (orientation: landscape) {
+  /* body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  } */
 
+  #landscape-block-message {
+    display: block;
+    text-align: center;
+    background: black;
+    color: white;
+    padding: 20px;
+    border: 3px solid red;
+    font-size: 20px;
+  }
+
+  /* #unity-container {
+    display: none;
+  } */
+}
 </style>
 <body>
+  <div id="landscape-block-message" style="display:none;">
+    Please rotate your device to portrait mode to continue.
+</div>
 <div id="unity-container">
+  <h1 id="proba"></h1>
   <canvas id="unity-canvas" width=1179 height=2556></canvas>
   <div id="unity-loading-bar">
     <div id="unity-logo"></div>
@@ -34,11 +64,41 @@
     </div>
   </div>
 </div>
-<script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
+
 <script>
+window.addEventListener("orientationchange", function() {
+    if(window.orientation == 90 || window.orientation == -90){
+        document.getElementById('landscape-block-message').style.display = 'block';
+        document.getElementById('unity-container').style.display = 'none';
+    } else {
+        document.getElementById('landscape-block-message').style.display = 'none';
+        document.getElementById('unity-container').style.display = 'block';
+    }
+});
+if ('orientation' in screen) {
+    screen.orientation.addEventListener('change', function() {
+        if(screen.orientation.type.startsWith('landscape')) {
+            // Suggest users to switch to portrait mode.
+            alert("For the best experience, please use the portrait mode.");
+            document.getElementById('landscape-block-message').style.display = 'block';
+            document.getElementById('unity-container').style.display = 'none';
+        } else {
+            document.getElementById('landscape-block-message').style.display = 'none';
+            document.getElementById('unity-container').style.display = 'block';
+        }
+    });
+
+    try {
+        screen.orientation.lock("portrait").catch(function(e) {
+            console.log("Orientation lock not supported or denied by the user: ", e);
+        });
+    } catch (e) {
+        console.error("Error trying to lock the orientation: ", e);
+    }
+} else {
+    console.log("Screen Orientation API not supported.");
+}
+// -----------------------------------------------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
     authDomain: "qqweb-b75ae.firebaseapp.com",
@@ -51,6 +111,7 @@
   }
   firebase.initializeApp(firebaseConfig);
   
+  let currentUser = null
   let userId = null
   let unity = null
   const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -120,7 +181,7 @@
       })
       const response = await res.json()
       const clientSecret = response.clientSecret
-
+      
       var container = document.querySelector('#form-container')
       container.style.display = 'flex'
       const elements = stripe.elements({ clientSecret, appearance });
@@ -164,27 +225,76 @@
                 'Payment is not confirmed'}))
     }
   }
+  const ReloadPageFromUnity = () => {
+    location.reload()
+  }
+  const CheckUserSession = () => {
+    unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify(currentUser ? {UserId: currentUser?.uid} : ''))
+  }
   //-----------------------------------------------------------------------above is payment!!!!
+  // function GoogleAuth(){
+  // let probaEl = document.getElementById('proba')
+  //   firebase.auth().signInWithPopup(googleProvider)
+  //           .then(result => {
+  //             unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
+  //             probaEl.textContent = 'uspesno'
+  //           })
+  //           .catch(err => {
+  //             unity.SendMessage('JavaScriptManager','FailedToAuth');
+  //             console.log(err.code)
+  //             probaEl.textContent = err.code
+  //           })
+  // }
   function GoogleAuth(){
-    firebase.auth().signInWithPopup(googleProvider)
-            .then(result => {
-              unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
-            })
-            .catch(err => {
-              unity.SendMessage('JavaScriptManager','FailedToAuth');
-              console.log(err.code)
-            })
+    document.getElementById('proba').textContent = '12312441231'
+    firebase.auth().signInWithRedirect(googleProvider);
+    firebase.auth().getRedirectResult().then(function(result) {
+        if (result.credential) {
+          console.log(result, 'google auth')
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+            document.getElementById('proba').textContent = 'uspesno'
+        }
+    }).catch(function(error) {
+        unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+        console.log(error.code, 'google auth');
+        document.getElementById('proba').textContent = error.code
+  });
   }
   function FacebookAuth(){
     firebase.auth().signInWithPopup(facebookProvider)
             .then(result => {
-              unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
+              unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
             })
             .catch(err => {
               unity.SendMessage('JavaScriptManager','FailedToAuth');
               console.log(err.code)
             })
   }
+  function SignInAnonymous(){
+    const email = `guest${crypto.randomUUID()}@help.com`
+    const password = 'paSsword123'
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // Signed in 
+    var user = userCredential.user;
+    unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
+    // ...
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    unity.SendMessage('JavaScriptManager','FailedToAuth');
+    // ..
+  });
+  }
+  const SignOut = () => {
+    firebase.auth().signOut().then(() => {
+      // ReloadPageFromUnity()
+    }).catch((error) => {
+      console.log('greska')
+    });
+  }
+
   // -----------------separate old code
   window.addEventListener("load", function () {
     if ("serviceWorker" in navigator) {
@@ -259,18 +369,22 @@
     }).then((unityInstance) => {
       loadingBar.style.display = "none";
       unity = unityInstance;
+
+      firebase.auth().onAuthStateChanged(function(user) {
+    if (user && unity) {
+      // User is signed in, log user info to console
+      console.log(user, 'user is logged in')
+      currentUser = user
+    } else {
+      // No user is signed in, log to console
+      console.log("No user is logged in.");
+    }
+  });
     }).catch((message) => {
       alert(message);
     });
   };
   document.body.appendChild(script);
-
-if (window.matchMedia('(display-mode: standalone)').matches) {
-    unityInstance.SendMessage('JavaScriptManager', 'OpenedFromPwa');
-} else {
-    unityInstance.SendMessage('JavaScriptManager', 'OpenedFromBrowser');
-}
-
 </script>
 </body>
 </html>
