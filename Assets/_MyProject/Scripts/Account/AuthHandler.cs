@@ -58,6 +58,16 @@ public class AuthHandler : MonoBehaviour
     private IEnumerator ShowRegisterRoutine()
     {
         yield return new WaitForSeconds(3);
+        if (!gameObject.activeSelf)
+        {
+            yield break;
+        }
+
+        if (registerHandler == default)
+        {
+            yield break;
+        }
+
         registerHandler.Setup();
     }
 
@@ -107,6 +117,10 @@ public class AuthHandler : MonoBehaviour
 
         CanAuth = false;
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
+        if (Initialization.Instance==default)
+        {
+            return;
+        }
         Initialization.Instance.CheckForStartingData(_isNewAccount);
     }
 

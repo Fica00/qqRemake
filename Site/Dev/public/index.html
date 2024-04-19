@@ -241,6 +241,7 @@
     location.reload()
   }
   const CheckUserSession = () => {
+    console.log("Checking session")
     currentUser ? tellUnityUserInfo(currentUser.uid) : unity.SendMessage('JavaScriptManager', 'AuthFinished','')
   }
   //-----------------------------------------------------------------------above is payment!!!!
