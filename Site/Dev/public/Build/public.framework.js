@@ -1155,26 +1155,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 5365148: function() {
+ 5365212: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 5365203: function($0) {
+ 5365267: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5365251: function($0) {
+ 5365315: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5365299: function() {
+ 5365363: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 5365354: function() {
+ 5365418: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 5365415: function() {
+ 5365479: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1291,7 +1291,7 @@ function _DoAnonymousAuth() {
 }
 
 function _DoCheckIfUserIsLoggedIn() {
- return CheckUserSession();
+ CheckUserSession();
 }
 
 function _DoReload() {

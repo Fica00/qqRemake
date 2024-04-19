@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class AuthHandler : MonoBehaviour
@@ -23,17 +24,36 @@ public class AuthHandler : MonoBehaviour
     public void Authenticate()
     {
         CanAuth = true;
-        Debug.Log("--- Requesting authentication data");
-        UserLoginData _userData = JavaScriptManager.Instance.GetUserData();
-        if (_userData == null || string.IsNullOrEmpty(_userData.UserId))
+        if (Application.isEditor)
+        {
+            StartCoroutine(ShowRegisterRoutine());
+            return;
+        }
+        
+        JavaScriptManager.OnGotUserData += TryToLogin;
+        JavaScriptManager.Instance.RequestUserData();
+    }
+
+    private void TryToLogin(string _loginDataJson)
+    {
+        JavaScriptManager.OnGotUserData -= TryToLogin;
+        UserLoginData _loginData = default;
+        
+        if (!string.IsNullOrEmpty(_loginDataJson))
+        {
+            _loginData = JsonConvert.DeserializeObject<UserLoginData>(_loginDataJson);
+        }
+
+        if (_loginData == null || string.IsNullOrEmpty(_loginData.UserId))
         {
             StartCoroutine(ShowRegisterRoutine());
         }
         else
         {
-            Auth(_userData.UserId);
+            Auth(_loginData.UserId, _loginData.IsNewAccount);
         }
     }
+
 
     private IEnumerator ShowRegisterRoutine()
     {
@@ -60,7 +80,7 @@ public class AuthHandler : MonoBehaviour
         {
             FirebaseManager.Instance.TryLoginAndGetData("unity@help.com", "unity123", (_status) =>
             {
-                HandleLoginResult(_status,callBackForOAUTh);
+                HandleLoginResult(_status,callBackForOAUTh,false);
             });
         }
         else
@@ -69,15 +89,15 @@ public class AuthHandler : MonoBehaviour
         }
     }
 
-    public void Auth(string _id)
+    public void Auth(string _id, bool _isNewAccount)
     {
         FirebaseManager.Instance.SignIn(_id, (_status) =>
         {
-            HandleLoginResult(_status,callBackForOAUTh);
+            HandleLoginResult(_status,callBackForOAUTh, _isNewAccount);
         });
     }
 
-    private void HandleLoginResult(bool _status, Action<bool> _callBack)
+    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount)
     {
         if (!_status)
         {
@@ -87,7 +107,7 @@ public class AuthHandler : MonoBehaviour
 
         CanAuth = false;
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
-        Initialization.Instance.CheckForStartingData();
+        Initialization.Instance.CheckForStartingData(_isNewAccount);
     }
 
     public void AuthFailed()

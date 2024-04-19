@@ -23,8 +23,6 @@ public class FirebaseManager : MonoBehaviour
 
     public string PlayerId => userLocalId;
 
-    public bool IsAuthenticated => !string.IsNullOrEmpty(userLocalId);
-
     private void Awake()
     {
         if (Instance == null)
@@ -90,7 +88,7 @@ public class FirebaseManager : MonoBehaviour
         {
             DataManager.Instance.SetGameData(_result);
             CollectPlayerData(_callBack);
-        }, (_result) => { _callBack?.Invoke(false); }));
+        }, (_) => { _callBack?.Invoke(false); }));
     }
 
     private void CollectPlayerData(Action<bool> _callBack)
@@ -99,7 +97,7 @@ public class FirebaseManager : MonoBehaviour
         {
             DataManager.Instance.SetPlayerData(_result);
             _callBack?.Invoke(true);
-        }, (_result) => { _callBack?.Invoke(false); }));
+        }, (_) => { _callBack?.Invoke(false); }));
     }
 
     public void SignIn(string _firebaseId, Action<bool> _callBack)

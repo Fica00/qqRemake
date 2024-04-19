@@ -42,7 +42,7 @@ mergeInto(LibraryManager.library,
     
     DoCheckIfUserIsLoggedIn: function()
     {
-       return CheckUserSession();
+       CheckUserSession();
     },
     
     DoAnonymousAuth: function()

@@ -4,4 +4,5 @@ using System;
 public class UserLoginData
 {
     public string UserId;
+    public bool IsNewAccount;
 }

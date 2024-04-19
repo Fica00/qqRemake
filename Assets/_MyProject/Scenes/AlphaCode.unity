@@ -513,10 +513,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsDemo>k__BackingField: 0
-  UpdatedInput:
-    m_PersistentCalls:
-      m_Calls: []
-  rankPoints: 0
 --- !u!4 &301907328
 Transform:
   m_ObjectHideFlags: 0

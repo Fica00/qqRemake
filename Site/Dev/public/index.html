@@ -10,6 +10,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 <style>
@@ -109,6 +110,7 @@
     measurementId: "G-FW64GXVQ28",
   }
   firebase.initializeApp(firebaseConfig);
+  const firebaseAnalytics = firebase.analytics()
 
   let currentUser = null
   let userId = null
@@ -136,12 +138,23 @@
   function SetUserId(id){
     userId = id
 
-    var ref = firebase.database().ref(`users/${userId}`);
-    ref.on('value', function(snapshot) {
-      if(snapshot.exists()){
-        const user = snapshot.val()
-        unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', user.Coins)
-        unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', user.USDC)
+    // Reference to the user's 'Coins' field in Firebase
+    var coinsRef = firebase.database().ref(`users/${userId}/Coins`);
+// Listener for changes in the 'Coins' field
+    coinsRef.on('value', function(snapshot) {
+      if (snapshot.exists()) {
+        const coins = snapshot.val();
+        //unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', coins.toString());
+      }
+    });
+
+// Reference to the user's 'USDC' field in Firebase
+    var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
+// Listener for changes in the 'USDC' field
+    usdcRef.on('value', function(snapshot) {
+      if (snapshot.exists()) {
+        const usdc = snapshot.val();
+        //unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', usdc.toString());
       }
     });
   }
@@ -228,7 +241,7 @@
     location.reload()
   }
   const CheckUserSession = () => {
-    unity.SendMessage('JavaScriptManager', 'AuthFinished', currentUser ? JSON.stringify( {UserId: currentUser?.uid}) : '')
+    currentUser ? tellUnityUserInfo(currentUser.uid) : unity.SendMessage('JavaScriptManager', 'AuthFinished','')
   }
   //-----------------------------------------------------------------------above is payment!!!!
   
@@ -237,7 +250,8 @@
     firebase.auth().getRedirectResult().then(function(result) {
       if (result.credential) {
         console.log(result, 'google auth')
-        unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+        tellUnityUserInfo(result.user.uid)
+        // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
       }
     }).catch(function(error) {
       unity.SendMessage('JavaScriptManager', 'FailedToAuth');
@@ -247,7 +261,8 @@
   function FacebookAuth(){
     firebase.auth().signInWithPopup(facebookProvider)
             .then(result => {
-              unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+              tellUnityUserInfo(result.user.uid)
+              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
             })
             .catch(err => {
               unity.SendMessage('JavaScriptManager','FailedToAuth');
@@ -259,7 +274,8 @@
     const password = 'paSsword123'
     firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
-              unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
+              tellUnityUserInfo(userCredential.user.uid)
+              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
             })
             .catch((error) => {
               unity.SendMessage('JavaScriptManager','FailedToAuth');
@@ -352,7 +368,8 @@
           // User is signed in, log user info to console
           console.log(user, 'user is logged in')
           currentUser = user
-          unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: currentUser.uid}));
+          // tellUnityUserInfo(currentUser.uid)
+          // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: currentUser.uid}));
         } else {
           // No user is signed in, log to console
           console.log("No user is logged in.");
@@ -363,7 +380,25 @@
     });
   };
   document.body.appendChild(script);
-  
+  firebaseAnalytics.logEvent('page_view')
+
+  function tellUnityUserInfo(userId){
+    var ref = firebase.database().ref(`users/${userId}`);
+
+    ref.once('value', function(snapshot) {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            console.log("User Data Retrieved:", userData);
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: false}));
+        } else {
+            console.log("No user data available for user ID:", userId);
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: true}));
+        }
+    }).catch(function(error) {
+      console.error("Error fetching user data:", error);
+      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+    });
+  }
 </script>
 </body>
 </html>

@@ -28,9 +28,9 @@ public class Initialization : MonoBehaviour
         AuthHandler.Instance.Authenticate();
     }
 
-    public void CheckForStartingData()
+    public void CheckForStartingData(bool _isNewAccount)
     {
-        if (DataManager.Instance.PlayerData == null || DataManager.Instance.PlayerData.Decks == null || DataManager.Instance.PlayerData.Decks.Count==0)
+        if (_isNewAccount)
         {
             FirebaseManager.Instance.SetStartingData((_status) =>
             {

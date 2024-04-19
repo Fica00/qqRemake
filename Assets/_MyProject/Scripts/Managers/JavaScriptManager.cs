@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
+    public static Action<string> OnGotUserData;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
 
@@ -110,18 +112,14 @@ public class JavaScriptManager : MonoBehaviour
     
     public void AuthFinished(string _data)
     {
+        OnGotUserData?.Invoke(_data);
+        Debug.Log("Got json from JS: "+ _data);
         if (!AuthHandler.CanAuth)
         {
             Debug.Log("--- Not time for auth");
             return;
         }
         
-        if (FirebaseManager.Instance.IsAuthenticated)
-        {
-            Debug.Log("--- Already authenticated");
-            return;
-        }
-
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
         if (string.IsNullOrEmpty(_data))
@@ -131,15 +129,17 @@ public class JavaScriptManager : MonoBehaviour
 
         if (!SceneManager.IsAuthScene)
         {
+            Debug.Log("Not auth scene");
             return;
         }
 
         if (AuthHandler.Instance == default)
         {
+            Debug.Log("Auth handler not found");
             return;
         }
         
-        AuthHandler.Instance.Auth(_response.UserId);
+        AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
     }
 
     public void FailedToAuth()
@@ -172,21 +172,8 @@ public class JavaScriptManager : MonoBehaviour
         DataManager.Instance.PlayerData.USDC = _value;
     }
 
-    public UserLoginData GetUserData()
+    public void RequestUserData()
     {
-        if (Application.isEditor)
-        {
-            return null;
-        }
-
-        string _userData = DoCheckIfUserIsLoggedIn();
-        if (string.IsNullOrEmpty(_userData))
-        {
-            return null;
-        }
-        Debug.Log("Got data from JS: "+_userData);
-        UserLoginData _userLoginData = JsonConvert.DeserializeObject<UserLoginData>(_userData);
-
-        return _userLoginData;
+        DoCheckIfUserIsLoggedIn();
     }
 }
