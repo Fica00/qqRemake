@@ -10,6 +10,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 <style>
@@ -110,6 +111,7 @@ if ('orientation' in screen) {
     measurementId: "G-FW64GXVQ28",
   }
   firebase.initializeApp(firebaseConfig);
+  const firebaseAnalytics = firebase.analytics()
   
   let currentUser = null
   let userId = null
@@ -385,6 +387,7 @@ if ('orientation' in screen) {
     });
   };
   document.body.appendChild(script);
+  firebaseAnalytics.logEvent('page_view')
 </script>
 </body>
 </html>
