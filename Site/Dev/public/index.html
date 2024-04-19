@@ -14,36 +14,35 @@
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 <style>
-@media (orientation: landscape) {
-  /* body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  } */
+  @media (orientation: landscape) {
+    /* body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    } */
 
-  #landscape-block-message {
-    display: block;
-    text-align: center;
-    background: black;
-    color: white;
-    padding: 20px;
-    border: 3px solid red;
-    font-size: 20px;
+    #landscape-block-message {
+      display: block;
+      text-align: center;
+      background: black;
+      color: white;
+      padding: 20px;
+      border: 3px solid red;
+      font-size: 20px;
+    }
+
+    /* #unity-container {
+      display: none;
+    } */
   }
-
-  /* #unity-container {
-    display: none;
-  } */
-}
 </style>
 <body>
-  <div id="landscape-block-message" style="display:none;">
-    Please rotate your device to portrait mode to continue.
+<div id="landscape-block-message" style="display:none;">
+  Please rotate your device to portrait mode to continue.
 </div>
 <div id="unity-container">
-  <h1 id="proba"></h1>
   <canvas id="unity-canvas" width=1179 height=2556></canvas>
   <div id="unity-loading-bar">
     <div id="unity-logo"></div>
@@ -67,39 +66,39 @@
 </div>
 
 <script>
-window.addEventListener("orientationchange", function() {
+  window.addEventListener("orientationchange", function() {
     if(window.orientation == 90 || window.orientation == -90){
+      document.getElementById('landscape-block-message').style.display = 'block';
+      document.getElementById('unity-container').style.display = 'none';
+    } else {
+      document.getElementById('landscape-block-message').style.display = 'none';
+      document.getElementById('unity-container').style.display = 'block';
+    }
+  });
+  if ('orientation' in screen) {
+    screen.orientation.addEventListener('change', function() {
+      if(screen.orientation.type.startsWith('landscape')) {
+        // Suggest users to switch to portrait mode.
+        alert("For the best experience, please use the portrait mode.");
         document.getElementById('landscape-block-message').style.display = 'block';
         document.getElementById('unity-container').style.display = 'none';
-    } else {
+      } else {
         document.getElementById('landscape-block-message').style.display = 'none';
         document.getElementById('unity-container').style.display = 'block';
-    }
-});
-if ('orientation' in screen) {
-    screen.orientation.addEventListener('change', function() {
-        if(screen.orientation.type.startsWith('landscape')) {
-            // Suggest users to switch to portrait mode.
-            alert("For the best experience, please use the portrait mode.");
-            document.getElementById('landscape-block-message').style.display = 'block';
-            document.getElementById('unity-container').style.display = 'none';
-        } else {
-            document.getElementById('landscape-block-message').style.display = 'none';
-            document.getElementById('unity-container').style.display = 'block';
-        }
+      }
     });
 
     try {
-        screen.orientation.lock("portrait").catch(function(e) {
-            console.log("Orientation lock not supported or denied by the user: ", e);
-        });
+      screen.orientation.lock("portrait").catch(function(e) {
+        console.log("Orientation lock not supported or denied by the user: ", e);
+      });
     } catch (e) {
-        console.error("Error trying to lock the orientation: ", e);
+      console.error("Error trying to lock the orientation: ", e);
     }
-} else {
+  } else {
     console.log("Screen Orientation API not supported.");
-}
-// -----------------------------------------------------------------
+  }
+  // -----------------------------------------------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
     authDomain: "qqweb-b75ae.firebaseapp.com",
@@ -112,7 +111,7 @@ if ('orientation' in screen) {
   }
   firebase.initializeApp(firebaseConfig);
   const firebaseAnalytics = firebase.analytics()
-  
+
   let currentUser = null
   let userId = null
   let unity = null
@@ -121,12 +120,12 @@ if ('orientation' in screen) {
   const btnCancelPayment = document.querySelector('#btn-cancelPayment')
   const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
- function CheckIsPwa() {
-  function isInStandaloneMode() {
-    var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-    const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
-    return res
-  }
+  function CheckIsPwa() {
+    function isInStandaloneMode() {
+      var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+      const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
+      return res
+    }
     const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
     const isOnPC = !isIOS && !isAndroid;
@@ -183,7 +182,7 @@ if ('orientation' in screen) {
       })
       const response = await res.json()
       const clientSecret = response.clientSecret
-      
+
       var container = document.querySelector('#form-container')
       container.style.display = 'flex'
       const elements = stripe.elements({ clientSecret, appearance });
@@ -231,41 +230,28 @@ if ('orientation' in screen) {
     location.reload()
   }
   const CheckUserSession = () => {
-    unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify(currentUser ? {UserId: currentUser?.uid} : ''))
+    unity.SendMessage('JavaScriptManager', 'AuthFinished', currentUser ? tellUnityUserInfo(currentUser.uid) : '')
   }
   //-----------------------------------------------------------------------above is payment!!!!
-  // function GoogleAuth(){
-  // let probaEl = document.getElementById('proba')
-  //   firebase.auth().signInWithPopup(googleProvider)
-  //           .then(result => {
-  //             unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
-  //             probaEl.textContent = 'uspesno'
-  //           })
-  //           .catch(err => {
-  //             unity.SendMessage('JavaScriptManager','FailedToAuth');
-  //             console.log(err.code)
-  //             probaEl.textContent = err.code
-  //           })
-  // }
+  
   function GoogleAuth(){
-    document.getElementById('proba').textContent = '12312441231'
     firebase.auth().signInWithRedirect(googleProvider);
     firebase.auth().getRedirectResult().then(function(result) {
-        if (result.credential) {
-          console.log(result, 'google auth')
-            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
-            document.getElementById('proba').textContent = 'uspesno'
-        }
+      if (result.credential) {
+        console.log(result, 'google auth')
+        tellUnityUserInfo(result.user.uid)
+        // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+      }
     }).catch(function(error) {
-        unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-        console.log(error.code, 'google auth');
-        document.getElementById('proba').textContent = error.code
-  });
+      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+      console.log(error.code, 'google auth');
+    });
   }
   function FacebookAuth(){
     firebase.auth().signInWithPopup(facebookProvider)
             .then(result => {
-              unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+              tellUnityUserInfo(result.user.uid)
+              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
             })
             .catch(err => {
               unity.SendMessage('JavaScriptManager','FailedToAuth');
@@ -276,22 +262,16 @@ if ('orientation' in screen) {
     const email = `guest${crypto.randomUUID()}@help.com`
     const password = 'paSsword123'
     firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    // Signed in 
-    var user = userCredential.user;
-    unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
-    // ...
-  })
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    unity.SendMessage('JavaScriptManager','FailedToAuth');
-    // ..
-  });
+            .then((userCredential) => {
+              tellUnityUserInfo(userCredential.user.uid)
+              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
+            })
+            .catch((error) => {
+              unity.SendMessage('JavaScriptManager','FailedToAuth');
+            });
   }
   const SignOut = () => {
     firebase.auth().signOut().then(() => {
-      // ReloadPageFromUnity()
     }).catch((error) => {
       console.log('greska')
     });
@@ -341,7 +321,7 @@ if ('orientation' in screen) {
     codeUrl: buildUrl + "/public.wasm",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "MagmaDev",
-    productName: "QommonQuest",
+    productName: "Qoomon Quest",
     productVersion: "1.0",
     showBanner: unityShowBanner,
   };
@@ -373,21 +353,41 @@ if ('orientation' in screen) {
       unity = unityInstance;
 
       firebase.auth().onAuthStateChanged(function(user) {
-    if (user && unity) {
-      // User is signed in, log user info to console
-      console.log(user, 'user is logged in')
-      currentUser = user
-    } else {
-      // No user is signed in, log to console
-      console.log("No user is logged in.");
-    }
-  });
+        if (user && unity) {
+          // User is signed in, log user info to console
+          console.log(user, 'user is logged in')
+          currentUser = user
+          tellUnityUserInfo(currentUser.uid)
+          // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: currentUser.uid}));
+        } else {
+          // No user is signed in, log to console
+          console.log("No user is logged in.");
+        }
+      });
     }).catch((message) => {
       alert(message);
     });
   };
   document.body.appendChild(script);
   firebaseAnalytics.logEvent('page_view')
+
+  function tellUnityUserInfo(userId){
+    var ref = firebase.database().ref(`users/${userId}`);
+
+    ref.once('value', function(snapshot) {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            console.log("User Data Retrieved:", userData);
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: currentUser.uid, IsNewAccount: true}));
+        } else {
+            console.log("No user data available for user ID:", userId);
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: currentUser.uid, IsNewAccount: false}));
+        }
+    }).catch(function(error) {
+      console.error("Error fetching user data:", error);
+      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+    });
+  }
 </script>
 </body>
 </html>
