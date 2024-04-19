@@ -31,6 +31,7 @@ public class UIMainMenu : MonoBehaviour
     private void Start()
     {
         DataManager.Instance.Subscribe();
+        MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
     }
 

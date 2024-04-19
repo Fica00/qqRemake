@@ -7,7 +7,7 @@ public class DataManager : MonoBehaviour
 {
     public static Action NewGameDay;
     public static DataManager Instance;
-    public PlayerData PlayerData { get; private set; }
+    public PlayerData PlayerData { get; private set; } = null;
     public GameData GameData { get; private set; }
 
     public int[] locationsPicked = {-1, -1, -1};
@@ -39,6 +39,12 @@ public class DataManager : MonoBehaviour
 
     public void SetPlayerData(string _data)
     {
+        if (PlayerData!=null)
+        {
+            Debug.Log("DFKFKFKFKFKF");
+            return;
+        }
+        
         PlayerData = JsonConvert.DeserializeObject<PlayerData>(_data);
     }
 
@@ -54,6 +60,7 @@ public class DataManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("Subscribed data manager");
         isSubscribed = true;
         PlayerData.UpdatedSelectedDeck += SaveSelectedDeck;
         PlayerData.UpdatedCardsInDeck += SaveOwnedDecks;
@@ -83,7 +90,6 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasFinishedTutorial += SaveTutorial;
         
         StartCoroutine(CheckForNewGameDay());
-        MissionManager.Instance.Setup();
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
     }
     
@@ -128,6 +134,7 @@ public class DataManager : MonoBehaviour
             return;
         }
         
+        Debug.Log("Unsubscribed data manager");
         isSubscribed = false;
         PlayerData.UpdatedSelectedDeck -= SaveSelectedDeck;
         PlayerData.UpdatedCardsInDeck -= SaveOwnedDecks;
@@ -264,8 +271,12 @@ public class DataManager : MonoBehaviour
     
     private void SaveProgress(int _missionId)
     {
+        Debug.Log(12333);
         MissionProgress _missionProgress = PlayerData.MissionsProgress.Find(_mission => _mission.Id == _missionId);
+        Debug.Log(JsonConvert.SerializeObject(_missionProgress));
         int _missionIndex = PlayerData.MissionsProgress.IndexOf(_missionProgress);
+        Debug.Log(_missionIndex);
+        
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.MissionsProgress)+"/"+_missionIndex,JsonConvert.SerializeObject(_missionProgress));
     }
     

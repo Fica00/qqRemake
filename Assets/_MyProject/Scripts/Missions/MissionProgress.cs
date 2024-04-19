@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class MissionProgress
@@ -27,6 +28,7 @@ public class MissionProgress
             return;
         }
 
+        Debug.Log(1111);
         Value++;
         UpdatedProgress?.Invoke(Id);
     }
@@ -38,6 +40,7 @@ public class MissionProgress
             return;
         }
 
+        Debug.Log(1111);
         Value+=_amount;
         UpdatedProgress?.Invoke(Id);
     }
