@@ -27,6 +27,7 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private TextMeshProUGUI expDisplay;
    [SerializeField] private Image rankImage;
    private bool didIWin;
+   private GameResult result;
    
    private void OnEnable()
    {
@@ -52,7 +53,10 @@ public class ClaimReward : MonoBehaviour
          {
             if (didIWin)
             {
-               DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+               if (result != GameResult.Draw)
+               {
+                  DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+               }
             }
             else
             {
@@ -81,6 +85,7 @@ public class ClaimReward : MonoBehaviour
       gameObject.SetActive(true);
       expDisplay.text = $"+{expReward} XP";
       Sprite _sprite;
+      result = _result;
       switch (_result)
       {
          case GameResult.IWon:

@@ -115,7 +115,6 @@ public class FirebaseManager : MonoBehaviour
     public void SaveValue<T>(string _path, T _value)
     {
         string _valueString = "{\"" + _path + "\":" + _value + "}";
-        Debug.Log("Saving: "+_valueString);
         StartCoroutine(Patch(UserDataLink + ".json", _valueString, (_result) =>
         {
             
@@ -386,7 +385,6 @@ public class FirebaseManager : MonoBehaviour
             if (_webRequest.result == UnityWebRequest.Result.Success)
             {
                 _onSuccess?.Invoke(_webRequest.downloadHandler.text);
-                Debug.Log("Sucessfully saved: "+_jsonData);
             }
             else
             {

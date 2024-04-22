@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class PlayerData
     private List<GamePass> gamePasses = new();
     private double coins;
     private double usdc;
-    private List<int> claimedLevelRewards = new ();
+    private List<ClaimedLevelReward> claimedLevelProgressRewards = new ();
     private int weeklyLoginAmount = 1;
     private DateTime lastDayConnected;
     private int daysConnectedInRow;
@@ -416,24 +417,22 @@ public class PlayerData
         return expBorders[_level];
     }
 
-    public List<int> ClaimedLevelRewards => claimedLevelRewards;
+    public List<ClaimedLevelReward> ClaimedLevelProgressRewards => claimedLevelProgressRewards;
 
     public void AddQoomon(int _qoomonId)
     {
         if (DataManager.Instance.PlayerData.OwnedQoomons.Contains(_qoomonId))
         {
-            Debug.Log(1);
             return;
         }
         
-        Debug.Log(2);
         ownedQoomons.Add(_qoomonId);
         UpdatedOwnedQoomons?.Invoke();
     }
 
-    public void ClaimedLevelReward(int _level)
+    public void ClaimedLevelReward(ClaimedLevelReward _reward)
     {
-        DataManager.Instance.PlayerData.ClaimedLevelRewards.Add(_level);
+        DataManager.Instance.PlayerData.ClaimedLevelProgressRewards.Add(_reward);
         UpdatedClaimedLevelRewards?.Invoke();
     }
     
@@ -593,6 +592,39 @@ public class PlayerData
             playSoundEffects = value;
             UpdatedPlaySoundEffects?.Invoke();
         }
+    }
+
+    public int GetQoomonFromPool()
+    {
+        List<int> _possibleQoomons = new () { 2, 6, 10, 12, 13, 15, 20, 22, 24, 25, 26, 27, 31, 32, 33, 35, 36, 38, 39, 40, 41, 41, 42, 43, 43, 44, 46};
+        foreach (var _qoomon in _possibleQoomons.OrderBy(_ => Guid.NewGuid()))
+        {
+            if (ownedQoomons.Contains(_qoomon))
+            {
+                continue;
+            }
+
+            return _qoomon;
+        }
+        return -1;
+    }
+
+    public bool HasClaimedLevelReward(int _level)
+    {
+        return GetClaimedLevelReward(_level) != null;
+    }
+
+    public ClaimedLevelReward GetClaimedLevelReward(int _level)
+    {
+        foreach (ClaimedLevelReward _claimedLevelReward in claimedLevelProgressRewards)
+        {
+            if (_claimedLevelReward.Level==_level)
+            {
+                return _claimedLevelReward;
+            }
+        }
+
+        return null;
     }
 
 }

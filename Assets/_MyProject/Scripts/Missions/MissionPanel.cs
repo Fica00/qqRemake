@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -125,40 +124,16 @@ public class MissionPanel : MonoBehaviour
             return -1;
         }
 
-        List<int> _possibleQoomons = new List<int>()
-        {
-            6,
-            26,
-            46,
-            42,
-            33,
-            36,
-            25,
-            2,
-            41
-        };
-        int _choseQoomon = -1;
-        foreach (var _qoomon in _possibleQoomons)
-        {
-            if (DataManager.Instance.PlayerData.OwnedQoomons.Contains(_qoomon))
-            {
-                continue;
-            }
-
-            _choseQoomon = _qoomon;
-        }
-
+        int _choseQoomon = DataManager.Instance.PlayerData.GetQoomonFromPool();
         DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
         if (_choseQoomon != -1)
         {
             DataManager.Instance.PlayerData.AddQoomon(_choseQoomon);
             return _choseQoomon;
         }
-        else
-        {
-            DataManager.Instance.PlayerData.Exp += 15;
-            SceneManager.Instance.ReloadScene();
-        }
+
+        DataManager.Instance.PlayerData.Exp += 15;
+        SceneManager.Instance.ReloadScene();
 
         return -1;
     }

@@ -54,16 +54,20 @@ public class LevelRewardsPanel : MonoBehaviour
          return;
       }
 
-      if (DataManager.Instance.PlayerData.ClaimedLevelRewards.Contains(_reward.Level))
+      if (DataManager.Instance.PlayerData.HasClaimedLevelReward(_reward.Level))
       {
          return;
       }
-      
-      DataManager.Instance.PlayerData.ClaimedLevelReward(_reward.Level);
-      DataManager.Instance.PlayerData.AddQoomon(_reward.QoomonId);
 
+      int _randomQoomon = DataManager.Instance.PlayerData.GetQoomonFromPool();
+      ClaimedLevelReward _levelReward = new ClaimedLevelReward { Level = _reward.Level, QoomonId = _randomQoomon};
+      if (_randomQoomon!=-1)
+      {
+         qoomonUnlockingPanel.Setup(_levelReward.QoomonId,null);
+      }
+      DataManager.Instance.PlayerData.ClaimedLevelReward(_levelReward);
+      DataManager.Instance.PlayerData.AddQoomon(_levelReward.QoomonId);
       
-      qoomonUnlockingPanel.Setup(_reward.QoomonId,null);
       Start();
    }
 

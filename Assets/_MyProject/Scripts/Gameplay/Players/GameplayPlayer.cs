@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameplayPlayer : MonoBehaviour
 {
@@ -326,6 +327,19 @@ public class GameplayPlayer : MonoBehaviour
         if (CardsInHand.Count > 0)
         {
             return CardsInHand[UnityEngine.Random.Range(0, CardsInHand.Count)];
+        }
+
+        return null;
+    }
+    
+    public CardObject GetQommonFromHand(int _qoomonId)
+    {
+        foreach (var _cardInHand in CardsInHand)
+        {
+            if (_cardInHand.Details.Id == _qoomonId)
+            {
+                return _cardInHand;
+            }
         }
 
         return null;

@@ -45,4 +45,17 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.MyPlayer.Energy++;
     }
+
+
+    [Button("Draw master octo")]
+    private void DrawMasterOcto()
+    {
+        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(17), true);
+    }
+
+    [Button("Discard master octo")]
+    private void DiscardMasterOcto()
+    {
+        GameplayManager.Instance.MyPlayer.DiscardCardFromHand(GameplayManager.Instance.MyPlayer.GetQommonFromHand(17));
+    }
 }

@@ -3,7 +3,6 @@ using TMPro;
 using System;
 using System.Collections;
 using DG.Tweening;
-using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
 public class LocationAbilityDisplay : MonoBehaviour
@@ -11,7 +10,6 @@ public class LocationAbilityDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI abilityDesc;
     [SerializeField] private GameObject abilityDescHolder;
     [SerializeField] private TextMeshProUGUI shiningDesc;
-    [SerializeField] private Image lightUpEffect;
     [SerializeField] private Image tableDisplay;
     [SerializeField] private Image background;
     [SerializeField] private Color unactiveColor;

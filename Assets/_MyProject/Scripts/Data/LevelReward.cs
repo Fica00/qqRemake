@@ -4,5 +4,5 @@ using System;
 public class LevelReward
 {
     public int Level;
-    public int QoomonId;
+    // public int QoomonId;
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
 {
     [SerializeField] private int powerToAdd;
-    private CardObject strongestCard;
+    private List<CardObject> strongestCards = new ();
 
     public override void Subscribe()
     {
@@ -37,61 +37,80 @@ public class LaneAbilityAddPowerToStrongestQommon : LaneAbilityBase
     {
         List<CardObject> _myCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(true, laneDisplay.Location);
         List<CardObject> _opponentCardsOLane = GameplayManager.Instance.TableHandler.GetCards(false, laneDisplay.Location);
+        
+        int _strongestPower = int.MinValue;
+        foreach (var _card in _myCardsOnLane)
+        {
+            if (_strongestPower<_card.Stats.Power)
+            {
+                _strongestPower = _card.Stats.Power;
+            }
+        }
+        
+        foreach (var _card in _opponentCardsOLane)
+        {
+            if (_strongestPower<_card.Stats.Power)
+            {
+                _strongestPower = _card.Stats.Power;
+            }
+        }
 
-        CardObject _strongestCard = null;
-        if (_myCardsOnLane.Count > 0)
+        if (_strongestPower == int.MinValue)
         {
-            _strongestCard = _myCardsOnLane[0];
-        }
-        else if (_opponentCardsOLane.Count > 0)
-        {
-            _strongestCard = _opponentCardsOLane[0];
-        }
-        else
-        {
+            foreach (var _strongestCard in strongestCards)
+            {
+                _strongestCard.Stats.ChagePowerDueToLocation -= powerToAdd;
+            }
+
+            strongestCards.Clear();
             return;
         }
 
-        if (strongestCard != null)
+        if (strongestCards.Count>0 && _strongestPower != strongestCards[0].Stats.Power)
         {
-            strongestCard.Stats.ChagePowerDueToLocation -= powerToAdd;
-            strongestCard = null;
+            foreach (var _strongestCard in strongestCards)
+            {
+                _strongestCard.Stats.ChagePowerDueToLocation -= powerToAdd;
+            }
+            
+            strongestCards.Clear();
+        }
+        
+        List<CardObject> _strongestCards = new ();
+        foreach (var _card in GetStrongestCards(_myCardsOnLane, _strongestPower))
+        {
+            _strongestCards.Add(_card);
+        }
+        foreach (var _card in GetStrongestCards(_opponentCardsOLane, _strongestPower))
+        {
+            _strongestCards.Add(_card);
         }
 
-        _strongestCard = GetStrongestCard(_strongestCard, _myCardsOnLane);
-        _strongestCard = GetStrongestCard(_strongestCard, _opponentCardsOLane);
-
-        if (!IsThereCardWithSamePower(_strongestCard, _strongestCard.IsMy ? _opponentCardsOLane : _myCardsOnLane))
+        foreach (var _strongestCard in _strongestCards)
         {
-            strongestCard = _strongestCard;
-            strongestCard.Stats.ChagePowerDueToLocation += powerToAdd;
+            if (strongestCards.Contains(_strongestCard))
+            {
+                continue;
+            }
+            
+            _strongestCard.Stats.ChagePowerDueToLocation += powerToAdd;
+            strongestCards.Add(_strongestCard);
         }
-
     }
 
-    private CardObject GetStrongestCard(CardObject _currentStrongest, List<CardObject> _cards)
+    private List<CardObject> GetStrongestCards(List<CardObject> _cards, float _power)
     {
+        List<CardObject> _validCards = new();
         foreach (var _card in _cards)
         {
-            if (_currentStrongest.Stats.Power < _card.Stats.Power)
+            if (_power != _card.Stats.Power)
             {
-                _currentStrongest = _card;
+                continue;
             }
+            
+            _validCards.Add(_card);
         }
 
-        return _currentStrongest;
-    }
-
-    private bool IsThereCardWithSamePower(CardObject _strongestCard, List<CardObject> _cards)
-    {
-        foreach (var _card in _cards)
-        {
-            if (_strongestCard.Stats.Power == _card.Stats.Power)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return _validCards;
     }
 }

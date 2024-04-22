@@ -41,7 +41,6 @@ public class DataManager : MonoBehaviour
     {
         if (PlayerData!=null)
         {
-            Debug.Log("DFKFKFKFKFKF");
             return;
         }
         
@@ -60,7 +59,6 @@ public class DataManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("Subscribed data manager");
         isSubscribed = true;
         PlayerData.UpdatedSelectedDeck += SaveSelectedDeck;
         PlayerData.UpdatedCardsInDeck += SaveOwnedDecks;
@@ -134,7 +132,6 @@ public class DataManager : MonoBehaviour
             return;
         }
         
-        Debug.Log("Unsubscribed data manager");
         isSubscribed = false;
         PlayerData.UpdatedSelectedDeck -= SaveSelectedDeck;
         PlayerData.UpdatedCardsInDeck -= SaveOwnedDecks;
@@ -216,7 +213,7 @@ public class DataManager : MonoBehaviour
     
     private void SaveClaimedRewards()
     {
-        FirebaseManager.Instance.SaveValue(nameof(PlayerData.ClaimedLevelRewards),JsonConvert.SerializeObject(PlayerData.ClaimedLevelRewards));
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.ClaimedLevelProgressRewards),JsonConvert.SerializeObject(PlayerData.ClaimedLevelProgressRewards));
     }
     
     private void SaveWeeklyCount()
@@ -271,11 +268,8 @@ public class DataManager : MonoBehaviour
     
     private void SaveProgress(int _missionId)
     {
-        Debug.Log(12333);
         MissionProgress _missionProgress = PlayerData.MissionsProgress.Find(_mission => _mission.Id == _missionId);
-        Debug.Log(JsonConvert.SerializeObject(_missionProgress));
         int _missionIndex = PlayerData.MissionsProgress.IndexOf(_missionProgress);
-        Debug.Log(_missionIndex);
         
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.MissionsProgress)+"/"+_missionIndex,JsonConvert.SerializeObject(_missionProgress));
     }

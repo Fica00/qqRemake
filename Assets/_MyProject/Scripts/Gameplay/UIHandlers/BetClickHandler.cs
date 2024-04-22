@@ -20,6 +20,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool didOpponentInitBetIncrease;
     private bool didIBet;
     private bool didSomeoneIncreaseInLastRound;
+    private bool didSomeoneBetBeforeLastRound;
 
     public bool DidIBetThisRound { get; private set; }
 
@@ -79,6 +80,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             didSomeoneIncreaseInLastRound = true;
         }
+        else
+        {
+            didSomeoneBetBeforeLastRound = true;
+        }
         GameplayManager.Instance.Bet();
         didIBet = true;
         DidIBetThisRound = true;
@@ -103,7 +108,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void OpponentAcceptedBet()
     {
         stakeAnimator.SetTrigger(STAKE_KEY);
-        holder.transform.DOScale(Vector3.one*.8f, 1);
+        holder.transform.DOScale(Vector3.one, 1);
         ShowBet();
     }
 
@@ -124,6 +129,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             didSomeoneIncreaseInLastRound = true;
         }
+        else
+        {
+            didSomeoneBetBeforeLastRound = true;
+        }
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_INITIATED);
         didOpponentInitBetIncrease = true;
         OnPointerDown(null);
@@ -132,7 +141,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         GameplayUI.Instance.ShakeScreen(1);
         if (GameplayManager.Instance.IsLastRound && GameplayManager.IsPvpGame)
         {
-            if (didIBet)
+            if (didIBet && !didSomeoneBetBeforeLastRound)
             {
                 AcceptBet();
             }
@@ -209,7 +218,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             return;
         }
-        
+
+        if (holder.transform.localScale.x!=1)
+        {
+            holder.transform.DOScale(Vector3.one*.8f, 1);
+            return;
+        }
+
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_INITIATED);
         holder.transform.DOScale(Vector3.one*.8f, 1);
     }

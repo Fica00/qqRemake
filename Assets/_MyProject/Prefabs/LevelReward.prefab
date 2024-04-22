@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -62, y: -45}
+  m_AnchoredPosition: {x: -20, y: -109}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &3168359173550164190
@@ -690,6 +690,7 @@ MonoBehaviour:
   - {fileID: 4638028535771716490}
   readyToClaimBackground: {r: 0.74509805, g: 0.3764706, b: 0.29803923, a: 1}
   redDot: {fileID: 862264854359226737}
+  cloud: {fileID: 21300000, guid: b263c2079fde001419f7f9d783d7b3b8, type: 3}
 --- !u!1 &6253210454782301668
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,8 +963,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.0000019073486}
-  m_SizeDelta: {x: 83, y: 113}
+  m_AnchoredPosition: {x: 20, y: -7}
+  m_SizeDelta: {x: 318, y: 168}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8822396896143558148
 CanvasRenderer:
@@ -993,7 +994,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6fc75d6e18a4e8748a77d6b08cfe2b15, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b263c2079fde001419f7f9d783d7b3b8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

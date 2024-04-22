@@ -32,7 +32,7 @@ namespace RedDot
                     continue;
                 }
 
-                if (DataManager.Instance.PlayerData.ClaimedLevelRewards.Contains(_levelReward.Level))
+                if (DataManager.Instance.PlayerData.HasClaimedLevelReward(_levelReward.Level))
                 {
                     continue;
                 }

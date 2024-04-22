@@ -28,7 +28,6 @@ public class MissionProgress
             return;
         }
 
-        Debug.Log(1111);
         Value++;
         UpdatedProgress?.Invoke(Id);
     }
@@ -40,7 +39,6 @@ public class MissionProgress
             return;
         }
 
-        Debug.Log(1111);
         Value+=_amount;
         UpdatedProgress?.Invoke(Id);
     }

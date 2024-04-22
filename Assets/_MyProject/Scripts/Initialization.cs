@@ -7,6 +7,7 @@ public class Initialization : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        Debug.developerConsoleVisible = false;
     }
 
     private void Start()

@@ -13,6 +13,7 @@ public class GameplayManager : MonoBehaviour
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
     public static Action UpdatedBet;
+    public static Action OnFinishedGameplayLoop;
     public static Action<GameResult> GameEnded;
     public static Action<int, Color, int> OnFlashPlace;
     public static Action<LaneLocation, bool, Color, int> OnFlashWholePlace;
@@ -321,6 +322,7 @@ public class GameplayManager : MonoBehaviour
             StartCoroutine(RevealCards(_whoPlaysFirst));
             yield return new WaitUntil(() => resolvedEndOfTheRound);
             yield return new WaitForSeconds(1);
+            OnFinishedGameplayLoop?.Invoke();
         }
 
         AcceptAutoBet();

@@ -20,6 +20,7 @@ public class LevelRewardDisplay : MonoBehaviour
 
     [SerializeField] private Color readyToClaimBackground;
     [SerializeField] private GameObject redDot;
+    [SerializeField] private Sprite cloud; 
 
     private LevelReward levelReward;
     
@@ -44,10 +45,17 @@ public class LevelRewardDisplay : MonoBehaviour
             laneImage.color = FadeColor(laneImage.color);
             return;
         }
-
-        qoomonDisplay.sprite = CardsManager.Instance.GetCardSprite(levelReward.QoomonId);
-        if (DataManager.Instance.PlayerData.ClaimedLevelRewards.Contains(_levelReward.Level))
+        
+        
+        if (DataManager.Instance.PlayerData.HasClaimedLevelReward(_levelReward.Level))
         {
+            int _qoomonId = DataManager.Instance.PlayerData.GetClaimedLevelReward(_levelReward.Level).QoomonId;
+            qoomonDisplay.sprite = _qoomonId == -1 ? cloud : CardsManager.Instance.GetCardSprite(_qoomonId);
+            if (_qoomonId==-1)
+            {
+                qoomonDisplay.SetNativeSize();
+                qoomonDisplay.transform.localPosition = new Vector3(-59,7.3731f,0);
+            }
             completedDisplay.SetActive(true);
         }
         else

@@ -75,7 +75,6 @@ public class MissionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("setting up");
         isSetup = true;
         if (DataManager.Instance.PlayerData.MissionsProgress.Any())
         {
@@ -149,18 +148,15 @@ public class MissionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("Subscribing");
         isSubscribed = true;
         foreach (var _missionProgress in DataManager.Instance.PlayerData.MissionsProgress)
         {
             if (_missionProgress.Completed)
             {
-                Debug.Log("Completed");
                 continue;
             }
 
             MissionData _missionData = DataManager.Instance.GameData.GetMission(_missionProgress.Id);
-                Debug.Log(_missionData.Type);
             switch (_missionData.Type)
             {
                 case MissionType.DrawCard:
@@ -221,7 +217,6 @@ public class MissionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("Unsubscribing");
         isSubscribed = false;
         foreach (var _missionProgress in DataManager.Instance.PlayerData.MissionsProgress)
         {
