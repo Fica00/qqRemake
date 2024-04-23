@@ -390,7 +390,7 @@
         if (snapshot.exists()) {
             const userData = snapshot.val();
             console.log("User Data Retrieved:", userData);
-            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: false}));
+            //unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: false}));
         } else {
             console.log("No user data available for user ID:", userId);
             unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: true}));
