@@ -64,9 +64,10 @@ public class LevelRewardsPanel : MonoBehaviour
       if (_randomQoomon!=-1)
       {
          qoomonUnlockingPanel.Setup(_levelReward.QoomonId,null);
+         DataManager.Instance.PlayerData.AddQoomon(_levelReward.QoomonId);
       }
+
       DataManager.Instance.PlayerData.ClaimedLevelReward(_levelReward);
-      DataManager.Instance.PlayerData.AddQoomon(_levelReward.QoomonId);
       
       Start();
    }

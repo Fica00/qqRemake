@@ -66,38 +66,38 @@
 </div>
 
 <script>
-  window.addEventListener("orientationchange", function() {
-    if(window.orientation == 90 || window.orientation == -90){
-      document.getElementById('landscape-block-message').style.display = 'block';
-      document.getElementById('unity-container').style.display = 'none';
-    } else {
-      document.getElementById('landscape-block-message').style.display = 'none';
-      document.getElementById('unity-container').style.display = 'block';
-    }
-  });
-  if ('orientation' in screen) {
-    screen.orientation.addEventListener('change', function() {
-      if(screen.orientation.type.startsWith('landscape')) {
-        // Suggest users to switch to portrait mode.
-        alert("For the best experience, please use the portrait mode.");
-        document.getElementById('landscape-block-message').style.display = 'block';
-        document.getElementById('unity-container').style.display = 'none';
-      } else {
-        document.getElementById('landscape-block-message').style.display = 'none';
-        document.getElementById('unity-container').style.display = 'block';
-      }
-    });
-
-    try {
-      screen.orientation.lock("portrait").catch(function(e) {
-        console.log("Orientation lock not supported or denied by the user: ", e);
-      });
-    } catch (e) {
-      console.error("Error trying to lock the orientation: ", e);
-    }
-  } else {
-    console.log("Screen Orientation API not supported.");
-  }
+  // window.addEventListener("orientationchange", function() {
+  //   if(window.orientation == 90 || window.orientation == -90){
+  //     document.getElementById('landscape-block-message').style.display = 'block';
+  //     document.getElementById('unity-container').style.display = 'none';
+  //   } else {
+  //     document.getElementById('landscape-block-message').style.display = 'none';
+  //     document.getElementById('unity-container').style.display = 'block';
+  //   }
+  // });
+  // if ('orientation' in screen) {
+  //   screen.orientation.addEventListener('change', function() {
+  //     if(screen.orientation.type.startsWith('landscape')) {
+  //       // Suggest users to switch to portrait mode.
+  //       alert("For the best experience, please use the portrait mode.");
+  //       document.getElementById('landscape-block-message').style.display = 'block';
+  //       document.getElementById('unity-container').style.display = 'none';
+  //     } else {
+  //       document.getElementById('landscape-block-message').style.display = 'none';
+  //       document.getElementById('unity-container').style.display = 'block';
+  //     }
+  //   });
+  //
+  //   try {
+  //     screen.orientation.lock("portrait").catch(function(e) {
+  //       console.log("Orientation lock not supported or denied by the user: ", e);
+  //     });
+  //   } catch (e) {
+  //     console.error("Error trying to lock the orientation: ", e);
+  //   }
+  // } else {
+  //   console.log("Screen Orientation API not supported.");
+  // }
   // -----------------------------------------------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
@@ -246,19 +246,30 @@
   }
   //-----------------------------------------------------------------------above is payment!!!!
   
-  function GoogleAuth(){
-    firebase.auth().signInWithRedirect(googleProvider);
-    firebase.auth().getRedirectResult().then(function(result) {
-      if (result.credential) {
-        console.log(result, 'google auth')
-        tellUnityUserInfo(result.user.uid)
-        // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
-      }
-    }).catch(function(error) {
+  // function GoogleAuth(){
+  //   firebase.auth().signInWithRedirect(googleProvider);
+  //   firebase.auth().getRedirectResult().then(function(result) {
+  //     if (result.credential) {
+  //       console.log(result, 'google auth')
+  //       tellUnityUserInfo(result.user.uid)
+  //       // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+  //     }
+  //   }).catch(function(error) {
+  //     unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+  //     console.log(error.code, 'google auth');
+  //   });
+  // }
+
+  function GoogleAuth() {
+    firebase.auth().signInWithPopup(googleProvider).then(result => {
+      console.log("Google auth: "+resut)
+      tellUnityUserInfo(result.user.uid)
+    }).catch(err => {
       unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-      console.log(error.code, 'google auth');
-    });
+      console.log(err.code)
+    })
   }
+
   function FacebookAuth(){
     firebase.auth().signInWithPopup(facebookProvider)
             .then(result => {
@@ -369,8 +380,7 @@
           // User is signed in, log user info to console
           console.log(user, 'user is logged in')
           currentUser = user
-          // tellUnityUserInfo(currentUser.uid)
-          // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: currentUser.uid}));
+          tellUnityUserInfo(currentUser.uid)
         } else {
           // No user is signed in, log to console
           console.log("No user is logged in.");

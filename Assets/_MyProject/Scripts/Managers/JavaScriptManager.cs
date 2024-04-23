@@ -112,6 +112,7 @@ public class JavaScriptManager : MonoBehaviour
     
     public void AuthFinished(string _data)
     {
+        Debug.Log("Got user data: "+_data);
         OnGotUserData?.Invoke(_data);
         Debug.Log("Got json from JS: "+ _data);
         if (!AuthHandler.CanAuth)
