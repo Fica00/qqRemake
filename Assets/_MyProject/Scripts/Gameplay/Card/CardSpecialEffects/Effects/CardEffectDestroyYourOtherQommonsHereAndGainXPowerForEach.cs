@@ -12,6 +12,11 @@ public class CardEffectDestroyYourOtherQommonsHereAndGainXPowerForEach : CardEff
         {
             return;
         }
+
+        if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects<1)
+        {
+            return;
+        }
         DestroyQommons();
     }
 
@@ -30,10 +35,7 @@ public class CardEffectDestroyYourOtherQommonsHereAndGainXPowerForEach : CardEff
             _myCardsOnLane.Remove(cardObject);
         }
 
-        for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)
-        {
-            cardObject.Stats.Power += (_myCardsOnLane.Count * powerPerQommon);
-        }
+        cardObject.Stats.Power += (_myCardsOnLane.Count * powerPerQommon);
             
         if (GameplayManager.IsPvpGame)
         {

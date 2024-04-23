@@ -60,7 +60,6 @@ public class CardEffectDestroyEnemysNRandomXCostQommonsHere : CardEffectBase
       GameplayPlayer _opponentPlayer = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer : GameplayManager.Instance.MyPlayer;
       foreach (var _card in _cardsToBeDestroyed)
       {
-         Debug.Log(222);
          _opponentPlayer.DestroyCardFromTable(_card);
       }
    }

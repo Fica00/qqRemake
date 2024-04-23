@@ -295,6 +295,7 @@
   }
   const SignOut = () => {
     firebase.auth().signOut().then(() => {
+      ReloadPageFromUnity();
     }).catch((error) => {
       console.log('greska')
     });

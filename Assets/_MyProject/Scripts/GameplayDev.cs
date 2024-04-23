@@ -58,4 +58,11 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.MyPlayer.DiscardCardFromHand(GameplayManager.Instance.MyPlayer.GetQommonFromHand(17));
     }
+    
+    
+    [Button("Draw soulomon")]
+    private void DrawSoulomon()
+    {
+        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
+    }
 }
