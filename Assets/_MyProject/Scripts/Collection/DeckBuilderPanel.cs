@@ -18,6 +18,7 @@ public class DeckBuilderPanel : BasePanel
 
     private void OnEnable()
     {
+        FilterHandler.OnUpdatedFilter += UpdateQoomons;
         backButton.onClick.AddListener(Close);
         CollectionQommonDisplay.OnClicked += ShowDetails;
         CollectionQommonDisplay.OnHold += ChangeDeck;
@@ -27,12 +28,18 @@ public class DeckBuilderPanel : BasePanel
 
     private void OnDisable()
     {
+        FilterHandler.OnUpdatedFilter -= UpdateQoomons;
         backButton.onClick.RemoveListener(Close);
         CollectionQommonDisplay.OnClicked -= ShowDetails;
         CollectionQommonDisplay.OnHold -= ChangeDeck;
         DeckBuildQommonDetails.OnChangeDeck -= ChangeDeck;
         DataManager.Instance.PlayerData.UpdateDeckName(nameInput.text);
         deleteButton.onClick.RemoveListener(DeleteDeck);
+    }
+
+    private void UpdateQoomons()
+    {
+        ShowQommonsInCollection();
     }
 
     private void ShowDetails(int _cardId)
@@ -85,7 +92,7 @@ public class DeckBuilderPanel : BasePanel
         ClearQommonsInDeck();
 
         int _counter = 0;
-        foreach (var _cardInDeck in Helpers.OrderQommons(DataManager.Instance.PlayerData.CardIdsInDeck))
+        foreach (var _cardInDeck in Utils.OrderQommons(DataManager.Instance.PlayerData.CardIdsInDeck))
         {
             qommonDisplays[_counter].Setup(_cardInDeck.Details.Id);
             _counter++;
@@ -104,7 +111,7 @@ public class DeckBuilderPanel : BasePanel
     {
         ClearQommonsInCollection();
         
-        foreach (var _qommon in Helpers.OrderQommons(DataManager.Instance.PlayerData.OwnedQoomons))
+        foreach (var _qommon in Utils.OrderQommons(DataManager.Instance.PlayerData.OwnedQoomons))
         {
             CollectionQommonDisplay _qommonDisplay = Instantiate(qommonPrefab, collectionHolder);
             _qommonDisplay.Setup(_qommon.Details.Id,true);

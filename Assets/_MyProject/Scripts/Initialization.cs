@@ -33,7 +33,6 @@ public class Initialization : MonoBehaviour
     {
         if (_isNewAccount)
         {
-            Debug.Log("Detected new account");
             FirebaseManager.Instance.SetStartingData((_status) =>
             {
                 if (_status)

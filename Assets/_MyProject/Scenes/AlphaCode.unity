@@ -1077,7 +1077,7 @@ RectTransform:
   m_GameObject: {fileID: 1103510601}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3316365, y: 1.3316365, z: 1.3316365}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1079830606}
@@ -1087,7 +1087,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -16, y: 0}
   m_SizeDelta: {x: 1083, y: 1797}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1103510603
@@ -1186,12 +1186,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Add to home screen To install the app, you need to add this website to
-    your home screen
+  m_text: '<size="60"><b>Add to Home Screen</b></size>\n
 
+    To install the app,
+    you need to add this website to your home screen.\n
 
-    In your browser menu, tap the Share icon and choose add
-    to hope screen in the  options. then open the Qoomon Quest app on your home screen'
+    In you browser menu,
+    tap the Share icon and choose <b>Add to Home Screen</b> in the options. Then
+    open the app on your home screen.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
   m_sharedMaterial: {fileID: -8492591010878448660, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}

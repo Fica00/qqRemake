@@ -22,6 +22,7 @@ public class CollectionPanel : BasePanel
 
     private void OnEnable()
     {
+        FilterHandler.OnUpdatedFilter += UpdateQoomons;
         buyMoreDecks.onClick.AddListener(BuyAnotherDeck);
         showNextDeck.onClick.AddListener(MoveLayout);
         closeButton.onClick.AddListener(Close);
@@ -38,12 +39,19 @@ public class CollectionPanel : BasePanel
 
     private void OnDisable()
     {
+        FilterHandler.OnUpdatedFilter -= UpdateQoomons;
         buyMoreDecks.onClick.RemoveListener(BuyAnotherDeck);
         showNextDeck.onClick.RemoveListener(MoveLayout);
         closeButton.onClick.RemoveListener(Close);
         
         CollectionDeckDisplay.OnShowDeck -= ShowDeck;
         CollectionQommonDisplay.OnClicked -= ShowDetails;
+    }
+
+    private void UpdateQoomons()
+    {
+        ClearOwnedQommons();
+        ShowQommons();
     }
 
     private void BuyAnotherDeck()
@@ -114,7 +122,7 @@ public class CollectionPanel : BasePanel
 
     private void ShowQommons()
     {
-        foreach (var _qommon in Helpers.OrderQommons(DataManager.Instance.PlayerData.OwnedQoomons))
+        foreach (var _qommon in Utils.OrderQommons(DataManager.Instance.PlayerData.OwnedQoomons))
         {
             CollectionQommonDisplay _qommonDisplay = Instantiate(qommonPrefab, qommonsHolder);
             _qommonDisplay.Setup(_qommon.Details.Id);

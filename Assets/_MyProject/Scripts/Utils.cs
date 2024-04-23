@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
@@ -89,5 +90,26 @@ public static class Utils
         Color _color = _text.color;
         _color.a = 1;
         _text.color = _color;
+    }
+    
+    public static List<CardObject> OrderQommons(List<int> _qommonIds)
+    {
+        List<CardObject> _cards = new List<CardObject>();
+        foreach (var _qommonId in _qommonIds)
+        {
+            _cards.Add(CardsManager.Instance.GetCardObject(_qommonId));
+        }
+        
+        switch (FilterHandler.FilterType)
+        {
+            case FilterType.ByName:
+                return _cards.OrderBy(_qommonInDeck => _qommonInDeck.Details.Name).ToList();
+            case FilterType.ByMana:
+                return _cards.OrderBy(_qommonInDeck => _qommonInDeck.Details.Mana).ToList();
+            case FilterType.ByPower:
+                return _cards.OrderBy(_qommonInDeck => _qommonInDeck.Details.Power).ToList();
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }

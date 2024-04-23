@@ -69,18 +69,14 @@ public class FirebaseManager : MonoBehaviour
 
     public void SetStartingData(Action<bool> _callBack)
     {
-        Debug.Log("aaaaa");
         DataManager.Instance.CreatePlayerDataEmpty();
         string _data = JsonConvert.SerializeObject(DataManager.Instance.PlayerData);
-        Debug.Log("bbbb");
         StartCoroutine(Put(UserDataLink + "/.json", _data, (_result) =>
             {
-        Debug.Log("ccc");
                 _callBack?.Invoke(true);
             },
             (_result) =>
             {
-                Debug.Log("Entered starting data failed");
                 _callBack?.Invoke(false);
             }));
     }
@@ -353,8 +349,6 @@ public class FirebaseManager : MonoBehaviour
 
             yield return _webRequest.SendWebRequest();
             
-            Debug.Log("Sending data: "+_uri+ "\nData: "+_jsonData);
-
             if (_webRequest.result == UnityWebRequest.Result.Success)
             {
                 _onSuccess?.Invoke(_webRequest.downloadHandler.text);

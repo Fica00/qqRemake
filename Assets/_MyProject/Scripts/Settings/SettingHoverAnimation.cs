@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,11 @@ public class SettingHoverAnimation : MonoBehaviour, IPointerEnterHandler, IPoint
 
         startingBackgroundColor = background.color;
         startingTextColor = text.color;
+    }
+
+    private void OnEnable()
+    {
+        OnPointerExit(null);
     }
 
     public void OnPointerEnter(PointerEventData _)
