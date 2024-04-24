@@ -7,11 +7,41 @@
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
   <link rel="manifest" href="manifest.webmanifest">
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <style>
+  @media (orientation: landscape) {
+    /* body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    } */
 
+    #landscape-block-message {
+      display: block;
+      text-align: center;
+      background: black;
+      color: white;
+      padding: 20px;
+      border: 3px solid red;
+      font-size: 20px;
+    }
+
+    /* #unity-container {
+      display: none;
+    } */
+  }
 </style>
 <body>
+<div id="landscape-block-message" style="display:none;">
+  Please rotate your device to portrait mode to continue.
+</div>
 <div id="unity-container">
   <canvas id="unity-canvas" width=1179 height=2556></canvas>
   <div id="unity-loading-bar">
@@ -34,11 +64,41 @@
     </div>
   </div>
 </div>
-<script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
+
 <script>
+  // window.addEventListener("orientationchange", function() {
+  //   if(window.orientation == 90 || window.orientation == -90){
+  //     document.getElementById('landscape-block-message').style.display = 'block';
+  //     document.getElementById('unity-container').style.display = 'none';
+  //   } else {
+  //     document.getElementById('landscape-block-message').style.display = 'none';
+  //     document.getElementById('unity-container').style.display = 'block';
+  //   }
+  // });
+  // if ('orientation' in screen) {
+  //   screen.orientation.addEventListener('change', function() {
+  //     if(screen.orientation.type.startsWith('landscape')) {
+  //       // Suggest users to switch to portrait mode.
+  //       alert("For the best experience, please use the portrait mode.");
+  //       document.getElementById('landscape-block-message').style.display = 'block';
+  //       document.getElementById('unity-container').style.display = 'none';
+  //     } else {
+  //       document.getElementById('landscape-block-message').style.display = 'none';
+  //       document.getElementById('unity-container').style.display = 'block';
+  //     }
+  //   });
+  //
+  //   try {
+  //     screen.orientation.lock("portrait").catch(function(e) {
+  //       console.log("Orientation lock not supported or denied by the user: ", e);
+  //     });
+  //   } catch (e) {
+  //     console.error("Error trying to lock the orientation: ", e);
+  //   }
+  // } else {
+  //   console.log("Screen Orientation API not supported.");
+  // }
+  // -----------------------------------------------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
     authDomain: "qqweb-b75ae.firebaseapp.com",
@@ -50,7 +110,9 @@
     measurementId: "G-FW64GXVQ28",
   }
   firebase.initializeApp(firebaseConfig);
-  
+  const firebaseAnalytics = firebase.analytics()
+
+  let currentUser = null
   let userId = null
   let unity = null
   const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -58,37 +120,41 @@
   const btnCancelPayment = document.querySelector('#btn-cancelPayment')
   const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
-  function CheckIsPwa()
-  {
-    const isInStandaloneMode = () =>
-        (window.matchMedia('(display-mode: standalone)').matches) ||
-        (window.navigator.standalone) ||
-        document.referrer.includes('android-app://');
-
-    // Check if opened on PC
-    const isOnPC = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (isInStandaloneMode()) {
-        console.log("webapp is installed");
-        return false;
-    } else if (isOnPC) {
-        console.log("webapp is opened on PC");
-        return false;
-    } else {
-        console.log("webapp is not installed");
-        return true;
+  function CheckIsPwa() {
+    function isInStandaloneMode() {
+      var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+      const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
+      return res
     }
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isOnPC = !isIOS && !isAndroid;
+    if(!isOnPC && !isInStandaloneMode()){
+      return true
+    }
+    return false
   }
 
   function SetUserId(id){
     userId = id
 
-    var ref = firebase.database().ref(`users/${userId}`);
-    ref.on('value', function(snapshot) {
-      if(snapshot.exists()){
-        const user = snapshot.val()
-        unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', user.Coins)
-        unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', user.USDC)
+    // Reference to the user's 'Coins' field in Firebase
+    var coinsRef = firebase.database().ref(`users/${userId}/Coins`);
+// Listener for changes in the 'Coins' field
+    coinsRef.on('value', function(snapshot) {
+      if (snapshot.exists()) {
+        const coins = snapshot.val();
+        //unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', coins.toString());
+      }
+    });
+
+// Reference to the user's 'USDC' field in Firebase
+    var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
+// Listener for changes in the 'USDC' field
+    usdcRef.on('value', function(snapshot) {
+      if (snapshot.exists()) {
+        const usdc = snapshot.val();
+        //unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', usdc.toString());
       }
     });
   }
@@ -171,27 +237,70 @@
                 'Payment is not confirmed'}))
     }
   }
-  //-----------------------------------------------------------------------above is payment!!!!
-  function GoogleAuth(){
-    firebase.auth().signInWithPopup(googleProvider)
-            .then(result => {
-              unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
-            })
-            .catch(err => {
-              unity.SendMessage('JavaScriptManager','FailedToAuth');
-              console.log(err.code)
-            })
+  const ReloadPageFromUnity = () => {
+    location.reload()
   }
+  const CheckUserSession = () => {
+    console.log("Checking session")
+    currentUser ? tellUnityUserInfo(currentUser.uid) : unity.SendMessage('JavaScriptManager', 'AuthFinished','')
+  }
+  //-----------------------------------------------------------------------above is payment!!!!
+  
+  // function GoogleAuth(){
+  //   firebase.auth().signInWithRedirect(googleProvider);
+  //   firebase.auth().getRedirectResult().then(function(result) {
+  //     if (result.credential) {
+  //       console.log(result, 'google auth')
+  //       tellUnityUserInfo(result.user.uid)
+  //       // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+  //     }
+  //   }).catch(function(error) {
+  //     unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+  //     console.log(error.code, 'google auth');
+  //   });
+  // }
+
+  function GoogleAuth() {
+    firebase.auth().signInWithPopup(googleProvider).then(result => {
+      console.log("Google auth: "+resut)
+      tellUnityUserInfo(result.user.uid)
+    }).catch(err => {
+      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+      console.log(err.code)
+    })
+  }
+
   function FacebookAuth(){
     firebase.auth().signInWithPopup(facebookProvider)
             .then(result => {
-              unity.SendMessage('JavaScriptManager',result.credential.providerId === 'google.com' ? 'AuthWithGoogle' : 'AuthWithFacebook', JSON.stringify({id: result.user.uid}) );
+              tellUnityUserInfo(result.user.uid)
+              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
             })
             .catch(err => {
               unity.SendMessage('JavaScriptManager','FailedToAuth');
               console.log(err.code)
             })
   }
+  function SignInAnonymous(){
+    const email = `guest${crypto.randomUUID()}@help.com`
+    const password = 'paSsword123'
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              tellUnityUserInfo(userCredential.user.uid)
+              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
+            })
+            .catch((error) => {
+              unity.SendMessage('JavaScriptManager','FailedToAuth');
+            });
+  }
+  const SignOut = () => {
+    firebase.auth().signOut().then(() => {
+      ReloadPageFromUnity();
+    }).catch((error) => {
+      console.log('greska')
+    });
+  }
+
   // -----------------separate old code
   window.addEventListener("load", function () {
     if ("serviceWorker" in navigator) {
@@ -236,7 +345,7 @@
     codeUrl: buildUrl + "/public.wasm",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "MagmaDev",
-    productName: "QommonQuest",
+    productName: "Qoomon Quest",
     productVersion: "1.0",
     showBanner: unityShowBanner,
   };
@@ -266,18 +375,42 @@
     }).then((unityInstance) => {
       loadingBar.style.display = "none";
       unity = unityInstance;
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user && unity) {
+          // User is signed in, log user info to console
+          console.log(user, 'user is logged in')
+          currentUser = user
+          tellUnityUserInfo(currentUser.uid)
+        } else {
+          // No user is signed in, log to console
+          console.log("No user is logged in.");
+        }
+      });
     }).catch((message) => {
       alert(message);
     });
   };
   document.body.appendChild(script);
+  firebaseAnalytics.logEvent('page_view')
 
-if (window.matchMedia('(display-mode: standalone)').matches) {
-    unityInstance.SendMessage('JavaScriptManager', 'OpenedFromPwa');
-} else {
-    unityInstance.SendMessage('JavaScriptManager', 'OpenedFromBrowser');
-}
+  function tellUnityUserInfo(userId){
+    var ref = firebase.database().ref(`users/${userId}`);
 
+    ref.once('value', function(snapshot) {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            console.log("User Data Retrieved:", userData);
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: false}));
+        } else {
+            console.log("No user data available for user ID:", userId);
+            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: true}));
+        }
+    }).catch(function(error) {
+      console.error("Error fetching user data:", error);
+      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+    });
+  }
 </script>
 </body>
 </html>

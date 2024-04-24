@@ -1,4 +1,4 @@
-const cacheName = "MagmaDev-QommonQuest-1.0";
+const cacheName = "MagmaDev-Qoomon Quest-1.0";
 const contentToCache = [
     "Build/public.loader.js",
     "Build/public.framework.js",
