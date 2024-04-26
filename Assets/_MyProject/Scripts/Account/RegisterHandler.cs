@@ -1,11 +1,11 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RegisterHandler : MonoBehaviour
 {
     [SerializeField] private Button loginWithGoogle;
-    [SerializeField] private Button loginWithFacebook;
+    [SerializeField] private Button loginTwitter;
+    [SerializeField] private Button loginDiscord;
     [SerializeField] private Button guestButton;
 
     [SerializeField] private GameObject loginAnimation;
@@ -18,18 +18,20 @@ public class RegisterHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        // loginWithFacebook.onClick.AddListener(LoginWithFacebook);
+        loginTwitter.onClick.AddListener(LoginTwitter);
         loginWithGoogle.onClick.AddListener(LoginWithGoogle);
         guestButton.onClick.AddListener(LoginAsGuest);
+        loginDiscord.onClick.AddListener(LoginDiscord);
     }
 
     private void OnDisable()
     {
-        // loginWithFacebook.onClick.RemoveListener(LoginWithFacebook);
+        loginTwitter.onClick.RemoveListener(LoginTwitter);
         loginWithGoogle.onClick.RemoveListener(LoginWithGoogle);
         guestButton.onClick.RemoveListener(LoginAsGuest);
+        loginDiscord.onClick.AddListener(LoginDiscord);
     }
-
+    
     private void LoginAsGuest()
     {
         ManageIntractables(false);
@@ -42,11 +44,17 @@ public class RegisterHandler : MonoBehaviour
         AuthHandler.Instance.LoginWithGoogle(HandleLoginResult);
     }
 
-    private void LoginWithFacebook()
+    private void LoginTwitter()
     {
         ManageIntractables(false);
-        AuthHandler.Instance.LoginWithFacebook(HandleLoginResult);
+        AuthHandler.Instance.LoginWithTwitter(HandleLoginResult);
     }
+    
+    private void LoginDiscord()
+    {
+        AuthHandler.Instance.LoginWithDiscord(HandleLoginResult);
+    }
+
 
     private void HandleLoginResult(bool _result)
     {
@@ -61,7 +69,8 @@ public class RegisterHandler : MonoBehaviour
     private void ManageIntractables(bool _status)
     {
         loginWithGoogle.interactable = _status;
-        loginWithFacebook.interactable = _status;
+        loginTwitter.interactable = _status;
         guestButton.interactable = _status;
+        loginDiscord.interactable = _status;
     }
 }

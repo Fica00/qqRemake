@@ -12,32 +12,28 @@
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
-</head>
-<style>
-  @media (orientation: landscape) {
-    /* body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    } */
-
-    #landscape-block-message {
-      display: block;
-      text-align: center;
-      background: black;
-      color: white;
-      padding: 20px;
-      border: 3px solid red;
-      font-size: 20px;
+  <style>
+    @media (orientation: landscape) {
+      /* body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      } */
+  
+      #landscape-block-message {
+        display: block;
+        text-align: center;
+        background: black;
+        color: white;
+        padding: 20px;
+        border: 3px solid red;
+        font-size: 20px;
+      }
     }
-
-    /* #unity-container {
-      display: none;
-    } */
-  }
-</style>
+  </style>
+</head>
 <body>
 <div id="landscape-block-message" style="display:none;">
   Please rotate your device to portrait mode to continue.
@@ -64,7 +60,9 @@
     </div>
   </div>
 </div>
-
+<div id="pwa-msg">
+  <img src="./TemplateData/PWA msg.png" alt="pwa-msg">
+</div>
 <script>
   // window.addEventListener("orientationchange", function() {
   //   if(window.orientation == 90 || window.orientation == -90){
@@ -117,6 +115,8 @@
   let unity = null
   const googleProvider = new firebase.auth.GoogleAuthProvider();
   const facebookProvider = new firebase.auth.FacebookAuthProvider();
+  const twitterProvider = new firebase.auth.TwitterAuthProvider();
+  // const discordProvider = new firebase.auth.OAuthProvider('oidc.discord')
   const btnCancelPayment = document.querySelector('#btn-cancelPayment')
   const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
 
@@ -130,6 +130,14 @@
     const isAndroid = /Android/.test(navigator.userAgent);
     const isOnPC = !isIOS && !isAndroid;
     if(!isOnPC && !isInStandaloneMode()){
+      document.getElementById('unity-container').style.display = 'none'
+      document.getElementById('pwa-msg').style.display = 'flex'
+      document.getElementById('pwa-msg').style.height = '100vh'
+      document.getElementById('pwa-msg').style.justifyContent = 'center'
+      document.getElementById('pwa-msg').style.backgroundImage = `url('./TemplateData/PWA\ bg.png')`
+      document.getElementById('pwa-msg').style.backgroundPosition = 'center';
+      document.getElementById('pwa-msg').style.backgroundRepeat = 'no-repeat';
+      document.getElementById('pwa-msg').style.backgroundSize = 'cover';
       return true
     }
     return false
@@ -281,17 +289,41 @@
               console.log(err.code)
             })
   }
+  function TwitterAuth() {
+    firebase.auth().signInWithPopup(twitterProvider).then(result => {
+      console.log("Twitter auth: "+resut)
+      tellUnityUserInfo(result.user.uid)
+    }).catch(err => {
+      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+      console.log(err.code)
+    })
+  }
+  // -----------------------------------------------------DISCORD AUTH
+  function DiscordAuth() {
+    const popup = window.open('https://your-region-your-project-id.cloudfunctions.net/startDiscordAuth', 'DiscordLogin', 'width=500,height=800');
+
+    window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin) return;
+      const { token } = event.data;
+      firebase.auth().signInWithCustomToken(token)
+        .then((res) => {
+          console.log('Successfully authenticated', res);
+          popup.close();
+        })
+        .catch(error => {
+          console.error('Failed to authenticate', error);
+        });
+    });
+  }
+  //  -----------------------------------------------------DISCORD AUTH
   function SignInAnonymous(){
-    const email = `guest${crypto.randomUUID()}@help.com`
-    const password = 'paSsword123'
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-              tellUnityUserInfo(userCredential.user.uid)
-              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userCredential.user.uid}));
-            })
-            .catch((error) => {
-              unity.SendMessage('JavaScriptManager','FailedToAuth');
-            });
+    firebase.auth().signInAnonymously()
+      .then((userCredential) => {
+        tellUnityUserInfo(userCredential.user.uid);
+      })
+      .catch((error) => {
+        unity.SendMessage('JavaScriptManager', 'FailedToAuth');
+      });
   }
   const SignOut = () => {
     firebase.auth().signOut().then(() => {
@@ -370,6 +402,7 @@
   var script = document.createElement("script");
   script.src = loaderUrl;
   script.onload = () => {
+    if(CheckIsPwa()) return
     createUnityInstance(canvas, config, (progress) => {
       progressBarFull.style.width = 100 * progress + "%";
     }).then((unityInstance) => {

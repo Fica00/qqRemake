@@ -5,24 +5,29 @@ mergeInto(LibraryManager.library,
 		GoogleAuth();	
 	},
 
-	AuthWithFacebook: function()
+	AuthWithTwitter: function()
 	{
-		FacebookAuth();
+		TwitterAuth();
 	},
+	
+    AuthWithDiscord: function()
+    {
+    	DiscordAuth();
+    },
 
 	ShowKeyboard: function()
-        {
+    {
 		DisplayKeyboard();
-        },
+    },
 
 	CloseKeyboard: function()
-        {
-		HideKeyboard();
-        },	
+    {
+        HideKeyboard();
+    },	
 
 	OpenURL: function (url) 
 	{
-        	window.location.href = UTF8ToString(url);
+        window.location.href = UTF8ToString(url);
 	},
 
     StripePurchaseInit: function(cost)
@@ -58,5 +63,15 @@ mergeInto(LibraryManager.library,
     DoSignOut: function()
     {
         SignOut();
-    }
+    },
+    
+    DoCopyToClipboard: function(textPtr) {
+        var text = UTF8ToString(textPtr);
+    
+        navigator.clipboard.writeText(text).then(function() {
+          console.log('Copying to clipboard was successful!');
+        }, function(err) {
+          console.error('Could not copy text to clipboard: ', err);
+        });
+      }
 });

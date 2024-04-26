@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class UIPlayPanel : MonoBehaviour
 {
     [SerializeField] private Button playButton;
     [SerializeField] private GameObject inputBlocker;
     [Space()]
-    [SerializeField]
-    private UIPVPPanel pvpPanel;
+    [SerializeField] private UIPVPPanel pvpPanel;
+    [SerializeField] private UIMatchMakingVsBot matchMakingVsBot;
 
     public static bool PlayAgain;
 
@@ -44,7 +45,7 @@ public class UIPlayPanel : MonoBehaviour
         switch (ModeHandler.Instance.Mode)
         {
             case GameMode.VsAi:
-                ShowAIGameplay();
+                ShowAIMatchMaking();
                 break;
             case GameMode.VsPlayer:
                 if (!PhotonManager.Instance.CanStartMatch)
@@ -65,14 +66,14 @@ public class UIPlayPanel : MonoBehaviour
         }
     }
 
-    private void ShowAIGameplay()
+    private void ShowAIMatchMaking()
     {
         if (!CanPlay)
         {
             return;
         }
 
-        UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadAIGameplay(false);});
+        matchMakingVsBot.Setup(Random.Range(3f,7f));
     }
 
     private void ShowPVPPanel()
@@ -92,11 +93,6 @@ public class UIPlayPanel : MonoBehaviour
             
             PhotonManager.Instance.JoinRandomRoom();
         }
-    }
-
-    private void Close()
-    {
-        gameObject.SetActive(false);
     }
 
     private void JoinedRoom()
@@ -132,13 +128,6 @@ public class UIPlayPanel : MonoBehaviour
 
     public void BringBot()
     {
-        PhotonManager.OnILeftRoom += StartVsBot;
-    }
-
-    private void StartVsBot()
-    {
-        PhotonManager.OnILeftRoom -= StartVsBot;
-        ModeHandler.Instance.Mode = GameMode.VsAi;
-        StartMatch();
+        matchMakingVsBot.Setup(0);
     }
 }

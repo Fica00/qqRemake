@@ -1,0 +1,140 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class UIPVPPanel : MonoBehaviour
+{
+    [SerializeField] private Button cancelButton;
+    [SerializeField] private MatchMakingPlayerDisplay myPlayer;
+    [SerializeField] private MatchMakingPlayerDisplay opponentPlayer;
+    [SerializeField] private GameObject matchingLabel;
+    [SerializeField] private TextMeshProUGUI header;
+    [SerializeField] private UIPlayPanel playPanel;
+    private IEnumerator botRoutine;
+    
+    public void Setup()
+    {
+        AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MATCHMAKING);
+        matchingLabel.SetActive(true);
+        opponentPlayer.gameObject.SetActive(false);
+        ManageInteractables(true);
+        myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
+        header.text = "Searching for opponent";
+        gameObject.SetActive(true);
+        TryShowTransition();
+
+        if (PhotonManager.Instance.IsMasterClient)
+        {
+            botRoutine = BringBot();
+            StartCoroutine(botRoutine);
+        }
+    }
+
+    private IEnumerator BringBot()
+    {
+        yield return new WaitForSeconds(7);
+        PhotonManager.Instance.CloseRoom();
+        yield return new WaitForSeconds(2);
+        if (PhotonManager.Instance.CurrentRoom.PlayerCount!=1)
+        {
+            yield break;
+        }
+        PhotonManager.OnILeftRoom += StartVsBot;
+        Cancel();
+    }
+    
+    private void StartVsBot()
+    {
+        PhotonManager.OnILeftRoom -= StartVsBot;
+        ModeHandler.Instance.Mode = GameMode.VsAi;
+        playPanel.BringBot();
+        gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        StopAllCoroutines();
+        ManageInteractables(true);
+
+        cancelButton.onClick.AddListener(Cancel);
+        PhotonManager.OnIJoinedRoom += TryShowTransition;
+        PhotonManager.OnILeftRoom += Close;
+        PhotonManager.OnOpponentJoinedRoom += OpponentJoined;
+    }
+
+    private void OnDisable()
+    {
+        cancelButton.onClick.RemoveListener(Cancel);
+
+        PhotonManager.OnIJoinedRoom -= TryShowTransition;
+        PhotonManager.OnILeftRoom -= Close;
+        PhotonManager.OnOpponentJoinedRoom -= OpponentJoined;
+    }
+
+    private void TryShowTransition()
+    {
+        if (PhotonManager.Instance.CurrentRoom.PlayerCount==2)
+        {
+            LoadGameplay();
+            ShowOpponent();
+        }
+    }
+
+    private void Cancel()
+    {
+        ManageInteractables(false);
+        PhotonManager.Instance.LeaveRoom();
+    }
+
+    private void Close()
+    {
+        AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
+        if (botRoutine!=default)
+        {
+            StopCoroutine(botRoutine);
+            botRoutine = default;
+        }
+        gameObject.SetActive(false);
+    }
+
+    private void OpponentJoined()
+    {
+        ManageInteractables(false);
+        ShowOpponent();
+        LoadGameplay();
+    }
+
+    private void ShowOpponent()
+    {
+        opponentPlayer.Setup(
+            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME),
+            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.DECK_NAME));
+        opponentPlayer.gameObject.SetActive(true);
+        header.text = "Opponent found!";
+    }
+
+    private void LoadGameplay()
+    {
+        StartCoroutine(Delay());
+        IEnumerator Delay()
+        {
+            yield return new WaitForSeconds(2);
+            if (PhotonManager.Instance.IsMasterClient)
+            {
+                UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
+                PhotonManager.Instance.CloseRoom();
+            }
+            else
+            {
+                UIMainMenu.Instance.ShowSceneTransition(null);
+            }
+        }
+    }
+
+    private void ManageInteractables(bool _status)
+    {
+        cancelButton.interactable = _status;
+    }
+    
+}

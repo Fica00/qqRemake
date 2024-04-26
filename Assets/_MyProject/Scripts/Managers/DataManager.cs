@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -86,9 +87,11 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedBackgroundMusic += SaveBackgroundMusic;
         PlayerData.UpdatedPlaySoundEffects += SaveSoundEffects;
         PlayerData.UpdatedHasFinishedTutorial += SaveTutorial;
+        PlayerData.UpdatedVersion += SaveVersion;
         
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
+        PlayerData.Version = JavaScriptManager.Instance.Version;
     }
     
     IEnumerator CheckForNewGameDay()
@@ -159,6 +162,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedBackgroundMusic -= SaveBackgroundMusic;
         PlayerData.UpdatedPlaySoundEffects -= SaveSoundEffects;
         PlayerData.UpdatedHasFinishedTutorial -= SaveTutorial;
+        PlayerData.UpdatedVersion -= SaveVersion;
     }
 
     private void SaveTutorial()
@@ -174,6 +178,11 @@ public class DataManager : MonoBehaviour
     private void SaveName()
     {
         FirebaseManager.Instance.SaveString(nameof(PlayerData.Name),PlayerData.Name);
+    }    
+    
+    private void SaveVersion()
+    {
+        FirebaseManager.Instance.SaveString(nameof(PlayerData.Version),PlayerData.Version);
     }
 
     private void SaveOwnedDecks()

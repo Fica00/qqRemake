@@ -1155,26 +1155,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 5365996: function() {
+ 5366412: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 5366051: function($0) {
+ 5366467: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5366099: function($0) {
+ 5366515: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5366147: function() {
+ 5366563: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 5366202: function() {
+ 5366618: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 5366263: function() {
+ 5366679: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1278,12 +1278,16 @@ function stackTrace() {
  return demangleAll(js);
 }
 
-function _AuthWithFacebook() {
- FacebookAuth();
+function _AuthWithDiscord() {
+ DiscordAuth();
 }
 
 function _AuthWithGoogle() {
  GoogleAuth();
+}
+
+function _AuthWithTwitter() {
+ TwitterAuth();
 }
 
 function _DoAnonymousAuth() {
@@ -1292,6 +1296,15 @@ function _DoAnonymousAuth() {
 
 function _DoCheckIfUserIsLoggedIn() {
  CheckUserSession();
+}
+
+function _DoCopyToClipboard(textPtr) {
+ var text = UTF8ToString(textPtr);
+ navigator.clipboard.writeText(text).then(function() {
+  console.log("Copying to clipboard was successful!");
+ }, function(err) {
+  console.error("Could not copy text to clipboard: ", err);
+ });
 }
 
 function _DoReload() {
@@ -13916,10 +13929,12 @@ function intArrayFromString(stringy, dontAddNull, length) {
 }
 
 var asmLibraryArg = {
- "AuthWithFacebook": _AuthWithFacebook,
+ "AuthWithDiscord": _AuthWithDiscord,
  "AuthWithGoogle": _AuthWithGoogle,
+ "AuthWithTwitter": _AuthWithTwitter,
  "DoAnonymousAuth": _DoAnonymousAuth,
  "DoCheckIfUserIsLoggedIn": _DoCheckIfUserIsLoggedIn,
+ "DoCopyToClipboard": _DoCopyToClipboard,
  "DoReload": _DoReload,
  "DoSetUserId": _DoSetUserId,
  "DoSignOut": _DoSignOut,

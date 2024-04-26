@@ -26,6 +26,9 @@ public class BotPlayer : GameplayPlayer
         9,
         5
     };
+
+    public static string Name;
+    public static string DeckName= "";
     
     public override void Setup()
     {
@@ -200,5 +203,10 @@ public class BotPlayer : GameplayPlayer
             _card.Display.HideCardOnTable();
             _power[_index] += _card.Stats.Power;
         }
+    }
+
+    public static void GenerateNewData()
+    {
+        Name = "Player"+Random.Range(1000,10000);
     }
 }

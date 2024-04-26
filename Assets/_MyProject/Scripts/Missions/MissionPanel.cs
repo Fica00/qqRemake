@@ -42,7 +42,7 @@ public class MissionPanel : MonoBehaviour
     private void Start()
     {
         ShowLoginRewards();
-        loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7";
+        loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7 days";
         ShowCompletedText();
         ShowMissions();
         StartCoroutine(ShowText());
@@ -59,7 +59,7 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowCompletedText()
     {
-        numberOfTasksCompleted.text = $"Daily missions\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
+        numberOfTasksCompleted.text = $"<size=62>Daily missions</size>\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
     private string GetRefreshTime()

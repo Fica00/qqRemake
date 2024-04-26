@@ -194,7 +194,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             return;
         }
 
-        if (GameplayManager.IsPvpGame && didSomeoneIncreaseInLastRound)
+        if (didSomeoneIncreaseInLastRound)
         {
             _currentBet *= 2;
         }

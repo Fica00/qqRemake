@@ -30,6 +30,7 @@ public class PlayerData
     private int hasFinishedTutorial;
     private bool playBackgroundMusic = true;
     private bool playSoundEffects = true;
+    private string version;
     
 
     public DateTime DateCreatedAccount;
@@ -57,6 +58,7 @@ public class PlayerData
     public static Action UpdatedHasFinishedTutorial;
     public static Action UpdatedBackgroundMusic;
     public static Action UpdatedPlaySoundEffects;
+    public static Action UpdatedVersion;
     
 
     public void CreateNewPlayer()
@@ -625,6 +627,16 @@ public class PlayerData
         }
 
         return null;
+    }
+
+    public string Version
+    {
+        get => version;
+        set
+        {
+            version = value;
+            UpdatedVersion?.Invoke();
+        }
     }
 
 }

@@ -7,6 +7,7 @@ public class JavaScriptManager : MonoBehaviour
 {
     public static JavaScriptManager Instance;
     public static Action<string> OnGotUserData;
+    public string Version;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
 
@@ -14,7 +15,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void AuthWithGoogle();
     
     [DllImport("__Internal")]
-    public static extern void AuthWithFacebook();
+    public static extern void AuthWithTwitter();    
+    
+    [DllImport("__Internal")]
+    public static extern void AuthWithDiscord();
 
     [DllImport("__Internal")]
     public static extern void OpenURL(string _url);
@@ -38,7 +42,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoReload();    
     
     [DllImport("__Internal")]
-    public static extern void DoSignOut();
+    public static extern void DoSignOut();    
+    
+    [DllImport("__Internal")]
+    public static extern void DoCopyToClipboard(string _text);
 
 
     public bool ShowPwaWarning
@@ -72,9 +79,13 @@ public class JavaScriptManager : MonoBehaviour
         AuthWithGoogle();
     }
 
-    public void FacebookAuth()
+    public void LoginTwitter()
     {
-        AuthWithFacebook();
+        AuthWithTwitter();
+    }
+    public void LoginWithDiscord()
+    {
+        AuthWithDiscord();
     }
     
     public void AnonymousAuth()
@@ -100,6 +111,17 @@ public class JavaScriptManager : MonoBehaviour
     public void SignOut()
     {
         DoSignOut();
+    }
+
+    public void CopyToClipboard(string _text)
+    {
+        if (Application.isEditor)
+        {
+            GUIUtility.systemCopyBuffer = _text;
+            return;
+        }
+
+        DoCopyToClipboard(_text);
     }
 
 

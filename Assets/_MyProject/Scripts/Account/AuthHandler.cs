@@ -71,10 +71,16 @@ public class AuthHandler : MonoBehaviour
         registerHandler.Setup();
     }
 
-    public void LoginWithFacebook(Action<bool> _callBack)
+    public void LoginWithTwitter(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
-        JavaScriptManager.Instance.FacebookAuth();
+        JavaScriptManager.Instance.LoginTwitter();
+    }    
+    
+    public void LoginWithDiscord(Action<bool> _callBack)
+    {
+        callBackForOAUTh = _callBack;
+        JavaScriptManager.Instance.LoginWithDiscord();
     }
 
     public void LoginWithGoogle(Action<bool> _callBack)
@@ -88,7 +94,7 @@ public class AuthHandler : MonoBehaviour
         callBackForOAUTh = _callBack;
         if (Application.isEditor)
         {
-            FirebaseManager.Instance.TryLoginAndGetData("unity@help.com", "unity123", (_status) =>
+            FirebaseManager.Instance.TryLoginAndGetData("unity2@help.com", "unity123", (_status) =>
             {
                 HandleLoginResult(_status,callBackForOAUTh,false);
             });

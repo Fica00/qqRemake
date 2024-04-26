@@ -75,7 +75,6 @@ public class RankPage : MonoBehaviour
         var _rewards = DataManager.Instance.GameData.RankRewards.OrderBy(_reward => _reward.RankLevel).ToList();
         int _counter = 0;
         int _playerLevel = RankSo.GetRankLevel(DataManager.Instance.PlayerData.RankPoints);
-                    Debug.Log(_playerLevel);
         for (int _i = 0; _i < _rewards.Count(); _i++)
         {
             var _rankReward = _rewards[_i];
@@ -84,7 +83,6 @@ public class RankPage : MonoBehaviour
                 int _rankLevel = _rewards[_i-1].RankLevel;
                 for (int _index = 0; _index < _rankReward.RankLevel-_rewards[_i-1].RankLevel; _index++)
                 {
-                    Debug.Log(_rankLevel);
                     _counter++;
                     GameObject _bar = Instantiate(barPrefab, rewardHolder);
                     _bar.GetComponentInChildren<Image>().sprite = _rankLevel<= _playerLevel

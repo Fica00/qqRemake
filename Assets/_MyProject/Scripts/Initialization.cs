@@ -13,6 +13,11 @@ public class Initialization : MonoBehaviour
     private void Start()
     {
         RankSo.Init();
+        if (JavaScriptManager.Instance.IsDemo)
+        {
+            InitDataManager();
+            return;
+        }
         InitPhoton();
     }
 

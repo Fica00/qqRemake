@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Button deleteAccount;
     [SerializeField] private Button close;
     [SerializeField] private Button tutorial;
+    [SerializeField] private TextMeshProUGUI playerIDDisplay;
+    [SerializeField] private Button copyPlayerId;
 
     private void OnEnable()
     {
@@ -30,6 +33,9 @@ public class SettingsUI : MonoBehaviour
         deleteAccount.onClick.AddListener(DeleteAccount);
         close.onClick.AddListener(Close);
         tutorial.onClick.AddListener(ShowTutorial);
+        copyPlayerId.onClick.AddListener(CopyPlayerId);
+
+        playerIDDisplay.text = "Player id: " + FirebaseManager.Instance.PlayerId;
     }
 
     private void OnDisable()
@@ -37,14 +43,20 @@ public class SettingsUI : MonoBehaviour
         logoutButton.onClick.RemoveListener(Logout);
         linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
         linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
-        redeemCode.onClick.AddListener(RedeemCode);
-        reportABug.onClick.AddListener(ReportABug);
-        playerSupport.onClick.AddListener(PlayerSupport);
-        privacy.onClick.AddListener(Privacy);
-        termsOfService.onClick.AddListener(TermsOfService);
-        deleteAccount.onClick.AddListener(DeleteAccount);
-        close.onClick.AddListener(Close); 
+        redeemCode.onClick.RemoveListener(RedeemCode);
+        reportABug.onClick.RemoveListener(ReportABug);
+        playerSupport.onClick.RemoveListener(PlayerSupport);
+        privacy.onClick.RemoveListener(Privacy);
+        termsOfService.onClick.RemoveListener(TermsOfService);
+        deleteAccount.onClick.RemoveListener(DeleteAccount);
+        close.onClick.RemoveListener(Close); 
         tutorial.onClick.RemoveListener(ShowTutorial);
+        copyPlayerId.onClick.RemoveListener(CopyPlayerId);
+    }
+
+    private void CopyPlayerId()
+    {
+        JavaScriptManager.Instance.CopyToClipboard(FirebaseManager.Instance.PlayerId);
     }
 
     private void ShowTutorial()
