@@ -119,9 +119,9 @@ public class FirebaseManager : MonoBehaviour
             
         }, (_result) =>
         {
-            Debug.Log(_valueString);
-            Debug.Log("Failed to update data, please try again later");
-            Debug.Log(_result);
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(JavaScriptManager.Instance.ReloadPage);
+            DialogsManager.Instance.OkDialog.Setup("Failed to interact with database, we copied the error to your clipboard please forward it to us on Discord");
+            JavaScriptManager.Instance.CopyToClipboard(_result);
         }));
     }
     
@@ -133,8 +133,9 @@ public class FirebaseManager : MonoBehaviour
 
         }, (_result) =>
         {
-            Debug.Log("Failed to update data, please try again later");
-            Debug.Log(_result);
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(JavaScriptManager.Instance.ReloadPage);
+            DialogsManager.Instance.OkDialog.Setup("Failed to interact with database, we copied the error to your clipboard please forward it to us on Discord");
+            JavaScriptManager.Instance.CopyToClipboard(_result);
         }));
     }
 
@@ -387,7 +388,7 @@ public class FirebaseManager : MonoBehaviour
             }
             else
             {
-                _onError?.Invoke(_webRequest.error);
+                _onError?.Invoke(_webRequest.error + "\n"+ JsonConvert.SerializeObject(_webRequest));
                 Debug.Log("Failed to save: "+_jsonData);
             }
 

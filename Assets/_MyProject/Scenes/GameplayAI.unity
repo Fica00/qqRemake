@@ -407,6 +407,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1803528484 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5686523579563763471, guid: a35e9741ff90222468285cf9d5024aa8, type: 3}
+  m_PrefabInstance: {fileID: 5686523579364797513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4482bf3776490f34f819164bdaed0ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1839096916
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +567,7 @@ PrefabInstance:
     - target: {fileID: 3441719200709168214, guid: 268d7edc3a74ff8458eb67e20ba110f7, type: 3}
       propertyPath: endTurnHandler
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1803528484}
     - target: {fileID: 3441719200709168214, guid: 268d7edc3a74ff8458eb67e20ba110f7, type: 3}
       propertyPath: flags.Array.data[0]
       value: 

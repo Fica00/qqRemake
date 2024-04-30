@@ -31,7 +31,7 @@ public class PlayerData
     private bool playBackgroundMusic = true;
     private bool playSoundEffects = true;
     private string version;
-    
+    private List<DeviceData> devices = new ();
 
     public DateTime DateCreatedAccount;
 
@@ -59,7 +59,8 @@ public class PlayerData
     public static Action UpdatedBackgroundMusic;
     public static Action UpdatedPlaySoundEffects;
     public static Action UpdatedVersion;
-    
+    public static Action UpdatedPlayerDevices;
+
 
     public void CreateNewPlayer()
     {
@@ -637,6 +638,33 @@ public class PlayerData
             version = value;
             UpdatedVersion?.Invoke();
         }
+    }
+
+    public List<DeviceData> Devices
+    {
+        get => devices;
+        set => devices = value;
+    }
+
+    public void AddDeviceData()
+    {
+        DeviceData _data = new DeviceData
+        {
+            Model = SystemInfo.deviceModel,
+            Name = SystemInfo.deviceName,
+            Type = SystemInfo.deviceType.ToString(),
+            OperatingSystem = SystemInfo.operatingSystem,
+            UniqueIdentifier = SystemInfo.deviceUniqueIdentifier,
+            Platform = Application.platform.ToString(),
+        };
+
+        if (devices.Any(_device => _device.UniqueIdentifier == _data.UniqueIdentifier))
+        {
+            return;
+        }
+        
+        Devices.Add(_data);
+        UpdatedPlayerDevices?.Invoke();
     }
 
 }

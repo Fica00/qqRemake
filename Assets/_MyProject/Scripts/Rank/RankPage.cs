@@ -9,7 +9,6 @@ public class RankPage : MonoBehaviour
     [SerializeField] private Image circle;
     [SerializeField] private TextMeshProUGUI rankNameDisplay;
     [SerializeField] private TextMeshProUGUI subRankDisplay;
-    [SerializeField] private GameObject label;
     
     [SerializeField] private GameRankRewardDisplay rewardPrefab;
     [SerializeField] private GameObject barPrefab;
@@ -45,7 +44,6 @@ public class RankPage : MonoBehaviour
         subRankDisplay.text = _rankData.Level.ToString();
         
         ShowRewards();
-        label.SetActive(DataManager.Instance.PlayerData.AmountOfRankGamesPlayed < 10);
     }
     
     private void TryClaim(RankReward _reward)

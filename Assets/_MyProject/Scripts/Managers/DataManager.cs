@@ -88,10 +88,12 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlaySoundEffects += SaveSoundEffects;
         PlayerData.UpdatedHasFinishedTutorial += SaveTutorial;
         PlayerData.UpdatedVersion += SaveVersion;
+        PlayerData.UpdatedPlayerDevices += SaveDevices;
         
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
         PlayerData.Version = JavaScriptManager.Instance.Version;
+        PlayerData.AddDeviceData();
     }
     
     IEnumerator CheckForNewGameDay()
@@ -163,6 +165,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlaySoundEffects -= SaveSoundEffects;
         PlayerData.UpdatedHasFinishedTutorial -= SaveTutorial;
         PlayerData.UpdatedVersion -= SaveVersion;
+        PlayerData.UpdatedPlayerDevices -= SaveDevices;
     }
 
     private void SaveTutorial()
@@ -188,6 +191,11 @@ public class DataManager : MonoBehaviour
     private void SaveOwnedDecks()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Decks),JsonConvert.SerializeObject(PlayerData.Decks));
+    }
+    
+    private void SaveDevices()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Devices),JsonConvert.SerializeObject(PlayerData.Devices));
     }
 
     private void SaveDeckName()

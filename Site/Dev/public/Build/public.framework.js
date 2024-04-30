@@ -1155,26 +1155,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 5366412: function() {
+ 5367084: function() {
   Module["emscripten_get_now_backup"] = performance.now;
  },
- 5366467: function($0) {
+ 5367139: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5366515: function($0) {
+ 5367187: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 5366563: function() {
+ 5367235: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 5366618: function() {
+ 5367290: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 5366679: function() {
+ 5367351: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -2831,6 +2831,18 @@ function _JS_Sound_Stop(channelInstance, delay) {
  if (WEBAudio.audioWebEnabled == 0) return;
  var channel = WEBAudio.audioInstances[channelInstance];
  channel.stop(delay);
+}
+
+function _JS_SystemInfo_GetBrowserName(buffer, bufferSize) {
+ var browser = Module.SystemInfo.browser;
+ if (buffer) stringToUTF8(browser, buffer, bufferSize);
+ return lengthBytesUTF8(browser);
+}
+
+function _JS_SystemInfo_GetBrowserVersionString(buffer, bufferSize) {
+ var browserVer = Module.SystemInfo.browserVersion;
+ if (buffer) stringToUTF8(browserVer, buffer, bufferSize);
+ return lengthBytesUTF8(browserVer);
 }
 
 function _JS_SystemInfo_GetCanvasClientSize(domElementSelector, outWidth, outHeight) {
@@ -13998,6 +14010,8 @@ var asmLibraryArg = {
  "JS_Sound_SetPosition": _JS_Sound_SetPosition,
  "JS_Sound_SetVolume": _JS_Sound_SetVolume,
  "JS_Sound_Stop": _JS_Sound_Stop,
+ "JS_SystemInfo_GetBrowserName": _JS_SystemInfo_GetBrowserName,
+ "JS_SystemInfo_GetBrowserVersionString": _JS_SystemInfo_GetBrowserVersionString,
  "JS_SystemInfo_GetCanvasClientSize": _JS_SystemInfo_GetCanvasClientSize,
  "JS_SystemInfo_GetDocumentURL": _JS_SystemInfo_GetDocumentURL,
  "JS_SystemInfo_GetGPUInfo": _JS_SystemInfo_GetGPUInfo,
@@ -14703,6 +14717,10 @@ var dynCall_iifi = Module["dynCall_iifi"] = createExportWrapper("dynCall_iifi");
 
 var dynCall_vijiiii = Module["dynCall_vijiiii"] = createExportWrapper("dynCall_vijiiii");
 
+var dynCall_vfiii = Module["dynCall_vfiii"] = createExportWrapper("dynCall_vfiii");
+
+var dynCall_iiifi = Module["dynCall_iiifi"] = createExportWrapper("dynCall_iiifi");
+
 var dynCall_viiif = Module["dynCall_viiif"] = createExportWrapper("dynCall_viiif");
 
 var dynCall_iijji = Module["dynCall_iijji"] = createExportWrapper("dynCall_iijji");
@@ -14750,10 +14768,6 @@ var dynCall_viij = Module["dynCall_viij"] = createExportWrapper("dynCall_viij");
 var dynCall_viif = Module["dynCall_viif"] = createExportWrapper("dynCall_viif");
 
 var dynCall_jijii = Module["dynCall_jijii"] = createExportWrapper("dynCall_jijii");
-
-var dynCall_vfiii = Module["dynCall_vfiii"] = createExportWrapper("dynCall_vfiii");
-
-var dynCall_iiifi = Module["dynCall_iiifi"] = createExportWrapper("dynCall_iiifi");
 
 var dynCall_viiiiij = Module["dynCall_viiiiij"] = createExportWrapper("dynCall_viiiiij");
 
@@ -16239,6 +16253,28 @@ function invoke_iifi(index, a1, a2, a3) {
  }
 }
 
+function invoke_vfiii(index, a1, a2, a3, a4) {
+ var sp = stackSave();
+ try {
+  dynCall_vfiii(index, a1, a2, a3, a4);
+ } catch (e) {
+  stackRestore(sp);
+  if (e !== e + 0 && e !== "longjmp") throw e;
+  _setThrew(1, 0);
+ }
+}
+
+function invoke_iiifi(index, a1, a2, a3, a4) {
+ var sp = stackSave();
+ try {
+  return dynCall_iiifi(index, a1, a2, a3, a4);
+ } catch (e) {
+  stackRestore(sp);
+  if (e !== e + 0 && e !== "longjmp") throw e;
+  _setThrew(1, 0);
+ }
+}
+
 function invoke_viiif(index, a1, a2, a3, a4) {
  var sp = stackSave();
  try {
@@ -16309,28 +16345,6 @@ function invoke_viif(index, a1, a2, a3) {
  var sp = stackSave();
  try {
   dynCall_viif(index, a1, a2, a3);
- } catch (e) {
-  stackRestore(sp);
-  if (e !== e + 0 && e !== "longjmp") throw e;
-  _setThrew(1, 0);
- }
-}
-
-function invoke_vfiii(index, a1, a2, a3, a4) {
- var sp = stackSave();
- try {
-  dynCall_vfiii(index, a1, a2, a3, a4);
- } catch (e) {
-  stackRestore(sp);
-  if (e !== e + 0 && e !== "longjmp") throw e;
-  _setThrew(1, 0);
- }
-}
-
-function invoke_iiifi(index, a1, a2, a3, a4) {
- var sp = stackSave();
- try {
-  return dynCall_iiifi(index, a1, a2, a3, a4);
  } catch (e) {
   stackRestore(sp);
   if (e !== e + 0 && e !== "longjmp") throw e;

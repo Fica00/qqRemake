@@ -124,23 +124,25 @@
     function isInStandaloneMode() {
       var displayModes = ["fullscreen", "standalone", "minimal-ui"];
       const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
-      return res
+      return res;
     }
     const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
     const isOnPC = !isIOS && !isAndroid;
-    if(!isOnPC && !isInStandaloneMode()){
-      document.getElementById('unity-container').style.display = 'none'
-      document.getElementById('pwa-msg').style.display = 'flex'
-      document.getElementById('pwa-msg').style.height = '100vh'
-      document.getElementById('pwa-msg').style.justifyContent = 'center'
-      document.getElementById('pwa-msg').style.backgroundImage = `url('./TemplateData/bg.png')`
+    if (isOnPC) {
+      document.getElementById('pwa-msg').style.display = 'none'; // Hide the PWA message if on PC
+    } else if (!isInStandaloneMode()) {
+      document.getElementById('unity-container').style.display = 'none';
+      document.getElementById('pwa-msg').style.display = 'flex';
+      document.getElementById('pwa-msg').style.height = '100vh';
+      document.getElementById('pwa-msg').style.justifyContent = 'center';
+      document.getElementById('pwa-msg').style.backgroundImage = `url('./TemplateData/bg.png')`;
       document.getElementById('pwa-msg').style.backgroundPosition = 'center';
       document.getElementById('pwa-msg').style.backgroundRepeat = 'no-repeat';
       document.getElementById('pwa-msg').style.backgroundSize = 'cover';
-      return true
+      return true;
     }
-    return false
+    return false;
   }
 
   function SetUserId(id){
