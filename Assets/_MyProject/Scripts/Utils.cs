@@ -99,15 +99,20 @@ public static class Utils
         {
             _cards.Add(CardsManager.Instance.GetCardObject(_qommonId));
         }
-        
+
+        return OrderQommons(_cards);
+    }
+
+    public static List<CardObject> OrderQommons(List<CardObject> _qoomons)
+    {
         switch (FilterHandler.FilterType)
         {
             case FilterType.ByName:
-                return _cards.OrderBy(_qommonInDeck => _qommonInDeck.Details.Name).ToList();
+                return _qoomons.OrderBy(_qommonInDeck => _qommonInDeck.Details.Name).ToList();
             case FilterType.ByMana:
-                return _cards.OrderBy(_qommonInDeck => _qommonInDeck.Details.Mana).ToList();
+                return _qoomons.OrderBy(_qommonInDeck => _qommonInDeck.Details.Mana).ToList();
             case FilterType.ByPower:
-                return _cards.OrderBy(_qommonInDeck => _qommonInDeck.Details.Power).ToList();
+                return _qoomons.OrderBy(_qommonInDeck => _qommonInDeck.Details.Power).ToList();
             default:
                 throw new ArgumentOutOfRangeException();
         }

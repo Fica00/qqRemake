@@ -21,6 +21,27 @@ public class CardsManager : MonoBehaviour
         }
     }
 
+    public List<CardObject> GetAll()
+    {
+        return allCards;
+    }
+
+    public List<CardObject> GetAllPlayableCards()
+    {
+        List<CardObject> _allPlayableCards = new();
+        foreach (var _card in allCards)
+        {
+            if (_card.Details.Id is 37 or 34 or 23)
+            {
+                continue;
+            }
+            
+            _allPlayableCards.Add(_card);
+        }
+
+        return _allPlayableCards;
+    }
+
     public CardObject CreateCard(int _cardId, bool _isMy)
     {
         CardObject _desiredCard = GetCardObject(_cardId);

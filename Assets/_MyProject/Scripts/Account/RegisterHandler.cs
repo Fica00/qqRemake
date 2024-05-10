@@ -9,6 +9,7 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField] private Button guestButton;
 
     [SerializeField] private GameObject loginAnimation;
+    [SerializeField] private GameObject registerAnimation;
     
     public void Setup()
     {
@@ -35,23 +36,28 @@ public class RegisterHandler : MonoBehaviour
     private void LoginAsGuest()
     {
         ManageIntractables(false);
+        registerAnimation.SetActive(true);
         AuthHandler.Instance.AnonymousSignIn(HandleLoginResult);
     }
 
     private void LoginWithGoogle()
     {
         ManageIntractables(false);
+        registerAnimation.SetActive(true);
         AuthHandler.Instance.LoginWithGoogle(HandleLoginResult);
     }
 
     private void LoginTwitter()
     {
         ManageIntractables(false);
+        registerAnimation.SetActive(true);
         AuthHandler.Instance.LoginWithTwitter(HandleLoginResult);
     }
     
     private void LoginDiscord()
     {
+        ManageIntractables(false);
+        registerAnimation.SetActive(true);
         AuthHandler.Instance.LoginWithDiscord(HandleLoginResult);
     }
 
@@ -63,6 +69,7 @@ public class RegisterHandler : MonoBehaviour
             return;
         }
 
+        registerAnimation.SetActive(false);
         ManageIntractables(true);
     }
 

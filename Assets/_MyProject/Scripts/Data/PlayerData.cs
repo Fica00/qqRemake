@@ -169,14 +169,9 @@ public class PlayerData
         } };
         decks.Add(_ongoing);
 
-        for (int _i = 0; _i < 47; _i++)
+        foreach (var _card in CardsManager.Instance.GetAllPlayableCards())
         {
-            if (_i is 37 or 34 or 23)
-            {
-                continue;
-            }
-
-            ownedQoomons.Add(_i);
+            ownedQoomons.Add(_card.Details.Id);
         }
     }
 

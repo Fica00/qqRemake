@@ -111,12 +111,19 @@ public class DeckBuilderPanel : BasePanel
     {
         ClearQommonsInCollection();
         
-        foreach (var _qommon in Utils.OrderQommons(DataManager.Instance.PlayerData.OwnedQoomons))
+        foreach (var _qommon in Utils.OrderQommons(CardsManager.Instance.GetAllPlayableCards()))
         {
             CollectionQommonDisplay _qommonDisplay = Instantiate(qommonPrefab, collectionHolder);
-            _qommonDisplay.Setup(_qommon.Details.Id,true);
+            if (DataManager.Instance.PlayerData.OwnedQoomons.Contains(_qommon.Details.Id))
+            {
+                _qommonDisplay.Setup(_qommon.Details.Id);
+            }
+            else
+            {
+                _qommonDisplay.SetupAsSilhouette(_qommon.Details.Id);
+            }
             showedQommonsInCollection.Add(_qommonDisplay.gameObject);
-        }   
+        }
     }
     
     private void ClearQommonsInCollection()

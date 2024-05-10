@@ -47,6 +47,17 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerClickHandler
         alreadyInDeck.SetActive(false);
     }
 
+    public void SetupAsSilhouette(int _cardId)
+    {
+        cardId = -1;
+        border.color = new Color(1, 1, 1, 1);
+        CardObject _card = CardsManager.Instance.GetCardObject(_cardId);
+        qommonDisplay.sprite = _card.Details.SpriteInHand;
+        qommonDisplay.color = Color.black;
+        manaHolder.SetActive(false);
+        powerHolder.SetActive(false);
+    }
+
     private void Update()
     {
         if (isButtonHeld && Time.time - holdStartTime >= holdDuration)
@@ -61,6 +72,10 @@ public class CollectionQommonDisplay : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData _eventData)
     {
+        if (cardId==-1)
+        {
+            return;
+        }
         OnClicked?.Invoke(cardId);
     }
 }
