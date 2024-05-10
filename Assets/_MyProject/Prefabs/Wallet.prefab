@@ -2384,6 +2384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addressDisplay: {fileID: 11855937542846458}
   copyAddress: {fileID: 8366507698747912394}
+  walletQR: {fileID: 5020081367754682041}
 --- !u!1 &11855938103421769
 GameObject:
   m_ObjectHideFlags: 0

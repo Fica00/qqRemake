@@ -2,15 +2,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class DepositPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI addressDisplay;
     [SerializeField] private Button copyAddress;
+    public RawImage walletQR;
 
     private void OnEnable()
     {
         copyAddress.onClick.AddListener(CopyAddress);
-        addressDisplay.text = DataManager.Instance.PlayerData.UserWalletAddress;
+
+        string _walletAddress = DataManager.Instance.PlayerData.UserWalletAddress;
+        addressDisplay.text = _walletAddress;
+        walletQR.texture = QrCreator.GenerateQr(_walletAddress);
     }
 
     private void OnDisable()
@@ -22,4 +27,7 @@ public class DepositPanel : MonoBehaviour
     {
         JavaScriptManager.Instance.CopyToClipboard(DataManager.Instance.PlayerData.UserWalletAddress);
     }
+    
+
+
 }

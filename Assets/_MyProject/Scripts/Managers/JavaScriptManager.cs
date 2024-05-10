@@ -192,6 +192,8 @@ public class JavaScriptManager : MonoBehaviour
             return;
         }
         
+        Debug.Log("New usdc value: "+_value);
+        
         DataManager.Instance.PlayerData.USDC = Convert.ToDouble(_value);
     }
 
