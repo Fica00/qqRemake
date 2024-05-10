@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +14,8 @@ public class WalletPanel : MonoBehaviour
         closeButton.onClick.AddListener(Close);
         receiveButton.onClick.AddListener(ShowReceive);
         sendButton.onClick.AddListener(ShowSell);
+        
+        ManageInteractables(true);
     }
 
     private void OnDisable()
@@ -24,9 +25,9 @@ public class WalletPanel : MonoBehaviour
         sendButton.onClick.RemoveListener(ShowSell);
     }
 
-    private void Close()
+    public void Close()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     private void ShowReceive()
@@ -45,5 +46,12 @@ public class WalletPanel : MonoBehaviour
     {
         receivePanel.SetActive(false);
         sendPanel.SetActive(false);
+    }
+
+    public void ManageInteractables(bool _status)
+    {
+        closeButton.interactable = _status;
+        receiveButton.interactable = _status;
+        sendButton.interactable = _status;
     }
 }

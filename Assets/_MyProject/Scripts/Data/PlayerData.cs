@@ -32,6 +32,8 @@ public class PlayerData
     private bool playSoundEffects = true;
     private string version;
     private List<DeviceData> devices = new ();
+    private string userWalletAddress;
+    private bool didRequestUserWallet;
 
     public DateTime DateCreatedAccount;
 
@@ -60,6 +62,8 @@ public class PlayerData
     public static Action UpdatedPlaySoundEffects;
     public static Action UpdatedVersion;
     public static Action UpdatedPlayerDevices;
+    public static Action UpdatedUserWalletAddress;
+    public static Action UpdatedDidRequestUserWallet;
 
 
     public void CreateNewPlayer()
@@ -665,6 +669,26 @@ public class PlayerData
         
         Devices.Add(_data);
         UpdatedPlayerDevices?.Invoke();
+    }
+
+    public string UserWalletAddress
+    {
+        get => userWalletAddress;
+        set
+        {
+            userWalletAddress = value;
+            UpdatedUserWalletAddress?.Invoke();
+        }
+    }
+
+    public bool DidRequestUserWallet
+    {
+        get => didRequestUserWallet;
+        set
+        {
+            didRequestUserWallet = value;
+            UpdatedDidRequestUserWallet?.Invoke();
+        }
     }
 
 }

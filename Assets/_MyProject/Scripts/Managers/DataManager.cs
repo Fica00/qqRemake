@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Newtonsoft.Json;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -89,7 +88,8 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasFinishedTutorial += SaveTutorial;
         PlayerData.UpdatedVersion += SaveVersion;
         PlayerData.UpdatedPlayerDevices += SaveDevices;
-        
+        PlayerData.UpdatedDidRequestUserWallet += SaveWalletRequest;
+
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
         PlayerData.Version = JavaScriptManager.Instance.Version;
@@ -166,6 +166,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasFinishedTutorial -= SaveTutorial;
         PlayerData.UpdatedVersion -= SaveVersion;
         PlayerData.UpdatedPlayerDevices -= SaveDevices;
+        PlayerData.UpdatedDidRequestUserWallet -= SaveWalletRequest;
     }
 
     private void SaveTutorial()
@@ -192,7 +193,7 @@ public class DataManager : MonoBehaviour
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Decks),JsonConvert.SerializeObject(PlayerData.Decks));
     }
-    
+
     private void SaveDevices()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Devices),JsonConvert.SerializeObject(PlayerData.Devices));
@@ -299,6 +300,11 @@ public class DataManager : MonoBehaviour
     private void SaveBackgroundMusic()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.PlayBackgroundMusic),JsonConvert.SerializeObject(PlayerData.PlayBackgroundMusic));
+    } 
+    
+    private void SaveWalletRequest()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.DidRequestUserWallet),JsonConvert.SerializeObject(PlayerData.DidRequestUserWallet));
     }
 
     private void SaveSoundEffects()

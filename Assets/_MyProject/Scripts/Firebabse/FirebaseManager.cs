@@ -18,6 +18,7 @@ public class FirebaseManager : MonoBehaviour
     public string UserDataLink => $"{projectLink}/users/{userLocalId}/";
     public string UsersLink => $"{projectLink}/users/";
     private string GameDataLink => $"{projectLink}/gameData/";
+    private string WithdrawalsLink => $"{projectLink}/withdrawals/";
     private string QommonStatistic => $"{projectLink}/gameData/QommonStatistic/";
     private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
@@ -273,6 +274,12 @@ public class FirebaseManager : MonoBehaviour
             {
             }));
         }
+    }
+
+    public void RequestWithdrawal(WithdrawalData _data, Action<string> _onSuccess, Action<string> _onFailed)
+    {
+        string _url = WithdrawalsLink + _data.WithdrawalId+".json";
+        StartCoroutine(Patch(_url, JsonConvert.SerializeObject(_data), _onSuccess, _onFailed));
     }
 
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)

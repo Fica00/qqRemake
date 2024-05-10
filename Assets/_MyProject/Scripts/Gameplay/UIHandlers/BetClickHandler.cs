@@ -95,7 +95,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void TurnOffDidIBetThisRound()
     {
-        GameplayManager.UpdatedRound += TurnOffDidIBetThisRound;
+        GameplayManager.UpdatedRound -= TurnOffDidIBetThisRound;
         DidIBetThisRound = false;
     }
 

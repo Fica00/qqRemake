@@ -175,24 +175,34 @@ public class JavaScriptManager : MonoBehaviour
         DoReload();
     }
 
-    public void OnUpdatedDiamonds(double _value)
+    public void OnUpdatedDiamonds(string _value)
     {
         if (DataManager.Instance == null || DataManager.Instance.PlayerData == default)
         {
             return;
         }
         
-        DataManager.Instance.PlayerData.Coins = _value;
+        DataManager.Instance.PlayerData.Coins = Convert.ToDouble(_value);
     }
 
-    public void OnUpdatedUSDC(double _value)
+    public void OnUpdatedUSDC(string _value)
     {
         if (DataManager.Instance == null || DataManager.Instance.PlayerData == default)
         {
             return;
         }
         
-        DataManager.Instance.PlayerData.USDC = _value;
+        DataManager.Instance.PlayerData.USDC = Convert.ToDouble(_value);
+    }
+
+    public void OnUpdatedWalletAddress(string _walletAddress)
+    {
+        if (DataManager.Instance == null || DataManager.Instance.PlayerData == default)
+        {
+            return;
+        }
+        
+        DataManager.Instance.PlayerData.UserWalletAddress = _walletAddress;
     }
 
     public void RequestUserData()
