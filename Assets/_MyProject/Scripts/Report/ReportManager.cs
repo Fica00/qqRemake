@@ -80,7 +80,7 @@ public class ReportManager : MonoBehaviour
         _reportData.UserID = FirebaseManager.Instance.PlayerId;
         _reportData.ReportDateTime = DateTime.Now.ToString();
         _reportData.ReportStringText = reportText.text;
-        _reportData.SceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        _reportData.SceneName = SceneManager.CurrentSceneName;
         //_reportData.Device =
 
         FirebaseManager.Instance.ReportBug(_reportData,Successfully,Faild);
