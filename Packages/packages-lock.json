@@ -255,6 +255,15 @@
       },
       "url": "https://packages.unity.com"
     },
+    "io.backtrace.unity": {
+      "version": "3.8.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.screencapture": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

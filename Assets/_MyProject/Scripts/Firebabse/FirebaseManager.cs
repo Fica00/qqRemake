@@ -19,6 +19,7 @@ public class FirebaseManager : MonoBehaviour
     public string UsersLink => $"{projectLink}/users/";
     private string GameDataLink => $"{projectLink}/gameData/";
     private string WithdrawalsLink => $"{projectLink}/withdrawals/";
+    private string ReportLink => $"{projectLink}/reports/";
     private string QommonStatistic => $"{projectLink}/gameData/QommonStatistic/";
     private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
@@ -282,6 +283,11 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(Patch(_url, JsonConvert.SerializeObject(_data), _onSuccess, _onFailed));
     }
 
+    public void ReportBug(ReportDate _reportData, Action<string> _onSuccess, Action<string> _onFailed) {
+        string _url = ReportLink + Guid.NewGuid().ToString()+ ".json";
+        StartCoroutine(Patch(_url, JsonConvert.SerializeObject(_reportData), _onSuccess, _onFailed));
+    }
+
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)
     {
         if (userIdToken != null)
@@ -431,4 +437,6 @@ public class FirebaseManager : MonoBehaviour
             _webRequest.Dispose();
         }
     }
+
+
 }
