@@ -22,6 +22,8 @@ public class SceneManager : SceneLoader
     public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_AI;
     public static bool IsGameplayTutorialScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_TUTORIAL;
     public static bool IsAuthScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == DATA_COLLECTOR;
+   
+    public static string CurrentSceneName => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
     private void Awake()
     {

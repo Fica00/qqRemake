@@ -1612,6 +1612,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 1409559170}
     m_Modifications:
+    - target: {fileID: 226291521890189604, guid: b00941a5e1fdf9743a3d6818c609db64, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 226291522737994782, guid: b00941a5e1fdf9743a3d6818c609db64, type: 3}
       propertyPath: m_Name
       value: QoomonRewardDispaly
