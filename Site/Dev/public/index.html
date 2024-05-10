@@ -160,18 +160,11 @@ function CheckIsPwa() {
 
 // Reference to the user's 'USDC' field in Firebase
     var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
+// Listener for changes in the 'USDC' field
     usdcRef.on('value', function(snapshot) {
       if (snapshot.exists()) {
         const usdc = snapshot.val();
-        unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', usdc.toString());
-      }
-    });
-
-    var walletRef = firebase.database().ref(`users/${userId}/UserWalletAddress`);
-    walletRef.on('value', function(snapshot) {
-      if (snapshot.exists()) {
-        const walletAddress = snapshot.val();
-        unity.SendMessage('JavaScriptManager', 'OnUpdatedWalletAddress', walletAddress.toString());
+        //unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', usdc.toString());
       }
     });
   }
