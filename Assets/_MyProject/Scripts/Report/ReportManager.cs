@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ReportManager : MonoBehaviour
@@ -15,11 +13,9 @@ public class ReportManager : MonoBehaviour
     [SerializeField] private Button sendReportButton;
     [SerializeField] private InputField reportText;
 
-
-
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -36,78 +32,57 @@ public class ReportManager : MonoBehaviour
         closeReportButton.onClick.AddListener(Close);
         sendReportButton.onClick.AddListener(OnSendReport);
         ClearInputField();
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded += RefreshCanvas;
     }
-
     
+    private void ClearInputField()
+    {
+        reportText.text = "";
+    }
 
     private void OnDisable()
     {
         reportButton.onClick.RemoveListener(OpenReportInputField);
         closeReportButton.onClick.RemoveListener(Close);
         sendReportButton.onClick.RemoveListener(OnSendReport);
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= RefreshCanvas;
-
-
-    }
-
-    private void RefreshCanvas(Scene arg0, LoadSceneMode arg1)
-    {
-        DialogsManager.Instance.UpdateCanvasOrder();
     }
 
     private void OpenReportInputField()
     {
-        DialogsManager.Instance.UpdateCanvasOrder();
-
         reportButtonContainerGO.SetActive(true);
         reportButton.gameObject.SetActive(false);
         sendReportButton.gameObject.SetActive(true);
-
     }
 
     private void OnSendReport()
     {
-
         if (string.IsNullOrEmpty(reportText.text))
         {
-            DialogsManager.Instance.OkDialog.Setup("Please report");
+            DialogsManager.Instance.OkDialog.Setup("Please fill in the report filed");
             return;
         }
 
-        ReportDate _reportData = new ReportDate();
+        ReportDate _reportData = new ReportDate
+        {
+            UserID = FirebaseManager.Instance.PlayerId,
+            ReportDateTime = DateTime.Now.ToString(),
+            ReportStringText = reportText.text,
+            SceneName = SceneManager.CurrentSceneName,
+            Device = DeviceData.Get(),
+            PlayerData = JsonConvert.SerializeObject(DataManager.Instance.PlayerData)
+        };
 
-        _reportData.UserID = FirebaseManager.Instance.PlayerId;
-        _reportData.ReportDateTime = DateTime.Now.ToString();
-        _reportData.ReportStringText = reportText.text;
-        _reportData.SceneName = SceneManager.CurrentSceneName;
-        //_reportData.Device =
-
-        FirebaseManager.Instance.ReportBug(_reportData,Successfully,Faild);
-
-        
+        FirebaseManager.Instance.ReportBug(_reportData, Successfully, Failed);
     }
 
     private void Successfully(string _data)
     {
-        DialogsManager.Instance.OkDialog.Setup("Successfuly");
-        sendReportButton.gameObject.SetActive(false);
-        reportButton.gameObject.SetActive(true);
-        reportButtonContainerGO.SetActive(false);
+        DialogsManager.Instance.OkDialog.Setup("Successfully reported!");
+        Close();
     }
 
-    private void Faild(string _data)
+    private void Failed(string _data)
     {
-        DialogsManager.Instance.OkDialog.Setup("Faild");
-
-    }
-
-
-
-    private void ClearInputField()
-    {
-        
-        reportText.text = "";
+        DialogsManager.Instance.OkDialog.Setup("Failed to report, please try again");
     }
 
     private void Close()

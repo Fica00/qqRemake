@@ -13,7 +13,7 @@ public class OkDialog : MonoBehaviour
     {
         messageDisplay.text = _message;
         gameObject.SetActive(true);
-        DialogsManager.Instance.UpdateCanvasOrder();
+        PersistingUI.Instance.UpdateCanvasOrder();
     }
 
     private void OnEnable()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,7 @@ namespace SceneManagement
 {
     public class SceneLoader : MonoBehaviour
     {
+        public static Action OnLoadedScene;
         [SerializeField] private LoadingCanvas loadingPrefab;
         [SerializeField] private float minimumLoadingDuration;
 
@@ -102,6 +104,7 @@ namespace SceneManagement
         {
             yield return StartCoroutine(DoWaitForMinimumTime(_startingTime));
             Destroy(loadingDisplay.gameObject);
+            OnLoadedScene?.Invoke();
         }
         
         private IEnumerator DoWaitForMinimumTime(float _startingTime)

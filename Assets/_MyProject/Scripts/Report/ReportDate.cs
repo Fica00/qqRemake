@@ -8,5 +8,6 @@ public class ReportDate
     public string ReportStringText;
     public string ReportDateTime;
     public string SceneName;
-    public string Device;
+    public string PlayerData;
+    public DeviceData Device;
 }

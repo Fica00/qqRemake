@@ -16,7 +16,7 @@ public class YesNoDialog : MonoBehaviour
     {
         questionDisplay.text = _question;
         gameObject.SetActive(true);
-        DialogsManager.Instance.UpdateCanvasOrder();
+        PersistingUI.Instance.UpdateCanvasOrder();
     }
 
     private void OnEnable()
