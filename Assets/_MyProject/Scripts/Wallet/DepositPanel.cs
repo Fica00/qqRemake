@@ -15,7 +15,11 @@ public class DepositPanel : MonoBehaviour
 
         string _walletAddress = DataManager.Instance.PlayerData.UserWalletAddress;
         addressDisplay.text = _walletAddress;
-        walletQR.texture = QrCreator.GenerateQr(_walletAddress);
+        if (!string.IsNullOrEmpty(_walletAddress))
+        {
+            walletQR.texture = QrCreator.GenerateQr(_walletAddress);
+            walletQR.color = Color.white;
+        }
     }
 
     private void OnDisable()
