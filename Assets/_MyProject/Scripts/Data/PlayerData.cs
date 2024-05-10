@@ -647,15 +647,7 @@ public class PlayerData
 
     public void AddDeviceData()
     {
-        DeviceData _data = new DeviceData
-        {
-            Model = SystemInfo.deviceModel,
-            Name = SystemInfo.deviceName,
-            Type = SystemInfo.deviceType.ToString(),
-            OperatingSystem = SystemInfo.operatingSystem,
-            UniqueIdentifier = SystemInfo.deviceUniqueIdentifier,
-            Platform = Application.platform.ToString(),
-        };
+        DeviceData _data = DeviceData.Get();
 
         if (devices.Any(_device => _device.UniqueIdentifier == _data.UniqueIdentifier))
         {
