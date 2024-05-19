@@ -15,9 +15,16 @@ public class AccessCodeValidator : MonoBehaviour
 
     private void Start()
     {
+        if(isAccesCodeOn)
+        {
+            PlayerPrefs.SetInt(HAS_VERIFIED, 0);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(HAS_VERIFIED, 1);
+        }
 
-        //quick fix -> popravi kasnije:
-        PlayerPrefs.SetInt(HAS_VERIFIED, 1);
+        
 
         if (PlayerPrefs.HasKey(HAS_VERIFIED))
         {
