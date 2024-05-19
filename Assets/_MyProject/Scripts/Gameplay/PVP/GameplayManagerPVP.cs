@@ -31,7 +31,7 @@ public class GameplayManagerPVP : GameplayManager
     protected override void OnDisable()
     {
         base.OnDisable();
-        GameEnded += LeaveRoom;
+        GameEnded -= LeaveRoom;
     }
 
     private void LeaveRoom(GameResult _result)

@@ -9,7 +9,9 @@ public class AuthHandler : MonoBehaviour
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
 
+
     public static bool CanAuth;
+    public static bool IsGuest;
 
     private void Awake()
     {
@@ -75,18 +77,21 @@ public class AuthHandler : MonoBehaviour
     {
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.LoginTwitter();
+        IsGuest = false;
     }    
     
     public void LoginWithDiscord(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.LoginWithDiscord();
+        IsGuest = false;
     }
 
     public void LoginWithGoogle(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.GoogleAuth();
+        IsGuest = false;
     }
     
     public void AnonymousSignIn(Action<bool> _callBack)
@@ -98,10 +103,12 @@ public class AuthHandler : MonoBehaviour
             {
                 HandleLoginResult(_status,callBackForOAUTh,false);
             });
+            IsGuest = true;
         }
         else
         {
             JavaScriptManager.Instance.AnonymousAuth();
+            IsGuest = true;
         }
     }
 

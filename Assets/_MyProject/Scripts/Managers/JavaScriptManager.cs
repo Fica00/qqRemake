@@ -13,7 +13,10 @@ public class JavaScriptManager : MonoBehaviour
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();
-    
+
+    [DllImport("__Internal")]
+    public static extern void AuthLinkingAnonimousUser(string providerName);
+
     [DllImport("__Internal")]
     public static extern void AuthWithTwitter();    
     
@@ -72,6 +75,11 @@ public class JavaScriptManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void LinkingAnonimousUser(string _providerName)
+    {
+        AuthLinkingAnonimousUser(_providerName);
     }
 
     public void GoogleAuth()
@@ -142,6 +150,8 @@ public class JavaScriptManager : MonoBehaviour
             Debug.Log("--- Not time for auth");
             return;
         }
+
+
         
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
@@ -203,6 +213,16 @@ public class JavaScriptManager : MonoBehaviour
         }
         
         DataManager.Instance.PlayerData.UserWalletAddress = _walletAddress;
+    }
+
+    public void SuccessLinkingLoginAccount()
+    {
+        RegisterAnonymousHandler.Instance.HideRegistrationPage();
+    }
+
+    public void UserAlreadyHasAccount() 
+    {
+        RegisterAnonymousHandler.Instance.UserAleradyHaveAccount();
     }
 
     public void RequestUserData()

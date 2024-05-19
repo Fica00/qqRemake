@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using Photon.Pun;
+using UnityEditor.Rendering;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -539,6 +540,9 @@ public class GameplayManager : MonoBehaviour
         {
             currentBet = 8;
         }
+
+        Debug.Log("currentBet " + currentBet);
+        Debug.Log("CURRENT BET" + CurrentBet);
         
         UpdatedBet?.Invoke();
     }

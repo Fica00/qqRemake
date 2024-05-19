@@ -123,6 +123,7 @@ public class PlayerData
 
     private void Setup()
     {
+
         DeckData _starterDeck = new DeckData
         {
             Id = 0,
@@ -248,6 +249,8 @@ public class PlayerData
         get => ownedQoomons;
         set => ownedQoomons = value;
     }
+
+    
 
     public void AddCardToSelectedDeck(int _cardId)
     {

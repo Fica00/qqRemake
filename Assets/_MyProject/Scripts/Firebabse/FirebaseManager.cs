@@ -92,13 +92,18 @@ public class FirebaseManager : MonoBehaviour
         }, (_) => { _callBack?.Invoke(false); }));
     }
 
+    //private void CollectPlayerData(Action<bool> _callBack)
+    //{
+    //    StartCoroutine(Get(UserDataLink + "/.json", (_result) =>
+    //    {
+    //        DataManager.Instance.SetPlayerData(_result);
+    //        _callBack?.Invoke(true);
+    //    }, (_) => { _callBack?.Invoke(false); }));
+    //}
+
     private void CollectPlayerData(Action<bool> _callBack)
     {
-        StartCoroutine(Get(UserDataLink + "/.json", (_result) =>
-        {
-            DataManager.Instance.SetPlayerData(_result);
-            _callBack?.Invoke(true);
-        }, (_) => { _callBack?.Invoke(false); }));
+        StartCoroutine(CollectPlayerDataCoroutine(_callBack));
     }
 
     public void SignIn(string _firebaseId, Action<bool> _callBack)
@@ -437,6 +442,26 @@ public class FirebaseManager : MonoBehaviour
             _webRequest.Dispose();
         }
     }
+    private IEnumerator CollectPlayerDataCoroutine(Action<bool> _callBack)
+    {
+        yield return StartCoroutine(Get(UserDataLink + "/.json", (_result) =>
+        {
+            DataManager.Instance.SetPlayerData(_result);
+            _callBack?.Invoke(true);
+        }, (_) => { _callBack?.Invoke(false); }));
 
+
+
+        if (DataManager.Instance.PlayerData is null)
+        {
+            yield return new WaitForSeconds(2f);
+
+            yield return StartCoroutine(Get(UserDataLink + "/.json", (_result) =>
+            {
+                DataManager.Instance.SetPlayerData(_result);
+                _callBack?.Invoke(true);
+            }, (_) => { _callBack?.Invoke(false); }));
+        }
+    }
 
 }

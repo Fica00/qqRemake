@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class AccessCodeValidator : MonoBehaviour
 {
     private const string HAS_VERIFIED = "hasVerified";
+    [SerializeField] private bool isAccesCodeOn = true;
     [SerializeField] private GameObject holder;
     [SerializeField] private InputField accessCode;
     [SerializeField] private string validAccessCode;
@@ -14,6 +15,10 @@ public class AccessCodeValidator : MonoBehaviour
 
     private void Start()
     {
+
+        //quick fix -> popravi kasnije:
+        PlayerPrefs.SetInt(HAS_VERIFIED, 1);
+
         if (PlayerPrefs.HasKey(HAS_VERIFIED))
         {
             SceneManager.Instance.LoadDataCollector();

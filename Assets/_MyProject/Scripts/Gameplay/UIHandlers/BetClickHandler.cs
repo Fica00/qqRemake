@@ -97,6 +97,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         GameplayManager.UpdatedRound -= TurnOffDidIBetThisRound;
         DidIBetThisRound = false;
+        didIBet = false;
     }
 
     private void Start()
@@ -110,6 +111,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         stakeAnimator.SetTrigger(STAKE_KEY);
         holder.transform.DOScale(Vector3.one, 1);
         ShowBet();
+        
+        if(DidIBetThisRound && GameplayManager.Instance.IsLastRound) {
+         didIBet = false;
+         IncreaseBet();
+         DidIBetThisRound = false;
+         didIBet = true;
+        }
     }
 
     private void ShowBet()
@@ -185,6 +193,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void ShowNextRoundBet()
     {
+
         int _currentBet = GameplayManager.Instance.CurrentBet;
         _currentBet *= 2;
 
@@ -196,9 +205,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         if (didSomeoneIncreaseInLastRound)
         {
-            _currentBet *= 2;
+           
+         //  Zbog ovog dela nekada pokazuje 2 na orbu, a 8 na next text-u
+         //   _currentBet *= 2;
+
         }
 
+       
         if (_currentBet>maxBet)
         {
             _currentBet = maxBet;

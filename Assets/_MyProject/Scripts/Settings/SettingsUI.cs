@@ -23,8 +23,8 @@ public class SettingsUI : MonoBehaviour
     private void OnEnable()
     {
         logoutButton.onClick.AddListener(Logout);
-        linkWithFacebook.onClick.AddListener(LinkWithFacebook);
-        linkWithGoogle.onClick.AddListener(LinkWithGoogle);
+        //linkWithFacebook.onClick.AddListener(LinkWithFacebook); => Rekao dule da se izbacuje Facebook
+        //linkWithGoogle.onClick.AddListener(LinkWithGoogle);
         redeemCode.onClick.AddListener(RedeemCode);
         reportABug.onClick.AddListener(ReportABug);
         playerSupport.onClick.AddListener(PlayerSupport);
@@ -41,8 +41,8 @@ public class SettingsUI : MonoBehaviour
     private void OnDisable()
     {
         logoutButton.onClick.RemoveListener(Logout);
-        linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
-        linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
+       //linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
+       //linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
         redeemCode.onClick.RemoveListener(RedeemCode);
         reportABug.onClick.RemoveListener(ReportABug);
         playerSupport.onClick.RemoveListener(PlayerSupport);

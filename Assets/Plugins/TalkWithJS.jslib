@@ -15,6 +15,11 @@ mergeInto(LibraryManager.library,
     	DiscordAuth();
     },
 
+    AuthLinkingAnonimousUser: function(providerName)
+    {
+        LinkingAnonimousUser(UTF8ToString(providerName));
+    },
+
 	ShowKeyboard: function()
     {
 		DisplayKeyboard();
