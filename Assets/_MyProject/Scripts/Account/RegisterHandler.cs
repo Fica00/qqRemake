@@ -9,6 +9,10 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField] private Button guestButton;
 
     [SerializeField] private GameObject loginAnimation;
+    [SerializeField] private GameObject registerAnimation;
+
+
+   
     
     public void Setup()
     {
