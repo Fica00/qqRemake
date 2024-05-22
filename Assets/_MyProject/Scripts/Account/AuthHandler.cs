@@ -8,8 +8,7 @@ public class AuthHandler : MonoBehaviour
     public static AuthHandler Instance;
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
-
-
+    
     public static bool CanAuth;
     public static bool IsGuest;
 
@@ -52,7 +51,7 @@ public class AuthHandler : MonoBehaviour
         }
         else
         {
-            Auth(_loginData.UserId, _loginData.IsNewAccount);
+            Auth(_loginData.UserId, _loginData.IsNewAccount, _loginData.Agency);
         }
     }
 
@@ -112,15 +111,15 @@ public class AuthHandler : MonoBehaviour
         }
     }
 
-    public void Auth(string _id, bool _isNewAccount)
+    public void Auth(string _id, bool _isNewAccount, string _agency="")
     {
         FirebaseManager.Instance.SignIn(_id, (_status) =>
         {
-            HandleLoginResult(_status,callBackForOAUTh, _isNewAccount);
+            HandleLoginResult(_status,callBackForOAUTh, _isNewAccount, _agency);
         });
     }
 
-    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount)
+    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount, string _agency = "")
     {
         if (!_status)
         {
@@ -140,7 +139,7 @@ public class AuthHandler : MonoBehaviour
             return;
         }
         
-        Initialization.Instance.CheckForStartingData(_isNewAccount);
+        Initialization.Instance.CheckForStartingData(_isNewAccount, _agency);
     }
 
     public void AuthFailed()

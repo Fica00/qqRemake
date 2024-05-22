@@ -89,6 +89,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedVersion += SaveVersion;
         PlayerData.UpdatedPlayerDevices += SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet += SaveWalletRequest;
+        PlayerData.UpdatedAgency += SaveAgency;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -167,6 +168,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedVersion -= SaveVersion;
         PlayerData.UpdatedPlayerDevices -= SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet -= SaveWalletRequest;
+        PlayerData.UpdatedAgency -= SaveAgency;
     }
 
     private void SaveTutorial()
@@ -310,5 +312,10 @@ public class DataManager : MonoBehaviour
     private void SaveSoundEffects()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.PlaySoundEffects),JsonConvert.SerializeObject(PlayerData.PlaySoundEffects));
+    }
+    
+    private void SaveAgency()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Agency),JsonConvert.SerializeObject(PlayerData.Agency));
     }
 }

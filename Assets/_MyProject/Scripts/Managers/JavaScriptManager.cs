@@ -142,7 +142,7 @@ public class JavaScriptManager : MonoBehaviour
     
     public void AuthFinished(string _data)
     {
-        Debug.Log("Got user data: "+_data);
+        Debug.Log("Got user data: " + _data);
         OnGotUserData?.Invoke(_data);
         Debug.Log("Got json from JS: "+ _data);
         if (!AuthHandler.CanAuth)
@@ -151,8 +151,6 @@ public class JavaScriptManager : MonoBehaviour
             return;
         }
 
-
-        
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
         if (string.IsNullOrEmpty(_data))
@@ -171,8 +169,17 @@ public class JavaScriptManager : MonoBehaviour
             Debug.Log("Auth handler not found");
             return;
         }
-        
-        AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
+
+        if (_response.Agency is not null)
+        {
+            Debug.Log("Got agency not null: " + _response.Agency);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.Agency);
+        }
+        else
+        {
+            Debug.Log("Got agency null");
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
+        }
     }
 
     public void FailedToAuth()
