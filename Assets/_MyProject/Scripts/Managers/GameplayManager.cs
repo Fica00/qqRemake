@@ -381,6 +381,7 @@ public class GameplayManager : MonoBehaviour
 
         LaneAbility _laneAbility = GetLaneAbility();
         yield return RevealLocation(_laneAbility.Id);
+        Destroy(_laneAbility.gameObject);
     }
     
     protected IEnumerator ShowRevealText()
@@ -540,10 +541,6 @@ public class GameplayManager : MonoBehaviour
         {
             currentBet = 8;
         }
-
-        Debug.Log("currentBet " + currentBet);
-        Debug.Log("CURRENT BET" + CurrentBet);
-        
         UpdatedBet?.Invoke();
     }
 
