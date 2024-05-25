@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DataManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class DataManager : MonoBehaviour
     public int[] locationsPicked = {-1, -1, -1};
 
     private bool isSubscribed;
+    public bool IsGuestOverlayShown;
 
     private void Awake()
     {

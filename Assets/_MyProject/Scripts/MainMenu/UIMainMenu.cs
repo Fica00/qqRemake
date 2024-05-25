@@ -33,6 +33,7 @@ public class UIMainMenu : MonoBehaviour
         DataManager.Instance.Subscribe();
         MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
+        GuestOverlayHandler.Instance.TryShowGuestOverlay(AuthHandler.IsGuest);
     }
 
     private void OnEnable()
@@ -93,4 +94,5 @@ public class UIMainMenu : MonoBehaviour
     {
         SceneManager.Instance.LoadMissionsPage();
     }
+
 }
