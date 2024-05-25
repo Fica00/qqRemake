@@ -13,7 +13,10 @@ public class JavaScriptManager : MonoBehaviour
 
     [DllImport("__Internal")]
     public static extern void AuthWithGoogle();
-    
+
+    [DllImport("__Internal")]
+    public static extern void AuthLinkingAnonimousUser(string providerName);
+
     [DllImport("__Internal")]
     public static extern void AuthWithTwitter();    
     
@@ -72,6 +75,11 @@ public class JavaScriptManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void LinkingAnonimousUser(string _providerName)
+    {
+        AuthLinkingAnonimousUser(_providerName);
     }
 
     public void GoogleAuth()
@@ -134,7 +142,7 @@ public class JavaScriptManager : MonoBehaviour
     
     public void AuthFinished(string _data)
     {
-        Debug.Log("Got user data: "+_data);
+        Debug.Log("Got user data: " + _data);
         OnGotUserData?.Invoke(_data);
         Debug.Log("Got json from JS: "+ _data);
         if (!AuthHandler.CanAuth)
@@ -142,7 +150,7 @@ public class JavaScriptManager : MonoBehaviour
             Debug.Log("--- Not time for auth");
             return;
         }
-        
+
         UserLoginData _response = JsonConvert.DeserializeObject<UserLoginData>(_data);
         Debug.Log("Got token: "+_data);
         if (string.IsNullOrEmpty(_data))
@@ -161,8 +169,17 @@ public class JavaScriptManager : MonoBehaviour
             Debug.Log("Auth handler not found");
             return;
         }
-        
-        AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
+
+        if (_response.Agency is not null)
+        {
+            Debug.Log("Got agency not null: " + _response.Agency);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.Agency);
+        }
+        else
+        {
+            Debug.Log("Got agency null");
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
+        }
     }
 
     public void FailedToAuth()
@@ -205,6 +222,16 @@ public class JavaScriptManager : MonoBehaviour
         }
         
         DataManager.Instance.PlayerData.UserWalletAddress = _walletAddress;
+    }
+
+    public void SuccessLinkingLoginAccount()
+    {
+        RegisterAnonymousHandler.Instance.HideRegistrationPage();
+    }
+
+    public void UserAlreadyHasAccount() 
+    {
+        RegisterAnonymousHandler.Instance.UserAleradyHaveAccount();
     }
 
     public void RequestUserData()

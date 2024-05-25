@@ -12,6 +12,7 @@ public class ReportManager : MonoBehaviour
     [SerializeField] private Button closeReportButton;
     [SerializeField] private Button sendReportButton;
     [SerializeField] private InputField reportText;
+    [SerializeField] private bool isHideReport;
 
     private void Awake()
     {
@@ -32,6 +33,27 @@ public class ReportManager : MonoBehaviour
         closeReportButton.onClick.AddListener(Close);
         sendReportButton.onClick.AddListener(OnSendReport);
         ClearInputField();
+        CheckIsHided();
+    }
+
+    private void OnDestroy()
+    {
+        reportButton.onClick.RemoveListener(OpenReportInputField);
+        closeReportButton.onClick.RemoveListener(Close);
+        sendReportButton.onClick.RemoveListener(OnSendReport);
+    }
+
+    private void CheckIsHided()
+    {
+        
+        if(isHideReport)
+        {
+            reportButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            reportButton.gameObject.SetActive(true);
+        }
     }
     
     private void ClearInputField()
@@ -53,6 +75,7 @@ public class ReportManager : MonoBehaviour
         sendReportButton.gameObject.SetActive(true);
     }
 
+    
     private void OnSendReport()
     {
         if (string.IsNullOrEmpty(reportText.text))

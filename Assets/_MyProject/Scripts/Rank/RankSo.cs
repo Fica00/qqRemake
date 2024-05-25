@@ -48,6 +48,11 @@ public class RankSo : ScriptableObject
         }
 
         _rankData.PointsOnRank = _points;
+        if (_rankData.Level>100)
+        {
+            _rankData.Level = 100;
+            _rankData.PointsOnRank = 7;
+        }
         return _rankData;
     }
     

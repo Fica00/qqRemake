@@ -18,6 +18,7 @@ public class Initialization : MonoBehaviour
             InitDataManager();
             return;
         }
+
         InitPhoton();
     }
 
@@ -34,7 +35,7 @@ public class Initialization : MonoBehaviour
         AuthHandler.Instance.Authenticate();
     }
 
-    public void CheckForStartingData(bool _isNewAccount)
+    public void CheckForStartingData(bool _isNewAccount, string _agency)
     {
         if (_isNewAccount)
         {
@@ -43,6 +44,7 @@ public class Initialization : MonoBehaviour
                 if (_status)
                 {
                     FinishInit();
+                    DataManager.Instance.PlayerData.Agency = _agency;
                 }
                 else
                 {
@@ -51,14 +53,15 @@ public class Initialization : MonoBehaviour
             });
             return;
         }
+
         FinishInit();
     }
-    
+
     private void FinishInit()
     {
         AudioManager.Instance.Init();
 
-        if (DataManager.Instance.PlayerData.HasFinishedTutorial==0 && DataManager.Instance.PlayerData.Exp==0)
+        if (DataManager.Instance.PlayerData.HasFinishedTutorial == 0 && DataManager.Instance.PlayerData.Exp == 0)
         {
             DataManager.Instance.Subscribe();
             SceneManager.Instance.LoadSimpleTutorial();

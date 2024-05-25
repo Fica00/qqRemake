@@ -2359,6 +2359,7 @@ MonoBehaviour:
   closeReportButton: {fileID: 1349481037}
   sendReportButton: {fileID: 1840923044}
   reportText: {fileID: 318362059}
+  isHideReport: 1
 --- !u!4 &904516583
 Transform:
   m_ObjectHideFlags: 0

@@ -16,14 +16,14 @@ public class PlayerData
     private List<GamePass> gamePasses = new();
     private double coins;
     private double usdc;
-    private List<ClaimedLevelReward> claimedLevelProgressRewards = new ();
+    private List<ClaimedLevelReward> claimedLevelProgressRewards = new();
     private int weeklyLoginAmount = 1;
     private DateTime lastDayConnected;
     private int daysConnectedInRow;
     private int rankPoints;
     private int amountOfRankGamesPlayed;
-    private List<int> claimedRankRewards = new ();
-    private List<int> claimedLoginRewards = new ();
+    private List<int> claimedRankRewards = new();
+    private List<int> claimedLoginRewards = new();
     private List<MissionProgress> missionProgresses = new();
     private DateTime nextDailyChallenges;
     private int isDemoPlayer;
@@ -31,9 +31,10 @@ public class PlayerData
     private bool playBackgroundMusic = true;
     private bool playSoundEffects = true;
     private string version;
-    private List<DeviceData> devices = new ();
+    private List<DeviceData> devices = new();
     private string userWalletAddress;
     private bool didRequestUserWallet;
+    private string agency;
 
     public DateTime DateCreatedAccount;
 
@@ -64,6 +65,7 @@ public class PlayerData
     public static Action UpdatedPlayerDevices;
     public static Action UpdatedUserWalletAddress;
     public static Action UpdatedDidRequestUserWallet;
+    public static Action UpdatedAgency;
 
 
     public void CreateNewPlayer()
@@ -72,8 +74,10 @@ public class PlayerData
         selectedDeck = 0;
         DateCreatedAccount = DateTime.UtcNow.Date;
         lastDayConnected = DateCreatedAccount;
-        daysConnectedInRow=1;
-        
+        daysConnectedInRow = 1;
+
+        Debug.Log("CreateNewPlayer");
+
         if (JavaScriptManager.Instance.IsDemo)
         {
             SetupDemo();
@@ -86,88 +90,19 @@ public class PlayerData
 
     private void SetupDemo()
     {
-        DeckData _starterDeck = new DeckData
-        {
-            Id = 0,
-            Name = "Starter",
-            CardsInDeck = new List<int>
-            {
-                28,
-                8,
-                7,
-                29,
-                1,
-                0,
-                11,
-                3,
-                4,
-                21,
-                9,
-                5
-            }
-        };
-        decks.Add(_starterDeck);
-        ownedQoomons.Add(28);
-        ownedQoomons.Add(8);
-        ownedQoomons.Add(7);
-        ownedQoomons.Add(29);
-        ownedQoomons.Add(1);
-        ownedQoomons.Add(0);
-        ownedQoomons.Add(11);
-        ownedQoomons.Add(3);
-        ownedQoomons.Add(4);
-        ownedQoomons.Add(21);
-        ownedQoomons.Add(9);
-        ownedQoomons.Add(5);
+        Debug.Log("SetupDemo");
+
+        DeckData starterDeck = DeckInitializer.InitializeDecks().First(deck => deck.Id == 0);
+        decks.Add(starterDeck);
+        ownedQoomons.AddRange(starterDeck.CardsInDeck);
+
     }
 
     private void Setup()
     {
-        DeckData _starterDeck = new DeckData
-        {
-            Id = 0,
-            Name = "Starter",
-            CardsInDeck = new List<int>
-            {
-                28,
-                8,
-                7,
-                29,
-                1,
-                0,
-                11,
-                3,
-                4,
-                21,
-                9,
-                5
-            }
-        };
-        decks.Add(_starterDeck);
+        Debug.Log("Setup");
 
-        DeckData _discardAndDestroy = new DeckData() { Id = 1, Name="Discard & Destroy", CardsInDeck = new List<int>
-        {
-            7,1,11,4,14,16,30,17,31,27,18,19
-        } };
-        decks.Add(_discardAndDestroy);
-        
-        DeckData _summon = new DeckData() { Id = 2, Name="Summon", CardsInDeck = new List<int>
-        {
-            8,1,0,3,9,10,12,15,24,32,35,13
-        } };
-        decks.Add(_summon);    
-        
-        DeckData _summonSmall = new DeckData() { Id = 3, Name="Summon Small", CardsInDeck = new List<int>
-        {
-            28,10,20,47,26,42,33,25,36,2,45,7
-        } };
-        decks.Add(_summonSmall);   
-        
-        DeckData _ongoing = new DeckData() { Id = 4, Name="Ongoing", CardsInDeck = new List<int>
-        {
-            4,21,6,20,22,42,38,39,40,41,43,44
-        } };
-        decks.Add(_ongoing);
+        decks = DeckInitializer.InitializeDecks();
 
         foreach (var _card in CardsManager.Instance.GetAllPlayableCards())
         {
@@ -218,16 +153,17 @@ public class PlayerData
         decks.Add(new DeckData { Id = decks.Count, CardsInDeck = new() });
         UpdatedDecks?.Invoke();
     }
-    
+
     public void DeleteSelectedDeck()
     {
-        if (decks.Count==1)
+        if (decks.Count == 1)
         {
             DialogsManager.Instance.OkDialog.Setup("You need to have latest 1 deck");
             return;
         }
 
         DataManager.Instance.GetComponent<MonoBehaviour>().StartCoroutine(DeleteDeck());
+
         IEnumerator DeleteDeck()
         {
             DeckData _selectedDeck = GetSelectedDeck();
@@ -243,6 +179,7 @@ public class PlayerData
         get => ownedQoomons;
         set => ownedQoomons = value;
     }
+
 
     public void AddCardToSelectedDeck(int _cardId)
     {
@@ -261,7 +198,7 @@ public class PlayerData
     public void UpdateDeckName(string _name)
     {
         DeckData _deck = GetSelectedDeck();
-        if (_deck==null)
+        if (_deck == null)
         {
             return;
         }
@@ -275,7 +212,7 @@ public class PlayerData
         {
             return;
         }
-        
+
         _deck.Name = _name;
         UpdatedDeckName?.Invoke();
     }
@@ -330,7 +267,7 @@ public class PlayerData
         UpdatedGamePasses?.Invoke();
     }
 
-    int[] expBorders = { 10,30,60,100,150,210,280,360,450,550,650,750};
+    int[] expBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
 
     public int Exp
     {
@@ -350,13 +287,13 @@ public class PlayerData
             int _level = 0;
             while (true)
             {
-                if (exp<expBorders[_level])
+                if (exp < expBorders[_level])
                 {
                     return _level;
                 }
 
                 _level++;
-                if (_level>=expBorders.Length)
+                if (_level >= expBorders.Length)
                 {
                     return _level;
                 }
@@ -374,7 +311,7 @@ public class PlayerData
                 return 1.0f;
             }
 
-            int _currentLevelXp = Level == 0 ? exp : Exp-GetXpForLevel(Level-1);
+            int _currentLevelXp = Level == 0 ? exp : Exp - GetXpForLevel(Level - 1);
             int _nextLevelXp = GetXpForLevel(Level);
             return (float)_currentLevelXp / _nextLevelXp;
         }
@@ -387,35 +324,35 @@ public class PlayerData
         {
             if (Level >= expBorders.Length)
             {
-                return Exp - GetXpForLevel(expBorders.Length-1);
+                return Exp - GetXpForLevel(expBorders.Length - 1);
             }
 
-            if (Level==0)
+            if (Level == 0)
             {
                 return exp;
             }
-            
-            return exp-GetXpForLevel(Level-1);
+
+            return exp - GetXpForLevel(Level - 1);
         }
     }
 
     public int GetXpForNextLevel()
     {
-        if (Level==0)
+        if (Level == 0)
         {
             return expBorders[Level];
         }
 
-        return expBorders[Level] - expBorders[Level-1];
+        return expBorders[Level] - expBorders[Level - 1];
     }
-    
+
     public int GetXpForLevel(int _level)
     {
         if (Level >= expBorders.Length)
         {
             return 0;
         }
-        
+
         return expBorders[_level];
     }
 
@@ -427,7 +364,7 @@ public class PlayerData
         {
             return;
         }
-        
+
         ownedQoomons.Add(_qoomonId);
         UpdatedOwnedQoomons?.Invoke();
     }
@@ -437,17 +374,18 @@ public class PlayerData
         DataManager.Instance.PlayerData.ClaimedLevelProgressRewards.Add(_reward);
         UpdatedClaimedLevelRewards?.Invoke();
     }
-    
+
     public int WeeklyLoginAmount
     {
         get => weeklyLoginAmount;
         set
         {
             weeklyLoginAmount = value;
-            if (weeklyLoginAmount>7)
+            if (weeklyLoginAmount > 7)
             {
                 weeklyLoginAmount = 7;
             }
+
             UpdatedWeeklyLoginAmount?.Invoke();
         }
     }
@@ -478,10 +416,11 @@ public class PlayerData
         set
         {
             rankPoints = value;
-            if (rankPoints<0)
+            if (rankPoints < 0)
             {
                 rankPoints = 0;
             }
+
             UpdatedRankPoints?.Invoke();
         }
     }
@@ -493,6 +432,16 @@ public class PlayerData
         {
             amountOfRankGamesPlayed = value;
             UpdatedAmountOfRankGamesPlayed?.Invoke();
+        }
+    }
+    
+    public string Agency
+    {
+        get => agency;
+        set
+        {
+            agency = value;
+            UpdatedAgency?.Invoke();
         }
     }
 
@@ -507,7 +456,7 @@ public class PlayerData
         claimedRankRewards.Add(_rewardNumber);
         UpdatedClaimedRankRewards?.Invoke();
     }
-    
+
     public void ClaimReward(ItemType _type, int _value)
     {
         if (_type == ItemType.Qoomon)
@@ -598,7 +547,36 @@ public class PlayerData
 
     public int GetQoomonFromPool()
     {
-        List<int> _possibleQoomons = new () { 2, 6, 10, 12, 13, 15, 20, 22, 24, 25, 26, 27, 31, 32, 33, 35, 36, 38, 39, 40, 41, 41, 42, 43, 43, 44, 46};
+        List<int> _possibleQoomons = new()
+        {
+            2,
+            6,
+            10,
+            12,
+            13,
+            15,
+            20,
+            22,
+            24,
+            25,
+            26,
+            27,
+            31,
+            32,
+            33,
+            35,
+            36,
+            38,
+            39,
+            40,
+            41,
+            41,
+            42,
+            43,
+            43,
+            44,
+            46
+        };
         foreach (var _qoomon in _possibleQoomons.OrderBy(_ => Guid.NewGuid()))
         {
             if (ownedQoomons.Contains(_qoomon))
@@ -608,6 +586,7 @@ public class PlayerData
 
             return _qoomon;
         }
+
         return -1;
     }
 
@@ -620,7 +599,7 @@ public class PlayerData
     {
         foreach (ClaimedLevelReward _claimedLevelReward in claimedLevelProgressRewards)
         {
-            if (_claimedLevelReward.Level==_level)
+            if (_claimedLevelReward.Level == _level)
             {
                 return _claimedLevelReward;
             }
@@ -653,7 +632,7 @@ public class PlayerData
         {
             return;
         }
-        
+
         Devices.Add(_data);
         UpdatedPlayerDevices?.Invoke();
     }
@@ -677,5 +656,4 @@ public class PlayerData
             UpdatedDidRequestUserWallet?.Invoke();
         }
     }
-
 }

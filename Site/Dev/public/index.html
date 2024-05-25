@@ -1,451 +1,490 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Unity WebGL Player | QommonQuest</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico">
-  <link rel="stylesheet" href="TemplateData/style.css">
-  <link rel="manifest" href="manifest.webmanifest">
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
-  <script src="https://js.stripe.com/v3/"></script>
-  <style>
-    @media (orientation: landscape) {
-      /* body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-      } */
-  
-      #landscape-block-message {
-        display: block;
-        text-align: center;
-        background: black;
-        color: white;
-        padding: 20px;
-        border: 3px solid red;
-        font-size: 20px;
-      }
-    }
-  </style>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Unity WebGL Player | Qoomon Quest</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico"/>
+    <link rel="stylesheet" href="TemplateData/style.css"/>
+    <link rel="manifest" href="manifest.webmanifest"/>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        @media (orientation: landscape) {
+            /* body {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              overflow: hidden;
+            } */
+            #landscape-block-message {
+                display: block;
+                text-align: center;
+                background: black;
+                color: white;
+                padding: 20px;
+                border: 3px solid red;
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="landscape-block-message" style="display:none;">
-  Please rotate your device to portrait mode to continue.
-</div>
 <div id="unity-container">
-  <canvas id="unity-canvas" width=1179 height=2556></canvas>
-  <div id="unity-loading-bar">
-    <div id="unity-logo"></div>
-    <div id="unity-progress-bar-empty">
-      <div id="unity-progress-bar-full"></div>
+    <canvas id="unity-canvas" width="1179" height="2556"></canvas>
+    <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+        </div>
     </div>
-  </div>
-  <div id="unity-warning"> </div>
+    <div id="unity-warning"></div>
 </div>
-<div id="form-container" style="position: fixed; width: 100%; height: 100vh; display: none; justify-content: center; align-items: center;">
-  <div id="payment-form" style="width: 90%; max-width: 400px; padding: 30px; border-radius: 10px; text-align: center; background-color: #f2f2f2;">
-    <div id="card-element">
+<div id="pwa-msg" style="display: none">
+    <div
+            style="
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+    >
+        <img src="./TemplateData/PWA msg.png" alt="pwa-msg"/>
+
+        <button
+                id="cancelMsg"
+                style="
+            position: absolute;
+            top: 15%;
+            right: 5%;
+            background-color: #00000090;
+            color: #fff;
+            padding: 6px 9px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: transparent;
+          "
+        >
+            X
+        </button>
+
+        <img id="cancelMsgImage" src="./TemplateData/PWA msg btn.png" alt="close"
+             style="position: absolute;top: 76%;max-height: 70%;max-width: 70%;"/>
     </div>
-    <div id="card-errors" role="alert"></div>
-    <div id="card-cost"></div>
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <p id="btn-cancelPayment" style="width: fit-content; margin-right: 10px; border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">Cancel</p>
-      <button id="btn-submit" style="border: transparent; border-radius: 5px; background-color: #000; color: #fff;font-size: 20px; padding: 10px; cursor: pointer; font-family: Verdana, Geneva, Tahoma, sans-serif;">Submit</button>
-    </div>
-  </div>
-</div>
-<div id="pwa-msg">
-  <img src="./TemplateData/PWA msg.png" alt="pwa-msg">
 </div>
 <script>
-  // window.addEventListener("orientationchange", function() {
-  //   if(window.orientation == 90 || window.orientation == -90){
-  //     document.getElementById('landscape-block-message').style.display = 'block';
-  //     document.getElementById('unity-container').style.display = 'none';
-  //   } else {
-  //     document.getElementById('landscape-block-message').style.display = 'none';
-  //     document.getElementById('unity-container').style.display = 'block';
-  //   }
-  // });
-  // if ('orientation' in screen) {
-  //   screen.orientation.addEventListener('change', function() {
-  //     if(screen.orientation.type.startsWith('landscape')) {
-  //       // Suggest users to switch to portrait mode.
-  //       alert("For the best experience, please use the portrait mode.");
-  //       document.getElementById('landscape-block-message').style.display = 'block';
-  //       document.getElementById('unity-container').style.display = 'none';
-  //     } else {
-  //       document.getElementById('landscape-block-message').style.display = 'none';
-  //       document.getElementById('unity-container').style.display = 'block';
-  //     }
-  //   });
-  //
-  //   try {
-  //     screen.orientation.lock("portrait").catch(function(e) {
-  //       console.log("Orientation lock not supported or denied by the user: ", e);
-  //     });
-  //   } catch (e) {
-  //     console.error("Error trying to lock the orientation: ", e);
-  //   }
-  // } else {
-  //   console.log("Screen Orientation API not supported.");
-  // }
-  // -----------------------------------------------------------------
-  const firebaseConfig = {
-    apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
-    authDomain: "qqweb-b75ae.firebaseapp.com",
-    databaseURL: "https://qqweb-b75ae-default-rtdb.firebaseio.com",
-    projectId: "qqweb-b75ae",
-    storageBucket: "qqweb-b75ae.appspot.com",
-    messagingSenderId: "964235423017",
-    appId: "1:964235423017:web:d8c714d7e198e8e9261b38",
-    measurementId: "G-FW64GXVQ28",
-  }
-  firebase.initializeApp(firebaseConfig);
-  const firebaseAnalytics = firebase.analytics()
+    const firebaseConfig = {
+        apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
+        authDomain: "qqweb-b75ae.firebaseapp.com",
+        databaseURL: "https://qqweb-b75ae-default-rtdb.firebaseio.com",
+        projectId: "qqweb-b75ae",
+        storageBucket: "qqweb-b75ae.appspot.com",
+        messagingSenderId: "964235423017",
+        appId: "1:964235423017:web:d8c714d7e198e8e9261b38",
+        measurementId: "G-FW64GXVQ28",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const firebaseAnalytics = firebase.analytics();
 
-  let currentUser = null
-  let userId = null
-  let unity = null
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
-  const facebookProvider = new firebase.auth.FacebookAuthProvider();
-  const twitterProvider = new firebase.auth.TwitterAuthProvider();
-  // const discordProvider = new firebase.auth.OAuthProvider('oidc.discord')
-  const btnCancelPayment = document.querySelector('#btn-cancelPayment')
-  const stripe = Stripe("pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy")
+    let currentUser = null;
+    let userId = null;
+    let unity = null;
+    let isBreakingScript = false;
+    const dinamicParam = new URLSearchParams(window.location.search).get(
+        "agency"
+    );
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    const facebookProvider = new firebase.auth.FacebookAuthProvider();
+    const twitterProvider = new firebase.auth.TwitterAuthProvider();
+    // const discordProvider = new firebase.auth.OAuthProvider('oidc.discord')
+    const btnCancelPayment = document.querySelector("#btn-cancelPayment");
+    const stripe = Stripe(
+        "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
+    );
 
-function CheckIsPwa() {
-  function isInStandaloneMode() {
-    var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-    const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
-    return res;
-  }
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-  const isAndroid = /Android/.test(navigator.userAgent);
-  const isOnPC = !isIOS && !isAndroid;
-  if (isOnPC) {
-    document.getElementById('pwa-msg').style.display = 'none'; // Hide the PWA message if on PC
-  } else if (!isInStandaloneMode()) {
-    document.getElementById('unity-container').style.display = 'none';
-    document.getElementById('pwa-msg').style.display = 'flex';
-    document.getElementById('pwa-msg').style.height = '100vh';
-    document.getElementById('pwa-msg').style.justifyContent = 'center';
-    document.getElementById('pwa-msg').style.backgroundImage = `url('./TemplateData/bg.png')`;
-    document.getElementById('pwa-msg').style.backgroundPosition = 'center';
-    document.getElementById('pwa-msg').style.backgroundRepeat = 'no-repeat';
-    document.getElementById('pwa-msg').style.backgroundSize = 'cover';
-    return true;
-  }
-  return false;
-}
-
-  function SetUserId(id){
-    userId = id
-
-    // Reference to the user's 'Coins' field in Firebase
-    var coinsRef = firebase.database().ref(`users/${userId}/Coins`);
-// Listener for changes in the 'Coins' field
-    coinsRef.on('value', function(snapshot) {
-      if (snapshot.exists()) {
-        const coins = snapshot.val();
-        //unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', coins.toString());
-      }
-    });
-
-// Reference to the user's 'USDC' field in Firebase
-    var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
-// Listener for changes in the 'USDC' field
-    usdcRef.on('value', function(snapshot) {
-      if (snapshot.exists()) {
-        const usdc = snapshot.val();
-        //unity.SendMessage('JavaScriptManager', 'OnUpdatedUSDC', usdc.toString());
-      }
-    });
-  }
-
-  const options = {
-    layout: {
-      type: 'tabs',
-      defaultCollapsed: true,
-    }
-  };
-  const appearance = {
-    theme: 'flat',
-    variables: { colorPrimaryText: '#262626' }
-  };
-
-  function cancelPayment(){//canceling payment
-    var container = document.querySelector('#form-container')
-    container.style.display = 'none'
-    unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 0, message:
-              'Payment canceled'}))
-  }
-  btnCancelPayment.addEventListener('click', cancelPayment)
-
-  async function StripePurchase(cost){
-    const costNote = document.querySelector('#card-cost')
-    costNote.textContent = ''
-    try {
-      const res = await fetch('https://us-central1-qqweb-b75ae.cloudfunctions.net/createPaymentIntent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: cost * 100,
-        }),
-      })
-      const response = await res.json()
-      const clientSecret = response.clientSecret
-
-      var container = document.querySelector('#form-container')
-      container.style.display = 'flex'
-      const elements = stripe.elements({ clientSecret, appearance });
-      const card = elements.create('payment', options);
-      costNote.textContent = `You will be charged ${cost}$`
-      card.mount('#card-element');
-
-      card.addEventListener('change', function (event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-          displayError.textContent = event.error.message;
-        } else {
-          displayError.textContent = '';
+    function CheckIsPwa() {
+        function isInStandaloneMode() {
+            var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+            const res = displayModes.some(
+                (displayMode) =>
+                    window.matchMedia("(display-mode: " + displayMode + ")").matches
+            );
+            return res;
         }
-      });
-      document.getElementById('btn-submit').addEventListener('click', async () => confirmPaymentWithStripe(stripe, elements));
-    } catch (error) {
-      console.log(error)
-      unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message:
-                'Payment denied from server'}))
-    }
-  }
-  async function confirmPaymentWithStripe(stripe, elements){
-    if (!stripe || !elements) {
-      return
-    }
-    try {
-      const { error } = await stripe.confirmPayment({
-        elements,
-        redirect: "if_required"
-      })
-      if(!error){
-        unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 2, message:
-                  'Payment confirmed'}))
-        var container = document.querySelector('#form-container')
-        container.style.display = 'none'
-      }
-    } catch (error) {
-      console.log(error)
-      unity.SendMessage('JavaScriptManager', 'PurchaseResult', JSON.stringify({result: 1, message:
-                'Payment is not confirmed'}))
-    }
-  }
-  const ReloadPageFromUnity = () => {
-    location.reload()
-  }
-  const CheckUserSession = () => {
-    console.log("Checking session")
-    currentUser ? tellUnityUserInfo(currentUser.uid) : unity.SendMessage('JavaScriptManager', 'AuthFinished','')
-  }
-  //-----------------------------------------------------------------------above is payment!!!!
-  
-  // function GoogleAuth(){
-  //   firebase.auth().signInWithRedirect(googleProvider);
-  //   firebase.auth().getRedirectResult().then(function(result) {
-  //     if (result.credential) {
-  //       console.log(result, 'google auth')
-  //       tellUnityUserInfo(result.user.uid)
-  //       // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
-  //     }
-  //   }).catch(function(error) {
-  //     unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-  //     console.log(error.code, 'google auth');
-  //   });
-  // }
 
-  function GoogleAuth() {
-    firebase.auth().signInWithPopup(googleProvider).then(result => {
-      console.log("Google auth: "+resut)
-      tellUnityUserInfo(result.user.uid)
-    }).catch(err => {
-      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-      console.log(err.code)
-    })
-  }
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isOnPC = !isIOS && !isAndroid;
+        if (!isOnPC && !isInStandaloneMode()) {
+            const msgContainer = document.getElementById("pwa-msg");
+            const cancelBtn = document.getElementById("cancelMsg");
+            const cancelBtnImage = document.getElementById("cancelMsgImage")
+            const unityContainer = document.getElementById("unity-container");
+            unityContainer.style.display = "none";
+            msgContainer.style.display = "flex";
+            msgContainer.style.height = "100vh";
+            msgContainer.style.justifyContent = "center";
+            msgContainer.style.backgroundImage = `url('./TemplateData/PWA\ bg.png')`;
+            msgContainer.style.backgroundPosition = "center";
+            msgContainer.style.backgroundRepeat = "no-repeat";
+            msgContainer.style.backgroundSize = "cover";
+            cancelBtn.addEventListener("click", () => {
+                unityContainer.style.display = "block";
+                msgContainer.style.display = "none";
+            });
+            cancelBtnImage.addEventListener("click", () => {
+                unityContainer.style.display = "block";
+                msgContainer.style.display = "none";
+            });
+            isBreakingScript = true;
+            // return true
+        }
+        isBreakingScript = false;
+        // return false
+    }
 
-  function FacebookAuth(){
-    firebase.auth().signInWithPopup(facebookProvider)
-            .then(result => {
-              tellUnityUserInfo(result.user.uid)
-              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
-            })
-            .catch(err => {
-              unity.SendMessage('JavaScriptManager','FailedToAuth');
-              console.log(err.code)
-            })
-  }
-  function TwitterAuth() {
-    firebase.auth().signInWithPopup(twitterProvider).then(result => {
-      console.log("Twitter auth: "+resut)
-      tellUnityUserInfo(result.user.uid)
-    }).catch(err => {
-      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-      console.log(err.code)
-    })
-  }
-  // -----------------------------------------------------DISCORD AUTH
-  function DiscordAuth() {
-    const popup = window.open('https://your-region-your-project-id.cloudfunctions.net/startDiscordAuth', 'DiscordLogin', 'width=500,height=800');
+    CheckIsPwa();
 
-    window.addEventListener('message', (event) => {
-      if (event.origin !== window.location.origin) return;
-      const { token } = event.data;
-      firebase.auth().signInWithCustomToken(token)
-        .then((res) => {
-          console.log('Successfully authenticated', res);
-          popup.close();
-        })
-        .catch(error => {
-          console.error('Failed to authenticate', error);
+    function SetUserId(id) {
+        userId = id;
+
+        // Reference to the user's 'Coins' field in Firebase
+        var coinsRef = firebase.database().ref(`users/${userId}/Coins`);
+        // Listener for changes in the 'Coins' field
+        coinsRef.on("value", function (snapshot) {
+            if (snapshot.exists()) {
+                const coins = snapshot.val();
+                //unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', coins.toString());
+            }
         });
-    });
-  }
-  //  -----------------------------------------------------DISCORD AUTH
-  function SignInAnonymous(){
-    firebase.auth().signInAnonymously()
-      .then((userCredential) => {
-        tellUnityUserInfo(userCredential.user.uid);
-      })
-      .catch((error) => {
-        unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-      });
-  }
-  const SignOut = () => {
-    firebase.auth().signOut().then(() => {
-      ReloadPageFromUnity();
-    }).catch((error) => {
-      console.log('greska')
-    });
-  }
 
-  // -----------------separate old code
-  window.addEventListener("load", function () {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("ServiceWorker.js");
+        // Reference to the user's 'USDC' field in Firebase
+        var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
+        // Listener for changes in the 'USDC' field
+        usdcRef.on("value", function (snapshot) {
+            if (snapshot.exists()) {
+                const usdc = snapshot.val();
+                unity.SendMessage(
+                    "JavaScriptManager",
+                    "OnUpdatedUSDC",
+                    usdc.toString()
+                );
+            }
+        });
     }
-  });
-  var container = document.querySelector("#unity-container");
-  var canvas = document.querySelector("#unity-canvas");
-  var loadingBar = document.querySelector("#unity-loading-bar");
-  var progressBarFull = document.querySelector("#unity-progress-bar-full");
-  var warningBanner = document.querySelector("#unity-warning");
 
-  // Shows a temporary message banner/ribbon for a few seconds, or
-  // a permanent error message on top of the canvas if type=='error'.
-  // If type=='warning', a yellow highlight color is used.
-  // Modify or remove this function to customize the visually presented
-  // way that non-critical warnings and error messages are presented to the
-  // user.
-  function unityShowBanner(msg, type) {
-    function updateBannerVisibility() {
-      warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+    function updateMarketingParam(param) {
+        if (!param) {
+            console.log("No dynamicParam found in URL");
+            return;
+        }
+        const paramRef = firebase.database().ref("marketing/" + param);
+        paramRef.once("value", function (snapshot) {
+            if (snapshot.exists()) {
+                const currentCount = snapshot.val();
+                paramRef.set(currentCount + 1, function (error) {
+                    if (error) {
+                        console.error("Error updating marketing parameter:", error);
+                    } else {
+                        console.log(
+                            `Marketing parameter '${param}' incremented successfully.`
+                        );
+                    }
+                });
+            } else {
+                paramRef.set(1, function (error) {
+                    if (error) {
+                        console.error("Error creating marketing parameter:", error);
+                    } else {
+                        console.log(
+                            `Marketing parameter '${param}' created successfully.`
+                        );
+                    }
+                });
+            }
+        });
     }
-    var div = document.createElement('div');
-    div.innerHTML = msg;
-    warningBanner.appendChild(div);
-    if (type == 'error') div.style = 'background: red; padding: 10px;';
-    else {
-      if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-      setTimeout(function() {
-        warningBanner.removeChild(div);
+
+    updateMarketingParam(dinamicParam);
+
+    const ReloadPageFromUnity = () => {
+        location.reload();
+    };
+    const CheckUserSession = () => {
+        console.log("Checking session");
+        if (!unity) {
+            console.log("Unity instance is not ready.");
+            return; // Exit the function if unity is not initialized
+        }
+        if (currentUser) {
+            tellUnityUserInfo(currentUser.uid);
+        } else {
+            unity.SendMessage("JavaScriptManager", "AuthFinished", "");
+        }
+    };
+
+    function LinkingAnonimousUser(providerName) {
+        var user = firebase.auth().currentUser;
+        if (!user) return; //if user doesn't exsist that means that client is not logged in
+        let provider = null;
+        switch (
+            providerName //choose a provider based on string that is provided by specific button from unity
+            ) {
+            case "google":
+                provider = googleProvider;
+                break;
+            case "facebook":
+                provider = facebookProvider;
+                break;
+            case "twitter":
+                provider = twitterProvider;
+                break;
+            default:
+                console.log("Unsupported provider");
+                return;
+        }
+        user
+            .linkWithPopup(provider)
+            .then((result) => {
+                //call sign up with specific provider
+                var credential = result.credential;
+                var user = result.user;
+                unity.SendMessage(
+                    "JavaScriptManager",
+                    "SuccessLinkingLoginAccount"
+                );
+            })
+            .catch((error) => {
+                console.log(error);
+                unity.SendMessage("JavaScriptManager", "UserAlreadyHasAccount");
+            });
+    }
+
+    function GoogleAuth() {
+        firebase
+            .auth()
+            .signInWithPopup(googleProvider)
+            .then((result) => {
+                console.log("Google auth: " + resut);
+                tellUnityUserInfo(result.user.uid);
+            })
+            .catch((err) => {
+                unity.SendMessage("JavaScriptManager", "FailedToAuth");
+                console.log(err.code);
+            });
+    }
+
+    function FacebookAuth() {
+        firebase
+            .auth()
+            .signInWithPopup(facebookProvider)
+            .then((result) => {
+                tellUnityUserInfo(result.user.uid);
+                // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+            })
+            .catch((err) => {
+                unity.SendMessage("JavaScriptManager", "FailedToAuth");
+                console.log(err.code);
+            });
+    }
+
+    function TwitterAuth() {
+        firebase
+            .auth()
+            .signInWithPopup(twitterProvider)
+            .then((result) => {
+                console.log("Twitter auth: " + resut);
+                tellUnityUserInfo(result.user.uid);
+            })
+            .catch((err) => {
+                unity.SendMessage("JavaScriptManager", "FailedToAuth");
+                console.log(err.code);
+            });
+    }
+
+    // -----------------------------------------------------DISCORD AUTH
+    function DiscordAuth() {
+        const popup = window.open(
+            "https://your-region-your-project-id.cloudfunctions.net/startDiscordAuth",
+            "DiscordLogin",
+            "width=500,height=800"
+        );
+
+        window.addEventListener("message", (event) => {
+            if (event.origin !== window.location.origin) return;
+            const {token} = event.data;
+            firebase
+                .auth()
+                .signInWithCustomToken(token)
+                .then((res) => {
+                    console.log("Successfully authenticated", res);
+                    popup.close();
+                })
+                .catch((error) => {
+                    console.error("Failed to authenticate", error);
+                });
+        });
+    }
+
+    //  -----------------------------------------------------DISCORD AUTH
+    function SignInAnonymous() {
+        firebase
+            .auth()
+            .signInAnonymously()
+            .then((userCredential) => {
+                tellUnityUserInfo(userCredential.user.uid);
+            })
+            .catch((error) => {
+                unity.SendMessage("JavaScriptManager", "FailedToAuth");
+            });
+    }
+
+    const SignOut = () => {
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                ReloadPageFromUnity();
+            })
+            .catch((error) => {
+                console.log("greska");
+            });
+    };
+
+    function tellUnityUserInfo(userId) {
+        var ref = firebase.database().ref(`users/${userId}`);
+
+        ref
+            .once("value", function (snapshot) {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    console.log("User Data Retrieved:", userData);
+                    unity.SendMessage(
+                        "JavaScriptManager",
+                        "AuthFinished",
+                        JSON.stringify({UserId: userId, IsNewAccount: false, Agency: dinamicParam})
+                    );
+                } else {
+                    console.log("No user data available for user ID:", userId);
+                    unity.SendMessage(
+                        "JavaScriptManager",
+                        "AuthFinished",
+                        JSON.stringify({UserId: userId, IsNewAccount: true, Agency: dinamicParam})
+                    );
+                }
+            })
+            .catch(function (error) {
+                console.error("Error fetching user data:", error);
+                unity.SendMessage("JavaScriptManager", "FailedToAuth");
+            });
+    }
+
+    //Unity stuff
+    window.addEventListener("load", function () {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("ServiceWorker.js");
+        }
+    });
+
+    var container = document.querySelector("#unity-container");
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingBar = document.querySelector("#unity-loading-bar");
+    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+    var warningBanner = document.querySelector("#unity-warning");
+
+    // Shows a temporary message banner/ribbon for a few seconds, or
+    // a permanent error message on top of the canvas if type=='error'.
+    // If type=='warning', a yellow highlight color is used.
+    // Modify or remove this function to customize the visually presented
+    // way that non-critical warnings and error messages are presented to the
+    // user.
+    function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+            warningBanner.style.display = warningBanner.children.length
+                ? "block"
+                : "none";
+        }
+
+        var div = document.createElement("div");
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == "error") div.style = "background: red; padding: 10px;";
+        else {
+            if (type == "warning")
+                div.style = "background: yellow; padding: 10px;";
+            setTimeout(function () {
+                warningBanner.removeChild(div);
+                updateBannerVisibility();
+            }, 5000);
+        }
         updateBannerVisibility();
-      }, 5000);
     }
-    updateBannerVisibility();
-  }
 
-  var buildUrl = "Build";
-  var loaderUrl = buildUrl + "/public.loader.js";
-  var config = {
-    dataUrl: buildUrl + "/public.data",
-    frameworkUrl: buildUrl + "/public.framework.js",
-    codeUrl: buildUrl + "/public.wasm",
-    streamingAssetsUrl: "StreamingAssets",
-    companyName: "MagmaDev",
-    productName: "Qoomon Quest",
-    productVersion: "1.0",
-    showBanner: unityShowBanner,
-  };
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/QoomonQuest.loader.js";
+    var config = {
+        dataUrl: buildUrl + "/QoomonQuest.data",
+        frameworkUrl: buildUrl + "/QoomonQuest.framework.js",
+        codeUrl: buildUrl + "/QoomonQuest.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "MagmaDev",
+        productName: "Qoomon Quest",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+    };
 
-  // By default Unity keeps WebGL canvas render target size matched with
-  // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-  // Set this to false if you want to decouple this synchronization from
-  // happening inside the engine, and you would instead like to size up
-  // the canvas DOM size and WebGL render target sizes yourself.
-  // config.matchWebGLToCanvasSize = false;
+    // By default Unity keeps WebGL canvas render target size matched with
+    // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+    // Set this to false if you want to decouple this synchronization from
+    // happening inside the engine, and you would instead like to size up
+    // the canvas DOM size and WebGL render target sizes yourself.
+    // config.matchWebGLToCanvasSize = false;
 
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    // Mobile device style: fill the whole browser client area with the game canvas:
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-    document.getElementsByTagName('head')[0].appendChild(meta);
-  }
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        var meta = document.createElement("meta");
+        meta.name = "viewport";
+        meta.content =
+            "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+        document.getElementsByTagName("head")[0].appendChild(meta);
+    }
 
-  loadingBar.style.display = "block";
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        if (isBreakingScript) return;
+        createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+        })
+            .then((unityInstance) => {
+                loadingBar.style.display = "none";
+                console.log("I will assign Unity instance now");
+                unity = unityInstance;
 
-  var script = document.createElement("script");
-  script.src = loaderUrl;
-  script.onload = () => {
-    if(CheckIsPwa()) return
-    createUnityInstance(canvas, config, (progress) => {
-      progressBarFull.style.width = 100 * progress + "%";
-    }).then((unityInstance) => {
-      loadingBar.style.display = "none";
-      unity = unityInstance;
+                firebase.auth().onAuthStateChanged(function (user) {
+                    if (user && unity) {
+                        // User is signed in, log user info to console
+                        console.log(user, "user is logged in");
+                        currentUser = user;
+                        tellUnityUserInfo(currentUser.uid);
+                    } else {
+                        // No user is signed in, log to console
+                        console.log("No user is logged in.");
+                    }
+                });
+            })
+            .catch((message) => {
+                alert(message);
+            });
+    };
+    document.body.appendChild(script);
+    firebaseAnalytics.logEvent("page_view");
 
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user && unity) {
-          // User is signed in, log user info to console
-          console.log(user, 'user is logged in')
-          currentUser = user
-          tellUnityUserInfo(currentUser.uid)
-        } else {
-          // No user is signed in, log to console
-          console.log("No user is logged in.");
-        }
-      });
-    }).catch((message) => {
-      alert(message);
-    });
-  };
-  document.body.appendChild(script);
-  firebaseAnalytics.logEvent('page_view')
-
-  function tellUnityUserInfo(userId){
-    var ref = firebase.database().ref(`users/${userId}`);
-
-    ref.once('value', function(snapshot) {
-        if (snapshot.exists()) {
-            const userData = snapshot.val();
-            console.log("User Data Retrieved:", userData);
-            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: false}));
-        } else {
-            console.log("No user data available for user ID:", userId);
-            unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: userId, IsNewAccount: true}));
-        }
-    }).catch(function(error) {
-      console.error("Error fetching user data:", error);
-      unity.SendMessage('JavaScriptManager', 'FailedToAuth');
-    });
-  }
+    loadingBar.style.display = "block";
 </script>
 </body>
 </html>

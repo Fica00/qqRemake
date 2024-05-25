@@ -52,6 +52,16 @@ public class CardObject : MonoBehaviour
         ManageBeheviour();
 
         GameplayManager.UpdatedGameState += ManageBeheviour;
+        CheckForLaneEffects();
+    }
+
+    private void CheckForLaneEffects()
+    {
+        LaneAbilityQommonEnergyChangeForN _costChange = FindObjectOfType<LaneAbilityQommonEnergyChangeForN>();
+        if (_costChange && _costChange.IsActive)
+        {
+            Stats.Energy += _costChange.Change;
+        }
     }
 
     private void OnDisable()

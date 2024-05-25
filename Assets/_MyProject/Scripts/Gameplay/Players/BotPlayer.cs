@@ -11,28 +11,32 @@ public class BotPlayer : GameplayPlayer
     private bool hasPlayedThisRound;
     private BotType botType;
 
-    public static List<int> CardsInDeck = new()
-    {
-        28,
-        8,
-        7,
-        29,
-        1,
-        0,
-        11,
-        3,
-        4,
-        21,
-        9,
-        5
-    };
+    public static List<DeckData> DecksForRandom = DeckInitializer.InitializeDecks();
+
+    public static List<int> CardsInDeck;  
 
     public static string Name;
     public static string DeckName= "";
     
     public override void Setup()
     {
+        CardsInDeck = ChooseRandomDack().CardsInDeck;
         botType = BotTypeSelection.BotType;
+        InitializeDeck();
+        ShuffleDeck();
+        InitializeGame();
+    }
+
+    private void InitializeGame()
+    {
+        CardsInHand = new List<CardObject>();
+        CardsInDiscardPile = new List<CardObject>();
+        GameplayManager.UpdatedGameState += ManageGameState;
+        playerDisplay.Setup(this);
+    }
+
+    private void InitializeDeck()
+    {
         List<int> _cardsInDeck = CardsInDeck;
         base.CardsInDeck = new List<CardObject>();
         foreach (var _cardInDeck in _cardsInDeck)
@@ -41,11 +45,6 @@ public class BotPlayer : GameplayPlayer
             _cardObject.transform.SetParent(transform);
             base.CardsInDeck.Add(_cardObject);
         }
-        ShuffleDeck();
-        CardsInHand = new List<CardObject>();
-        CardsInDiscardPile = new List<CardObject>();
-        GameplayManager.UpdatedGameState += ManageGameState;
-        playerDisplay.Setup(this);
     }
 
     private void OnDisable()
@@ -208,5 +207,11 @@ public class BotPlayer : GameplayPlayer
     public static void GenerateNewData()
     {
         Name = "Player"+Random.Range(1000,10000);
+    }
+
+    public DeckData ChooseRandomDack()
+    {
+        int _randomIndex = Random.Range(0, DecksForRandom.Count);
+        return DecksForRandom[_randomIndex];
     }
 }

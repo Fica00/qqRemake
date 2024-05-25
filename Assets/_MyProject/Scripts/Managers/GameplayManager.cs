@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using Photon.Pun;
+using UnityEditor.Rendering;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -380,6 +381,7 @@ public class GameplayManager : MonoBehaviour
 
         LaneAbility _laneAbility = GetLaneAbility();
         yield return RevealLocation(_laneAbility.Id);
+        Destroy(_laneAbility.gameObject);
     }
     
     protected IEnumerator ShowRevealText()
@@ -539,7 +541,6 @@ public class GameplayManager : MonoBehaviour
         {
             currentBet = 8;
         }
-        
         UpdatedBet?.Invoke();
     }
 

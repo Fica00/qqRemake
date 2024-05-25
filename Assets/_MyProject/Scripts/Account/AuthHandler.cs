@@ -8,8 +8,9 @@ public class AuthHandler : MonoBehaviour
     public static AuthHandler Instance;
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
-
+    
     public static bool CanAuth;
+    public static bool IsGuest;
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class AuthHandler : MonoBehaviour
         }
         else
         {
-            Auth(_loginData.UserId, _loginData.IsNewAccount);
+            Auth(_loginData.UserId, _loginData.IsNewAccount, _loginData.Agency);
         }
     }
 
@@ -75,18 +76,21 @@ public class AuthHandler : MonoBehaviour
     {
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.LoginTwitter();
+        IsGuest = false;
     }    
     
     public void LoginWithDiscord(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.LoginWithDiscord();
+        IsGuest = false;
     }
 
     public void LoginWithGoogle(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.GoogleAuth();
+        IsGuest = false;
     }
     
     public void AnonymousSignIn(Action<bool> _callBack)
@@ -98,22 +102,24 @@ public class AuthHandler : MonoBehaviour
             {
                 HandleLoginResult(_status,callBackForOAUTh,false);
             });
+            IsGuest = true;
         }
         else
         {
             JavaScriptManager.Instance.AnonymousAuth();
+            IsGuest = true;
         }
     }
 
-    public void Auth(string _id, bool _isNewAccount)
+    public void Auth(string _id, bool _isNewAccount, string _agency="")
     {
         FirebaseManager.Instance.SignIn(_id, (_status) =>
         {
-            HandleLoginResult(_status,callBackForOAUTh, _isNewAccount);
+            HandleLoginResult(_status,callBackForOAUTh, _isNewAccount, _agency);
         });
     }
 
-    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount)
+    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount, string _agency = "")
     {
         if (!_status)
         {
@@ -133,7 +139,7 @@ public class AuthHandler : MonoBehaviour
             return;
         }
         
-        Initialization.Instance.CheckForStartingData(_isNewAccount);
+        Initialization.Instance.CheckForStartingData(_isNewAccount, _agency);
     }
 
     public void AuthFailed()
