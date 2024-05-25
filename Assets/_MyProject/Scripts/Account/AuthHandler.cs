@@ -10,7 +10,7 @@ public class AuthHandler : MonoBehaviour
     private Action<bool> callBackForOAUTh;
     
     public static bool CanAuth;
-    public static bool IsGuest;
+    public static bool IsGuest = true;
 
     private void Awake()
     {

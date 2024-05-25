@@ -46,6 +46,7 @@ public class RegisterAnonymousHandler : MonoBehaviour
 
     private void CheckIsGuest()
     {
+        
         if(AuthHandler.IsGuest)
         {
             return;
