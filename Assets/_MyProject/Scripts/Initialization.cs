@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Initialization : MonoBehaviour
@@ -45,6 +46,11 @@ public class Initialization : MonoBehaviour
                 {
                     FinishInit();
                     DataManager.Instance.PlayerData.Agency = _agency;
+                    
+                    if (AgencyManager.Instance.DoesAgencyExist(_agency))
+                    {
+                        DataManager.Instance.PlayerData.Exp = PlayerData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level];
+                    }
                 }
                 else
                 {
