@@ -20,15 +20,22 @@ public class WithdrawalPanel : MonoBehaviour
     {
         max.onClick.AddListener(SetAmountToMax);
         confirm.onClick.AddListener(Confirm);
+        PlayerData.UpdatedUserWalletAddress += Setup;
 
+        Setup();
+    }
+
+    private void Setup()
+    {
         address.text = DataManager.Instance.PlayerData.UserWalletAddress;
         amount.text = string.Empty;
     }
-
+    
     private void OnDestroy()
     {
         max.onClick.RemoveListener(SetAmountToMax);
         confirm.onClick.RemoveListener(Confirm);
+        PlayerData.UpdatedUserWalletAddress -= Setup;
     }
 
     private void SetAmountToMax()
@@ -101,6 +108,9 @@ public class WithdrawalPanel : MonoBehaviour
             RequestTime = DateTime.UtcNow,
         };
 
+        ManageInteractables(false);
+        Debug.Log(11111);
+        
         FirebaseManager.Instance.RequestWithdrawal(_withdrawalData, _ =>
         {
             DataManager.Instance.PlayerData.USDC -= _amount;

@@ -177,6 +177,20 @@
             );
           }
         });
+
+        // Reference to the user's 'WalletAddress' field in Firebase
+        var usdcRef = firebase.database().ref(`users/${userId}/UserWalletAddress`);
+        // Listener for changes in the 'USDC' field
+        usdcRef.on("value", function (snapshot) {
+          if (snapshot.exists()) {
+            const wallet = snapshot.val();
+            unity.SendMessage(
+                    "JavaScriptManager",
+                    "OnUpdatedWalletAddress",
+                    wallet.toString()
+            );
+          }
+        });
       }
 
       function updateMarketingParam(param) {
@@ -271,51 +285,60 @@
           .auth()
           .signInWithPopup(googleProvider)
           .then((result) => {
-            console.log("Google auth: " + resut);
+            console.log("Google auth: " + result);
             tellUnityUserInfo(result.user.uid);
+            setGuestStatus(result.user.uid, false); // Set isGuest to false
           })
           .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
             console.log(err.code);
           });
       }
-
       function FacebookAuth() {
         firebase
           .auth()
           .signInWithPopup(facebookProvider)
           .then((result) => {
             tellUnityUserInfo(result.user.uid);
-            // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+            setGuestStatus(result.user.uid, false); // Set isGuest to false
           })
           .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
             console.log(err.code);
           });
       }
-
       function TwitterAuth() {
         firebase
           .auth()
           .signInWithPopup(twitterProvider)
           .then((result) => {
-            console.log("Twitter auth: " + resut);
+            console.log("Twitter auth: " + result);
             tellUnityUserInfo(result.user.uid);
+            setGuestStatus(result.user.uid, false); // Set isGuest to false
           })
           .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
             console.log(err.code);
           });
       }
-
-      // -----------------------------------------------------DISCORD AUTH
+      function SignInAnonymous() {
+        firebase
+          .auth()
+          .signInAnonymously()
+          .then((userCredential) => {
+            tellUnityUserInfo(userCredential.user.uid);
+            setGuestStatus(userCredential.user.uid, true); // Set isGuest to true
+          })
+          .catch((error) => {
+            unity.SendMessage("JavaScriptManager", "FailedToAuth");
+          });
+      }
       function DiscordAuth() {
         const popup = window.open(
           "https://your-region-your-project-id.cloudfunctions.net/startDiscordAuth",
           "DiscordLogin",
           "width=500,height=800"
         );
-
         window.addEventListener("message", (event) => {
           if (event.origin !== window.location.origin) return;
           const { token } = event.data;
@@ -324,6 +347,7 @@
             .signInWithCustomToken(token)
             .then((res) => {
               console.log("Successfully authenticated", res);
+              setGuestStatus(res.user.uid, false); // Set isGuest to false
               popup.close();
             })
             .catch((error) => {
@@ -368,20 +392,59 @@
               unity.SendMessage(
                 "JavaScriptManager",
                 "AuthFinished",
-                JSON.stringify({ UserId: userId, IsNewAccount: false, Agency:dinamicParam })
+                JSON.stringify({
+                  UserId: userId,
+                  IsNewAccount: false,
+                  Agency: dinamicParam,
+                })
               );
             } else {
               console.log("No user data available for user ID:", userId);
+              // Kada korisnik nije pronađen, postavljamo IsNewAccount na true
               unity.SendMessage(
                 "JavaScriptManager",
                 "AuthFinished",
-                JSON.stringify({ UserId: userId, IsNewAccount: true , Agency:dinamicParam})
+                JSON.stringify({
+                  UserId: userId,
+                  IsNewAccount: true,
+                  Agency: dinamicParam,
+                })
               );
+              // Dodajemo novog korisnika u bazu sa poljem isGuest postavljenim na false
+              ref.set({ isGuest: false });
             }
           })
           .catch(function (error) {
             console.error("Error fetching user data:", error);
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
+          });
+      }
+
+      function setGuestStatus(userId, isGuest) {
+        var ref = firebase.database().ref(`users/${userId}`);
+        ref.update({ isGuest: isGuest });
+      }
+
+      function updateGuestStatusForExistingUser(userId) {
+        var ref = firebase.database().ref(`users/${userId}`);
+        ref
+          .once("value", function (snapshot) {
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
+              if (!("isGuest" in userData)) {
+                const isGuest = userData.providerData
+                  ? userData.providerData.some(
+                      (provider) => provider.providerId === "anonymous"
+                    )
+                  : false;
+                ref.update({ isGuest: isGuest });
+              }
+            } else {
+              console.log("User data does not exist for user ID:", userId);
+            }
+          })
+          .catch(function (error) {
+            console.error("Error fetching user data:", error);
           });
       }
 
@@ -469,12 +532,11 @@
 
             firebase.auth().onAuthStateChanged(function (user) {
               if (user && unity) {
-                // User is signed in, log user info to console
                 console.log(user, "user is logged in");
                 currentUser = user;
                 tellUnityUserInfo(currentUser.uid);
+                updateGuestStatusForExistingUser(currentUser.uid); // Update isGuest status for existing user
               } else {
-                // No user is signed in, log to console
                 console.log("No user is logged in.");
               }
             });

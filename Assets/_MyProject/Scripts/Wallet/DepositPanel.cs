@@ -12,7 +12,12 @@ public class DepositPanel : MonoBehaviour
     private void OnEnable()
     {
         copyAddress.onClick.AddListener(CopyAddress);
+        PlayerData.UpdatedUserWalletAddress += Setup;
+        Setup();
+    }
 
+    private void Setup()
+    {
         string _walletAddress = DataManager.Instance.PlayerData.UserWalletAddress;
         addressDisplay.text = _walletAddress;
         if (!string.IsNullOrEmpty(_walletAddress))
@@ -25,6 +30,7 @@ public class DepositPanel : MonoBehaviour
     private void OnDisable()
     {
         copyAddress.onClick.RemoveListener(CopyAddress);
+        PlayerData.UpdatedUserWalletAddress -= Setup;
     }
 
     private void CopyAddress()
