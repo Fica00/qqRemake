@@ -173,6 +173,15 @@ public class JavaScriptManager : MonoBehaviour
         if (_response.Agency is not null)
         {
             Debug.Log("Got agency not null: " + _response.Agency);
+            if (AuthHandler.Instance == null)
+            {
+                Debug.Log("Auth handler is null");
+                return;
+            }
+            
+            Debug.Log("Found Auth handler");
+            Debug.Log(SceneManager.CurrentSceneName);
+            
             AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.Agency);
         }
         else
