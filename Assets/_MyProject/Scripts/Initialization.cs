@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class Initialization : MonoBehaviour
@@ -43,7 +44,7 @@ public class Initialization : MonoBehaviour
             {
                 if (_status)
                 {
-                    FinishInit();
+                    AuthOnServer();
                     DataManager.Instance.PlayerData.Agency = _agency;
                 }
                 else
@@ -54,6 +55,29 @@ public class Initialization : MonoBehaviour
             return;
         }
 
+        AuthOnServer();
+    }
+
+    private void AuthOnServer()
+    {
+        HttpCommunicationHandler.Instance.Authenticate(FirebaseManager.Instance.PlayerId, HandleServerAuthFinished);
+    }
+
+    private void HandleServerAuthFinished(bool _status, string _data)
+    {
+        if (!_status)
+        {
+            DialogsManager.Instance.OkDialog.Setup("Something went wrong while connecting to the server, try again later");
+            return;
+        }
+
+        AuthToken _token = JsonConvert.DeserializeObject<AuthToken>(_data);
+        if (_token.Token == "Invalid user")
+        {
+            DialogsManager.Instance.OkDialog.Setup("Invalid user during auth, try again later");
+            return;
+        }
+        SocketServerCommunication.Instance.SetAuthToken(_token.Token);
         FinishInit();
     }
 
