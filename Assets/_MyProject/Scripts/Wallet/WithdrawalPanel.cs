@@ -27,7 +27,7 @@ public class WithdrawalPanel : MonoBehaviour
 
     private void Setup()
     {
-        address.text = DataManager.Instance.PlayerData.UserWalletAddress;
+        address.text = string.Empty;
         amount.text = string.Empty;
     }
     
@@ -100,7 +100,7 @@ public class WithdrawalPanel : MonoBehaviour
         WithdrawalData _withdrawalData = new WithdrawalData
         {
             WithdrawalId = Guid.NewGuid().ToString(),
-            WalletAddress = DataManager.Instance.PlayerData.UserWalletAddress,
+            WalletAddress = address.text,
             Amount = _amount,
             Status = WithdrawalStatus.Created,
             UserId = FirebaseManager.Instance.PlayerId,
