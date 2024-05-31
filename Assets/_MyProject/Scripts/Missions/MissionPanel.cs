@@ -36,6 +36,7 @@ public class MissionPanel : MonoBehaviour
 
     private void Close()
     {
+        
         SceneManager.Instance.LoadMainMenu();
     }
 
@@ -104,16 +105,25 @@ public class MissionPanel : MonoBehaviour
 
     private void TryClaim(int _rewardNumber)
     {
+        
+
         int _choseQoomon = DoTryClaim(_rewardNumber);
         if (_choseQoomon==-1)
         {
+            
+
             return;
         }
+        
+
         qoomonUnlockingPanel.Setup(_choseQoomon, () => SceneManager.Instance.ReloadScene());
+        
+
     }
 
     public static int DoTryClaim(int _rewardNumber)
     {
+
         if (DataManager.Instance.PlayerData.WeeklyLoginAmount < _rewardNumber)
         {
             return -1;
@@ -124,17 +134,19 @@ public class MissionPanel : MonoBehaviour
             return -1;
         }
 
+
         int _choseQoomon = DataManager.Instance.PlayerData.GetQoomonFromPool();
         DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
+        
         if (_choseQoomon != -1)
         {
             DataManager.Instance.PlayerData.AddQoomon(_choseQoomon);
             return _choseQoomon;
         }
 
-        DataManager.Instance.PlayerData.Exp += 15;
-        SceneManager.Instance.ReloadScene();
+        DataManager.Instance.PlayerData.Exp += 15;       
 
+        SceneManager.Instance.ReloadScene();
         return -1;
     }
 

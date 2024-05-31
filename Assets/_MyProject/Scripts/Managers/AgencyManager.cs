@@ -19,6 +19,7 @@ public class AgencyManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
         else
         {

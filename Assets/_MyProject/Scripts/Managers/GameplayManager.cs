@@ -6,6 +6,7 @@ using UnityEngine;
 using DG.Tweening;
 using Photon.Pun;
 using UnityEditor.Rendering;
+using Unity.VisualScripting;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -534,14 +535,36 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+
+    private bool hasEnteredOnceForOpponent = false;
+    private bool hasQuadrupled = false;
     public virtual void OpponentAcceptedBet()
     {
-        currentBet *= 2;
+        AdjustBetAmountForOpponent();
+        
         if (currentBet>8)
         {
             currentBet = 8;
         }
         UpdatedBet?.Invoke();
+    }
+
+    private void AdjustBetAmountForOpponent()
+    {
+        if((!BetClickHandler.Instance.DidDoubledForLastStep || hasEnteredOnceForOpponent) && !hasQuadrupled)
+        {
+            currentBet *= 4;
+            Debug.Log("CurrentBet " + currentBet);
+        }
+        else if(!hasEnteredOnceForOpponent)
+        {
+            hasEnteredOnceForOpponent = true;
+        }
+        else
+        {
+            currentBet *= 2;
+            hasQuadrupled = true;
+        }
     }
 
     public void OpponentFinished()

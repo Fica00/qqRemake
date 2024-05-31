@@ -21,8 +21,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool didIBet;
     private bool didSomeoneIncreaseInLastRound;
     private bool didSomeoneBetBeforeLastRound;
+    private bool didDoubledForLastStep = false;
 
     public bool DidIBetThisRound { get; private set; }
+    public bool DidDoubledForLastStep => didDoubledForLastStep;
 
 
     private void Awake()
@@ -78,7 +80,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         if (GameplayManager.Instance.IsLastRound)
         {
-            didSomeoneIncreaseInLastRound = true;
+            Debug.Log(2);
+            
+                didSomeoneIncreaseInLastRound = true;
+            
         }
         else
         {
@@ -135,6 +140,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (GameplayManager.Instance.IsLastRound)
         {
+            Debug.Log(1);
             didSomeoneIncreaseInLastRound = true;
         }
         else
@@ -193,31 +199,48 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void ShowNextRoundBet()
     {
-
-        int _currentBet = GameplayManager.Instance.CurrentBet;
-        _currentBet *= 2;
-
-        if (GameplayManager.Instance.IsLastRound && GameplayManager.Instance.GameplayState == GameplayState.ResolvingEndOfRound)
+        int _currentBetAmount = GetInitialBetAmount();
+        
+        if (ShouldClearNextBetDisplay())
         {
             nextBetDisplay.text = string.Empty;
             return;
         }
+        _currentBetAmount = AdjustBetAmount(_currentBetAmount);
 
-        if (didSomeoneIncreaseInLastRound)
+        if (_currentBetAmount>maxBet)
         {
-           
-         //  Zbog ovog dela nekada pokazuje 2 na orbu, a 8 na next text-u
-         //   _currentBet *= 2;
-
-        }
-
-       
-        if (_currentBet>maxBet)
-        {
-            _currentBet = maxBet;
+            _currentBetAmount = maxBet;
         }
         
-        nextBetDisplay.text = "Next: " + _currentBet;
+        nextBetDisplay.text = "Next: " + _currentBetAmount;
+
+    }
+
+    private int AdjustBetAmount(int _betAmount)
+    {
+        if (didSomeoneIncreaseInLastRound && !didDoubledForLastStep)
+        {
+           
+            _betAmount *= 2;
+            didDoubledForLastStep=true;
+        }
+        if(didDoubledForLastStep &&(_betAmount<4))
+        {
+            _betAmount *= 2;
+        }
+
+        return _betAmount;
+    }
+
+    private int GetInitialBetAmount()
+    {
+      return  GameplayManager.Instance.CurrentBet * 2;
+    }
+
+    private static bool ShouldClearNextBetDisplay()
+    {
+        return GameplayManager.Instance.IsLastRound && GameplayManager.Instance.GameplayState == GameplayState.ResolvingEndOfRound;
     }
 
     public void OnPointerDown(PointerEventData _eventData)

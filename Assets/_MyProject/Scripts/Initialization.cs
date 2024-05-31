@@ -59,14 +59,13 @@ public class Initialization : MonoBehaviour
             });
             return;
         }
-
         FinishInit();
     }
 
     private void FinishInit()
     {
         AudioManager.Instance.Init();
-
+        
         if (DataManager.Instance.PlayerData.HasFinishedTutorial == 0 && DataManager.Instance.PlayerData.Exp == 0)
         {
             DataManager.Instance.Subscribe();

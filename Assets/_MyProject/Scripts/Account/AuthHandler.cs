@@ -113,38 +113,32 @@ public class AuthHandler : MonoBehaviour
 
     public void Auth(string _id, bool _isNewAccount, string _agency="")
     {
-        Debug.Log(123);
         FirebaseManager.Instance.SignIn(_id, (_status) =>
         {
-            Debug.Log(456);
             HandleLoginResult(_status,callBackForOAUTh, _isNewAccount, _agency);
+           
         });
     }
 
     private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount, string _agency = "")
     {
-        Debug.Log(7);
         if (!_status)
         {
             _callBack?.Invoke(false);
             return;
         }
-        Debug.Log(8);
         if (!CanAuth)
         {
             return;
         }
 
-        Debug.Log(9);
         CanAuth = false;
-        Debug.Log(10);
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
         if (Initialization.Instance==default)
         {
             return;
         }
         
-        Debug.Log(11);
         Initialization.Instance.CheckForStartingData(_isNewAccount, _agency);
     }
 
