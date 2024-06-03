@@ -1,5 +1,4 @@
 using System.Collections;
-using Photon.Pun;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
@@ -161,7 +160,7 @@ public class GameplayManagerPvp : GameplayManager
 
     protected override IEnumerator RevealLocation()
     {
-        if (!PhotonNetwork.IsMasterClient)
+        if (!SocketServerCommunication.Instance.MatchData.IsMasterClient)
         {
             yield break;
         }
