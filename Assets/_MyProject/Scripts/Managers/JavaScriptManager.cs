@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class JavaScriptManager : MonoBehaviour
 {
+    public static Action<string> OnGotTextFromKeyboard;
     public static JavaScriptManager Instance;
     public static Action<string> OnGotUserData;
     public string Version;
@@ -48,7 +49,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoSignOut();    
     
     [DllImport("__Internal")]
-    public static extern void DoCopyToClipboard(string _text);
+    public static extern void DoCopyToClipboard(string _text);    
+    
+    [DllImport("__Internal")]
+    public static extern void DoGetTextFromClipboard();
 
 
     public bool ShowPwaWarning
@@ -237,5 +241,21 @@ public class JavaScriptManager : MonoBehaviour
     public void RequestUserData()
     {
         DoCheckIfUserIsLoggedIn();
+    }
+
+    public void RequestTextFromKeyboard()
+    {
+        DoGetTextFromClipboard();
+    }
+
+    public void ReceiveClipboardText(string _text)
+    {
+        Debug.Log("Received text from clipboard: "+_text);
+        if (_text=="failed")
+        {
+            DialogsManager.Instance.OkDialog.Setup("Failed to get text from clipboard");
+            _text = string.Empty;
+        }
+        OnGotTextFromKeyboard?.Invoke(_text);
     }
 }

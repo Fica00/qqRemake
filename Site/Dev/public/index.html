@@ -447,6 +447,12 @@
             console.error("Error fetching user data:", error);
           });
       }
+      
+      async function GetFromClipboard()
+      {
+        const text = await navigator.clipboard.readText();
+        return text;
+      }
 
       //Unity stuff
       window.addEventListener("load", function () {

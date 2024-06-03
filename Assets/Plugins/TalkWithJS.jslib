@@ -1,72 +1,58 @@
 mergeInto(LibraryManager.library,
 {
-	AuthWithGoogle: function()
-    {
-		GoogleAuth();	
-	},
-
-	AuthWithTwitter: function()
-	{
-		TwitterAuth();
-	},
-	
-    AuthWithDiscord: function()
-    {
-    	DiscordAuth();
+    AuthWithGoogle: function() {
+        GoogleAuth();    
     },
 
-    AuthLinkingAnonimousUser: function(providerName)
-    {
+    AuthWithTwitter: function() {
+        TwitterAuth();
+    },
+    
+    AuthWithDiscord: function() {
+        DiscordAuth();
+    },
+
+    AuthLinkingAnonimousUser: function(providerName) {
         LinkingAnonimousUser(UTF8ToString(providerName));
     },
 
-	ShowKeyboard: function()
-    {
-		DisplayKeyboard();
+    ShowKeyboard: function() {
+        DisplayKeyboard();
     },
 
-	CloseKeyboard: function()
-    {
+    CloseKeyboard: function() {
         HideKeyboard();
-    },	
+    },  
 
-	OpenURL: function (url) 
-	{
+    OpenURL: function (url) {
         window.location.href = UTF8ToString(url);
-	},
+    },
 
-    StripePurchaseInit: function(cost)
-	{
-	 	StripePurchase(cost)
-	},
-	
-	DoSetUserId: function(id)
-    {
+    StripePurchaseInit: function(cost) {
+        StripePurchase(cost);
+    },
+    
+    DoSetUserId: function(id) {
         SetUserId(UTF8ToString(id));
     },
     
-    IsPwa: function()
-    {
-       return CheckIsPwa();
+    IsPwa: function() {
+        return CheckIsPwa();
     },
     
-    DoCheckIfUserIsLoggedIn: function()
-    {
-       CheckUserSession();
+    DoCheckIfUserIsLoggedIn: function() {
+        CheckUserSession();
     },
     
-    DoAnonymousAuth: function()
-    {
+    DoAnonymousAuth: function() {
         return SignInAnonymous();
     },
     
-    DoReload: function()
-    {
+    DoReload: function() {
         ReloadPageFromUnity();
     },
     
-    DoSignOut: function()
-    {
+    DoSignOut: function() {
         SignOut();
     },
     
@@ -78,5 +64,13 @@ mergeInto(LibraryManager.library,
         }, function(err) {
           console.error('Could not copy text to clipboard: ', err);
         });
-      }
+    },
+
+    DoGetTextFromClipboard: function() {
+            GetFromClipboard().then(function(text) {
+                unityInstance.SendMessage('JavaScriptManager', 'ReceiveClipboardText', text);
+            }).catch(function(err) {
+                unityInstance.SendMessage('JavaScriptManager', 'ReceiveClipboardText', 'failed');
+            });
+    
 });

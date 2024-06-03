@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +8,10 @@ public class WithdrawalPanel : MonoBehaviour
     private const double MIN_AMOUNT = 1f;
     private const double MAX_AMOUNT_OF_DECIMALS = 6;
     
-    [SerializeField] private TMP_InputField address;
-    [SerializeField] private TMP_InputField amount;
+    [SerializeField] private InputField address;
+    [SerializeField] private InputField amount;
     [SerializeField] private Button max;
+    [SerializeField] private Button paste;
     [SerializeField] private Button confirm;
     [SerializeField] private OkDialog okDialog;
     [SerializeField] private WalletPanel walletPanel;
@@ -20,6 +20,7 @@ public class WithdrawalPanel : MonoBehaviour
     {
         max.onClick.AddListener(SetAmountToMax);
         confirm.onClick.AddListener(Confirm);
+        paste.onClick.AddListener(PasteText);
         PlayerData.UpdatedUserWalletAddress += Setup;
 
         Setup();
@@ -35,6 +36,7 @@ public class WithdrawalPanel : MonoBehaviour
     {
         max.onClick.RemoveListener(SetAmountToMax);
         confirm.onClick.RemoveListener(Confirm);
+        paste.onClick.RemoveListener(PasteText);
         PlayerData.UpdatedUserWalletAddress -= Setup;
     }
 
@@ -48,6 +50,23 @@ public class WithdrawalPanel : MonoBehaviour
 
         amount.text = _amount.ToString();
     }
+
+    private void PasteText()
+    {
+        JavaScriptManager.OnGotTextFromKeyboard += DoPaste;
+        JavaScriptManager.Instance.RequestTextFromKeyboard();
+        
+        void DoPaste(string _text)
+        {
+            JavaScriptManager.OnGotTextFromKeyboard -= DoPaste;
+            if (string.IsNullOrEmpty(_text))
+            {
+                return;
+            }
+            address.text = _text;
+        }
+    }
+
 
     private void Confirm()
     {
@@ -129,6 +148,7 @@ public class WithdrawalPanel : MonoBehaviour
         amount.interactable = _status;
         max.interactable = _status;
         confirm.interactable = _status;
+        paste.interactable = _status;
         walletPanel.ManageInteractables(_status);
     }
     
