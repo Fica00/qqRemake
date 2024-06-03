@@ -1,6 +1,8 @@
+using Newtonsoft.Json;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using ZXing.Datamatrix;
 
 public class PlayerDisplay : MonoBehaviour
 {
@@ -53,14 +55,40 @@ public class PlayerDisplay : MonoBehaviour
                     return;
                 }
 
-                statsDisplay.Show(
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
-                );
+                SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(RequestOpponentStats));
             }
         }
+    }
+
+    private void RequestOpponentStats()
+    {
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(TellOpponentMyStats), JsonConvert.SerializeObject(GetMyStats()));
+    }
+
+    private OpponentStats GetMyStats()
+    {
+        GameplayPlayer _myPlayer = GameplayManager.Instance.MyPlayer;
+        OpponentStats _stats = new OpponentStats
+        {
+            Name = DataManager.Instance.PlayerData.Name,
+            AmountOfCardsInHand = _myPlayer.AmountOfCardsInHand,
+            AmountOfDiscardedCards = _myPlayer.AmountOfDiscardedCards,
+            AmountOfCCardsInDeck = _myPlayer.AmountOfCardsInDeck,
+            AmountOfDestroyedCards = _myPlayer.AmountOfDestroyedCards
+        };
+
+        return _stats;
+    }
+    
+    private void TellOpponentMyStats(string _data)
+    {
+        OpponentStats _stats = JsonConvert.DeserializeObject<OpponentStats>(_data);
+        statsDisplay.Show(
+            _stats.AmountOfCardsInHand,
+            _stats.AmountOfDiscardedCards,            
+            _stats.AmountOfCCardsInDeck,            
+            _stats.AmountOfDestroyedCards            
+        );
     }
 
     public void Setup(GameplayPlayer _player)
@@ -89,9 +117,21 @@ public class PlayerDisplay : MonoBehaviour
                 }
                 else
                 {
-                    nameDisplay.text = PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME);
+                    SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(RequestName));
                 }
             }
         }
+    }
+
+    private void RequestName()
+    {
+        OpponentStats _stats = new OpponentStats() { Name = DataManager.Instance.PlayerData.Name };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ShowOpponentName), JsonConvert.SerializeObject(_stats));
+    }
+
+    private void ShowOpponentName(string _data)
+    {
+        OpponentStats _stats = JsonConvert.DeserializeObject<OpponentStats>(_data);
+        nameDisplay.text = _stats.Name;
     }
 }

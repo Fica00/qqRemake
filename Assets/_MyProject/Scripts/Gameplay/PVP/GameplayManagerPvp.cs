@@ -121,7 +121,7 @@ public class GameplayManagerPvp : GameplayManager
 
     protected override void AcceptAutoBet()
     {
-        if (!PhotonManager.Instance.IsMasterClient)
+        if (!SocketServerCommunication.Instance.MatchData.IsMasterClient)
         {
             return;
         }
