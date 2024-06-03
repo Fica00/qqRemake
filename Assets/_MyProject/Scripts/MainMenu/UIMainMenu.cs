@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIMainMenu : MonoBehaviour
 {
     public static UIMainMenu Instance;
-    
+
     [SerializeField] private TransitionAnimation transition;
     [SerializeField] private Button deckQuickButton;
     [SerializeField] private DeckQuickPanel deckQuickPanel;
@@ -24,6 +24,7 @@ public class UIMainMenu : MonoBehaviour
         {
             return;
         }
+
         transition.EndTransition(null);
         ShowStartingAnimation = false;
     }
@@ -33,7 +34,6 @@ public class UIMainMenu : MonoBehaviour
         DataManager.Instance.Subscribe();
         MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
-        GuestOverlayHandler.Instance.TryShowGuestOverlay(AuthHandler.IsGuest);
     }
 
     private void OnEnable()
@@ -74,7 +74,7 @@ public class UIMainMenu : MonoBehaviour
     {
         deckNameDisplay.text = DataManager.Instance.PlayerData.GetSelectedDeck().Name;
     }
-    
+
     private void ShowLevelRewards()
     {
         SceneManager.Instance.LoadLevelPage();
@@ -84,7 +84,7 @@ public class UIMainMenu : MonoBehaviour
     {
         SceneManager.Instance.LoadSettingsPage();
     }
-    
+
     private void ShowRankRewards()
     {
         SceneManager.Instance.LoadRankRewardsPage();
@@ -94,5 +94,4 @@ public class UIMainMenu : MonoBehaviour
     {
         SceneManager.Instance.LoadMissionsPage();
     }
-
 }

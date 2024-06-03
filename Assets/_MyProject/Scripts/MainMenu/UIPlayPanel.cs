@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class UIPlayPanel : MonoBehaviour
 {
     [SerializeField] private Button playButton;
+    [SerializeField] private Button overlayPlayButton;
     [SerializeField] private GameObject inputBlocker;
     [Space()]
     [SerializeField] private UIPVPPanel pvpPanel;
@@ -17,6 +18,7 @@ public class UIPlayPanel : MonoBehaviour
     private void OnEnable()
     {
         playButton.onClick.AddListener(StartMatch);
+        overlayPlayButton.onClick.AddListener(StartMatch);
 
         PhotonManager.OnIJoinedRoom += JoinedRoom;
         PhotonManager.OnILeftRoom += ILeftRoom;
@@ -25,6 +27,7 @@ public class UIPlayPanel : MonoBehaviour
     private void OnDisable()
     {
         playButton.onClick.RemoveListener(StartMatch);
+        overlayPlayButton.onClick.RemoveListener(StartMatch);
 
         PhotonManager.OnIJoinedRoom -= JoinedRoom;
         PhotonManager.OnILeftRoom -= ILeftRoom;

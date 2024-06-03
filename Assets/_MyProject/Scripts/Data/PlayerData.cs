@@ -37,6 +37,10 @@ public class PlayerData
     private string agency;
     private bool isGuest;
 
+    private bool beforeFirstGameOverlayShown;
+    private bool afterFirstGameOverlayShown;
+    private bool guestOverlayShown;
+
     public DateTime DateCreatedAccount;
 
     public static Action UpdatedName;
@@ -68,7 +72,9 @@ public class PlayerData
     public static Action UpdatedDidRequestUserWallet;
     public static Action UpdatedAgency;
     public static Action UpdatedIsGuest;
-
+    public static Action UpdatedBeforeFirstGameOverlayShown;
+    public static Action UpdatedAfterFirstGameOverlayShown;
+    public static Action UpdatedGuestOverlayShown;
 
     public void CreateNewPlayer()
     {
@@ -97,7 +103,6 @@ public class PlayerData
         DeckData starterDeck = DeckInitializer.InitializeDecks().First(deck => deck.Id == 0);
         decks.Add(starterDeck);
         ownedQoomons.AddRange(starterDeck.CardsInDeck);
-
     }
 
     private void Setup()
@@ -244,7 +249,7 @@ public class PlayerData
             UpdatedCoins?.Invoke();
         }
     }
-    
+
     public bool IsGuest
     {
         get => isGuest;
@@ -280,6 +285,7 @@ public class PlayerData
     }
 
     public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
+
     public int Exp
     {
         get => exp;
@@ -445,7 +451,7 @@ public class PlayerData
             UpdatedAmountOfRankGamesPlayed?.Invoke();
         }
     }
-    
+
     public string Agency
     {
         get => agency;
@@ -535,7 +541,35 @@ public class PlayerData
             UpdatedHasFinishedTutorial?.Invoke();
         }
     }
+    
+    public bool BeforeFirstGameOverlayShown
+    {
+        get => beforeFirstGameOverlayShown;
+        set
+        {
+            beforeFirstGameOverlayShown = value;
+            UpdatedBeforeFirstGameOverlayShown?.Invoke();
+        }
+    }
+    public bool AfterFirstGameOverlayShown
+    {
+        get => afterFirstGameOverlayShown;
+        set
+        {
+            afterFirstGameOverlayShown = value;
+            UpdatedAfterFirstGameOverlayShown?.Invoke();
+        }
+    }
 
+    public bool GuestOverlayShown
+    {
+        get => guestOverlayShown;
+        set
+        {
+            guestOverlayShown = value;
+            UpdatedGuestOverlayShown?.Invoke();
+        }
+    }
     public bool PlayBackgroundMusic
     {
         get => playBackgroundMusic;

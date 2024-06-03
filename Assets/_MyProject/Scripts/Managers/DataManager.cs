@@ -93,6 +93,9 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedDidRequestUserWallet += SaveWalletRequest;
         PlayerData.UpdatedAgency += SaveAgency;
         PlayerData.UpdatedIsGuest += SaveIsGuest;
+        PlayerData.UpdatedBeforeFirstGameOverlayShown += SaveBeforeFirstGameOverlayShown;
+        PlayerData.UpdatedAfterFirstGameOverlayShown += SaveAfterFirstGameOverlayShown;
+        PlayerData.UpdatedGuestOverlayShown += SaveGuestOverlayShown;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -173,6 +176,10 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedDidRequestUserWallet -= SaveWalletRequest;
         PlayerData.UpdatedAgency -= SaveAgency;
         PlayerData.UpdatedIsGuest -= SaveIsGuest;
+        PlayerData.UpdatedBeforeFirstGameOverlayShown -= SaveBeforeFirstGameOverlayShown;
+        PlayerData.UpdatedAfterFirstGameOverlayShown -= SaveAfterFirstGameOverlayShown;
+        PlayerData.UpdatedGuestOverlayShown -=  SaveGuestOverlayShown;
+        
     }
 
     private void SaveTutorial()
@@ -327,4 +334,20 @@ public class DataManager : MonoBehaviour
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.IsGuest),JsonConvert.SerializeObject(PlayerData.IsGuest));
     }
+    
+    public void SaveBeforeFirstGameOverlayShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.BeforeFirstGameOverlayShown),JsonConvert.SerializeObject(PlayerData.BeforeFirstGameOverlayShown));
+    }
+    
+    public void SaveGuestOverlayShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.GuestOverlayShown),JsonConvert.SerializeObject(PlayerData.GuestOverlayShown));
+    }
+    public void SaveAfterFirstGameOverlayShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.AfterFirstGameOverlayShown),JsonConvert.SerializeObject(PlayerData.AfterFirstGameOverlayShown));
+    }
+    
+    
 }
