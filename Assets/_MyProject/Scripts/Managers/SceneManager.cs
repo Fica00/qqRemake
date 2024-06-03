@@ -110,6 +110,7 @@ public class SceneManager : SceneLoader
 
     private void DoLoadScene(string _key, bool _useAsyncLoading=true)
     {
-        LoadScene(_key, useAsync&&_useAsyncLoading);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(_key);
+        LoadScene(_key, false);
     }
 }

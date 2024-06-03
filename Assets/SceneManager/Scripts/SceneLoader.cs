@@ -41,29 +41,34 @@ namespace SceneManagement
         {
             if (_useAsyncLoading)
             {
+                Debug.Log("LoadAsync "+_key);
                 LoadAsync(_key);
             }
             else
             {
+                Debug.Log("NoramalLoad "+_key);
                 UnitySceneManager.LoadScene(_key);
             }
         }
 
         private void LoadAsync(string _key)
         {
+            
             TotalProgress = 0;
             Scene _startingScene = UnitySceneManager.GetActiveScene();
             float _startingTime = Time.time;
             loadingDisplay = Instantiate(loadingPrefab);
-
+            
             AsyncOperation _loadingOperation = UnitySceneManager.LoadSceneAsync(_key, LoadSceneMode.Additive);
             _loadingOperation.allowSceneActivation = false;
 
             StartCoroutine(LoadScene(_loadingOperation,_startingScene,_startingTime));
+            
         }
 
         private IEnumerator LoadScene(AsyncOperation _operation, Scene _previousScene, float _startingTime)
         {
+            
             bool _finishedLoading = false;
             float _previousProgress=0;
             while (!_operation.isDone)
@@ -78,12 +83,13 @@ namespace SceneManagement
                 TotalProgress += _operation.progress - _previousProgress;
                 _previousProgress = _operation.progress;
             }
-
+            
             StartCoroutine(FinishLoading(_startingTime));
         }
 
         private IEnumerator UnloadScene(Scene _previousScene, AsyncOperation _loadingOperation)
         {
+           
             while (!_loadingOperation.isDone)
             {
                 yield return null;
@@ -98,10 +104,12 @@ namespace SceneManagement
                 TotalProgress += _unloadingOperation.progress - _previousProgress;
                 _previousProgress = _unloadingOperation.progress;
             }
+            
         }
 
         private IEnumerator FinishLoading(float _startingTime)
         {
+            
             yield return StartCoroutine(DoWaitForMinimumTime(_startingTime));
             Destroy(loadingDisplay.gameObject);
             OnLoadedScene?.Invoke();

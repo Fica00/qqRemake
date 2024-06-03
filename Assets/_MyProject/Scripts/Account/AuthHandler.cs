@@ -116,6 +116,7 @@ public class AuthHandler : MonoBehaviour
         FirebaseManager.Instance.SignIn(_id, (_status) =>
         {
             HandleLoginResult(_status,callBackForOAUTh, _isNewAccount, _agency);
+           
         });
     }
 
@@ -126,7 +127,6 @@ public class AuthHandler : MonoBehaviour
             _callBack?.Invoke(false);
             return;
         }
-
         if (!CanAuth)
         {
             return;

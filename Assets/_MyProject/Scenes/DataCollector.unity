@@ -1510,6 +1510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationsPicked: ffffffffffffffffffffffff
+  IsGuestOverlayShown: 0
 --- !u!1 &665109491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1863,57 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9178226685535019157, guid: b86ec4d2d5680b6439367a1c45760adf, type: 3}
   m_PrefabInstance: {fileID: 9178226685599871886}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &740290314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 740290316}
+  - component: {fileID: 740290315}
+  m_Layer: 0
+  m_Name: AgencyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &740290315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740290314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0def163188dbcb41985cb53f9287b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Agencies:
+  - Name: VMG
+    Level: 3
+  - Name: SaMisoy
+    Level: 3
+  - Name: BlackMamba
+    Level: 3
+--- !u!4 &740290316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740290314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 708.6517, y: 1260.4518, z: 95.94606}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &744303818
 GameObject:
   m_ObjectHideFlags: 0

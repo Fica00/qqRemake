@@ -267,8 +267,7 @@ public class PlayerData
         UpdatedGamePasses?.Invoke();
     }
 
-    int[] expBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
-
+    public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
     public int Exp
     {
         get => exp;
@@ -287,13 +286,13 @@ public class PlayerData
             int _level = 0;
             while (true)
             {
-                if (exp < expBorders[_level])
+                if (exp < ExpBorders[_level])
                 {
                     return _level;
                 }
 
                 _level++;
-                if (_level >= expBorders.Length)
+                if (_level >= ExpBorders.Length)
                 {
                     return _level;
                 }
@@ -306,7 +305,7 @@ public class PlayerData
     {
         get
         {
-            if (Level >= expBorders.Length)
+            if (Level >= ExpBorders.Length)
             {
                 return 1.0f;
             }
@@ -322,9 +321,9 @@ public class PlayerData
     {
         get
         {
-            if (Level >= expBorders.Length)
+            if (Level >= ExpBorders.Length)
             {
-                return Exp - GetXpForLevel(expBorders.Length - 1);
+                return Exp - GetXpForLevel(ExpBorders.Length - 1);
             }
 
             if (Level == 0)
@@ -340,20 +339,20 @@ public class PlayerData
     {
         if (Level == 0)
         {
-            return expBorders[Level];
+            return ExpBorders[Level];
         }
 
-        return expBorders[Level] - expBorders[Level - 1];
+        return ExpBorders[Level] - ExpBorders[Level - 1];
     }
 
     public int GetXpForLevel(int _level)
     {
-        if (Level >= expBorders.Length)
+        if (Level >= ExpBorders.Length)
         {
             return 0;
         }
 
-        return expBorders[_level];
+        return ExpBorders[_level];
     }
 
     public List<ClaimedLevelReward> ClaimedLevelProgressRewards => claimedLevelProgressRewards;

@@ -34,10 +34,12 @@ public class QoomonUnlockingPanel : MonoBehaviour
     {
         claim.gameObject.SetActive(false);
         backHolder.SetActive(true);
+        
     }
 
     private void Close()
     {
+        DOTween.KillAll();
         claim.gameObject.SetActive(true);
         backHolder.SetActive(false);
         holder.SetActive(false);
@@ -57,6 +59,7 @@ public class QoomonUnlockingPanel : MonoBehaviour
         string _desc = _qommon.Details.Description;
         _desc = _desc.Replace("\\n", "\n");
         qommonDesc.text = _desc;
-        qommonHolder.transform.DOScale(Vector3.one, 2);
+        
+        qommonHolder.transform?.DOScale(Vector3.one, 2);
     }
 }
