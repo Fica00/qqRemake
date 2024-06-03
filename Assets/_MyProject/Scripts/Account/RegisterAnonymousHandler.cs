@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class RegisterAnonymousHandler : MonoBehaviour
 {
-
     public static RegisterAnonymousHandler Instance;
 
     public GameObject RegistrationPageHolder;
@@ -25,13 +24,11 @@ public class RegisterAnonymousHandler : MonoBehaviour
 
     private void OnEnable()
     {
-       
         googleButton.onClick.AddListener(() => LinkUserProvider("google"));
         twitterButton.onClick.AddListener(() => LinkUserProvider("twitter"));
         CheckIsGuest();
     }
 
-   
 
     private void OnDisable()
     {
@@ -46,8 +43,7 @@ public class RegisterAnonymousHandler : MonoBehaviour
 
     private void CheckIsGuest()
     {
-        
-        if(AuthHandler.IsGuest)
+        if (AuthHandler.IsGuest)
         {
             return;
         }
@@ -67,4 +63,3 @@ public class RegisterAnonymousHandler : MonoBehaviour
         HideRegistrationPage();
     }
 }
-

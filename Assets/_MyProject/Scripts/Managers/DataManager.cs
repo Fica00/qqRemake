@@ -92,6 +92,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlayerDevices += SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet += SaveWalletRequest;
         PlayerData.UpdatedAgency += SaveAgency;
+        PlayerData.UpdatedIsGuest += SaveIsGuest;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -171,6 +172,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlayerDevices -= SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet -= SaveWalletRequest;
         PlayerData.UpdatedAgency -= SaveAgency;
+        PlayerData.UpdatedIsGuest -= SaveIsGuest;
     }
 
     private void SaveTutorial()
@@ -319,5 +321,10 @@ public class DataManager : MonoBehaviour
     private void SaveAgency()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Agency),JsonConvert.SerializeObject(PlayerData.Agency));
+    }
+    
+    public void SaveIsGuest()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.IsGuest),JsonConvert.SerializeObject(PlayerData.IsGuest));
     }
 }

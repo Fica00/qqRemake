@@ -36,7 +36,7 @@ public class Initialization : MonoBehaviour
         AuthHandler.Instance.Authenticate();
     }
 
-    public void CheckForStartingData(bool _isNewAccount, string _agency)
+    public void CheckForStartingData(bool _isNewAccount, bool _isGuest, string _agency)
     {
         if (_isNewAccount)
         {
@@ -46,6 +46,8 @@ public class Initialization : MonoBehaviour
                 {
                     FinishInit();
                     DataManager.Instance.PlayerData.Agency = _agency;
+                    DataManager.Instance.PlayerData.IsGuest = _isGuest;
+                    DataManager.Instance.SaveIsGuest();
                     
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
                     {
@@ -59,7 +61,9 @@ public class Initialization : MonoBehaviour
             });
             return;
         }
+        
         FinishInit();
+        DataManager.Instance.SaveIsGuest();
     }
 
     private void FinishInit()

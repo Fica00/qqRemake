@@ -35,6 +35,7 @@ public class PlayerData
     private string userWalletAddress;
     private bool didRequestUserWallet;
     private string agency;
+    private bool isGuest;
 
     public DateTime DateCreatedAccount;
 
@@ -66,6 +67,7 @@ public class PlayerData
     public static Action UpdatedUserWalletAddress;
     public static Action UpdatedDidRequestUserWallet;
     public static Action UpdatedAgency;
+    public static Action UpdatedIsGuest;
 
 
     public void CreateNewPlayer()
@@ -240,6 +242,16 @@ public class PlayerData
         {
             coins = value;
             UpdatedCoins?.Invoke();
+        }
+    }
+    
+    public bool IsGuest
+    {
+        get => isGuest;
+        set
+        {
+            isGuest = value;
+            UpdatedIsGuest?.Invoke();
         }
     }
 

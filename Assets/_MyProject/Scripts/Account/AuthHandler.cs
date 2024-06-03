@@ -8,8 +8,9 @@ public class AuthHandler : MonoBehaviour
     public static AuthHandler Instance;
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
-    
+
     public static bool CanAuth;
+    
     public static bool IsGuest = true;
 
     private void Awake()
@@ -30,7 +31,7 @@ public class AuthHandler : MonoBehaviour
             StartCoroutine(ShowRegisterRoutine());
             return;
         }
-        
+
         JavaScriptManager.OnGotUserData += TryToLogin;
         JavaScriptManager.Instance.RequestUserData();
     }
@@ -39,7 +40,7 @@ public class AuthHandler : MonoBehaviour
     {
         JavaScriptManager.OnGotUserData -= TryToLogin;
         UserLoginData _loginData = default;
-        
+
         if (!string.IsNullOrEmpty(_loginDataJson))
         {
             _loginData = JsonConvert.DeserializeObject<UserLoginData>(_loginDataJson);
@@ -51,7 +52,7 @@ public class AuthHandler : MonoBehaviour
         }
         else
         {
-            Auth(_loginData.UserId, _loginData.IsNewAccount, _loginData.Agency);
+            Auth(_loginData.UserId, _loginData.IsNewAccount, _loginData.IsGuest, _loginData.Agency);
         }
     }
 
@@ -77,8 +78,8 @@ public class AuthHandler : MonoBehaviour
         callBackForOAUTh = _callBack;
         JavaScriptManager.Instance.LoginTwitter();
         IsGuest = false;
-    }    
-    
+    }
+
     public void LoginWithDiscord(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
@@ -92,16 +93,14 @@ public class AuthHandler : MonoBehaviour
         JavaScriptManager.Instance.GoogleAuth();
         IsGuest = false;
     }
-    
+
     public void AnonymousSignIn(Action<bool> _callBack)
     {
         callBackForOAUTh = _callBack;
         if (Application.isEditor)
         {
-            FirebaseManager.Instance.TryLoginAndGetData("unity2@help.com", "unity123", (_status) =>
-            {
-                HandleLoginResult(_status,callBackForOAUTh,false);
-            });
+            FirebaseManager.Instance.TryLoginAndGetData("unity2@help.com", "unity123",
+                (_status) => { HandleLoginResult(_status, callBackForOAUTh, false); });
             IsGuest = true;
         }
         else
@@ -111,22 +110,19 @@ public class AuthHandler : MonoBehaviour
         }
     }
 
-    public void Auth(string _id, bool _isNewAccount, string _agency="")
+    public void Auth(string _id, bool _isNewAccount, bool _isGuest, string _agency = "")
     {
-        FirebaseManager.Instance.SignIn(_id, (_status) =>
-        {
-            HandleLoginResult(_status,callBackForOAUTh, _isNewAccount, _agency);
-           
-        });
+        FirebaseManager.Instance.SignIn(_id, (_status) => { HandleLoginResult(_status, callBackForOAUTh, _isNewAccount, _isGuest, _agency); });
     }
 
-    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount, string _agency = "")
+    private void HandleLoginResult(bool _status, Action<bool> _callBack, bool _isNewAccount, bool _isGuest = false, string _agency = "")
     {
         if (!_status)
         {
             _callBack?.Invoke(false);
             return;
         }
+
         if (!CanAuth)
         {
             return;
@@ -134,12 +130,12 @@ public class AuthHandler : MonoBehaviour
 
         CanAuth = false;
         JavaScriptManager.Instance.SetUserId(FirebaseManager.Instance.PlayerId);
-        if (Initialization.Instance==default)
+        if (Initialization.Instance == default)
         {
             return;
         }
-        
-        Initialization.Instance.CheckForStartingData(_isNewAccount, _agency);
+
+        Initialization.Instance.CheckForStartingData(_isNewAccount, _isGuest, _agency);
     }
 
     public void AuthFailed()

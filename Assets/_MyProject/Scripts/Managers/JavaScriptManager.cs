@@ -182,12 +182,12 @@ public class JavaScriptManager : MonoBehaviour
             Debug.Log("Found Auth handler");
             Debug.Log(SceneManager.CurrentSceneName);
             
-            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.Agency);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.IsGuest ,_response.Agency);
         }
         else
         {
             Debug.Log("Got agency null");
-            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsGuest,_response.IsNewAccount);
         }
     }
 
