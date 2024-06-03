@@ -15,25 +15,11 @@ public class Initialization : MonoBehaviour
     private void Start()
     {
         RankSo.Init();
-        if (JavaScriptManager.Instance.IsDemo)
-        {
-            InitDataManager();
-            return;
-        }
-
-        InitPhoton();
-    }
-
-
-    private void InitPhoton()
-    {
-        PhotonManager.OnFinishedInit += InitDataManager;
-        PhotonManager.Instance.Init();
+        InitDataManager();
     }
 
     private void InitDataManager()
     {
-        PhotonManager.OnFinishedInit -= InitDataManager;
         AuthHandler.Instance.Authenticate();
     }
 
