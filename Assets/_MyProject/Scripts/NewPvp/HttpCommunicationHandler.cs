@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class HttpCommunicationHandler : MonoBehaviour
 {
     public static HttpCommunicationHandler Instance;
-    private const string SERVER_URI = "https://ec2-54-234-153-167.compute-1.amazonaws.com/";
+    private const string SERVER_URI = "http://ec2-54-234-153-167.compute-1.amazonaws.com/";
     private string AuthenticateUri => SERVER_URI + "authenticate";
 
     private void Awake()

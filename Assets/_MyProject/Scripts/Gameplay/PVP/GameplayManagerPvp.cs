@@ -5,19 +5,18 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Linq;
+using MessageHelpers;
 
-public class GameplayManagerPVP : GameplayManager
+public class GameplayManagerPvp : GameplayManager
 {
     public static Action<PlaceCommand> OpponentAddedCommand;
     public static Action<PlaceCommand> OpponentCanceledCommand;
-    private PhotonView photonView;
 
     private bool iAmReadyToStart;
     private bool opponentIsReadyToStart;
 
     protected override void Awake()
     {
-        photonView = GetComponent<PhotonView>();
         Instance = this;
         IsPvpGame = true;
     }
@@ -34,9 +33,9 @@ public class GameplayManagerPVP : GameplayManager
         GameEnded -= LeaveRoom;
     }
 
-    private void LeaveRoom(GameResult _result)
+    private void LeaveRoom(GameResult _)
     {
-        PhotonManager.Instance.LeaveRoom();
+        SocketServerCommunication.Instance.LeaveRoom();
     }
 
     protected override void StartGameplay()
@@ -49,14 +48,14 @@ public class GameplayManagerPVP : GameplayManager
     {
         yield return new WaitForSeconds(1);
         iAmReadyToStart = true;
-        photonView.RPC("OpponentIsReadyToStart",RpcTarget.Others);
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(OpponentIsReadyToStart));
     }
 
     protected override void EndTurn()
     {
         base.EndTurn();
         string _commands = JsonConvert.SerializeObject(GenerateCommandsJson());
-        photonView.RPC("OpponentFinishedTurn", RpcTarget.Others,_commands);
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(OpponentFinishedTurn), _commands);
     }
 
     private string GenerateCommandsJson()
@@ -67,7 +66,6 @@ public class GameplayManagerPVP : GameplayManager
             _commands.Add(PlaceCommandJson.Create(_placeCommand));
         }
 
-        //convert my command to opponent command
         foreach (var _command in _commands)
         {
             _command.MyPlayer = false;
@@ -77,22 +75,23 @@ public class GameplayManagerPVP : GameplayManager
         return JsonConvert.SerializeObject(_commands);
     }
 
-    protected override void Forfiet()
+    protected override void Forfeit()
     {
-        photonView.RPC(nameof(OpponentEscaped), RpcTarget.Others);
-        base.Forfiet();
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(OpponentEscaped));
+        base.Forfeit();
     }
 
     public override void AddPowerOfQoomonOnPlace(int _placeId, int _power)
     {
         base.AddPowerOfQoomonOnPlace(_placeId, _power);
-        photonView.RPC(nameof(DoAddPowerToQoomonOnPlace), RpcTarget.Others, _placeId,_power);
+        AddPower _addPower = new AddPower { PlaceId = _placeId, Power = _power };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(DoAddPowerToQoomonOnPlace), JsonConvert.SerializeObject(_addPower));
     }
 
-    [PunRPC]
-    private void DoAddPowerToQoomonOnPlace(int _placeId, int _power)
+    private void DoAddPowerToQoomonOnPlace(string _data)
     {
-        base.AddPowerOfQoomonOnPlace(_placeId, _power);
+        AddPower _addPower = JsonConvert.DeserializeObject<AddPower>(_data);
+        base.AddPowerOfQoomonOnPlace(_addPower.PlaceId, _addPower.Power);
     }
 
     protected override void SetupPlayers()
@@ -112,10 +111,12 @@ public class GameplayManagerPVP : GameplayManager
 
     public override void ReturnToWaitingState()
     {
-        if (endTurnHandler.TimeLeft > 2)
+        if (endTurnHandler.TimeLeft <= 2)
         {
-            photonView.RPC("OpponentWantsToUndoState", RpcTarget.Others);
+            return;
         }
+        
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentWantsToUndoState));
     }
 
     protected override void AcceptAutoBet()
@@ -129,13 +130,13 @@ public class GameplayManagerPVP : GameplayManager
 
     public override void Bet()
     {
-        photonView.RPC("OpponentWantsToBet", RpcTarget.Others);
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentWantsToBet));
     }
 
     public override void OpponentAcceptedBet()
     {
         base.OpponentAcceptedBet();
-        photonView.RPC("OpponentAceptedBet",RpcTarget.Others);
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentAceptedBet));
     }
 
     public override void UpdateQommonCosts(int _amount)
@@ -171,7 +172,8 @@ public class GameplayManagerPVP : GameplayManager
     protected override LaneAbility GetLaneAbility()
     {
         LaneAbility _laneAbility = LaneAbilityManager.Instance.GetLaneAbility(excludeLaneAbilities);
-        photonView.RPC("ShowLaneAbility",RpcTarget.Others,_laneAbility.Id);
+        SendLaneAbility _abilityData = new SendLaneAbility { Id = _laneAbility.Id };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(ShowLaneAbility), JsonConvert.SerializeObject(_abilityData));
         return _laneAbility;
     }
 
@@ -181,7 +183,7 @@ public class GameplayManagerPVP : GameplayManager
         _commandJSON.MyPlayer = false;
         _commandJSON.PlaceId += 4;
         
-        photonView.RPC("OpponentForcePlacedCard",RpcTarget.Others,JsonConvert.SerializeObject(_commandJSON));
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentForcePlacedCard), JsonConvert.SerializeObject(_commandJSON));
     }
 
     public void TellOpponentToDestroyCardsOnTable(List<CardObject> _qommons,bool _destroyMyCards)
@@ -195,8 +197,10 @@ public class GameplayManagerPVP : GameplayManager
             _placeId += _destroyMyCards ? 4 : -4;
             _placeIds.Add(_placeId);
         }
-        
-        photonView.RPC("OpponentDestroyedCardsOnTable",RpcTarget.Others,_placeIds);
+
+        DestroyCards _cards = new DestroyCards { PlaceIds = _placeIds };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
+
     }
 
     public override void DrawCardFromOpponentsDeck(bool _isMy)
@@ -206,7 +210,8 @@ public class GameplayManagerPVP : GameplayManager
         {
             return;
         }
-        photonView.RPC("OpponentWantsCardFromYourDeck",RpcTarget.Others);
+        
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(OpponentWantsCardFromYourDeck));
     }
 
     public void TellOpponentToAddPowerToQommons(List<CardObject> _cards, int _powerToAdd)
@@ -217,22 +222,22 @@ public class GameplayManagerPVP : GameplayManager
             LanePlaceIdentifier _identifier = _card.GetComponentInParent<LanePlaceIdentifier>();
             _cardPlaces.Add(_identifier.Id+4);
         }
-        
-        photonView.RPC("OpponentAddedPowerToQommons",RpcTarget.Others,_cardPlaces,_powerToAdd);
+
+        AddPowerToPlaces _addPower = new AddPowerToPlaces { CardPlaces = _cardPlaces, PowerToAdd = _powerToAdd };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentAddedPowerToQommons), JsonConvert.SerializeObject(_addPower));
     }
 
     public override void TellOpponentThatIDiscardedACard(CardObject _card)
     {
-        photonView.RPC(nameof(OpponentDiscardedACard),RpcTarget.Others,_card.Details.Id);
+        DiscardCard _discard = new DiscardCard { CardId = _card.Details.Id };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
     }
 
-    [PunRPC]
     private void OpponentIsReadyToStart()
     {
         opponentIsReadyToStart = true;
     }
 
-    [PunRPC]
     private void OpponentFinishedTurn(string _commandsJson)
     {
         _commandsJson = _commandsJson.Replace("\\\"","\"");
@@ -254,14 +259,12 @@ public class GameplayManagerPVP : GameplayManager
         OpponentFinished();
     }
 
-    [PunRPC]
     private void OpponentEscaped()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.Escaped);
     }
 
-    [PunRPC]
     private void OpponentWantsToUndoState()
     {
         if (iFinished)
@@ -269,7 +272,7 @@ public class GameplayManagerPVP : GameplayManager
             return;
         }
 
-        if (GameplayManager.Instance.GameplayState != GameplayState.Playing)
+        if (GameplayState != GameplayState.Playing)
         {
             return;
         }
@@ -286,35 +289,31 @@ public class GameplayManagerPVP : GameplayManager
         CommandsHandler.OpponentCommands.Clear();
 
         opponentFinished = false;
-        photonView.RPC("UndoState", RpcTarget.Others);
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(UndoState));
     }
 
-    [PunRPC]
     private void UndoState()
     {
         GameplayState = GameplayState.Playing;
         iFinished = false;
     }
 
-    [PunRPC]
     private void OpponentWantsToBet()
     {
         FindObjectOfType<BetClickHandler>().ShowOpponentWantsToIncreaseBet();
     }
 
-    [PunRPC]
-    private void ShowLaneAbility(int _laneId)
+    private void ShowLaneAbility(string _data)
     {
-        StartCoroutine(RevealLocation(_laneId));
+        SendLaneAbility _abilityData = JsonConvert.DeserializeObject<SendLaneAbility>(_data);
+        StartCoroutine(RevealLocation(_abilityData.Id));
     }
 
-    [PunRPC]
     private void OpponentAceptedBet()
     {
         base.OpponentAcceptedBet();
     }
 
-    [PunRPC]
     private void OpponentForcePlacedCard(string _json)
     {
         _json = _json.Replace("\\\"","\"");
@@ -329,9 +328,10 @@ public class GameplayManagerPVP : GameplayManager
         CommandsHandler.OpponentCommands.Add(_placeCommand);
     }
 
-    [PunRPC]
-    private void OpponentDestroyedCardsOnTable(List<int> _placeIds)
+    private void OpponentDestroyedCardsOnTable(string _data)
     {
+        DestroyCards _cardsToDestroy = JsonConvert.DeserializeObject<DestroyCards>(_data);
+        List<int> _placeIds = _cardsToDestroy.PlaceIds;
         List<CardObject> _cards = new List<CardObject>();
         List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
         foreach (var _placeId in _placeIds)
@@ -346,7 +346,6 @@ public class GameplayManagerPVP : GameplayManager
         }
     }
 
-    [PunRPC]
     private void OpponentWantsCardFromYourDeck()
     {
         CardObject _drawnCard = MyPlayer.DrawCard();
@@ -356,21 +355,25 @@ public class GameplayManagerPVP : GameplayManager
         }
 
         string _jsonStats = JsonConvert.SerializeObject(_drawnCard.Stats);
-        photonView.RPC("",RpcTarget.Others, _drawnCard.Details.Id, _jsonStats);
-        
+        GiveOpponentCard _card = new GiveOpponentCard { CardId = _drawnCard.Details.Id, Stats = _jsonStats };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentGaveYouCard), JsonConvert.SerializeObject(_card));
     }
 
-    [PunRPC]
-    private void OpponentGaveYouCard(int _cardId, string _jsonStats)
+    private void OpponentGaveYouCard(string _data)
     {
+        GiveOpponentCard _card = JsonConvert.DeserializeObject<GiveOpponentCard>(_data);
+        int _cardId = _card.CardId;
+        string _jsonStats = _card.Stats;
         CardObject _createdCard = CardsManager.Instance.CreateCard(_cardId,true);
         _createdCard.Stats = JsonConvert.DeserializeObject<CardStats>(_jsonStats);
         MyPlayer.AddedCardToHand?.Invoke(_createdCard,true);
     }
 
-    [PunRPC]
-    private void OpponentAddedPowerToQommons(List<int> _placeIds, int _powerToAdd)
+    private void OpponentAddedPowerToQommons(string _data)
     {
+        AddPowerToPlaces _addPower = JsonConvert.DeserializeObject<AddPowerToPlaces>(_data);
+        List<int> _placeIds = _addPower.CardPlaces;
+        int _powerToAdd = _addPower.PowerToAdd;
         List<CardObject> _cards = new List<CardObject>();
         List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
         foreach (var _placeId in _placeIds)
@@ -386,9 +389,9 @@ public class GameplayManagerPVP : GameplayManager
         }
     }
 
-    [PunRPC]
-    private void OpponentDiscardedACard(int _cardId)
+    private void OpponentDiscardedACard(string _data)
     {
-        ShowOpponentDiscardedACard(_cardId);
+        DiscardCard _discard = JsonConvert.DeserializeObject<DiscardCard>(_data);
+        ShowOpponentDiscardedACard(_discard.CardId);
     }
 }

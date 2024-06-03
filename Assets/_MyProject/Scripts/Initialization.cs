@@ -8,6 +8,7 @@ public class Initialization : MonoBehaviour
 
     private void Awake()
     {
+        Application.runInBackground = true;
         Instance = this;
         Debug.developerConsoleVisible = false;
     }

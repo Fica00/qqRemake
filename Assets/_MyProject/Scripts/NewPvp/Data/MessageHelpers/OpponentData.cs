@@ -1,8 +1,11 @@
 using System;
 
-[Serializable]
-public class OpponentData
+namespace MessageHelpers
 {
-   public string Name;
-   public string DeckName;
+   [Serializable]
+   public class OpponentData
+   {
+      public string Name;
+      public string DeckName;
+   }
 }

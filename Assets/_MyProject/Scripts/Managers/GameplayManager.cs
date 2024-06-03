@@ -92,7 +92,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
-        FlagClickHandler.OnForefiet += Forfiet;
+        FlagClickHandler.OnForefiet += Forfeit;
         GameEnded += UpdateQommonsWinLose;
         GameEnded += TriggerGameEndEvents;
     }
@@ -101,7 +101,7 @@ public class GameplayManager : MonoBehaviour
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
-        FlagClickHandler.OnForefiet -= Forfiet;
+        FlagClickHandler.OnForefiet -= Forfeit;
         GameEnded -= UpdateQommonsWinLose;
         GameEnded -= TriggerGameEndEvents;
     }
@@ -113,7 +113,7 @@ public class GameplayManager : MonoBehaviour
         MyPlayer.FinishedTurn?.Invoke();
     }
 
-    protected virtual void Forfiet()
+    protected virtual void Forfeit()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.IForefiet);
