@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,6 +10,7 @@ public class HttpCommunicationHandler : MonoBehaviour
     public static HttpCommunicationHandler Instance;
     private const string SERVER_URI = "http://ec2-54-234-153-167.compute-1.amazonaws.com/";
     private string AuthenticateUri => SERVER_URI + "authenticate";
+    private string PurgeUri => SERVER_URI + "purge-cache";
 
     private void Awake()
     {
@@ -31,6 +33,15 @@ public class HttpCommunicationHandler : MonoBehaviour
                 _callBack?.Invoke(true, _data);
             },
             _result => { _callBack?.Invoke(false, _result); }));
+    }
+
+    [Button()]
+    private void PurgeAppData()
+    {
+        string _jsonData = JsonConvert.SerializeObject(new {Password = "Sifra.12344"});
+        
+        StartCoroutine(Post(PurgeUri, _jsonData, Debug.Log,
+            _error => { Debug.Log("Failed to purge: " + _error); }));
     }
 
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)

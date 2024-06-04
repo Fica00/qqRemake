@@ -27,8 +27,8 @@ public class UIPVPPanel : MonoBehaviour
         gameObject.SetActive(true);
         TryShowTransition();
 
-        botRoutine = BringBot();
-        StartCoroutine(botRoutine);
+        // botRoutine = BringBot();
+        // StartCoroutine(botRoutine);
     }
 
     private IEnumerator BringBot()

@@ -55,7 +55,7 @@ public class SocketServerCommunication : MonoBehaviour
         
         connection.On<string>(nameof(ReceiveMessageAsync), ReceiveMessageAsync);   
         
-        connection.On<string,string>(nameof(MatchFoundAsync), MatchFoundAsync);
+        connection.On<string,string,string>(nameof(MatchFoundAsync), MatchFoundAsync);
         
         connection.On(nameof(MatchMakingStartedAsync),MatchMakingStartedAsync);
 
@@ -99,10 +99,10 @@ public class SocketServerCommunication : MonoBehaviour
         ExecuteMessage(JsonConvert.DeserializeObject<MessageData>(_message));
     }
 
-    private void MatchFoundAsync(string _firstPlayer, string _secondPlayer)
+    private void MatchFoundAsync(string _roomName, string _firstPlayer, string _secondPlayer)
     {
         Debug.Log($"MatchFoundAsync: {_firstPlayer} vs {_secondPlayer}");
-        MatchData = new MatchData() { Players = new List<string>() { _firstPlayer, _secondPlayer } };
+        MatchData = new MatchData() { RoomName = _roomName,Players = new List<string>() { _firstPlayer, _secondPlayer } };
         OnOpponentJoinedRoom?.Invoke();
     }
     
