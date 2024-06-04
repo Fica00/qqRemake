@@ -119,7 +119,7 @@ public class SocketServerCommunication : MonoBehaviour
 
     public new void SendMessage(string _message)
     {
-        connection.SendAsync("SendMessageAsync", _message);
+        connection.SendAsync("SendMessageAsync", MatchData.RoomName,_message);
     }
 
     public void StartMatchMaking()

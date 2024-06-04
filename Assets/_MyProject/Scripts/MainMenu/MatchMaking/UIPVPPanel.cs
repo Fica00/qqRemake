@@ -106,14 +106,7 @@ public class UIPVPPanel : MonoBehaviour
         IEnumerator Delay()
         {
             yield return new WaitForSeconds(2);
-            if (SocketServerCommunication.Instance.MatchData.IsMasterClient)
-            {
-                UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
-            }
-            else
-            {
-                UIMainMenu.Instance.ShowSceneTransition(null);
-            }
+            UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
         }
     }
 
