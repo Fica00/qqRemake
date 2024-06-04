@@ -448,10 +448,14 @@
           });
       }
       
-      async function GetFromClipboard()
-      {
-        const text = await navigator.clipboard.readText();
-        return text;
+      async function GetFromClipboard() {
+        try {
+          const text = await navigator.clipboard.readText();
+          unity.SendMessage('JavaScriptManager', 'ReceiveClipboardText', text);
+
+        } catch (e) {
+          unity.SendMessage('JavaScriptManager', 'ReceiveClipboardText', 'failed');
+        }
       }
 
       //Unity stuff
@@ -496,11 +500,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/QoomonQuest.loader.js";
+      var loaderUrl = buildUrl + "/public.loader.js";
       var config = {
-        dataUrl: buildUrl + "/QoomonQuest.data",
-        frameworkUrl: buildUrl + "/QoomonQuest.framework.js",
-        codeUrl: buildUrl + "/QoomonQuest.wasm",
+        dataUrl: buildUrl + "/public.data",
+        frameworkUrl: buildUrl + "/public.framework.js",
+        codeUrl: buildUrl + "/public.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "MagmaDev",
         productName: "Qoomon Quest",
