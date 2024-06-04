@@ -10,7 +10,7 @@ public class FilterHandler : MonoBehaviour
     [SerializeField] private Button close;
 
     public static Action OnUpdatedFilter;
-    public static FilterType FilterType;
+    public static FilterType FilterType = FilterType.ByMana;
     
     public void Setup()
     {
