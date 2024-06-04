@@ -187,7 +187,7 @@ public class JavaScriptManager : MonoBehaviour
         else
         {
             Debug.Log("Got agency null");
-            AuthHandler.Instance.Auth(_response.UserId,_response.IsGuest,_response.IsNewAccount);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount,_response.IsGuest);
         }
     }
 
