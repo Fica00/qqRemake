@@ -14,15 +14,11 @@ public class UIPlayPanel : MonoBehaviour
     private void OnEnable()
     {
         playButton.onClick.AddListener(StartMatch);
-
-        SocketServerCommunication.OnILeftRoom += OnLeftRoom;
     }
 
     private void OnDisable()
     {
         playButton.onClick.RemoveListener(StartMatch);
-        
-        SocketServerCommunication.OnILeftRoom -= OnLeftRoom;
     }
 
     private void StartMatch()
@@ -79,7 +75,7 @@ public class UIPlayPanel : MonoBehaviour
         pvpPanel.Setup();
     }
 
-    private void OnLeftRoom()
+    public void OnLeftRoom()
     {
         ManageInteractables(true);
     }

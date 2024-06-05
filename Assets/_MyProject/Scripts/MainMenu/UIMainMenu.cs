@@ -34,6 +34,7 @@ public class UIMainMenu : MonoBehaviour
         MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
         GuestOverlayHandler.Instance.TryShowGuestOverlay(AuthHandler.IsGuest);
+        
     }
 
     private void OnEnable()

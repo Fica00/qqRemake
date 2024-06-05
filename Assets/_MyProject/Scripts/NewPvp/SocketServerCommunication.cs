@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -8,9 +7,9 @@ using Task = System.Threading.Tasks.Task;
 
 public class SocketServerCommunication : MonoBehaviour
 {
-    public static Action OnILeftRoom;
     public static Action OnOpponentJoinedRoom;
     public static Action OnOpponentLeftRoom;
+    public static Action OnILeftRoom;
     
     public static SocketServerCommunication Instance;
     private const string SERVER_URI = "http://ec2-54-234-153-167.compute-1.amazonaws.com/hubs/game";
@@ -54,6 +53,7 @@ public class SocketServerCommunication : MonoBehaviour
         connection.On<List<string>>(nameof(ReceiveOldMessagesAsync), ReceiveOldMessagesAsync);
         
         connection.On<string>(nameof(ReceiveMessageAsync), ReceiveMessageAsync);   
+        connection.On<bool>(nameof(MatchLeftAsync), MatchLeftAsync);   
         
         connection.On<string,string,string>(nameof(MatchFoundAsync), MatchFoundAsync);
         
@@ -82,6 +82,17 @@ public class SocketServerCommunication : MonoBehaviour
     private void UserRejoinedAsync(string _userName)
     {
         Debug.Log("UserRejoinedAsync: "+_userName);
+    }
+    
+    private void MatchLeftAsync(bool _status)
+    {
+        if (!_status)
+        {
+            Debug.Log("Failed to leave room");
+            return;
+        }
+
+        OnILeftRoom?.Invoke();
     }
 
     private void ReceiveOldMessagesAsync(List<string> _messages)
@@ -129,7 +140,7 @@ public class SocketServerCommunication : MonoBehaviour
 
     public void LeaveRoom()
     {
-        //todo leave room
+        connection.SendAsync("LeaveMatchAsync");
     }
     #endregion
 
@@ -158,6 +169,7 @@ public class SocketServerCommunication : MonoBehaviour
         }
 
         string _methodName = _messageData.MethodName;
+        
         try
         {
             _target.SendMessage(_methodName,_messageData.Data);

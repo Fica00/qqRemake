@@ -34,7 +34,13 @@ public class UIPVPPanel : MonoBehaviour
     private IEnumerator BringBot()
     {
         yield return new WaitForSeconds(7);
+        SocketServerCommunication.OnILeftRoom += DoBringBot;
         SocketServerCommunication.Instance.LeaveRoom();
+    }
+
+    private void DoBringBot()
+    {
+        SocketServerCommunication.OnILeftRoom -= DoBringBot;
         Cancel();
         ModeHandler.Instance.Mode = GameMode.VsAi;
         playPanel.BringBot();
@@ -47,7 +53,6 @@ public class UIPVPPanel : MonoBehaviour
         ManageInteractables(true);
 
         cancelButton.onClick.AddListener(Cancel);
-        SocketServerCommunication.OnILeftRoom += Close;
         SocketServerCommunication.OnOpponentJoinedRoom += OpponentJoined;
     }
 
@@ -55,7 +60,6 @@ public class UIPVPPanel : MonoBehaviour
     {
         cancelButton.onClick.RemoveListener(Cancel);
 
-        SocketServerCommunication.OnILeftRoom -= Close;
         SocketServerCommunication.OnOpponentJoinedRoom -= OpponentJoined;
         StopAllCoroutines();
     }
@@ -79,7 +83,15 @@ public class UIPVPPanel : MonoBehaviour
     private void Cancel()
     {
         ManageInteractables(false);
+        SocketServerCommunication.OnILeftRoom += OnLeftRoom;
         SocketServerCommunication.Instance.LeaveRoom();
+    }
+
+    private void OnLeftRoom()
+    {
+        SocketServerCommunication.OnILeftRoom -= OnLeftRoom;
+        playPanel.OnLeftRoom();
+        Close();
     }
 
     private void Close()
