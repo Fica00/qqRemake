@@ -105,7 +105,7 @@ public class UIPVPPanel : MonoBehaviour
         StartCoroutine(Delay());
         IEnumerator Delay()
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(4);
             UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
         }
     }

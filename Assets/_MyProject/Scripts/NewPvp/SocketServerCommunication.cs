@@ -151,30 +151,21 @@ public class SocketServerCommunication : MonoBehaviour
             Debug.LogError($"GameObject {_objectName} not found.");
         }
         
-        MonoBehaviour _targetComponent = _targetObject.GetComponent<MonoBehaviour>();
-        if (_targetComponent == null)
+        MonoBehaviour _target = _targetObject.GetComponent<MonoBehaviour>();
+        if (_target == null)
         {
             Debug.LogError($"No MonoBehaviour found on object {_objectName}.");
         }
 
         string _methodName = _messageData.MethodName;
-        Type _type = _targetComponent.GetType();
-        MethodInfo _methodInfo = _type.GetMethod(_methodName);
-                
-        if (_methodInfo != null)
+        try
         {
-            if (_messageData.Data == null)
-            {
-                _methodInfo.Invoke(_targetComponent, null);
-            }
-            else
-            {
-                _methodInfo.Invoke(_targetComponent, new object[] { _messageData.Data });
-            }
+            _target.SendMessage(_methodName,_messageData.Data);
         }
-        else
+        catch (Exception _e)
         {
-            Debug.LogError($"Method {_methodName} not found on object {_objectName}.");
+            Debug.LogError($"Failed to call {_methodName} on {_objectName}: "+_e);
+            throw;
         }
     }
 }
