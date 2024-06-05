@@ -70,14 +70,6 @@ public class Initialization : MonoBehaviour
     {
         AudioManager.Instance.Init();
         
-        if (DataManager.Instance.PlayerData.HasFinishedTutorial == 0 && DataManager.Instance.PlayerData.Exp == 0)
-        {
-            DataManager.Instance.Subscribe();
-            SceneManager.Instance.LoadSimpleTutorial();
-        }
-        else
-        {
-            SceneManager.Instance.LoadMainMenu();
-        }
+        SceneManager.Instance.LoadTutorial();
     }
 }
