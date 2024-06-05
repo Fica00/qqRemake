@@ -34,19 +34,15 @@ public class MainMenuOverlaysHandler : MonoBehaviour
 
     private void SetupOverlays()
     {
-        Debug.Log("BeforeFirstGameOverlayShown: " + DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown);
-        Debug.Log("AfterFirstGameOverlayShown: " + DataManager.Instance.PlayerData.AfterFirstGameOverlayShown);
-        Debug.Log("GuestOverlayShown: " + DataManager.Instance.PlayerData.GuestOverlayShown);
+        // if (!DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
+        // {
+        //     DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown = true;
+        //     Debug.Log("Setting up FirstTimePlay overlay.");
+        //     firstTimePlayOverlay.Setup();
+        //     return;
+        // }
 
-        if (!DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
-        {
-            DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown = true;
-            Debug.Log("Setting up FirstTimePlay overlay.");
-            firstTimePlayOverlay.Setup();
-            return;
-        }
-
-        if (DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
+        if (DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
         {
             DataManager.Instance.PlayerData.AfterFirstGameOverlayShown = true;
             Debug.Log("Setting up ClaimQoomons overlay.");
@@ -54,7 +50,7 @@ public class MainMenuOverlaysHandler : MonoBehaviour
             return;
         }
 
-        if (DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown && DataManager.Instance.PlayerData.AfterFirstGameOverlayShown && !DataManager.Instance.PlayerData.GuestOverlayShown)
+        if (DataManager.Instance.PlayerData.HasPlayedFirstGame && DataManager.Instance.PlayerData.AfterFirstGameOverlayShown && !DataManager.Instance.PlayerData.GuestOverlayShown)
         {
             DataManager.Instance.PlayerData.GuestOverlayShown = true;
             Debug.Log("Setting up Guest overlay.");
@@ -70,10 +66,10 @@ public class MainMenuOverlaysHandler : MonoBehaviour
                 guestOverlay.Setup();
                 break;
             case MainMenuOverlay.FirstTimePlay:
-                firstTimePlayOverlay.Setup();
+                //firstTimePlayOverlay.Setup();
                 break;
             case MainMenuOverlay.ClaimQoomons:
-                claimQoomonsOverlay.Setup();
+                //claimQoomonsOverlay.Setup();
                 break;
         }
     }

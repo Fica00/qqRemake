@@ -15,6 +15,8 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button showSettings;
     [SerializeField] private Button showRank;
     [SerializeField] private Button showMissions;
+    [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
+
     public static bool ShowStartingAnimation;
 
     private void Awake()
@@ -34,6 +36,24 @@ public class UIMainMenu : MonoBehaviour
         DataManager.Instance.Subscribe();
         MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
+  
+        Debug.Log("HasPlayedFirstGame: " + DataManager.Instance.PlayerData.HasPlayedFirstGame);
+        Debug.Log("HasFinishedFirstGame: " + DataManager.Instance.PlayerData.HasFinishedFirstGame);
+        
+        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        {
+            BotPlayer.GenerateNewData();
+            SceneManager.Instance.LoadAIGameplay();
+        }
+        else if (DataManager.Instance.PlayerData.HasFinishedFirstGame)
+        {
+            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+            
+            DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
+            DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
+            
+            qoomonUnlockingPanel.Setup(_qoomonId, null);
+        }
     }
 
     private void OnEnable()

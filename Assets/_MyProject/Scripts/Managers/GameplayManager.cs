@@ -140,6 +140,12 @@ public class GameplayManager : MonoBehaviour
     
     private void TriggerGameEndEvents(GameResult _result)
     {
+        if(!DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        {
+            DataManager.Instance.PlayerData.HasPlayedFirstGame = true;
+            DataManager.Instance.PlayerData.HasFinishedFirstGame = true;
+        }
+        
         if (_result is not (GameResult.IWon or GameResult.Escaped))
         {
             return;

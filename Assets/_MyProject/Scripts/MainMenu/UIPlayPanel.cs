@@ -75,7 +75,7 @@ public class UIPlayPanel : MonoBehaviour
         {
             return;
         }
-
+        
         matchMakingVsBot.Setup(Random.Range(3f,7f));
     }
 

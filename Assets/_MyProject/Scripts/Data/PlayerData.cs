@@ -36,6 +36,9 @@ public class PlayerData
     private bool didRequestUserWallet;
     private string agency;
     private bool isGuest;
+    private bool isNewAccount;
+    private bool hasPlayedFirstGame;
+    private bool hasFinishedFirstGame;
 
     private bool beforeFirstGameOverlayShown;
     private bool afterFirstGameOverlayShown;
@@ -75,6 +78,8 @@ public class PlayerData
     public static Action UpdatedBeforeFirstGameOverlayShown;
     public static Action UpdatedAfterFirstGameOverlayShown;
     public static Action UpdatedGuestOverlayShown;
+    public static Action UpdatedIsNewAccount;
+    public static Action UpdatedHasPlayedFirstGame;
 
     public void CreateNewPlayer()
     {
@@ -257,6 +262,16 @@ public class PlayerData
         {
             isGuest = value;
             UpdatedIsGuest?.Invoke();
+        }
+    }
+    
+    public bool HasPlayedFirstGame
+    {
+        get => hasPlayedFirstGame;
+        set
+        {
+            hasPlayedFirstGame = value;
+            UpdatedHasPlayedFirstGame?.Invoke();
         }
     }
 
@@ -461,6 +476,16 @@ public class PlayerData
             UpdatedAgency?.Invoke();
         }
     }
+    
+    public bool IsNewAccount
+    {
+        get => isNewAccount;
+        set
+        {
+            isNewAccount = value;
+            UpdatedIsNewAccount?.Invoke();
+        }
+    }
 
     public List<int> ClaimedRankRewards
     {
@@ -540,6 +565,12 @@ public class PlayerData
             hasFinishedTutorial = value;
             UpdatedHasFinishedTutorial?.Invoke();
         }
+    }
+    
+    public bool HasFinishedFirstGame
+    {
+        get => hasFinishedFirstGame;
+        set => hasFinishedFirstGame = value;
     }
     
     public bool BeforeFirstGameOverlayShown

@@ -45,8 +45,11 @@ public class Initialization : MonoBehaviour
                 if (_status)
                 {
                     FinishInit();
+                    
                     DataManager.Instance.PlayerData.Agency = _agency;
                     DataManager.Instance.PlayerData.IsGuest = _isGuest;
+                    DataManager.Instance.PlayerData.IsNewAccount = true;
+                    
                     DataManager.Instance.SaveIsGuest();
                     
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
