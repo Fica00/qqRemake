@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Unity WebGL Player | Qoomon Quest</title>
-  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
-  <link rel="stylesheet" href="TemplateData/style.css" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
-  <script src="https://js.stripe.com/v3/"></script>
-  <style>
-    @media (orientation: landscape) {
-      /* body {
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Unity WebGL Player | Qoomon Quest</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="TemplateData/style.css" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+      @media (orientation: landscape) {
+        /* body {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -22,42 +22,19 @@
             overflow: hidden;
           } */
 
-      #landscape-block-message {
-        display: block;
-        text-align: center;
-        background: black;
-        color: white;
-        padding: 20px;
-        border: 3px solid red;
-        font-size: 20px;
+        #landscape-block-message {
+          display: block;
+          text-align: center;
+          background: black;
+          color: white;
+          padding: 20px;
+          border: 3px solid red;
+          font-size: 20px;
+        }
       }
-    }
-    #unity-tutorial {
-      width: 90%;
-      /*height: 97vh;*/
-      /* max-height: 700px; */
-      transition: 0.4s all ease;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    #unity-tutorial img {
-      display: none;
-    }
-    #unity-tutorial img.active {
-      display: block;
-    }
-    #unity-progress-bar-empty {
-      position: absolute;
-      bottom: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    @media screen and (min-width: 768px) {
       #unity-tutorial {
-        width: auto;
-        height: 99vh;
+        width: 90%;
+        /*height: 97vh;*/
         /* max-height: 700px; */
         transition: 0.4s all ease;
         position: absolute;
@@ -65,41 +42,64 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
-    }
-  </style>
-</head>
-<body>
-<div id="landscape-block-message" style="display: none">
-  Please rotate your device to portrait mode to continue.
-</div>
-<div id="unity-container">
-  <canvas id="unity-canvas" width="1179" height="2556"></canvas>
-  <div id="unity-tutorial">
-    <img
-            src="./TemplateData/loading1.png"
-            alt="tutorial card 1"
-            class="active"
-            style="width: 100%; height: 100%"
-    />
-    <img
-            src="./TemplateData/loading2.png"
-            alt="tutorial card 2"
-            style="width: 100%; height: 100%"
-    />
-    <img
-            src="./TemplateData/loading3.png"
-            alt="tutorial card 3"
-            style="width: 100%; height: 100%"
-    />
-    <div id="unity-progress-bar-empty">
-      <div id="unity-progress-bar-full" style="margin: 0"></div>
+      #unity-tutorial img {
+        display: none;
+      }
+      #unity-tutorial img.active {
+        display: block;
+      }
+      #unity-progress-bar-empty {
+        position: absolute;
+        bottom: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      @media screen and (min-width: 768px) {
+        #unity-tutorial {
+          width: auto;
+          height: 99vh;
+          /* max-height: 700px; */
+          transition: 0.4s all ease;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="landscape-block-message" style="display: none">
+      Please rotate your device to portrait mode to continue.
     </div>
-  </div>
-  <div id="unity-warning"></div>
-</div>
-<div
-        id="form-container"
-        style="
+    <div id="unity-container">
+      <canvas id="unity-canvas" width="1179" height="2556"></canvas>
+      <div id="unity-tutorial">
+        <img
+          src="./TemplateData/loading1.png"
+          alt="tutorial card 1"
+          class="active"
+          style="width: 100%; height: 100%"
+        />
+        <img
+          src="./TemplateData/loading2.png"
+          alt="tutorial card 2"
+          style="width: 100%; height: 100%"
+        />
+        <img
+          src="./TemplateData/loading3.png"
+          alt="tutorial card 3"
+          style="width: 100%; height: 100%"
+        />
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full" style="margin: 0"></div>
+        </div>
+      </div>
+      <div id="unity-warning"></div>
+    </div>
+    <div
+      id="form-container"
+      style="
         position: fixed;
         width: 100%;
         height: 100vh;
@@ -107,10 +107,10 @@
         justify-content: center;
         align-items: center;
       "
->
-  <div
-          id="payment-form"
-          style="
+    >
+      <div
+        id="payment-form"
+        style="
           width: 90%;
           max-width: 400px;
           padding: 30px;
@@ -118,16 +118,16 @@
           text-align: center;
           background-color: #f2f2f2;
         "
-  >
-    <div id="card-element"></div>
-    <div id="card-errors" role="alert"></div>
-    <div id="card-cost"></div>
-    <div
-            style="display: flex; justify-content: center; align-items: center"
-    >
-      <p
-              id="btn-cancelPayment"
-              style="
+      >
+        <div id="card-element"></div>
+        <div id="card-errors" role="alert"></div>
+        <div id="card-cost"></div>
+        <div
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <p
+            id="btn-cancelPayment"
+            style="
               width: fit-content;
               margin-right: 10px;
               border: transparent;
@@ -139,12 +139,12 @@
               cursor: pointer;
               font-family: Verdana, Geneva, Tahoma, sans-serif;
             "
-      >
-        Cancel
-      </p>
-      <button
-              id="btn-submit"
-              style="
+          >
+            Cancel
+          </p>
+          <button
+            id="btn-submit"
+            style="
               border: transparent;
               border-radius: 5px;
               background-color: #000;
@@ -154,25 +154,25 @@
               cursor: pointer;
               font-family: Verdana, Geneva, Tahoma, sans-serif;
             "
-      >
-        Submit
-      </button>
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div id="pwa-msg" style="display: none">
-  <div
-          style="
+    <div id="pwa-msg" style="display: none">
+      <div
+        style="
           position: relative;
           display: flex;
           justify-content: center;
           align-items: center;
         "
-  >
-    <img src="./TemplateData/PWA msg.png" alt="pwa-msg" />
-    <button
-            id="cancelMsg"
-            style="
+      >
+        <img src="./TemplateData/PWA msg.png" alt="pwa-msg" />
+        <button
+          id="cancelMsg"
+          style="
             position: absolute;
             top: 15%;
             right: 5%;
@@ -183,503 +183,510 @@
             font-weight: 600;
             border: transparent;
           "
-    >
-      X
-    </button>
-  </div>
-</div>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
-    authDomain: "qqweb-b75ae.firebaseapp.com",
-    databaseURL: "https://qqweb-b75ae-default-rtdb.firebaseio.com",
-    projectId: "qqweb-b75ae",
-    storageBucket: "qqweb-b75ae.appspot.com",
-    messagingSenderId: "964235423017",
-    appId: "1:964235423017:web:d8c714d7e198e8e9261b38",
-    measurementId: "G-FW64GXVQ28",
-  };
-  firebase.initializeApp(firebaseConfig);
-  const firebaseAnalytics = firebase.analytics();
+        >
+          X
+        </button>
+      </div>
+    </div>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBwAcfu-00sN9qH66i499dzf5SjBaFQ358",
+        authDomain: "qqweb-b75ae.firebaseapp.com",
+        databaseURL: "https://qqweb-b75ae-default-rtdb.firebaseio.com",
+        projectId: "qqweb-b75ae",
+        storageBucket: "qqweb-b75ae.appspot.com",
+        messagingSenderId: "964235423017",
+        appId: "1:964235423017:web:d8c714d7e198e8e9261b38",
+        measurementId: "G-FW64GXVQ28",
+      };
+      firebase.initializeApp(firebaseConfig);
+      const firebaseAnalytics = firebase.analytics();
 
-  let currentUser = null;
-  let userId = null;
-  let unity = null;
-  let isBreakingScript = false;
-  const dinamicParam = new URLSearchParams(window.location.search).get("a");
-  let doCheckForMarketing = false;
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
-  const facebookProvider = new firebase.auth.FacebookAuthProvider();
-  const twitterProvider = new firebase.auth.TwitterAuthProvider();
-  // const discordProvider = new firebase.auth.OAuthProvider('oidc.discord')
-  const btnCancelPayment = document.querySelector("#btn-cancelPayment");
-  const stripe = Stripe(
-          "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
-  );
-
-  function CheckIsPwa() {
-    function isInStandaloneMode() {
-      var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-      const res = displayModes.some(
-              (displayMode) =>
-                      window.matchMedia("(display-mode: " + displayMode + ")").matches
+      let currentUser = null;
+      let userId = null;
+      let unity = null;
+      let isBreakingScript = false;
+      const dinamicParam = new URLSearchParams(window.location.search).get("a");
+      let doCheckForMarketing = false;
+      const googleProvider = new firebase.auth.GoogleAuthProvider();
+      const facebookProvider = new firebase.auth.FacebookAuthProvider();
+      const twitterProvider = new firebase.auth.TwitterAuthProvider();
+      // const discordProvider = new firebase.auth.OAuthProvider('oidc.discord')
+      const btnCancelPayment = document.querySelector("#btn-cancelPayment");
+      const stripe = Stripe(
+        "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
       );
-      return res;
-    }
 
-    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    const isOnPC = !isIOS && !isAndroid;
-    if (!isOnPC && !isInStandaloneMode()) {
-      const msgContainer = document.getElementById("pwa-msg");
-      const cancelBtn = document.getElementById("cancelMsg");
-      const cancelBtnImage = document.getElementById("cancelMsgImage");
-      const unityContainer = document.getElementById("unity-container");
-      unityContainer.style.display = "none";
-      msgContainer.style.display = "flex";
-      msgContainer.style.height = "100vh";
-      msgContainer.style.justifyContent = "center";
-      msgContainer.style.backgroundImage = `url('./TemplateData/PWA\ bg.png')`;
-      msgContainer.style.backgroundPosition = "center";
-      msgContainer.style.backgroundRepeat = "no-repeat";
-      msgContainer.style.backgroundSize = "cover";
-      cancelBtn.addEventListener("click", () => {
-        unityContainer.style.display = "block";
-        msgContainer.style.display = "none";
-      });
-      cancelBtnImage.addEventListener("click", () => {
-        unityContainer.style.display = "block";
-        msgContainer.style.display = "none";
-      });
-      isBreakingScript = true;
-      // return true
-    }
-    isBreakingScript = false;
-    // return false
-  }
+      function CheckIsPwa() {
+        function isInStandaloneMode() {
+          var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+          const res = displayModes.some(
+            (displayMode) =>
+              window.matchMedia("(display-mode: " + displayMode + ")").matches
+          );
+          return res;
+        }
 
-  //CheckIsPwa();
-
-  function SetUserId(id) {
-    userId = id;
-
-    // Reference to the user's 'Coins' field in Firebase
-    var coinsRef = firebase.database().ref(`users/${userId}/Coins`);
-    // Listener for changes in the 'Coins' field
-    coinsRef.on("value", function (snapshot) {
-      if (snapshot.exists()) {
-        const coins = snapshot.val();
-        //unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', coins.toString());
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isOnPC = !isIOS && !isAndroid;
+        if (!isOnPC && !isInStandaloneMode()) {
+          const msgContainer = document.getElementById("pwa-msg");
+          const cancelBtn = document.getElementById("cancelMsg");
+          const cancelBtnImage = document.getElementById("cancelMsgImage");
+          const unityContainer = document.getElementById("unity-container");
+          unityContainer.style.display = "none";
+          msgContainer.style.display = "flex";
+          msgContainer.style.height = "100vh";
+          msgContainer.style.justifyContent = "center";
+          msgContainer.style.backgroundImage = `url('./TemplateData/PWA\ bg.png')`;
+          msgContainer.style.backgroundPosition = "center";
+          msgContainer.style.backgroundRepeat = "no-repeat";
+          msgContainer.style.backgroundSize = "cover";
+          cancelBtn.addEventListener("click", () => {
+            unityContainer.style.display = "block";
+            msgContainer.style.display = "none";
+          });
+          cancelBtnImage.addEventListener("click", () => {
+            unityContainer.style.display = "block";
+            msgContainer.style.display = "none";
+          });
+          isBreakingScript = true;
+          // return true
+        }
+        isBreakingScript = false;
+        // return false
       }
-    });
 
-    // Reference to the user's 'USDC' field in Firebase
-    var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
-    // Listener for changes in the 'USDC' field
-    usdcRef.on("value", function (snapshot) {
-      if (snapshot.exists()) {
-        const usdc = snapshot.val();
-        unity.SendMessage(
-                "JavaScriptManager",
-                "OnUpdatedUSDC",
-                usdc.toString()
+      //CheckIsPwa();
+
+      function SetUserId(id) {
+        userId = id;
+
+        // Reference to the user's 'Coins' field in Firebase
+        var coinsRef = firebase.database().ref(`users/${userId}/Coins`);
+        // Listener for changes in the 'Coins' field
+        coinsRef.on("value", function (snapshot) {
+          if (snapshot.exists()) {
+            const coins = snapshot.val();
+            //unity.SendMessage('JavaScriptManager', 'OnUpdatedDiamonds', coins.toString());
+          }
+        });
+
+        // Reference to the user's 'USDC' field in Firebase
+        var usdcRef = firebase.database().ref(`users/${userId}/USDC`);
+        // Listener for changes in the 'USDC' field
+        usdcRef.on("value", function (snapshot) {
+          if (snapshot.exists()) {
+            const usdc = snapshot.val();
+            unity.SendMessage(
+              "JavaScriptManager",
+              "OnUpdatedUSDC",
+              usdc.toString()
+            );
+          }
+        });
+      }
+
+      // function updateMarketingParam(param) {
+      //   if (!param) {
+      //     console.log("No dynamicParam found in URL");
+      //     return;
+      //   }
+      //   const paramRef = firebase.database().ref("marketing/" + param);
+      //   paramRef.once("value", function (snapshot) {
+      //     if (snapshot.exists()) {
+      //       const currentCount = snapshot.val();
+      //       paramRef.set(currentCount + 1, function (error) {
+      //         if (error) {
+      //           console.error("Error updating marketing parameter:", error);
+      //         } else {
+      //           console.log(
+      //             `Marketing parameter '${param}' incremented successfully.`
+      //           );
+      //         }
+      //       });
+      //     } else {
+      //       paramRef.set(1, function (error) {
+      //         if (error) {
+      //           console.error("Error creating marketing parameter:", error);
+      //         } else {
+      //           console.log(
+      //             `Marketing parameter '${param}' created successfully.`
+      //           );
+      //         }
+      //       });
+      //     }
+      //   });
+      // }
+
+      //now doing this in tellUnityUserInfo because we need the timestamp for our dashboard!!!!!!
+      function updateMarketingParam(param) {
+        if (!param) {
+          console.log("No dynamicParam found in URL");
+          return;
+        }
+        doCheckForMarketing = true;
+      }
+
+      updateMarketingParam(dinamicParam);
+
+      const ReloadPageFromUnity = () => {
+        location.reload();
+      };
+      const CheckUserSession = () => {
+        console.log("Checking session");
+        if (!unity) {
+          console.log("Unity instance is not ready.");
+          return; // Exit the function if unity is not initialized
+        }
+        if (currentUser) {
+          tellUnityUserInfo(
+            currentUser.uid,
+            currentUser.isAnonymous,
+            currentUser
+          );
+        } else {
+          unity.SendMessage("JavaScriptManager", "AuthFinished", "");
+        }
+      };
+
+      function LinkingAnonimousUser(providerName) {
+        var user = firebase.auth().currentUser;
+        if (!user) return; //if user doesn't exsist that means that client is not logged in
+        let provider = null;
+        switch (
+          providerName //choose a provider based on string that is provided by specific button from unity
+        ) {
+          case "google":
+            provider = googleProvider;
+            break;
+          case "facebook":
+            provider = facebookProvider;
+            break;
+          case "twitter":
+            provider = twitterProvider;
+            break;
+          default:
+            console.log("Unsupported provider");
+            return;
+        }
+        user
+          .linkWithPopup(provider)
+          .then((result) => {
+            //call sign up with specific provider
+            var credential = result.credential;
+            var user = result.user;
+            unity.SendMessage(
+              "JavaScriptManager",
+              "SuccessLinkingLoginAccount"
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+            unity.SendMessage("JavaScriptManager", "UserAlreadyHasAccount");
+          });
+      }
+
+      function GoogleAuth() {
+        firebase
+          .auth()
+          .signInWithPopup(googleProvider)
+          .then((result) => {
+            console.log("Google auth: " + resut);
+            tellUnityUserInfo(
+              result.user.uid,
+              result.user.isAnonymous,
+              result.user
+            );
+          })
+          .catch((err) => {
+            unity.SendMessage("JavaScriptManager", "FailedToAuth");
+            console.log(err.code);
+          });
+      }
+
+      function FacebookAuth() {
+        firebase
+          .auth()
+          .signInWithPopup(facebookProvider)
+          .then((result) => {
+            tellUnityUserInfo(
+              result.user.uid,
+              result.user.isAnonymous,
+              result.user
+            );
+            // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
+          })
+          .catch((err) => {
+            unity.SendMessage("JavaScriptManager", "FailedToAuth");
+            console.log(err.code);
+          });
+      }
+
+      function TwitterAuth() {
+        firebase
+          .auth()
+          .signInWithPopup(twitterProvider)
+          .then((result) => {
+            console.log("Twitter auth: " + resut);
+            tellUnityUserInfo(
+              result.user.uid,
+              result.user.isAnonymous,
+              result.user
+            );
+          })
+          .catch((err) => {
+            unity.SendMessage("JavaScriptManager", "FailedToAuth");
+            console.log(err.code);
+          });
+      }
+
+      // -----------------------------------------------------DISCORD AUTH
+      function DiscordAuth() {
+        const popup = window.open(
+          "https://your-region-your-project-id.cloudfunctions.net/startDiscordAuth",
+          "DiscordLogin",
+          "width=500,height=800"
         );
+
+        window.addEventListener("message", (event) => {
+          if (event.origin !== window.location.origin) return;
+          const { token } = event.data;
+          firebase
+            .auth()
+            .signInWithCustomToken(token)
+            .then((res) => {
+              console.log("Successfully authenticated", res);
+              popup.close();
+            })
+            .catch((error) => {
+              console.error("Failed to authenticate", error);
+            });
+        });
       }
-    });
-  }
 
-  // function updateMarketingParam(param) {
-  //   if (!param) {
-  //     console.log("No dynamicParam found in URL");
-  //     return;
-  //   }
-  //   const paramRef = firebase.database().ref("marketing/" + param);
-  //   paramRef.once("value", function (snapshot) {
-  //     if (snapshot.exists()) {
-  //       const currentCount = snapshot.val();
-  //       paramRef.set(currentCount + 1, function (error) {
-  //         if (error) {
-  //           console.error("Error updating marketing parameter:", error);
-  //         } else {
-  //           console.log(
-  //             `Marketing parameter '${param}' incremented successfully.`
-  //           );
-  //         }
-  //       });
-  //     } else {
-  //       paramRef.set(1, function (error) {
-  //         if (error) {
-  //           console.error("Error creating marketing parameter:", error);
-  //         } else {
-  //           console.log(
-  //             `Marketing parameter '${param}' created successfully.`
-  //           );
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
+      //  -----------------------------------------------------DISCORD AUTH
+      function SignInAnonymous() {
+        firebase
+          .auth()
+          .signInAnonymously()
+          .then((userCredential) => {
+            tellUnityUserInfo(
+              userCredential.user.uid,
+              userCredential.user.isAnonymous,
+              userCredential.user
+            );
+          })
+          .catch((error) => {
+            unity.SendMessage("JavaScriptManager", "FailedToAuth");
+          });
+      }
 
-  //now doing this in tellUnityUserInfo because we need the timestamp for our dashboard!!!!!!
-  function updateMarketingParam(param) {
-    if (!param) {
-      console.log("No dynamicParam found in URL");
-      return;
-    }
-    doCheckForMarketing = true;
-  }
+      const SignOut = () => {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            ReloadPageFromUnity();
+          })
+          .catch((error) => {
+            console.log("greska");
+          });
+      };
 
-  updateMarketingParam(dinamicParam);
+      function tellUnityUserInfo(userId, isGuest, userInfo) {
+        var ref = firebase.database().ref(`users/${userId}`);
+        ref
+          .once("value", function (snapshot) {
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
+              console.log("User Data Retrieved:", userData);
 
-  const ReloadPageFromUnity = () => {
-    location.reload();
-  };
-  const CheckUserSession = () => {
-    console.log("Checking session");
-    if (!unity) {
-      console.log("Unity instance is not ready.");
-      return; // Exit the function if unity is not initialized
-    }
-    if (currentUser) {
-      tellUnityUserInfo(
-              currentUser.uid,
-              currentUser.isAnonymous,
-              currentUser
-      );
-    } else {
-      unity.SendMessage("JavaScriptManager", "AuthFinished", "");
-    }
-  };
+              // Fetch createdAt from user metadata
+              const createdAt = userInfo.metadata.createdAt;
 
-  function LinkingAnonimousUser(providerName) {
-    var user = firebase.auth().currentUser;
-    if (!user) return; //if user doesn't exsist that means that client is not logged in
-    let provider = null;
-    switch (
-            providerName //choose a provider based on string that is provided by specific button from unity
-            ) {
-      case "google":
-        provider = googleProvider;
-        break;
-      case "facebook":
-        provider = facebookProvider;
-        break;
-      case "twitter":
-        provider = twitterProvider;
-        break;
-      default:
-        console.log("Unsupported provider");
-        return;
-    }
-    user
-            .linkWithPopup(provider)
-            .then((result) => {
-              //call sign up with specific provider
-              var credential = result.credential;
-              var user = result.user;
-              unity.SendMessage(
-                      "JavaScriptManager",
-                      "SuccessLinkingLoginAccount"
-              );
-            })
-            .catch((error) => {
-              console.log(error);
-              unity.SendMessage("JavaScriptManager", "UserAlreadyHasAccount");
-            });
-  }
-
-  function GoogleAuth() {
-    firebase
-            .auth()
-            .signInWithPopup(googleProvider)
-            .then((result) => {
-              console.log("Google auth: " + resut);
-              tellUnityUserInfo(
-                      result.user.uid,
-                      result.user.isAnonymous,
-                      result.user
-              );
-            })
-            .catch((err) => {
-              unity.SendMessage("JavaScriptManager", "FailedToAuth");
-              console.log(err.code);
-            });
-  }
-
-  function FacebookAuth() {
-    firebase
-            .auth()
-            .signInWithPopup(facebookProvider)
-            .then((result) => {
-              tellUnityUserInfo(
-                      result.user.uid,
-                      result.user.isAnonymous,
-                      result.user
-              );
-              // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
-            })
-            .catch((err) => {
-              unity.SendMessage("JavaScriptManager", "FailedToAuth");
-              console.log(err.code);
-            });
-  }
-
-  function TwitterAuth() {
-    firebase
-            .auth()
-            .signInWithPopup(twitterProvider)
-            .then((result) => {
-              console.log("Twitter auth: " + resut);
-              tellUnityUserInfo(
-                      result.user.uid,
-                      result.user.isAnonymous,
-                      result.user
-              );
-            })
-            .catch((err) => {
-              unity.SendMessage("JavaScriptManager", "FailedToAuth");
-              console.log(err.code);
-            });
-  }
-
-  // -----------------------------------------------------DISCORD AUTH
-  function DiscordAuth() {
-    const popup = window.open(
-            "https://your-region-your-project-id.cloudfunctions.net/startDiscordAuth",
-            "DiscordLogin",
-            "width=500,height=800"
-    );
-
-    window.addEventListener("message", (event) => {
-      if (event.origin !== window.location.origin) return;
-      const { token } = event.data;
-      firebase
-              .auth()
-              .signInWithCustomToken(token)
-              .then((res) => {
-                console.log("Successfully authenticated", res);
-                popup.close();
-              })
-              .catch((error) => {
-                console.error("Failed to authenticate", error);
-              });
-    });
-  }
-
-  //  -----------------------------------------------------DISCORD AUTH
-  function SignInAnonymous() {
-    firebase
-            .auth()
-            .signInAnonymously()
-            .then((userCredential) => {
-              tellUnityUserInfo(
-                      userCredential.user.uid,
-                      userCredential.user.isAnonymous,
-                      userCredential.user
-              );
-            })
-            .catch((error) => {
-              unity.SendMessage("JavaScriptManager", "FailedToAuth");
-            });
-  }
-
-  const SignOut = () => {
-    firebase
-            .auth()
-            .signOut()
-            .then(() => {
-              ReloadPageFromUnity();
-            })
-            .catch((error) => {
-              console.log("greska");
-            });
-  };
-
-  function tellUnityUserInfo(userId, isGuest, userInfo) {
-    var ref = firebase.database().ref(`users/${userId}`);
-    ref
-            .once("value", function (snapshot) {
-              if (snapshot.exists()) {
-                const userData = snapshot.val();
-                console.log("User Data Retrieved:", userData);
-
-                //Check if flag is set
-                if (doCheckForMarketing) {
-                  const agencyRef = firebase
-                          .database()
-                          .ref(`marketing/${dinamicParam}/${userId}`);
-                  agencyRef.set(
-                          {
-                            timestamp: firebase.database.ServerValue.TIMESTAMP,
-                          },
-                          function (error) {
-                            if (error) {
-                              console.error("Error updating marketing user:", error);
-                            } else {
-                              console.log(
-                                      `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
-                              );
-                              doCheckForMarketing = false; // Resetuj flag
-                            }
-                          }
-                  );
-                }
-
-                unity.SendMessage(
-                        "JavaScriptManager",
-                        "AuthFinished",
-                        JSON.stringify({
-                          UserId: userId,
-                          IsNewAccount: false,
-                          Agency: dinamicParam,
-                          IsGuest: isGuest,
-                        })
-                );
-              } else {
-                console.log("No user data available for user ID:", userId);
-
-                //check if flag is set!
-                if (doCheckForMarketing) {
-                  const agencyRef = firebase
-                          .database()
-                          .ref(`marketing/${dinamicParam}/${userId}`);
-                  agencyRef.set(
-                          {
-                            timestamp: firebase.database.ServerValue.TIMESTAMP,
-                          },
-                          function (error) {
-                            if (error) {
-                              console.error("Error updating marketing user:", error);
-                            } else {
-                              console.log(
-                                      `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
-                              );
-                              doCheckForMarketing = false;
-                            }
-                          }
-                  );
-                }
-
-                unity.SendMessage(
-                        "JavaScriptManager",
-                        "AuthFinished",
-                        JSON.stringify({
-                          UserId: userId,
-                          IsNewAccount: true,
-                          Agency: dinamicParam,
-                          IsGuest: isGuest,
-                        })
+              //Check if flag is set
+              if (doCheckForMarketing) {
+                const agencyRef = firebase
+                  .database()
+                  .ref(`marketing/${dinamicParam}/${userId}`);
+                agencyRef.set(
+                  {
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                  },
+                  function (error) {
+                    if (error) {
+                      console.error("Error updating marketing user:", error);
+                    } else {
+                      console.log(
+                        `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
+                      );
+                      doCheckForMarketing = false; // Resetuj flag
+                    }
+                  }
                 );
               }
-            })
-            .catch(function (error) {
-              console.error("Error fetching user data:", error);
-              unity.SendMessage("JavaScriptManager", "FailedToAuth");
-            });
-  }
 
-  var container = document.querySelector("#unity-container");
-  var canvas = document.querySelector("#unity-canvas");
-  var loadingTutorial = document.querySelector("#unity-tutorial");
-  var progressBarFull = document.querySelector("#unity-progress-bar-full");
-  var warningBanner = document.querySelector("#unity-warning");
+              unity.SendMessage(
+                "JavaScriptManager",
+                "AuthFinished",
+                JSON.stringify({
+                  UserId: userId,
+                  IsNewAccount: false,
+                  Agency: dinamicParam,
+                  IsGuest: isGuest,
+                  CreatedAt: createdAt,
+                })
+              );
+            } else {
+              console.log("No user data available for user ID:", userId);
 
-  // Shows a temporary message banner/ribbon for a few seconds, or
-  // a permanent error message on top of the canvas if type=='error'.
-  // If type=='warning', a yellow highlight color is used.
-  // Modify or remove this function to customize the visually presented
-  // way that non-critical warnings and error messages are presented to the
-  // user.
-  function unityShowBanner(msg, type) {
-    function updateBannerVisibility() {
-      warningBanner.style.display = warningBanner.children.length
-              ? "block"
-              : "none";
-    }
+              //check if flag is set!
+              if (doCheckForMarketing) {
+                const agencyRef = firebase
+                  .database()
+                  .ref(`marketing/${dinamicParam}/${userId}`);
+                agencyRef.set(
+                  {
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                  },
+                  function (error) {
+                    if (error) {
+                      console.error("Error updating marketing user:", error);
+                    } else {
+                      console.log(
+                        `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
+                      );
+                      doCheckForMarketing = false;
+                    }
+                  }
+                );
+              }
 
-    var div = document.createElement("div");
-    div.innerHTML = msg;
-    warningBanner.appendChild(div);
-    if (type == "error") div.style = "background: red; padding: 10px;";
-    else {
-      if (type == "warning")
-        div.style = "background: yellow; padding: 10px;";
-      setTimeout(function () {
-        warningBanner.removeChild(div);
+              const createdAt = userInfo.metadata.createdAt;
+
+              unity.SendMessage(
+                "JavaScriptManager",
+                "AuthFinished",
+                JSON.stringify({
+                  UserId: userId,
+                  IsNewAccount: true,
+                  Agency: dinamicParam,
+                  IsGuest: isGuest,
+                  CreatedAt: createdAt,
+                })
+              );
+            }
+          })
+          .catch(function (error) {
+            console.error("Error fetching user data:", error);
+            unity.SendMessage("JavaScriptManager", "FailedToAuth");
+          });
+      }
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingTutorial = document.querySelector("#unity-tutorial");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length
+            ? "block"
+            : "none";
+        }
+
+        var div = document.createElement("div");
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == "error") div.style = "background: red; padding: 10px;";
+        else {
+          if (type == "warning")
+            div.style = "background: yellow; padding: 10px;";
+          setTimeout(function () {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
         updateBannerVisibility();
-      }, 5000);
-    }
-    updateBannerVisibility();
-  }
+      }
 
-  var buildUrl = "Build";
-  var loaderUrl = buildUrl + "/QoomonQuest.loader.js";
-  var config = {
-    dataUrl: buildUrl + "/QoomonQuest.data",
-    frameworkUrl: buildUrl + "/QoomonQuest.framework.js",
-    codeUrl: buildUrl + "/QoomonQuest.wasm",
-    streamingAssetsUrl: "StreamingAssets",
-    companyName: "MagmaDev",
-    productName: "Qoomon Quest",
-    productVersion: "1.0",
-    showBanner: unityShowBanner,
-  };
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/QoomonQuest.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/QoomonQuest.data",
+        frameworkUrl: buildUrl + "/QoomonQuest.framework.js",
+        codeUrl: buildUrl + "/QoomonQuest.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "MagmaDev",
+        productName: "Qoomon Quest",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+      };
 
-  // By default Unity keeps WebGL canvas render target size matched with
-  // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-  // Set this to false if you want to decouple this synchronization from
-  // happening inside the engine, and you would instead like to size up
-  // the canvas DOM size and WebGL render target sizes yourself.
-  // config.matchWebGLToCanvasSize = false;
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
 
-  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    // Mobile device style: fill the whole browser client area with the game canvas:
-    var meta = document.createElement("meta");
-    meta.name = "viewport";
-    meta.content =
-            "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
-    document.getElementsByTagName("head")[0].appendChild(meta);
-  }
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        var meta = document.createElement("meta");
+        meta.name = "viewport";
+        meta.content =
+          "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+        document.getElementsByTagName("head")[0].appendChild(meta);
+      }
 
-  var script = document.createElement("script");
-  script.src = loaderUrl;
-  script.onload = () => {
-    let currentIndex = 0;
-    const images = document.querySelectorAll("#unity-tutorial img");
-    images[currentIndex].classList.add("active");
-    let intervalRef = setInterval(() => {
-      images[currentIndex].classList.remove("active");
-      currentIndex = (currentIndex + 1) % images.length;
-      images[currentIndex].classList.add("active");
-    }, 3000);
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        let currentIndex = 0;
+        const images = document.querySelectorAll("#unity-tutorial img");
+        images[currentIndex].classList.add("active");
+        let intervalRef = setInterval(() => {
+          images[currentIndex].classList.remove("active");
+          currentIndex = (currentIndex + 1) % images.length;
+          images[currentIndex].classList.add("active");
+        }, 3000);
 
-    createUnityInstance(canvas, config, (progress) => {
-      progressBarFull.style.width = 100 * progress + "%";
-    })
-            .then((unityInstance) => {
-              clearInterval(intervalRef);
-              loadingTutorial.style.display = "none";
-              unity = unityInstance;
-              firebase.auth().onAuthStateChanged(function (user) {
-                if (user && unity) {
-                  console.log(user, "user is logged in");
-                  currentUser = user;
-                  const userInfo = user;
-                  const isGuest = userInfo.isAnonymous;
-                  console.log("UserInfo:", userInfo);
-                  console.log("isGuest:", isGuest);
-                  tellUnityUserInfo(userInfo.uid, isGuest, userInfo);
-                } else {
-                  console.log("No user is logged in.");
-                }
-              });
-            })
-            .catch((message) => {
-              alert(message);
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        })
+          .then((unityInstance) => {
+            clearInterval(intervalRef);
+            loadingTutorial.style.display = "none";
+            unity = unityInstance;
+            firebase.auth().onAuthStateChanged(function (user) {
+              if (user && unity) {
+                console.log(user, "user is logged in");
+                currentUser = user;
+                const userInfo = user;
+                const isGuest = userInfo.isAnonymous;
+                console.log("UserInfo:", userInfo);
+                console.log("isGuest:", isGuest);
+                tellUnityUserInfo(userInfo.uid, isGuest, userInfo);
+              } else {
+                console.log("No user is logged in.");
+              }
             });
-  };
-  document.body.appendChild(script);
-  firebaseAnalytics.logEvent("page_view");
-</script>
-</body>
+          })
+          .catch((message) => {
+            alert(message);
+          });
+      };
+      document.body.appendChild(script);
+      firebaseAnalytics.logEvent("page_view");
+    </script>
+  </body>
 </html>
