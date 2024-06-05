@@ -91,6 +91,16 @@
           alt="tutorial card 3"
           style="width: 100%; height: 100%"
         />
+        <img
+                src="./TemplateData/loading4.png"
+                alt="tutorial card 4"
+                style="width: 100%; height: 100%"
+        />
+        <img
+                src="./TemplateData/loading5.png"
+                alt="tutorial card 5"
+                style="width: 100%; height: 100%"
+        />
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full" style="margin: 0"></div>
         </div>
@@ -287,38 +297,6 @@
           }
         });
       }
-
-      // function updateMarketingParam(param) {
-      //   if (!param) {
-      //     console.log("No dynamicParam found in URL");
-      //     return;
-      //   }
-      //   const paramRef = firebase.database().ref("marketing/" + param);
-      //   paramRef.once("value", function (snapshot) {
-      //     if (snapshot.exists()) {
-      //       const currentCount = snapshot.val();
-      //       paramRef.set(currentCount + 1, function (error) {
-      //         if (error) {
-      //           console.error("Error updating marketing parameter:", error);
-      //         } else {
-      //           console.log(
-      //             `Marketing parameter '${param}' incremented successfully.`
-      //           );
-      //         }
-      //       });
-      //     } else {
-      //       paramRef.set(1, function (error) {
-      //         if (error) {
-      //           console.error("Error creating marketing parameter:", error);
-      //         } else {
-      //           console.log(
-      //             `Marketing parameter '${param}' created successfully.`
-      //           );
-      //         }
-      //       });
-      //     }
-      //   });
-      // }
 
       //now doing this in tellUnityUserInfo because we need the timestamp for our dashboard!!!!!!
       function updateMarketingParam(param) {
@@ -645,14 +623,17 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
-        let currentIndex = 0;
-        const images = document.querySelectorAll("#unity-tutorial img");
-        images[currentIndex].classList.add("active");
-        let intervalRef = setInterval(() => {
-          images[currentIndex].classList.remove("active");
-          currentIndex = (currentIndex + 1) % images.length;
-          images[currentIndex].classList.add("active");
-        }, 3000);
+        
+        const tutorialImages = document.querySelectorAll("#unity-tutorial img");
+        const totalImages = tutorialImages.length;
+        let currentIndex =
+                parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
+        tutorialImages[currentIndex].classList.add("active");
+        localStorage.setItem(
+                "currentTutorialIndex",
+                (currentIndex + 1) % totalImages
+        );
+
 
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
