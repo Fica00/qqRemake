@@ -639,7 +639,6 @@
           progressBarFull.style.width = 100 * progress + "%";
         })
           .then((unityInstance) => {
-            clearInterval(intervalRef);
             loadingTutorial.style.display = "none";
             unity = unityInstance;
             firebase.auth().onAuthStateChanged(function (user) {
