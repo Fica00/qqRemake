@@ -51,4 +51,10 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.DrawCard(GameplayManager.Instance.MyPlayer);
     }
+    
+    [Button()]
+    private void RecalculatePower()
+    {
+        GameplayManager.Instance.TableHandler.CalculatePower();
+    }
 }

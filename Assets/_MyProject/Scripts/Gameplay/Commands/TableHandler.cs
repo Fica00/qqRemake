@@ -206,7 +206,7 @@ public class TableHandler : MonoBehaviour
         CalculatePower();
     }
 
-    private void CalculatePower()
+    public void CalculatePower()
     {
         CalculatePower(true);
         CalculatePower(false);

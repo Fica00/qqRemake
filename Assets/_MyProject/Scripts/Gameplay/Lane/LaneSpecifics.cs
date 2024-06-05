@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 public class LaneSpecifics
 {
     public static Action UpdatedExtraPower;
@@ -16,6 +18,7 @@ public class LaneSpecifics
 
     public void ChangeExtraPower(int _index, int _amount)
     {
+        Debug.Log("<color=green>Adding extra lane ability power: "+ _amount);
         extraPower[_index] += _amount;
         UpdatedExtraPower?.Invoke();
     }
