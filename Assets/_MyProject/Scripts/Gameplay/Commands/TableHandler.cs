@@ -219,15 +219,20 @@ public class TableHandler : MonoBehaviour
             int _playerIndex = _isMy ? 0 : 1;
             for (int i = 0; i < _cardsOnTable.Length; i++)
             {
-                int _power = 0;
+                int _powerOnLane = 0;
                 LaneLocation _location = LaneLocation.Bot;
                 LaneDisplay _laneDisplay = null;
 
+                
+                //sums the power of all cards on this lane
+                string _output = string.Empty;
                 foreach (var _cardOnLane in _cardsOnTable[i])
                 {
-                    _power += _cardOnLane.Stats.Power;
+                    _output+="Adding power of the card: "+_cardOnLane.Stats.Power+ " from "+_cardOnLane.Details.Name+"\n";
+                    _powerOnLane += _cardOnLane.Stats.Power;
                 }
 
+                //gets the current lane ability
                 switch (i)
                 {
                     case 0:
@@ -244,38 +249,63 @@ public class TableHandler : MonoBehaviour
                         break;
                 }
 
-                int _extraPower = 0;
+                
+                int _extraLanePower = 0;
+                bool _hasGeisha = false;
                 foreach (var _card in GetCards(_isMy, _location))
                 {
-                    _extraPower += _card.Stats.ChagePowerDueToLocation;
+                    _extraLanePower += _card.Stats.ChagePowerDueToLocation;
+                    
                     foreach (var _specialEffect in _card.SpecialEffects)
                     {
-                        if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
+                        if (_specialEffect is not CardEffectDoublePowerOnCurrentLane)
                         {
-                            int _geishasPower =0;
-                            for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                            continue;
+                        }
+
+                        _hasGeisha = true;
+                        int _geishasPower =0;
+                        GeishaDebug(_output);
+                        for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                        {
+                            if (j==0)
                             {
-                                if (j==0)
-                                {
-                                    _geishasPower = _power;
-                                    continue;
-                                }
-                                _geishasPower *= 2;
+                                GeishaDebug("Assiging the geishas power to: "+_powerOnLane);
+                                _geishasPower = _powerOnLane;
+                                continue;
                             }
                             
-                            _power = _geishasPower;
+                            GeishaDebug($"Doubled geishas power from: {_geishasPower} to {_geishasPower*2}");
+                            _geishasPower *= 2;
                         }
+                            
+                        GeishaDebug("Setting power on lane to geishas power: "+_geishasPower);
+                        _powerOnLane = _geishasPower;
                     }
                 }
 
+                GeishaDebug("Power of the cards on the lane: "+_powerOnLane);
                 //add extra power
-                _power += _extraPower;
+                _powerOnLane += _extraLanePower;
+                GeishaDebug($"Extra lane power: {_extraLanePower} -> {_powerOnLane}");
 
-                _power += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];
+                _powerOnLane += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];
+                GeishaDebug($"Extra lane ability power: {_laneDisplay.LaneSpecifics.ExtraPower[_playerIndex]} -> {_powerOnLane}");
 
-                _powerHolder[i] = _power;
+                _powerHolder[i] = _powerOnLane;
 
                 UpdatedPower?.Invoke(_location);
+                
+                
+                void GeishaDebug(string _message)
+                {
+                    if (!_hasGeisha)
+                    {
+                        return;
+                    }
+                    
+                    Debug.Log(_message);
+                }
             }
         }
     }

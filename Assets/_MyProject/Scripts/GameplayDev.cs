@@ -46,23 +46,9 @@ public class GameplayDev : MonoBehaviour
         GameplayManager.Instance.MyPlayer.Energy++;
     }
 
-
-    [Button("Draw master octo")]
-    private void DrawMasterOcto()
+    [Button()]
+    private void DrawCard()
     {
-        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(17), true);
-    }
-
-    [Button("Discard master octo")]
-    private void DiscardMasterOcto()
-    {
-        GameplayManager.Instance.MyPlayer.DiscardCardFromHand(GameplayManager.Instance.MyPlayer.GetQommonFromHand(17));
-    }
-    
-    
-    [Button("Draw soulomon")]
-    private void DrawSoulomon()
-    {
-        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
+        GameplayManager.Instance.DrawCard(GameplayManager.Instance.MyPlayer);
     }
 }
