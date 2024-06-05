@@ -70,6 +70,8 @@ public class Initialization : MonoBehaviour
     {
         AudioManager.Instance.Init();
         
+        BotPlayer.GenerateNewData();
+        DataManager.Instance.Subscribe();
         SceneManager.Instance.LoadTutorial();
     }
 }

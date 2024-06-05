@@ -83,7 +83,7 @@ public class GameplayTutorial : GameplayManager
 
     protected override IEnumerator InitialDraw()
     {
-        yield return null;
+        yield return new WaitForSeconds(1);
         Debug.Log(1);
         CardObject _card = MyPlayer.GetCardFromDeck(1);
         MyPlayer.DrawCard(_card, true);
