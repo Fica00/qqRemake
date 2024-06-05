@@ -507,7 +507,7 @@
                 if (doCheckForMarketing) {
                   const agencyRef = firebase
                           .database()
-                          .ref(`marketing/${dinamicParam}/users/${userId}`);
+                          .ref(`marketing/${dinamicParam}/${userId}`);
                   agencyRef.set(
                           {
                             timestamp: firebase.database.ServerValue.TIMESTAMP,
@@ -542,7 +542,7 @@
                 if (doCheckForMarketing) {
                   const agencyRef = firebase
                           .database()
-                          .ref(`marketing/${dinamicParam}/users/${userId}`);
+                          .ref(`marketing/${dinamicParam}/${userId}`);
                   agencyRef.set(
                           {
                             timestamp: firebase.database.ServerValue.TIMESTAMP,
