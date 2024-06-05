@@ -503,9 +503,6 @@
               const userData = snapshot.val();
               console.log("User Data Retrieved:", userData);
 
-              // Fetch createdAt from user metadata
-              const createdAt = userInfo.metadata.createdAt;
-
               //Check if flag is set
               if (doCheckForMarketing) {
                 const agencyRef = firebase
@@ -536,7 +533,6 @@
                   IsNewAccount: false,
                   Agency: dinamicParam,
                   IsGuest: isGuest,
-                  CreatedAt: createdAt,
                 })
               );
             } else {
@@ -564,7 +560,6 @@
                 );
               }
 
-              const createdAt = userInfo.metadata.createdAt;
 
               unity.SendMessage(
                 "JavaScriptManager",
@@ -574,7 +569,6 @@
                   IsNewAccount: true,
                   Agency: dinamicParam,
                   IsGuest: isGuest,
-                  CreatedAt: createdAt,
                 })
               );
             }
