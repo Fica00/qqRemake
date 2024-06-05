@@ -49,14 +49,11 @@ public class SocketServerCommunication : MonoBehaviour
 
         connection.On<string>(nameof(UserDisconnectedAsync), UserDisconnectedAsync);        
         connection.On<string>(nameof(UserRejoinedAsync), UserRejoinedAsync);
-
+        connection.On<string>(nameof(UserLeftAsync), UserLeftAsync);
         connection.On<List<string>>(nameof(ReceiveOldMessagesAsync), ReceiveOldMessagesAsync);
-        
         connection.On<string>(nameof(ReceiveMessageAsync), ReceiveMessageAsync);   
         connection.On<bool>(nameof(MatchLeftAsync), MatchLeftAsync);   
-        
         connection.On<string,string,string>(nameof(MatchFoundAsync), MatchFoundAsync);
-        
         connection.On(nameof(MatchMakingStartedAsync),MatchMakingStartedAsync);
 
         try
@@ -74,6 +71,12 @@ public class SocketServerCommunication : MonoBehaviour
     #region Receive messages
 
     private void UserDisconnectedAsync(string _userName)
+    {
+        Debug.Log("UserDisconnectedAsync: "+_userName);
+        OnOpponentLeftRoom?.Invoke();
+    }
+    
+    private void UserLeftAsync(string _userName)
     {
         Debug.Log("UserDisconnectedAsync: "+_userName);
         OnOpponentLeftRoom?.Invoke();
@@ -142,6 +145,7 @@ public class SocketServerCommunication : MonoBehaviour
     {
         connection.SendAsync("LeaveMatchAsync");
     }
+    
     #endregion
 
 
@@ -149,7 +153,6 @@ public class SocketServerCommunication : MonoBehaviour
     {
         MessageData _message = new MessageData { GameObjectName = _object.name, MethodName = _functionName, Data = _data };
         string _messageJson = JsonConvert.SerializeObject(_message);
-        Debug.Log("Sending message: "+ _messageJson);
         SendMessage(_messageJson);
     }
 
