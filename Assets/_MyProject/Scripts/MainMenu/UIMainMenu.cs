@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIMainMenu : MonoBehaviour
 {
     public static UIMainMenu Instance;
+    public static Action OnFirstTimeExitSettings;
 
     [SerializeField] private TransitionAnimation transition;
     [SerializeField] private Button deckQuickButton;
@@ -18,6 +19,8 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
 
     public static bool ShowStartingAnimation;
+    private bool hasPickedUpFirstGameReward;
+    private bool gotBackToHomeFromSettings;
 
     private void Awake()
     {
@@ -38,28 +41,23 @@ public class UIMainMenu : MonoBehaviour
 
         Debug.Log("HasPlayedFirstGame: " + DataManager.Instance.PlayerData.HasPlayedFirstGame);
         Debug.Log("HasFinishedFirstGame: " + DataManager.Instance.PlayerData.HasFinishedFirstGame);
-
-        if (JavaScriptManager.Instance.ShowPwaWarning && !DataManager.Instance.PlayerData.HasPickedUpPwaReward /* && check za social acc bind*/)
+        
+        if (JavaScriptManager.Instance.IsPwaPlatform && !DataManager.Instance.PlayerData.HasPickedUpPwaReward && DataManager.Instance.PlayerData.HasPlayedFirstGame/* && check za social acc bind*/)
         {
             DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(OnOkButtonPressed);
             DialogsManager.Instance.OkDialog.Setup("Your new card is ready!");
-
+        
             void OnOkButtonPressed()
             {
                 DataManager.Instance.PlayerData.HasPickedUpPwaReward = true;
                 DialogsManager.Instance.OkDialog.OnOkPressed.RemoveListener(OnOkButtonPressed);
                 
                 int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-
+        
                 DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
-
+        
                 qoomonUnlockingPanel.Setup(_qoomonId, null);
             }
-        }
-        
-        if (!JavaScriptManager.Instance.ShowPwaWarning && DataManager.Instance.PlayerData.HasFinishedFirstGame && DataManager.Instance.PlayerData.HasPlayedFirstGame)
-        {
-            DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
         }
 
         if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
@@ -74,7 +72,12 @@ public class UIMainMenu : MonoBehaviour
             DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
             DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
 
-            qoomonUnlockingPanel.Setup(_qoomonId, null);
+            qoomonUnlockingPanel.Setup(_qoomonId, ShowPwaRewardDialog);
+            
+            void ShowPwaRewardDialog()
+            {
+                DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
+            }
         }
     }
 

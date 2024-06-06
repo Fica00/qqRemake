@@ -136,6 +136,11 @@ public class SettingsUI : MonoBehaviour
             return;
         }
         
+        if(DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotOpen)
+        {
+            DataManager.Instance.PlayerData.SettingsFirstTimeShown = PwaOverlay.DidNotShow;
+        }
+        
         SceneManager.Instance.LoadMainMenu();
     }
 

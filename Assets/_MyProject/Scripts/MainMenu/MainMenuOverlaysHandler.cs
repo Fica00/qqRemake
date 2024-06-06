@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 
 public enum MainMenuOverlay
 {
     Guest,
     FirstTimePlay,
-    ClaimQoomons
+    ClaimQoomons,
+    PwaOverlay
 }
 
 public class MainMenuOverlaysHandler : MonoBehaviour
@@ -14,6 +16,7 @@ public class MainMenuOverlaysHandler : MonoBehaviour
     [SerializeField] private GuestOverlayHandler guestOverlay;
     [SerializeField] private FirstTimePlayOverlay firstTimePlayOverlay;
     [SerializeField] private ClaimQoomonsOverlay claimQoomonsOverlay;
+    [SerializeField] private PwaOverlayHandler pwaOverlayHandler;
 
     private void Awake()
     {
@@ -34,14 +37,6 @@ public class MainMenuOverlaysHandler : MonoBehaviour
 
     private void SetupOverlays()
     {
-        // if (!DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
-        // {
-        //     DataManager.Instance.PlayerData.BeforeFirstGameOverlayShown = true;
-        //     Debug.Log("Setting up FirstTimePlay overlay.");
-        //     firstTimePlayOverlay.Setup();
-        //     return;
-        // }
-
         if (DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
         {
             DataManager.Instance.PlayerData.AfterFirstGameOverlayShown = true;
@@ -56,6 +51,13 @@ public class MainMenuOverlaysHandler : MonoBehaviour
             Debug.Log("Setting up Guest overlay.");
             guestOverlay.Setup();
         }
+
+        if (DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotShow)
+        {
+            DataManager.Instance.PlayerData.SettingsFirstTimeShown = PwaOverlay.Showed;
+            pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid);
+        }
+            
     }
 
     public void SetupOverlay(MainMenuOverlay _overlay)
@@ -66,10 +68,13 @@ public class MainMenuOverlaysHandler : MonoBehaviour
                 guestOverlay.Setup();
                 break;
             case MainMenuOverlay.FirstTimePlay:
-                //firstTimePlayOverlay.Setup();
+                firstTimePlayOverlay.Setup();
                 break;
             case MainMenuOverlay.ClaimQoomons:
-                //claimQoomonsOverlay.Setup();
+                claimQoomonsOverlay.Setup();
+                break;
+            case MainMenuOverlay.PwaOverlay:
+                pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid);
                 break;
         }
     }

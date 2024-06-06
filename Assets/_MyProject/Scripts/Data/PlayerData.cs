@@ -44,6 +44,7 @@ public class PlayerData
     private bool beforeFirstGameOverlayShown;
     private bool afterFirstGameOverlayShown;
     private bool guestOverlayShown;
+    private PwaOverlay settingsFirstTimeShown;
 
     public DateTime DateCreatedAccount;
 
@@ -82,6 +83,7 @@ public class PlayerData
     public static Action UpdatedIsNewAccount;
     public static Action UpdatedHasPlayedFirstGame;
     public static Action UpdatedHasPickedUpPwaReward;
+    public static Action UpdatedSettingsFirstTimeShown;
 
     public void CreateNewPlayer()
     {
@@ -283,6 +285,16 @@ public class PlayerData
         {
             hasPlayedFirstGame = value;
             UpdatedHasPlayedFirstGame?.Invoke();
+        }
+    }
+    
+    public PwaOverlay SettingsFirstTimeShown
+    {
+        get => settingsFirstTimeShown;
+        set
+        {
+            settingsFirstTimeShown = value;
+            UpdatedSettingsFirstTimeShown?.Invoke();
         }
     }
 

@@ -8,6 +8,7 @@ public class JavaScriptManager : MonoBehaviour
     public static JavaScriptManager Instance;
     public static Action<string> OnGotUserData;
     public string Version;
+    public bool IsAndroid = true;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
 
@@ -51,7 +52,7 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoCopyToClipboard(string _text);
 
 
-    public bool ShowPwaWarning
+    public bool IsPwaPlatform
     {
         get
         {
