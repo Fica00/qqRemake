@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using UnityEngine;
 
