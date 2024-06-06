@@ -68,6 +68,11 @@ mergeInto(LibraryManager.library,
     DoSignOut: function()
     {
         SignOut();
+    },    
+    
+    DoIsAndroid: function()
+    {
+        IsAndroid();
     },
     
     DoCopyToClipboard: function(textPtr) {

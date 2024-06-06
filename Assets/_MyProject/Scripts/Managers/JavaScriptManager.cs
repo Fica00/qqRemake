@@ -8,7 +8,6 @@ public class JavaScriptManager : MonoBehaviour
     public static JavaScriptManager Instance;
     public static Action<string> OnGotUserData;
     public string Version;
-    public bool IsAndroid = true;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
 
@@ -49,7 +48,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoSignOut();    
     
     [DllImport("__Internal")]
-    public static extern void DoCopyToClipboard(string _text);
+    public static extern void DoCopyToClipboard(string _text);    
+    
+    [DllImport("__Internal")]
+    public static extern bool DoIsAndroid();
 
 
     public bool IsPwaPlatform
@@ -248,5 +250,15 @@ public class JavaScriptManager : MonoBehaviour
     public void RequestUserData()
     {
         DoCheckIfUserIsLoggedIn();
+    }
+
+    public bool IsAndroid()
+    {
+        if (Application.isEditor)
+        {
+            return true;
+        }
+
+        return DoIsAndroid();
     }
 }

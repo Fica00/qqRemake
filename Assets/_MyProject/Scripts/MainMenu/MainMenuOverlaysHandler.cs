@@ -55,7 +55,7 @@ public class MainMenuOverlaysHandler : MonoBehaviour
         if (DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotShow)
         {
             DataManager.Instance.PlayerData.SettingsFirstTimeShown = PwaOverlay.Showed;
-            pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid);
+            pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid());
         }
             
     }
@@ -74,7 +74,7 @@ public class MainMenuOverlaysHandler : MonoBehaviour
                 claimQoomonsOverlay.Setup();
                 break;
             case MainMenuOverlay.PwaOverlay:
-                pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid);
+                pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid());
                 break;
         }
     }
