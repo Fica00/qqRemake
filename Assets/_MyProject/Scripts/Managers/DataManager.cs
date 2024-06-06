@@ -99,6 +99,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasPlayedFirstGame += SaveHasPlayedFirstGame;
         PlayerData.UpdatedHasPickedUpPwaReward += SaveHasPickedUpPwaReward;
         PlayerData.UpdatedSettingsFirstTimeShown += SaveSettingsFirstTimeShown;
+        PlayerData.UpdatedStatistics += SaveStatistics;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -186,6 +187,7 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasPlayedFirstGame -= SaveHasPlayedFirstGame;
         PlayerData.UpdatedHasPickedUpPwaReward -= SaveHasPickedUpPwaReward;
         PlayerData.UpdatedSettingsFirstTimeShown -= SaveSettingsFirstTimeShown;
+        PlayerData.UpdatedStatistics -= SaveStatistics;
     }
 
     private void SaveTutorial()
@@ -372,5 +374,10 @@ public class DataManager : MonoBehaviour
     private void SaveSettingsFirstTimeShown()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.SettingsFirstTimeShown),JsonConvert.SerializeObject(PlayerData.SettingsFirstTimeShown));
+    }
+    
+    private void SaveStatistics()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Statistics),JsonConvert.SerializeObject(PlayerData.Statistics));
     }
 }

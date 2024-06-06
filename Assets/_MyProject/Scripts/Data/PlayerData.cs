@@ -40,6 +40,7 @@ public class PlayerData
     private bool hasPlayedFirstGame;
     private bool hasFinishedFirstGame;
     private bool hasPickedUpPwaReward;
+    private PlayerStatistics statistics = new ();
 
     private bool beforeFirstGameOverlayShown;
     private bool afterFirstGameOverlayShown;
@@ -84,6 +85,7 @@ public class PlayerData
     public static Action UpdatedHasPlayedFirstGame;
     public static Action UpdatedHasPickedUpPwaReward;
     public static Action UpdatedSettingsFirstTimeShown;
+    public static Action UpdatedStatistics;
 
     public void CreateNewPlayer()
     {
@@ -167,6 +169,7 @@ public class PlayerData
     public void AddNewDeck()
     {
         decks.Add(new DeckData { Id = decks.Count, CardsInDeck = new() });
+        statistics.NoteFirstDeckUpdate("Added deck");
         UpdatedDecks?.Invoke();
     }
 
@@ -200,6 +203,7 @@ public class PlayerData
     {
         DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
         _deck.CardsInDeck.Add(_cardId);
+        statistics.NoteFirstDeckUpdate("Added card");
         UpdatedCardsInDeck?.Invoke();
     }
 
@@ -207,6 +211,7 @@ public class PlayerData
     {
         DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
         _deck.CardsInDeck.Remove(_cardId);
+        statistics.NoteFirstDeckUpdate("Removed card");
         UpdatedCardsInDeck?.Invoke();
     }
 
@@ -229,6 +234,7 @@ public class PlayerData
         }
 
         _deck.Name = _name;
+        statistics.NoteFirstDeckUpdate("Changed name");
         UpdatedDeckName?.Invoke();
     }
 
@@ -753,6 +759,16 @@ public class PlayerData
         {
             didRequestUserWallet = value;
             UpdatedDidRequestUserWallet?.Invoke();
+        }
+    }
+
+    public PlayerStatistics Statistics
+    {
+        get => statistics;
+        set
+        {
+            statistics = value;
+            UpdatedStatistics?.Invoke();
         }
     }
 }
