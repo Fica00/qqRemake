@@ -91,14 +91,14 @@
           style="width: 100%; height: 100%"
         />
         <img
-                src="./TemplateData/loading4.png"
-                alt="tutorial card 4"
-                style="width: 100%; height: 100%"
+          src="./TemplateData/loading4.png"
+          alt="tutorial card 4"
+          style="width: 100%; height: 100%"
         />
         <img
-                src="./TemplateData/loading5.png"
-                alt="tutorial card 5"
-                style="width: 100%; height: 100%"
+          src="./TemplateData/loading5.png"
+          alt="tutorial card 5"
+          style="width: 100%; height: 100%"
         />
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full" style="margin: 0"></div>
@@ -485,21 +485,32 @@
                 const agencyRef = firebase
                   .database()
                   .ref(`marketing/${dinamicParam}/${userId}`);
-                agencyRef.set(
-                  {
-                    timestamp: firebase.database.ServerValue.TIMESTAMP,
-                  },
-                  function (error) {
-                    if (error) {
-                      console.error("Error updating marketing user:", error);
-                    } else {
-                      console.log(
-                        `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
-                      );
-                      doCheckForMarketing = false; // Resetuj flag
-                    }
+                agencyRef.once("value", function (snapshot) {
+                  if (!snapshot.exists()) {
+                    agencyRef.set(
+                      {
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                      },
+                      function (error) {
+                        if (error) {
+                          console.error(
+                            "Error updating marketing user:",
+                            error
+                          );
+                        } else {
+                          console.log(
+                            `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
+                          );
+                          doCheckForMarketing = false; // Resetuj flag
+                        }
+                      }
+                    );
+                  } else {
+                    console.log(
+                      `Timestamp already exists for user '${userId}' in agency '${dinamicParam}'.`
+                    );
                   }
-                );
+                });
               }
 
               unity.SendMessage(
@@ -520,23 +531,33 @@
                 const agencyRef = firebase
                   .database()
                   .ref(`marketing/${dinamicParam}/${userId}`);
-                agencyRef.set(
-                  {
-                    timestamp: firebase.database.ServerValue.TIMESTAMP,
-                  },
-                  function (error) {
-                    if (error) {
-                      console.error("Error updating marketing user:", error);
-                    } else {
-                      console.log(
-                        `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
-                      );
-                      doCheckForMarketing = false;
-                    }
+                agencyRef.once("value", function (snapshot) {
+                  if (!snapshot.exists()) {
+                    agencyRef.set(
+                      {
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                      },
+                      function (error) {
+                        if (error) {
+                          console.error(
+                            "Error updating marketing user:",
+                            error
+                          );
+                        } else {
+                          console.log(
+                            `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
+                          );
+                          doCheckForMarketing = false;
+                        }
+                      }
+                    );
+                  } else {
+                    console.log(
+                      `Timestamp already exists for user '${userId}' in agency '${dinamicParam}'.`
+                    );
                   }
-                );
+                });
               }
-
 
               unity.SendMessage(
                 "JavaScriptManager",
@@ -622,17 +643,15 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
-        
         const tutorialImages = document.querySelectorAll("#unity-tutorial img");
         const totalImages = tutorialImages.length;
         let currentIndex =
-                parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
+          parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
         tutorialImages[currentIndex].classList.add("active");
         localStorage.setItem(
-                "currentTutorialIndex",
-                (currentIndex + 1) % totalImages
+          "currentTutorialIndex",
+          (currentIndex + 1) % totalImages
         );
-
 
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
