@@ -30,16 +30,38 @@ public class UIMainMenu : MonoBehaviour
         transition.EndTransition(null);
         ShowStartingAnimation = false;
     }
-
     private void Start()
     {
         DataManager.Instance.Subscribe();
         MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
-  
+
         Debug.Log("HasPlayedFirstGame: " + DataManager.Instance.PlayerData.HasPlayedFirstGame);
         Debug.Log("HasFinishedFirstGame: " + DataManager.Instance.PlayerData.HasFinishedFirstGame);
+
+        if (JavaScriptManager.Instance.IsPwaBool && !DataManager.Instance.PlayerData.HasPickedUpPwaReward /* && check za social acc bind*/)
+        {
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(OnOkButtonPressed);
+            DialogsManager.Instance.OkDialog.Setup("Your new card is ready!");
+
+            void OnOkButtonPressed()
+            {
+                DataManager.Instance.PlayerData.HasPickedUpPwaReward = true;
+                DialogsManager.Instance.OkDialog.OnOkPressed.RemoveListener(OnOkButtonPressed);
+                
+                int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+
+                DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
+
+                qoomonUnlockingPanel.Setup(_qoomonId, null);
+            }
+        }
         
+        if (!JavaScriptManager.Instance.IsPwaBool && DataManager.Instance.PlayerData.HasFinishedFirstGame && DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        {
+            DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
+        }
+
         if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
             BotPlayer.GenerateNewData();
@@ -48,10 +70,10 @@ public class UIMainMenu : MonoBehaviour
         else if (DataManager.Instance.PlayerData.HasFinishedFirstGame)
         {
             int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-            
+
             DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
             DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
-            
+
             qoomonUnlockingPanel.Setup(_qoomonId, null);
         }
     }

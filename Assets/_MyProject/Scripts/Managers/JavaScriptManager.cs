@@ -8,6 +8,7 @@ public class JavaScriptManager : MonoBehaviour
     public static JavaScriptManager Instance;
     public static Action<string> OnGotUserData;
     public string Version;
+    public bool IsPwaBool;
 
     [field: SerializeField] public bool IsDemo { get; private set; }
 

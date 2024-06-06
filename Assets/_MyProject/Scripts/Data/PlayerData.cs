@@ -39,6 +39,7 @@ public class PlayerData
     private bool isNewAccount;
     private bool hasPlayedFirstGame;
     private bool hasFinishedFirstGame;
+    private bool hasPickedUpPwaReward;
 
     private bool beforeFirstGameOverlayShown;
     private bool afterFirstGameOverlayShown;
@@ -80,6 +81,7 @@ public class PlayerData
     public static Action UpdatedGuestOverlayShown;
     public static Action UpdatedIsNewAccount;
     public static Action UpdatedHasPlayedFirstGame;
+    public static Action UpdatedHasPickedUpPwaReward;
 
     public void CreateNewPlayer()
     {
@@ -191,8 +193,7 @@ public class PlayerData
         get => ownedQoomons;
         set => ownedQoomons = value;
     }
-
-
+    
     public void AddCardToSelectedDeck(int _cardId)
     {
         DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
@@ -252,6 +253,16 @@ public class PlayerData
         {
             coins = value;
             UpdatedCoins?.Invoke();
+        }
+    }
+
+    public bool HasPickedUpPwaReward
+    {
+        get => hasPickedUpPwaReward;
+        set
+        {
+            hasPickedUpPwaReward = value;
+            UpdatedHasPickedUpPwaReward?.Invoke();
         }
     }
 
