@@ -229,17 +229,22 @@
       function CheckIsPwa() {
         function isInStandaloneMode() {
           var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-          const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
+          const res = displayModes.some(
+            (displayMode) =>
+              window.matchMedia("(display-mode: " + displayMode + ")").matches
+          );
           return res;
         }
+
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
-        
-        if (!isInStandaloneMode()) {
-          return true;
+        const isOnPC = !isIOS && !isAndroid;
+        if (!isOnPC && !isInStandaloneMode()) {
+          return true
         }
-        return false;
+        return false
       }
+
 
       function SetUserId(id) {
         userId = id;
