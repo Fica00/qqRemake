@@ -248,4 +248,10 @@ public class JavaScriptManager : MonoBehaviour
     {
         DoCheckIfUserIsLoggedIn();
     }
+
+    [Button()]
+    private void UnlockCard()
+    {
+        DataManager.Instance.PlayerData.AddQoomon(15);
+    }
 }

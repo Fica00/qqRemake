@@ -32,7 +32,7 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
 
         foreach (var _cardOnLane in _cardsOnTable)
         {
-            if (_cardOnLane.Stats.Energy!=cost)
+            if (_cardOnLane.Details.Mana!=cost)
             {
                 continue;
             }

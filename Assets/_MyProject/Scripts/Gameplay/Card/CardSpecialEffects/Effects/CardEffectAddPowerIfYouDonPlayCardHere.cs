@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class CardEffectAddPowerIfYouDonPlayCardHere : CardEffectBase
 {
     [SerializeField] private int powerToAdd;
 
-    private bool firstPhase = false;
+    private bool firstPhase;
 
 
     public override void Subscribe()
@@ -41,13 +40,13 @@ public class CardEffectAddPowerIfYouDonPlayCardHere : CardEffectBase
                 if (firstPhase)
                 {
                     GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
-                    TableHandler.OnRevealdCard -= CheckPlayedCard;
+                    TableHandler.OnRevealdCard += CheckPlayedCard;
                     GameplayManager.Instance.HideHighlihtWholeLocationDotted(cardObject.LaneLocation, cardObject.IsMy);
                     firstPhase = false;
                 }
                 else
                 {
-                    TableHandler.OnRevealdCard += CheckPlayedCard;
+                    TableHandler.OnRevealdCard -= CheckPlayedCard;
                     firstPhase = true;
                 }
                 break;
