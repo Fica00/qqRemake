@@ -45,16 +45,17 @@ public class Initialization : MonoBehaviour
                 if (_status)
                 {
                     FinishInit();
-                    
+
                     DataManager.Instance.PlayerData.Agency = _agency;
                     DataManager.Instance.PlayerData.IsGuest = _isGuest;
                     DataManager.Instance.PlayerData.IsNewAccount = true;
-                    
+
                     DataManager.Instance.SaveIsGuest();
-                    
+
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
                     {
-                        DataManager.Instance.PlayerData.Exp = PlayerData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level - 1];
+                        DataManager.Instance.PlayerData.Exp =
+                            PlayerData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level - 1];
                     }
                 }
                 else
@@ -64,7 +65,7 @@ public class Initialization : MonoBehaviour
             });
             return;
         }
-        
+
         FinishInit();
         DataManager.Instance.SaveIsGuest();
     }
@@ -72,15 +73,12 @@ public class Initialization : MonoBehaviour
     private void FinishInit()
     {
         AudioManager.Instance.Init();
-        
+
         if (DataManager.Instance.PlayerData.HasFinishedTutorial == 0 && DataManager.Instance.PlayerData.Exp == 0)
         {
             DataManager.Instance.Subscribe();
-            SceneManager.Instance.LoadSimpleTutorial();
         }
-        else
-        {
-            SceneManager.Instance.LoadMainMenu();
-        }
+        
+        SceneManager.Instance.LoadMainMenu();
     }
 }

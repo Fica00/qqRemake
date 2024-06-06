@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class FirebaseManager : MonoBehaviour
     private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
     public string PlayerId => userLocalId;
-
+    
     private void Awake()
     {
         if (Instance == null)

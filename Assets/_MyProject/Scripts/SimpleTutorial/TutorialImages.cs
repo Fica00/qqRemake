@@ -1,15 +1,18 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SimpleTutorial : MonoBehaviour
+public class TutorialImages : MonoBehaviour
 {
+    [SerializeField] private GameObject holder;
     [SerializeField] private Sprite[] sprites;
     [SerializeField] private Image image;
     [SerializeField] private Button next;
     [SerializeField] private Button previous;
-    
+
+    private Action callback;
     private int index;
-    
+
     private void OnEnable()
     {
         next.onClick.AddListener(ShowNext);
@@ -28,36 +31,39 @@ public class SimpleTutorial : MonoBehaviour
 
     private void ShowPrevious()
     {
-        if (index>0)
+        if (index > 0)
         {
             index--;
         }
-        
+
         Show();
     }
 
     private void ShowNext()
     {
-        if (index<sprites.Length-1)
+        if (index < sprites.Length - 1)
         {
             index++;
         }
         else
         {
             DataManager.Instance.PlayerData.HasFinishedTutorial = 1;
-            SceneManager.Instance.LoadMainMenu();
+            holder.SetActive(false);
+            callback?.Invoke();
         }
-        
-        Show();
-    }
 
-    private void Start()
-    {
         Show();
     }
 
     private void Show()
     {
         image.sprite = sprites[index];
+    }
+
+    public void Setup(Action _callback)
+    {
+        callback = _callback;
+        holder.SetActive(true);
+        Show();
     }
 }
