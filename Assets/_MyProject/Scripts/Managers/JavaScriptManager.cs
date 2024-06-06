@@ -235,6 +235,7 @@ public class JavaScriptManager : MonoBehaviour
 
     public void SuccessLinkingLoginAccount()
     {
+        DataManager.Instance.PlayerData.Statistics.NoteCheckPoint("Linked account");
         RegisterAnonymousHandler.Instance.HideRegistrationPage();
     }
 

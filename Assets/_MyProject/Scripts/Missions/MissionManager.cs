@@ -65,6 +65,7 @@ public class MissionManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         
+        DataManager.Instance.PlayerData.Statistics.NoteCheckPoint("Claimed mission reward", _checkForExisting:false);
         OnClaimed?.Invoke(_missionProgress);
     }
 
