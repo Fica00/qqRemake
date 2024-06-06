@@ -81,7 +81,7 @@ public class PlayerStatistics
         if (PlayerPrefs.HasKey(LAST_LOGGED_TIME))
         {
             TimeSpent _lastLoggedTime = JsonConvert.DeserializeObject<TimeSpent>(PlayerPrefs.GetString(LAST_LOGGED_TIME));
-            if ((DateTime.UtcNow-_lastLoggedTime.Date.AddMinutes(_lastLoggedTime.Minutes)).TotalSeconds>2)
+            if ((DateTime.UtcNow-_lastLoggedTime.Date.AddMinutes(_lastLoggedTime.Minutes)).TotalMinutes>2)
             {
                 NoteTimeSpent(_lastLoggedTime);
             }
