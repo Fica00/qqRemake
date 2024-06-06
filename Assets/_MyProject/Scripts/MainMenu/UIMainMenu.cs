@@ -39,7 +39,7 @@ public class UIMainMenu : MonoBehaviour
         Debug.Log("HasPlayedFirstGame: " + DataManager.Instance.PlayerData.HasPlayedFirstGame);
         Debug.Log("HasFinishedFirstGame: " + DataManager.Instance.PlayerData.HasFinishedFirstGame);
 
-        if (JavaScriptManager.Instance.IsPwaBool && !DataManager.Instance.PlayerData.HasPickedUpPwaReward /* && check za social acc bind*/)
+        if (JavaScriptManager.Instance.ShowPwaWarning && !DataManager.Instance.PlayerData.HasPickedUpPwaReward /* && check za social acc bind*/)
         {
             DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(OnOkButtonPressed);
             DialogsManager.Instance.OkDialog.Setup("Your new card is ready!");
@@ -57,7 +57,7 @@ public class UIMainMenu : MonoBehaviour
             }
         }
         
-        if (!JavaScriptManager.Instance.IsPwaBool && DataManager.Instance.PlayerData.HasFinishedFirstGame && DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        if (!JavaScriptManager.Instance.ShowPwaWarning && DataManager.Instance.PlayerData.HasFinishedFirstGame && DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
             DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
         }

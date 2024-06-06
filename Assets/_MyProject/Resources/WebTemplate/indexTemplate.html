@@ -229,45 +229,17 @@
       function CheckIsPwa() {
         function isInStandaloneMode() {
           var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-          const res = displayModes.some(
-            (displayMode) =>
-              window.matchMedia("(display-mode: " + displayMode + ")").matches
-          );
+          const res =  displayModes.some((displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
           return res;
         }
-
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
-        const isOnPC = !isIOS && !isAndroid;
-        if (!isOnPC && !isInStandaloneMode()) {
-          const msgContainer = document.getElementById("pwa-msg");
-          const cancelBtn = document.getElementById("cancelMsg");
-          const cancelBtnImage = document.getElementById("cancelMsgImage");
-          const unityContainer = document.getElementById("unity-container");
-          unityContainer.style.display = "none";
-          msgContainer.style.display = "flex";
-          msgContainer.style.height = "100vh";
-          msgContainer.style.justifyContent = "center";
-          msgContainer.style.backgroundImage = `url('./TemplateData/PWA\ bg.png')`;
-          msgContainer.style.backgroundPosition = "center";
-          msgContainer.style.backgroundRepeat = "no-repeat";
-          msgContainer.style.backgroundSize = "cover";
-          cancelBtn.addEventListener("click", () => {
-            unityContainer.style.display = "block";
-            msgContainer.style.display = "none";
-          });
-          cancelBtnImage.addEventListener("click", () => {
-            unityContainer.style.display = "block";
-            msgContainer.style.display = "none";
-          });
-          isBreakingScript = true;
-          // return true
+        
+        if (!isInStandaloneMode()) {
+          return true;
         }
-        isBreakingScript = false;
-        // return false
+        return false;
       }
-
-      //CheckIsPwa();
 
       function SetUserId(id) {
         userId = id;
