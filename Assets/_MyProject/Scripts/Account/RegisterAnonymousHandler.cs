@@ -9,6 +9,8 @@ public class RegisterAnonymousHandler : MonoBehaviour
 
     [SerializeField] private Button googleButton;
     [SerializeField] private Button twitterButton;
+    [SerializeField] private Button googleButtonOverlay;
+    [SerializeField] private Button twitterButtonOverlay;
 
     private void Awake()
     {
@@ -26,6 +28,8 @@ public class RegisterAnonymousHandler : MonoBehaviour
     {
         googleButton.onClick.AddListener(() => LinkUserProvider("google"));
         twitterButton.onClick.AddListener(() => LinkUserProvider("twitter"));
+        googleButtonOverlay.onClick.AddListener(() => LinkUserProvider("google"));
+        twitterButtonOverlay.onClick.AddListener(() => LinkUserProvider("twitter"));
         
         RegistrationPageHolder.SetActive(false);
         CheckIsGuest();
@@ -36,6 +40,8 @@ public class RegisterAnonymousHandler : MonoBehaviour
     {
         googleButton.onClick.RemoveListener(() => LinkUserProvider("google"));
         twitterButton.onClick.RemoveListener(() => LinkUserProvider("twitter"));
+        googleButtonOverlay.onClick.RemoveListener(() => LinkUserProvider("google"));
+        twitterButtonOverlay.onClick.RemoveListener(() => LinkUserProvider("twitter"));
     }
 
     private void LinkUserProvider(string _providerName)

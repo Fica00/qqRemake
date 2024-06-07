@@ -4,6 +4,8 @@ using UnityEngine;
 public class Initialization : MonoBehaviour
 {
     public static Initialization Instance;
+    
+    [SerializeField] private PwaOverlayHandler pwaOverlayHandler;
 
     private void Awake()
     {
@@ -21,6 +23,7 @@ public class Initialization : MonoBehaviour
         }
 
         InitPhoton();
+        TryShowPwaOverlay();
     }
 
 
@@ -34,6 +37,21 @@ public class Initialization : MonoBehaviour
     {
         PhotonManager.OnFinishedInit -= InitDataManager;
         AuthHandler.Instance.Authenticate();
+    }
+
+    private void TryShowPwaOverlay()
+    {
+        if(JavaScriptManager.Instance.IsPwaPlatform)
+        {
+            return;
+        }
+
+        if (JavaScriptManager.Instance.IsOnPc())
+        {
+            return;
+        }
+      
+        pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid());
     }
 
     public void CheckForStartingData(bool _isNewAccount, bool _isGuest, string _agency)
@@ -84,6 +102,7 @@ public class Initialization : MonoBehaviour
             return;
         }
         
+        DataManager.Instance.CanShowPwaOverlay = true;
         SceneManager.Instance.LoadMainMenu();
     }
 }

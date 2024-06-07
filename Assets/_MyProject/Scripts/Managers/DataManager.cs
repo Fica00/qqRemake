@@ -13,7 +13,7 @@ public class DataManager : MonoBehaviour
     public int[] locationsPicked = {-1, -1, -1};
 
     private bool isSubscribed;
-    public bool IsGuestOverlayShown;
+    public bool CanShowPwaOverlay;
 
     private void Awake()
     {
