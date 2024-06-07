@@ -254,20 +254,23 @@
       function CheckIsPwa() {
         function IsInStandaloneMode() {
           var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-          const res = displayModes.some(
-            (displayMode) =>
-              window.matchMedia("(display-mode: " + displayMode + ")").matches
+          return displayModes.some((displayMode) =>
+            window.matchMedia("(display-mode: " + displayMode + ")").matches
           );
-          return res;
         }
 
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
         const isOnPC = !isIOS && !isAndroid;
-        if (!isOnPC && !IsInStandaloneMode()) {
-          return true
+
+        let res;
+        if (!isOnPC && IsInStandaloneMode()) {
+          res = true; // is PWA
+        } else {
+          res = false; // is not PWA
         }
-        return false
+
+        return res;
       }
       
       function IsOnPc()
