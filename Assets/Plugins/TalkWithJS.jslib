@@ -73,6 +73,16 @@ mergeInto(LibraryManager.library,
     DoIsAndroid: function()
     {
         IsAndroid();
+    },    
+    
+    DoCheckHasBoundAccount: function()
+    {
+        CheckHasBoundAccount();
+    },    
+    
+    CheckIsOnPc: function()
+    {
+        return IsOnPc();
     },
     
     DoCopyToClipboard: function(textPtr) {

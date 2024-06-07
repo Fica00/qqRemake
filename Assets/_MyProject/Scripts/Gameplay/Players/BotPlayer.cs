@@ -20,7 +20,7 @@ public class BotPlayer : GameplayPlayer
     
     public override void Setup()
     {
-        CardsInDeck = ChooseRandomDack().CardsInDeck;
+        CardsInDeck = ChooseRandomDeck().CardsInDeck;
         botType = BotTypeSelection.BotType;
         InitializeDeck();
         ShuffleDeck();
@@ -209,9 +209,13 @@ public class BotPlayer : GameplayPlayer
         Name = "Player"+Random.Range(1000,10000);
     }
 
-    public DeckData ChooseRandomDack()
+    public DeckData ChooseRandomDeck()
     {
         int _randomIndex = Random.Range(0, DecksForRandom.Count);
+        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        {
+            _randomIndex = 0;
+        }
         return DecksForRandom[_randomIndex];
     }
 }

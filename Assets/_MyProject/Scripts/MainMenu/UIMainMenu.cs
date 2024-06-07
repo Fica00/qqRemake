@@ -35,16 +35,33 @@ public class UIMainMenu : MonoBehaviour
     }
     private void Start()
     {
-        DataManager.Instance.Subscribe();
-        MissionManager.Instance.Setup();
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
-        DataManager.Instance.PlayerData.Statistics.StartSession();
-  
-        Debug.Log("HasPlayedFirstGame: " + DataManager.Instance.PlayerData.HasPlayedFirstGame);
-        Debug.Log("HasFinishedFirstGame: " + DataManager.Instance.PlayerData.HasFinishedFirstGame);
-        
-        if (JavaScriptManager.Instance.IsPwaPlatform && !DataManager.Instance.PlayerData.HasPickedUpPwaReward && DataManager.Instance.PlayerData.HasPlayedFirstGame/* && check za social acc bind*/)
+
+        bool _didReward = TryRewardAfterFirstGame();
+        if (_didReward)
         {
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(TryRewardForPwaAndBid);
+        }
+        else
+        {
+            TryRewardForPwaAndBid();
+        }
+    }
+
+    private void TryRewardForPwaAndBid()
+    {
+        if (JavaScriptManager.Instance.IsPwaPlatform && !DataManager.Instance.PlayerData.HasPickedUpPwaReward && DataManager.Instance.PlayerData.HasPlayedFirstGame && !JavaScriptManager.Instance.IsOnPc())
+        {
+            JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
+        }
+        
+        void TryToReward(bool _didBind)
+        {
+            if (!_didBind)
+            {
+                return;
+            }
+        
             DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(OnOkButtonPressed);
             DialogsManager.Instance.OkDialog.Setup("Your new card is ready!");
         
@@ -60,25 +77,25 @@ public class UIMainMenu : MonoBehaviour
                 qoomonUnlockingPanel.Setup(_qoomonId, null);
             }
         }
+    }
 
-        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
+    private bool TryRewardAfterFirstGame()
+    {
+        if (!DataManager.Instance.PlayerData.HasFinishedFirstGame || !DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
-            BotPlayer.GenerateNewData();
-            SceneManager.Instance.LoadAIGameplay();
+            return false;
         }
-        else if (DataManager.Instance.PlayerData.HasFinishedFirstGame)
+        
+        int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+
+        DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
+        DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
+
+        qoomonUnlockingPanel.Setup(_qoomonId, ShowPwaRewardDialog);
+        return true;
+        void ShowPwaRewardDialog()
         {
-            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-
-            DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
-            DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
-
-            qoomonUnlockingPanel.Setup(_qoomonId, ShowPwaRewardDialog);
-            
-            void ShowPwaRewardDialog()
-            {
-                DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
-            }
+            DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
         }
     }
 

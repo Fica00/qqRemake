@@ -95,8 +95,6 @@ public class PlayerData
         lastDayConnected = DateCreatedAccount;
         daysConnectedInRow = 1;
 
-        Debug.Log("CreateNewPlayer");
-
         if (JavaScriptManager.Instance.IsDemo)
         {
             SetupDemo();
@@ -109,8 +107,6 @@ public class PlayerData
 
     private void SetupDemo()
     {
-        Debug.Log("SetupDemo");
-
         DeckData starterDeck = DeckInitializer.InitializeDecks().First(deck => deck.Id == 0);
         decks.Add(starterDeck);
         ownedQoomons.AddRange(starterDeck.CardsInDeck);
@@ -118,8 +114,6 @@ public class PlayerData
 
     private void Setup()
     {
-        Debug.Log("Setup");
-
         decks = DeckInitializer.InitializeDecks();
 
         foreach (var _card in CardsManager.Instance.GetAllPlayableCards())

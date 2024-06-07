@@ -73,10 +73,15 @@ public class Initialization : MonoBehaviour
     private void FinishInit()
     {
         AudioManager.Instance.Init();
-
-        if (DataManager.Instance.PlayerData.HasFinishedTutorial == 0 && DataManager.Instance.PlayerData.Exp == 0)
+        DataManager.Instance.Subscribe();
+        MissionManager.Instance.Setup();
+        DataManager.Instance.PlayerData.Statistics.StartSession();
+        
+        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
-            DataManager.Instance.Subscribe();
+            BotPlayer.GenerateNewData();
+            SceneManager.Instance.LoadAIGameplay(false);
+            return;
         }
         
         SceneManager.Instance.LoadMainMenu();

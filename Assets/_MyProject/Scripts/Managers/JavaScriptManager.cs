@@ -9,6 +9,8 @@ public class JavaScriptManager : MonoBehaviour
     public static Action<string> OnGotUserData;
     public string Version;
 
+    private Action<bool> boundedCallBack;
+
     [field: SerializeField] public bool IsDemo { get; private set; }
 
     [DllImport("__Internal")]
@@ -51,7 +53,13 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoCopyToClipboard(string _text);    
     
     [DllImport("__Internal")]
-    public static extern bool DoIsAndroid();
+    public static extern bool DoIsAndroid();    
+    
+    [DllImport("__Internal")]
+    public static extern void DoCheckHasBoundAccount();    
+    
+    [DllImport("__Internal")]
+    public static extern bool CheckIsOnPc();
 
 
     public bool IsPwaPlatform
@@ -260,5 +268,22 @@ public class JavaScriptManager : MonoBehaviour
         }
 
         return DoIsAndroid();
+    }
+
+    public void CheckHasBoundAccount(Action<bool> _callBack)
+    {
+        boundedCallBack = _callBack;
+        DoCheckHasBoundAccount();
+    }
+
+    public void HasBoundedAccount(string _message)
+    {
+        BoundedData _bounded = JsonConvert.DeserializeObject<BoundedData>(_message);
+        boundedCallBack?.Invoke(_bounded.IsBounded);
+    }
+
+    public bool IsOnPc()
+    {
+        return CheckIsOnPc();
     }
 }
