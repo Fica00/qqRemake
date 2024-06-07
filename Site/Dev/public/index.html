@@ -240,7 +240,7 @@
       function CheckHasBoundAccount() {
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-              let isBounded = user.isAnonymous;
+              let isBounded = !user.isAnonymous;
               unity.SendMessage('JavaScriptManager', 'HasBoundedAccount', JSON.stringify({ IsBounded: isBounded }));
             }
         });
