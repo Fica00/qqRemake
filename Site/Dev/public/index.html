@@ -77,11 +77,6 @@
       Please rotate your device to portrait mode to continue.
     </div>
     <div id="unity-container">
-      <div>
-        <h3 id="isAndroid"></h3>
-        <h3 id="isPwa"></h3>
-        <h3 id="isPC"></h3>
-      </div>
       <canvas id="unity-canvas" width="1179" height="2556"></canvas>
       <div id="unity-tutorial">
         <img
@@ -253,44 +248,40 @@
       
       function IsAndroid()
       {
-        const res = /Android/.test(navigator.userAgent);
-        document.getElementById('isAndroid').innerHTML = res ? 'jeste android' : 'nije android'
-        return res
+        return /Android/.test(navigator.userAgent);
       }
-      console.log(IsAndroid(), 'isAndroid')
 
       function CheckIsPwa() {
-  function IsInStandaloneMode() {
-    var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-    return displayModes.some((displayMode) =>
-      window.matchMedia("(display-mode: " + displayMode + ")").matches
-    );
-  }
+        function IsInStandaloneMode() {
+          var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+          return displayModes.some((displayMode) =>
+            window.matchMedia("(display-mode: " + displayMode + ")").matches
+          );
+        }
 
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-  const isAndroid = /Android/.test(navigator.userAgent);
-  const isOnPC = !isIOS && !isAndroid;
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isOnPC = !isIOS && !isAndroid;
 
-  let res;
-  if (!isOnPC && IsInStandaloneMode()) {
-    res = true; // is PWA
-  } else {
-    res = false; // is not PWA
-  }
+        let res;
+        if (!isOnPC && IsInStandaloneMode()) {
+          res = true; // is PWA
+        } else {
+          res = false; // is not PWA
+        }
 
-  document.getElementById('isPwa').innerHTML = res ? 'jeste pwa' : 'nije pwa';
-  return res;
-}
-      console.log(CheckIsPwa(), 'CheckIsPwa')
+        return res;
+      }
+      
       function IsOnPc()
       {
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
         const isOnPC = !isIOS && !isAndroid;
-        document.getElementById('isPC').innerHTML = isOnPC ? 'jeste PC' : 'nije PC'
+        
         return isOnPC;
       }
-      console.log(IsOnPc(), 'IsOnPc')
+
 
       function SetUserId(id) {
         userId = id;
@@ -389,21 +380,22 @@
       }
 
       function GoogleAuth() {
-        firebase
-          .auth()
-          .signInWithPopup(googleProvider)
-          .then((result) => {
-            console.log("Google auth: " + resut);
-            tellUnityUserInfo(
-              result.user.uid,
-              result.user.isAnonymous,
-              result.user
-            );
-          })
-          .catch((err) => {
-            unity.SendMessage("JavaScriptManager", "FailedToAuth");
-            console.log(err.code);
-          });
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          return firebase.auth().signInWithPopup(googleProvider);
+        })
+        .then((result) => {
+          console.log("Google auth: " + result);
+          tellUnityUserInfo(
+          result.user.uid,
+          result.user.isAnonymous,
+          result.user
+          );
+        })
+        .catch((err) => {
+          unity.SendMessage("JavaScriptManager", "FailedToAuth");
+          console.log(err.code);
+        });
       }
 
       function FacebookAuth() {
@@ -425,21 +417,22 @@
       }
 
       function TwitterAuth() {
-        firebase
-          .auth()
-          .signInWithPopup(twitterProvider)
-          .then((result) => {
-            console.log("Twitter auth: " + resut);
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            return firebase.auth().signInWithPopup(twitterProvider);
+        })
+        .then((result) => {
+            console.log("Twitter auth: " + result);
             tellUnityUserInfo(
-              result.user.uid,
-              result.user.isAnonymous,
-              result.user
+                result.user.uid,
+                result.user.isAnonymous,
+                result.user
             );
-          })
-          .catch((err) => {
+        })
+        .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
             console.log(err.code);
-          });
+        });
       }
 
       // -----------------------------------------------------DISCORD AUTH
@@ -468,19 +461,20 @@
 
       //  -----------------------------------------------------DISCORD AUTH
       function SignInAnonymous() {
-        firebase
-          .auth()
-          .signInAnonymously()
-          .then((userCredential) => {
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            return firebase.auth().signInAnonymously();
+        })
+        .then((userCredential) => {
             tellUnityUserInfo(
-              userCredential.user.uid,
-              userCredential.user.isAnonymous,
-              userCredential.user
+                userCredential.user.uid,
+                userCredential.user.isAnonymous,
+                userCredential.user
             );
-          })
-          .catch((error) => {
+        })
+        .catch((error) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
-          });
+        });
       }
 
       const SignOut = () => {

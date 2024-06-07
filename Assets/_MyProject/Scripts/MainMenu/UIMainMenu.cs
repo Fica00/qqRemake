@@ -54,12 +54,24 @@ public class UIMainMenu : MonoBehaviour
         {
             return;
         }
-        
-        if (JavaScriptManager.Instance.IsPwaPlatform && !DataManager.Instance.PlayerData.HasPickedUpPwaReward && DataManager.Instance.PlayerData.HasPlayedFirstGame)
+
+        if (!JavaScriptManager.Instance.IsPwaPlatform)
         {
-            JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
+            return;
+        }
+
+        if (DataManager.Instance.PlayerData.HasPickedUpPwaReward)
+        {
+            return;
+        }
+
+        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        {
+            return;
         }
         
+        JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
+
         void TryToReward(bool _didBind)
         {
             if (!_didBind)
@@ -86,7 +98,11 @@ public class UIMainMenu : MonoBehaviour
 
     private bool TryRewardAfterFirstGame()
     {
-        if (!DataManager.Instance.PlayerData.HasFinishedFirstGame || !DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        if (!DataManager.Instance.PlayerData.HasFinishedFirstGame)
+        {
+            return false;
+        }
+        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
             return false;
         }
