@@ -50,7 +50,12 @@ public class UIMainMenu : MonoBehaviour
 
     private void TryRewardForPwaAndBid()
     {
-        if (JavaScriptManager.Instance.IsPwaPlatform && !DataManager.Instance.PlayerData.HasPickedUpPwaReward && DataManager.Instance.PlayerData.HasPlayedFirstGame && !JavaScriptManager.Instance.IsOnPc())
+        if (JavaScriptManager.Instance.IsOnPc())
+        {
+            return;
+        }
+        
+        if (JavaScriptManager.Instance.IsPwaPlatform && !DataManager.Instance.PlayerData.HasPickedUpPwaReward && DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
             JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
         }

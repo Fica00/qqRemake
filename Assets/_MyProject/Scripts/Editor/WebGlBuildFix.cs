@@ -5,6 +5,8 @@ using UnityEngine;
 
 public static class WebGlBuildFix
 {
+    private static string projectName = "QoomonQuest";
+    
     [PostProcessBuild(1)]
     public static void OnPostprocessBuild(BuildTarget _target, string _destinationPath)
     {
@@ -28,6 +30,13 @@ public static class WebGlBuildFix
         
         CopyDirectoryContents(_templateDataPath, _destinationTemplateDataPath);
         Debug.Log($"Overridden TemplateData using template from {_templateDataPath}");
+        
+        // Call the rename method for the "Build" folder
+        string _buildFolderPath = Path.Combine(_destinationPath, "Build");
+        if (Directory.Exists(_buildFolderPath))
+        {
+            RenameFilesInBuildFolder(_buildFolderPath, projectName);
+        }
     }
 
     private static void CopyDirectoryContents(string _sourceDirName, string _destDirName)
@@ -57,6 +66,24 @@ public static class WebGlBuildFix
             string _tempPath = Path.Combine(_destDirName, _subDir.Name);
             Directory.CreateDirectory(_tempPath);
             CopyDirectoryContents(_subDir.FullName, _tempPath);
+        }
+    }
+
+    private static void RenameFilesInBuildFolder(string _buildFolderPath, string _projectName)
+    {
+        DirectoryInfo _dir = new DirectoryInfo(_buildFolderPath);
+        FileInfo[] _files = _dir.GetFiles();
+
+        foreach (FileInfo _file in _files)
+        {
+            if (_file.Extension.Equals(".meta"))
+            {
+                continue;
+            }
+
+            string _newFileName = _projectName + _file.Name.Substring(_file.Name.IndexOf('.'));
+            string _newFilePath = Path.Combine(_buildFolderPath, _newFileName);
+            _file.MoveTo(_newFilePath);
         }
     }
 }
