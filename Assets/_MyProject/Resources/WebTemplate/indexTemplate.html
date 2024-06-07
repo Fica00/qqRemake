@@ -48,7 +48,11 @@
       #unity-tutorial img.active {
         display: block;
       }
-      #unity-progress-bar-empty {
+      #loadingContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 141px;
         position: absolute;
         bottom: 15%;
         left: 50%;
@@ -100,14 +104,14 @@
           alt="tutorial card 5"
           style="width: 100%; height: 100%"
         />
-        <div>
+        <div id="loadingContainer">
           <div id="unity-progress-bar-empty">
             <div id="unity-progress-bar-full" style="margin: 0"></div>
           </div>
           <img
             src="./TemplateData/loadingText.png"
             alt="tutorial card 5"
-            style="width: 100%;"
+            style="display: block; width: 100%; margin-top: 10px;"
           />
         </div>
       </div>
@@ -373,21 +377,22 @@
       }
 
       function GoogleAuth() {
-        firebase
-          .auth()
-          .signInWithPopup(googleProvider)
-          .then((result) => {
-            console.log("Google auth: " + resut);
-            tellUnityUserInfo(
-              result.user.uid,
-              result.user.isAnonymous,
-              result.user
-            );
-          })
-          .catch((err) => {
-            unity.SendMessage("JavaScriptManager", "FailedToAuth");
-            console.log(err.code);
-          });
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          return firebase.auth().signInWithPopup(googleProvider);
+        })
+        .then((result) => {
+          console.log("Google auth: " + result);
+          tellUnityUserInfo(
+          result.user.uid,
+          result.user.isAnonymous,
+          result.user
+          );
+        })
+        .catch((err) => {
+          unity.SendMessage("JavaScriptManager", "FailedToAuth");
+          console.log(err.code);
+        });
       }
 
       function FacebookAuth() {
@@ -409,21 +414,22 @@
       }
 
       function TwitterAuth() {
-        firebase
-          .auth()
-          .signInWithPopup(twitterProvider)
-          .then((result) => {
-            console.log("Twitter auth: " + resut);
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            return firebase.auth().signInWithPopup(twitterProvider);
+        })
+        .then((result) => {
+            console.log("Twitter auth: " + result);
             tellUnityUserInfo(
-              result.user.uid,
-              result.user.isAnonymous,
-              result.user
+                result.user.uid,
+                result.user.isAnonymous,
+                result.user
             );
-          })
-          .catch((err) => {
+        })
+        .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
             console.log(err.code);
-          });
+        });
       }
 
       // -----------------------------------------------------DISCORD AUTH
@@ -452,19 +458,20 @@
 
       //  -----------------------------------------------------DISCORD AUTH
       function SignInAnonymous() {
-        firebase
-          .auth()
-          .signInAnonymously()
-          .then((userCredential) => {
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            return firebase.auth().signInAnonymously();
+        })
+        .then((userCredential) => {
             tellUnityUserInfo(
-              userCredential.user.uid,
-              userCredential.user.isAnonymous,
-              userCredential.user
+                userCredential.user.uid,
+                userCredential.user.isAnonymous,
+                userCredential.user
             );
-          })
-          .catch((error) => {
+        })
+        .catch((error) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
-          });
+        });
       }
 
       const SignOut = () => {

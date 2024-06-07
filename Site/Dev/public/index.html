@@ -48,7 +48,11 @@
       #unity-tutorial img.active {
         display: block;
       }
-      #unity-progress-bar-empty {
+      #loadingContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 141px;
         position: absolute;
         bottom: 15%;
         left: 50%;
@@ -100,8 +104,15 @@
           alt="tutorial card 5"
           style="width: 100%; height: 100%"
         />
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full" style="margin: 0"></div>
+        <div id="loadingContainer">
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full" style="margin: 0"></div>
+          </div>
+          <img
+            src="./TemplateData/loadingText.png"
+            alt="tutorial card 5"
+            style="display: block; width: 100%; margin-top: 10px;"
+          />
         </div>
       </div>
       <div id="unity-warning"></div>
