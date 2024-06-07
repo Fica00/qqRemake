@@ -26,6 +26,8 @@ public class RegisterAnonymousHandler : MonoBehaviour
     {
         googleButton.onClick.AddListener(() => LinkUserProvider("google"));
         twitterButton.onClick.AddListener(() => LinkUserProvider("twitter"));
+        
+        RegistrationPageHolder.SetActive(false);
         CheckIsGuest();
     }
 
@@ -43,21 +45,20 @@ public class RegisterAnonymousHandler : MonoBehaviour
 
     private void CheckIsGuest()
     {
-        if (AuthHandler.IsGuest)
+        JavaScriptManager.Instance.CheckHasBoundAccount(DoManageButtons);
+        
+        void DoManageButtons(bool _didBind)
         {
-            return;
+            RegistrationPageHolder.SetActive(!_didBind);
         }
-
-        HideRegistrationPage();
     }
-
 
     public void HideRegistrationPage()
     {
         RegistrationPageHolder.gameObject.SetActive(false);
     }
 
-    public void UserAleradyHaveAccount()
+    public void UserAlreadyHaveAccount()
     {
         DialogsManager.Instance.OkDialog.Setup("You already have a linked account.");
         HideRegistrationPage();

@@ -252,7 +252,7 @@ public class JavaScriptManager : MonoBehaviour
 
     public void UserAlreadyHasAccount() 
     {
-        RegisterAnonymousHandler.Instance.UserAleradyHaveAccount();
+        RegisterAnonymousHandler.Instance.UserAlreadyHaveAccount();
     }
 
     public void RequestUserData()
