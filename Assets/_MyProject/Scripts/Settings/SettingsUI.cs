@@ -19,6 +19,8 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Button tutorial;
     [SerializeField] private TextMeshProUGUI playerIDDisplay;
     [SerializeField] private Button copyPlayerId;
+    [SerializeField] private SocialOverlayHandler socialOverlayHandler;
+
 
     private void OnEnable()
     {
@@ -41,15 +43,15 @@ public class SettingsUI : MonoBehaviour
     private void OnDisable()
     {
         logoutButton.onClick.RemoveListener(Logout);
-       //linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
-       //linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
+        //linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
+        //linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
         redeemCode.onClick.RemoveListener(RedeemCode);
         reportABug.onClick.RemoveListener(ReportABug);
         playerSupport.onClick.RemoveListener(PlayerSupport);
         privacy.onClick.RemoveListener(Privacy);
         termsOfService.onClick.RemoveListener(TermsOfService);
         deleteAccount.onClick.RemoveListener(DeleteAccount);
-        close.onClick.RemoveListener(Close); 
+        close.onClick.RemoveListener(Close);
         tutorial.onClick.RemoveListener(ShowTutorial);
         copyPlayerId.onClick.RemoveListener(CopyPlayerId);
     }
@@ -67,7 +69,7 @@ public class SettingsUI : MonoBehaviour
     private void Logout()
     {
         StartCoroutine(LogOutRoutine());
-        
+
         IEnumerator LogOutRoutine()
         {
             PlayerPrefs.DeleteAll();
@@ -77,7 +79,7 @@ public class SettingsUI : MonoBehaviour
                 SceneManager.Instance.LoadAlphaCode();
                 yield break;
             }
-        
+
             JavaScriptManager.Instance.SignOut();
             yield return new WaitForSeconds(1);
             SceneManager.Instance.LoadAlphaCode();
@@ -93,7 +95,7 @@ public class SettingsUI : MonoBehaviour
     {
         DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
-    
+
     private void RedeemCode()
     {
         DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
@@ -127,6 +129,16 @@ public class SettingsUI : MonoBehaviour
     private void Start()
     {
         nameInput.text = DataManager.Instance.PlayerData.Name;
+
+        JavaScriptManager.Instance.CheckHasBoundAccount(_hasBoundAccount =>
+        {
+            if (_hasBoundAccount)
+            {
+                return;
+            }
+
+            socialOverlayHandler.Setup();
+        });
     }
 
     private void Close()
@@ -135,12 +147,12 @@ public class SettingsUI : MonoBehaviour
         {
             return;
         }
-        
-        if(DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotOpen)
+
+        if (DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotOpen)
         {
             DataManager.Instance.PlayerData.SettingsFirstTimeShown = PwaOverlay.DidNotShow;
         }
-        
+
         SceneManager.Instance.LoadMainMenu();
     }
 
@@ -153,13 +165,13 @@ public class SettingsUI : MonoBehaviour
             return false;
         }
 
-        if (_name.Length<3 || _name.Length>10)
+        if (_name.Length < 3 || _name.Length > 10)
         {
             DialogsManager.Instance.OkDialog.Setup("Name must contain more than 3 characters and less than 10");
             return false;
         }
-        
-        if (DataManager.Instance.PlayerData.Name==_name)
+
+        if (DataManager.Instance.PlayerData.Name == _name)
         {
             return true;
         }

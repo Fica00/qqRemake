@@ -112,11 +112,13 @@ public class UIMainMenu : MonoBehaviour
         DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
         DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
 
-        qoomonUnlockingPanel.Setup(_qoomonId, ShowPwaRewardDialog);
+        qoomonUnlockingPanel.Setup(_qoomonId, ManagePwaDialogAndOverlay);
         return true;
-        void ShowPwaRewardDialog()
+
+        void ManagePwaDialogAndOverlay()
         {
             DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
+            DataManager.Instance.CanShowPwaOverlay = true;
         }
     }
 

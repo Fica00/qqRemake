@@ -146,6 +146,10 @@ public class GameplayManager : MonoBehaviour
             DataManager.Instance.PlayerData.HasPlayedFirstGame = true;
             DataManager.Instance.PlayerData.HasFinishedFirstGame = true;
         }
+        else
+        {
+            DataManager.Instance.CanShowPwaOverlay = true;
+        }
         
         if (_result is not (GameResult.IWon or GameResult.Escaped))
         {

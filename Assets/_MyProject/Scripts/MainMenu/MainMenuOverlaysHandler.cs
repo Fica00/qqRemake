@@ -32,32 +32,42 @@ public class MainMenuOverlaysHandler : MonoBehaviour
 
     private void Start()
     {
+        if (DataManager.Instance.PlayerData.IsNewAccount)
+        {
+            SetupFirstTimeOverlays();
+        }
+
         SetupOverlays();
     }
 
     private void SetupOverlays()
     {
-        if (DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.AfterFirstGameOverlayShown)
+        if (JavaScriptManager.Instance.IsPwaPlatform)
         {
-            DataManager.Instance.PlayerData.AfterFirstGameOverlayShown = true;
-            Debug.Log("Setting up ClaimQoomons overlay.");
-            claimQoomonsOverlay.Setup();
+            return;
+        }
+        
+        if (JavaScriptManager.Instance.IsOnPc())
+        {
             return;
         }
 
-        if (DataManager.Instance.PlayerData.HasPlayedFirstGame && DataManager.Instance.PlayerData.AfterFirstGameOverlayShown && !DataManager.Instance.PlayerData.GuestOverlayShown)
+        if (!DataManager.Instance.CanShowPwaOverlay)
+        {
+            return;
+        }
+
+        pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid());
+    }
+
+    private void SetupFirstTimeOverlays()
+    {
+        if (DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.GuestOverlayShown)
         {
             DataManager.Instance.PlayerData.GuestOverlayShown = true;
             Debug.Log("Setting up Guest overlay.");
             guestOverlay.Setup();
         }
-
-        if (DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotShow)
-        {
-            DataManager.Instance.PlayerData.SettingsFirstTimeShown = PwaOverlay.Showed;
-            pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid());
-        }
-            
     }
 
     public void SetupOverlay(MainMenuOverlay _overlay)

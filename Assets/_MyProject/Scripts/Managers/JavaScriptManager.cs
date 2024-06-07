@@ -272,6 +272,11 @@ public class JavaScriptManager : MonoBehaviour
 
     public void CheckHasBoundAccount(Action<bool> _callBack)
     {
+        if (Application.isEditor)
+        {
+            return;
+        }
+        
         boundedCallBack = _callBack;
         DoCheckHasBoundAccount();
     }

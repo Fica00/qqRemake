@@ -22,6 +22,11 @@ public class PwaOverlayHandler : OverlayHandler
         closeButton.onClick.RemoveListener(Close);
     }
 
+    public override void Close()
+    {
+        base.Close();
+        DataManager.Instance.CanShowPwaOverlay = false;
+    }
 
     public void SetupWithText(bool _isAndroid)
     {
