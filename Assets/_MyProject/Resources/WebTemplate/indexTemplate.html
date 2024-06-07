@@ -225,6 +225,15 @@
       const stripe = Stripe(
         "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
       );
+
+      function CheckHasBoundAccount() {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+              let isBounded = user.isAnonymous;
+              unity.SendMessage('JavaScriptManager', 'HasBoundedAccount', JSON.stringify({ IsBounded: isBounded }));
+            }
+        });
+      }
       
       function IsAndroid()
       {

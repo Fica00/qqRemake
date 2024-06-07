@@ -15,12 +15,13 @@
     <style>
       @media (orientation: landscape) {
         /* body {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              overflow: hidden;
-            } */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+          } */
+
         #landscape-block-message {
           display: block;
           text-align: center;
@@ -31,18 +32,142 @@
           font-size: 20px;
         }
       }
+      #unity-tutorial {
+        width: 90%;
+        /*height: 97vh;*/
+        /* max-height: 700px; */
+        transition: 0.4s all ease;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #unity-tutorial img {
+        display: none;
+      }
+      #unity-tutorial img.active {
+        display: block;
+      }
+      #unity-progress-bar-empty {
+        position: absolute;
+        bottom: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      @media screen and (min-width: 768px) {
+        #unity-tutorial {
+          width: auto;
+          height: 99vh;
+          /* max-height: 700px; */
+          transition: 0.4s all ease;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
     </style>
   </head>
   <body>
+    <div id="landscape-block-message" style="display: none">
+      Please rotate your device to portrait mode to continue.
+    </div>
     <div id="unity-container">
       <canvas id="unity-canvas" width="1179" height="2556"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
+      <div id="unity-tutorial">
+        <img
+          src="./TemplateData/loading1.png"
+          alt="tutorial card 1"
+          style="width: 100%; height: 100%"
+        />
+        <img
+          src="./TemplateData/loading2.png"
+          alt="tutorial card 2"
+          style="width: 100%; height: 100%"
+        />
+        <img
+          src="./TemplateData/loading3.png"
+          alt="tutorial card 3"
+          style="width: 100%; height: 100%"
+        />
+        <img
+          src="./TemplateData/loading4.png"
+          alt="tutorial card 4"
+          style="width: 100%; height: 100%"
+        />
+        <img
+          src="./TemplateData/loading5.png"
+          alt="tutorial card 5"
+          style="width: 100%; height: 100%"
+        />
         <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
+          <div id="unity-progress-bar-full" style="margin: 0"></div>
         </div>
       </div>
       <div id="unity-warning"></div>
+    </div>
+    <div
+      id="form-container"
+      style="
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        display: none;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        id="payment-form"
+        style="
+          width: 90%;
+          max-width: 400px;
+          padding: 30px;
+          border-radius: 10px;
+          text-align: center;
+          background-color: #f2f2f2;
+        "
+      >
+        <div id="card-element"></div>
+        <div id="card-errors" role="alert"></div>
+        <div id="card-cost"></div>
+        <div
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <p
+            id="btn-cancelPayment"
+            style="
+              width: fit-content;
+              margin-right: 10px;
+              border: transparent;
+              border-radius: 5px;
+              background-color: #000;
+              color: #fff;
+              font-size: 20px;
+              padding: 10px;
+              cursor: pointer;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+            "
+          >
+            Cancel
+          </p>
+          <button
+            id="btn-submit"
+            style="
+              border: transparent;
+              border-radius: 5px;
+              background-color: #000;
+              color: #fff;
+              font-size: 20px;
+              padding: 10px;
+              cursor: pointer;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+            "
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
     <div id="pwa-msg" style="display: none">
       <div
@@ -54,7 +179,6 @@
         "
       >
         <img src="./TemplateData/PWA msg.png" alt="pwa-msg" />
-
         <button
           id="cancelMsg"
           style="
@@ -71,13 +195,6 @@
         >
           X
         </button>
-
-        <img
-          id="cancelMsgImage"
-          src="./TemplateData/PWA msg btn.png"
-          alt="close"
-          style="position: absolute; top: 76%; max-height: 70%; max-width: 70%"
-        />
       </div>
     </div>
     <script>
@@ -99,6 +216,7 @@
       let unity = null;
       let isBreakingScript = false;
       const dinamicParam = new URLSearchParams(window.location.search).get("a");
+      let doCheckForMarketing = false;
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
       const twitterProvider = new firebase.auth.TwitterAuthProvider();
@@ -107,6 +225,23 @@
       const stripe = Stripe(
         "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
       );
+
+      function CheckHasBoundAccount() {
+        firebase.auth().onAuthStateChanged(function (user) {
+            let isBounded = null;
+            if (user) {
+              console.log(user,'provera usera')
+              isBounded = user.isAnonymous;
+            }
+            console.log(isBounded,'da li je anonimus')
+            // unity.SendMessage('JavaScriptManager', 'HasBoundedAccount', JSON.stringify({ IsBounded: isBounded }));
+        });
+      }
+      CheckHasBoundAccount()
+      function IsAndroid()
+      {
+        return /Android/.test(navigator.userAgent);
+      }
 
       function CheckIsPwa() {
         function isInStandaloneMode() {
@@ -122,34 +257,11 @@
         const isAndroid = /Android/.test(navigator.userAgent);
         const isOnPC = !isIOS && !isAndroid;
         if (!isOnPC && !isInStandaloneMode()) {
-          const msgContainer = document.getElementById("pwa-msg");
-          const cancelBtn = document.getElementById("cancelMsg");
-          const cancelBtnImage = document.getElementById("cancelMsgImage");
-          const unityContainer = document.getElementById("unity-container");
-          unityContainer.style.display = "none";
-          msgContainer.style.display = "flex";
-          msgContainer.style.height = "100vh";
-          msgContainer.style.justifyContent = "center";
-          msgContainer.style.backgroundImage = `url('./TemplateData/PWA\ bg.png')`;
-          msgContainer.style.backgroundPosition = "center";
-          msgContainer.style.backgroundRepeat = "no-repeat";
-          msgContainer.style.backgroundSize = "cover";
-          cancelBtn.addEventListener("click", () => {
-            unityContainer.style.display = "block";
-            msgContainer.style.display = "none";
-          });
-          cancelBtnImage.addEventListener("click", () => {
-            unityContainer.style.display = "block";
-            msgContainer.style.display = "none";
-          });
-          isBreakingScript = true;
-          // return true
+          return true
         }
-        isBreakingScript = false;
-        // return false
+        return false
       }
 
-      CheckIsPwa();
 
       function SetUserId(id) {
         userId = id;
@@ -179,36 +291,13 @@
         });
       }
 
+      //now doing this in tellUnityUserInfo because we need the timestamp for our dashboard!!!!!!
       function updateMarketingParam(param) {
         if (!param) {
           console.log("No dynamicParam found in URL");
           return;
         }
-        const paramRef = firebase.database().ref("marketing/" + param);
-        paramRef.once("value", function (snapshot) {
-          if (snapshot.exists()) {
-            const currentCount = snapshot.val();
-            paramRef.set(currentCount + 1, function (error) {
-              if (error) {
-                console.error("Error updating marketing parameter:", error);
-              } else {
-                console.log(
-                  `Marketing parameter '${param}' incremented successfully.`
-                );
-              }
-            });
-          } else {
-            paramRef.set(1, function (error) {
-              if (error) {
-                console.error("Error creating marketing parameter:", error);
-              } else {
-                console.log(
-                  `Marketing parameter '${param}' created successfully.`
-                );
-              }
-            });
-          }
-        });
+        doCheckForMarketing = true;
       }
 
       updateMarketingParam(dinamicParam);
@@ -223,7 +312,11 @@
           return; // Exit the function if unity is not initialized
         }
         if (currentUser) {
-          tellUnityUserInfo(currentUser.uid);
+          tellUnityUserInfo(
+            currentUser.uid,
+            currentUser.isAnonymous,
+            currentUser
+          );
         } else {
           unity.SendMessage("JavaScriptManager", "AuthFinished", "");
         }
@@ -272,7 +365,11 @@
           .signInWithPopup(googleProvider)
           .then((result) => {
             console.log("Google auth: " + resut);
-            tellUnityUserInfo(result.user.uid);
+            tellUnityUserInfo(
+              result.user.uid,
+              result.user.isAnonymous,
+              result.user
+            );
           })
           .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
@@ -285,7 +382,11 @@
           .auth()
           .signInWithPopup(facebookProvider)
           .then((result) => {
-            tellUnityUserInfo(result.user.uid);
+            tellUnityUserInfo(
+              result.user.uid,
+              result.user.isAnonymous,
+              result.user
+            );
             // unity.SendMessage('JavaScriptManager', 'AuthFinished', JSON.stringify({UserId: result.user.uid}));
           })
           .catch((err) => {
@@ -300,7 +401,11 @@
           .signInWithPopup(twitterProvider)
           .then((result) => {
             console.log("Twitter auth: " + resut);
-            tellUnityUserInfo(result.user.uid);
+            tellUnityUserInfo(
+              result.user.uid,
+              result.user.isAnonymous,
+              result.user
+            );
           })
           .catch((err) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
@@ -338,7 +443,11 @@
           .auth()
           .signInAnonymously()
           .then((userCredential) => {
-            tellUnityUserInfo(userCredential.user.uid);
+            tellUnityUserInfo(
+              userCredential.user.uid,
+              userCredential.user.isAnonymous,
+              userCredential.user
+            );
           })
           .catch((error) => {
             unity.SendMessage("JavaScriptManager", "FailedToAuth");
@@ -357,25 +466,102 @@
           });
       };
 
-      function tellUnityUserInfo(userId) {
+      function tellUnityUserInfo(userId, isGuest, userInfo) {
         var ref = firebase.database().ref(`users/${userId}`);
-
         ref
           .once("value", function (snapshot) {
             if (snapshot.exists()) {
               const userData = snapshot.val();
               console.log("User Data Retrieved:", userData);
+
+              //Check if flag is set
+              if (doCheckForMarketing) {
+                const agencyRef = firebase
+                  .database()
+                  .ref(`marketing/${dinamicParam}/${userId}`);
+                agencyRef.once("value", function (snapshot) {
+                  if (!snapshot.exists()) {
+                    agencyRef.set(
+                      {
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                      },
+                      function (error) {
+                        if (error) {
+                          console.error(
+                            "Error updating marketing user:",
+                            error
+                          );
+                        } else {
+                          console.log(
+                            `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
+                          );
+                          doCheckForMarketing = false; // Resetuj flag
+                        }
+                      }
+                    );
+                  } else {
+                    console.log(
+                      `Timestamp already exists for user '${userId}' in agency '${dinamicParam}'.`
+                    );
+                  }
+                });
+              }
+
               unity.SendMessage(
                 "JavaScriptManager",
                 "AuthFinished",
-                JSON.stringify({ UserId: userId, IsNewAccount: false, Agency:dinamicParam })
+                JSON.stringify({
+                  UserId: userId,
+                  IsNewAccount: false,
+                  Agency: dinamicParam,
+                  IsGuest: isGuest,
+                })
               );
             } else {
               console.log("No user data available for user ID:", userId);
+
+              //check if flag is set!
+              if (doCheckForMarketing) {
+                const agencyRef = firebase
+                  .database()
+                  .ref(`marketing/${dinamicParam}/${userId}`);
+                agencyRef.once("value", function (snapshot) {
+                  if (!snapshot.exists()) {
+                    agencyRef.set(
+                      {
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                      },
+                      function (error) {
+                        if (error) {
+                          console.error(
+                            "Error updating marketing user:",
+                            error
+                          );
+                        } else {
+                          console.log(
+                            `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
+                          );
+                          doCheckForMarketing = false;
+                        }
+                      }
+                    );
+                  } else {
+                    console.log(
+                      `Timestamp already exists for user '${userId}' in agency '${dinamicParam}'.`
+                    );
+                  }
+                });
+              }
+
               unity.SendMessage(
                 "JavaScriptManager",
                 "AuthFinished",
-                JSON.stringify({ UserId: userId, IsNewAccount: true , Agency:dinamicParam})
+                JSON.stringify({
+                  UserId: userId,
+                  IsNewAccount: true,
+                  Agency: dinamicParam,
+                  IsGuest: isGuest,
+                })
               );
             }
           })
@@ -385,16 +571,9 @@
           });
       }
 
-      //Unity stuff
-      window.addEventListener("load", function () {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
-        }
-      });
-
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
+      var loadingTutorial = document.querySelector("#unity-tutorial");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var warningBanner = document.querySelector("#unity-warning");
 
@@ -427,11 +606,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/public.loader.js";
+      var loaderUrl = buildUrl + "/QoomonQuest.loader.js";
       var config = {
-        dataUrl: buildUrl + "/public.data",
-        frameworkUrl: buildUrl + "/public.framework.js",
-        codeUrl: buildUrl + "/public.wasm",
+        dataUrl: buildUrl + "/QoomonQuest.data",
+        frameworkUrl: buildUrl + "/QoomonQuest.framework.js",
+        codeUrl: buildUrl + "/QoomonQuest.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "MagmaDev",
         productName: "Qoomon Quest",
@@ -458,23 +637,32 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
-        if (isBreakingScript) return;
+        const tutorialImages = document.querySelectorAll("#unity-tutorial img");
+        const totalImages = tutorialImages.length;
+        let currentIndex =
+          parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
+        tutorialImages[currentIndex].classList.add("active");
+        localStorage.setItem(
+          "currentTutorialIndex",
+          (currentIndex + 1) % totalImages
+        );
+
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         })
           .then((unityInstance) => {
-            loadingBar.style.display = "none";
-            console.log("I will assign Unity instance now");
+            loadingTutorial.style.display = "none";
             unity = unityInstance;
-
             firebase.auth().onAuthStateChanged(function (user) {
               if (user && unity) {
-                // User is signed in, log user info to console
                 console.log(user, "user is logged in");
                 currentUser = user;
-                tellUnityUserInfo(currentUser.uid);
+                const userInfo = user;
+                const isGuest = userInfo.isAnonymous;
+                console.log("UserInfo:", userInfo);
+                console.log("isGuest:", isGuest);
+                tellUnityUserInfo(userInfo.uid, isGuest, userInfo);
               } else {
-                // No user is signed in, log to console
                 console.log("No user is logged in.");
               }
             });
@@ -485,8 +673,6 @@
       };
       document.body.appendChild(script);
       firebaseAnalytics.logEvent("page_view");
-
-      loadingBar.style.display = "block";
     </script>
   </body>
 </html>
