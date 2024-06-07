@@ -77,6 +77,11 @@
       Please rotate your device to portrait mode to continue.
     </div>
     <div id="unity-container">
+      <div>
+        <h3 id="isAndroid"></h3>
+        <h3 id="isPwa"></h3>
+        <h3 id="isPC"></h3>
+      </div>
       <canvas id="unity-canvas" width="1179" height="2556"></canvas>
       <div id="unity-tutorial">
         <img
@@ -248,8 +253,11 @@
       
       function IsAndroid()
       {
-        return /Android/.test(navigator.userAgent);
+        const res = /Android/.test(navigator.userAgent);
+        document.getElementById('isAndroid').innerHTML = res ? 'jeste android' : 'nije android'
+        return res
       }
+      console.log(IsAndroid(), 'isAndroid')
 
       function CheckIsPwa() {
         function IsInStandaloneMode() {
@@ -264,21 +272,24 @@
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
         const isOnPC = !isIOS && !isAndroid;
+        let res
         if (!isOnPC && !IsInStandaloneMode()) {
-          return true
+          res = true // is pwa
         }
-        return false
+        res = false //is not pwa
+        document.getElementById('isPwa').innerHTML = res ? 'jeste pwa' : 'nije pwa'
+        return res
       }
-      
+      console.log(CheckIsPwa(), 'CheckIsPwa')
       function IsOnPc()
       {
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
         const isOnPC = !isIOS && !isAndroid;
-        
+        document.getElementById('isPC').innerHTML = isOnPC ? 'jeste PC' : 'nije PC'
         return isOnPC;
       }
-
+      console.log(IsOnPc(), 'IsOnPc')
 
       function SetUserId(id) {
         userId = id;
