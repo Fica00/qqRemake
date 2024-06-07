@@ -284,6 +284,11 @@ public class JavaScriptManager : MonoBehaviour
 
     public bool IsOnPc()
     {
+        if (Application.isEditor)
+        {
+            return true;
+        }
+        
         return CheckIsOnPc();
     }
 }
