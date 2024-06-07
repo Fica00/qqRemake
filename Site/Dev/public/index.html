@@ -260,26 +260,27 @@
       console.log(IsAndroid(), 'isAndroid')
 
       function CheckIsPwa() {
-        function IsInStandaloneMode() {
-          var displayModes = ["fullscreen", "standalone", "minimal-ui"];
-          const res = displayModes.some(
-            (displayMode) =>
-              window.matchMedia("(display-mode: " + displayMode + ")").matches
-          );
-          return res;
-        }
+  function IsInStandaloneMode() {
+    var displayModes = ["fullscreen", "standalone", "minimal-ui"];
+    return displayModes.some((displayMode) =>
+      window.matchMedia("(display-mode: " + displayMode + ")").matches
+    );
+  }
 
-        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-        const isAndroid = /Android/.test(navigator.userAgent);
-        const isOnPC = !isIOS && !isAndroid;
-        let res
-        if (!isOnPC && !IsInStandaloneMode()) {
-          res = true // is pwa
-        }
-        res = false //is not pwa
-        document.getElementById('isPwa').innerHTML = res ? 'jeste pwa' : 'nije pwa'
-        return res
-      }
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isOnPC = !isIOS && !isAndroid;
+
+  let res;
+  if (!isOnPC && IsInStandaloneMode()) {
+    res = true; // is PWA
+  } else {
+    res = false; // is not PWA
+  }
+
+  document.getElementById('isPwa').innerHTML = res ? 'jeste pwa' : 'nije pwa';
+  return res;
+}
       console.log(CheckIsPwa(), 'CheckIsPwa')
       function IsOnPc()
       {
