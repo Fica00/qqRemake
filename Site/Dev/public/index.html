@@ -228,23 +228,20 @@
 
       function CheckHasBoundAccount() {
         firebase.auth().onAuthStateChanged(function (user) {
-            let isBounded = null;
-            if (user) {
-              console.log(user,'provera usera')
-              isBounded = user.isAnonymous;
+          if (user) {
+              let isBounded = user.isAnonymous;
+              unity.SendMessage('JavaScriptManager', 'HasBoundedAccount', JSON.stringify({ IsBounded: isBounded }));
             }
-            console.log(isBounded,'da li je anonimus')
-            // unity.SendMessage('JavaScriptManager', 'HasBoundedAccount', JSON.stringify({ IsBounded: isBounded }));
         });
       }
-      CheckHasBoundAccount()
+      
       function IsAndroid()
       {
         return /Android/.test(navigator.userAgent);
       }
 
       function CheckIsPwa() {
-        function isInStandaloneMode() {
+        function IsInStandaloneMode() {
           var displayModes = ["fullscreen", "standalone", "minimal-ui"];
           const res = displayModes.some(
             (displayMode) =>
@@ -256,10 +253,19 @@
         const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
         const isOnPC = !isIOS && !isAndroid;
-        if (!isOnPC && !isInStandaloneMode()) {
+        if (!isOnPC && !IsInStandaloneMode()) {
           return true
         }
         return false
+      }
+      
+      function IsOnPc()
+      {
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isOnPC = !isIOS && !isAndroid;
+        
+        return isOnPC;
       }
 
 
