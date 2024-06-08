@@ -38,11 +38,7 @@ public class UIMainMenu : MonoBehaviour
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
 
         bool _didReward = TryRewardAfterFirstGame();
-        if (_didReward)
-        {
-            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(TryRewardForPwaAndBid);
-        }
-        else
+        if (!_didReward)
         {
             TryRewardForPwaAndBid();
         }
@@ -107,16 +103,25 @@ public class UIMainMenu : MonoBehaviour
             return false;
         }
         
-        int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-
-        DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
-        DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
-
-        qoomonUnlockingPanel.Setup(_qoomonId, ManagePwaDialogAndOverlay);
+        DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(RewardQoomon);
+        DialogsManager.Instance.OkDialog.Setup("You won a new qoomon for completing first game!");
         return true;
+        
+        
+
+        void RewardQoomon()
+        {
+            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+
+            DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
+            DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
+
+            qoomonUnlockingPanel.Setup(_qoomonId, ManagePwaDialogAndOverlay);
+        }
 
         void ManagePwaDialogAndOverlay()
         {
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(TryRewardForPwaAndBid);
             DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
             DataManager.Instance.CanShowPwaOverlay = true;
         }

@@ -32,7 +32,6 @@ public class RegisterAnonymousHandler : MonoBehaviour
         twitterButtonOverlay.onClick.AddListener(() => LinkUserProvider("twitter"));
         
         RegistrationPageHolder.SetActive(false);
-        CheckIsGuest();
     }
 
 
@@ -49,14 +48,14 @@ public class RegisterAnonymousHandler : MonoBehaviour
         JavaScriptManager.Instance.LinkingAnonimousUser(_providerName);
     }
 
-    private void CheckIsGuest()
+    public void CheckIsGuest()
     {
         JavaScriptManager.Instance.CheckHasBoundAccount(DoManageButtons);
-        
-        void DoManageButtons(bool _didBind)
-        {
-            RegistrationPageHolder.SetActive(!_didBind);
-        }
+    }
+    
+    private void DoManageButtons(bool _didBind)
+    {
+        RegistrationPageHolder.SetActive(!_didBind);
     }
 
     public void HideRegistrationPage()

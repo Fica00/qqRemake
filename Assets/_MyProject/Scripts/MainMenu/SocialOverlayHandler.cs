@@ -1,4 +1,3 @@
-
 public class SocialOverlayHandler : OverlayHandler
 {
     private void OnEnable()

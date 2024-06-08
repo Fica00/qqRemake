@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
+    <link rel="apple-touch-icon" sizes="180x180" href="TemplateData/favicon.ico">
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Unity WebGL Player | Qoomon Quest</title>
@@ -227,7 +228,6 @@
       let unity = null;
       let isBreakingScript = false;
       const dinamicParam = new URLSearchParams(window.location.search).get("a");
-      let doCheckForMarketing = false;
       const googleProvider = new firebase.auth.GoogleAuthProvider();
       const facebookProvider = new firebase.auth.FacebookAuthProvider();
       const twitterProvider = new firebase.auth.TwitterAuthProvider();
@@ -311,13 +311,72 @@
         });
       }
 
+      
       //now doing this in tellUnityUserInfo because we need the timestamp for our dashboard!!!!!!
-      function updateMarketingParam(param) {
+      function updateMarketingParam(param, userId) {
         if (!param) {
           console.log("No dynamicParam found in URL");
           return;
         }
-        doCheckForMarketing = true;
+
+        console.log("Found agency: "+param);
+        const agencyRef = firebase
+                .database()
+                .ref(`marketing/${param}/click`);
+        agencyRef.once("value", function (snapshot) {
+          console.log("Got value");
+          agencyRef.push(
+                  {
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                  },
+                  function (error) {
+                    if (error) {
+                      console.error(
+                              "Error updating marketing user:",
+                              error
+                      );
+                    } else {
+                      console.log(
+                              `User '${userId}' added to agency '${param}' with timestamp.`
+                      );
+                    }
+                  }
+          );
+        });
+
+        SaveAgencyUniqueDevice("sdasdasd");
+      }
+
+      function SaveAgencyUniqueDevice(deviceId)
+      {
+        if (dinamicParam === null || dinamicParam === undefined || dinamicParam === '')
+        {
+          return
+        }
+        console.log("Got device id: "+deviceId);
+        const agencyRef = firebase
+                .database()
+                .ref(`marketing/${dinamicParam}/devices/${deviceId}`);
+        agencyRef.once("value", function (snapshot) {
+          console.log("Got value");
+          agencyRef.set(
+                  {
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                  },
+                  function (error) {
+                    if (error) {
+                      console.error(
+                              "Error updating marketing user:",
+                              error
+                      );
+                    } else {
+                      console.log(
+                              `User '${userId}' added to agency '${param}' with timestamp.`
+                      );
+                    }
+                  }
+          );
+        });
       }
 
       updateMarketingParam(dinamicParam);
@@ -497,39 +556,6 @@
               const userData = snapshot.val();
               console.log("User Data Retrieved:", userData);
 
-              //Check if flag is set
-              if (doCheckForMarketing) {
-                const agencyRef = firebase
-                  .database()
-                  .ref(`marketing/${dinamicParam}/${userId}`);
-                agencyRef.once("value", function (snapshot) {
-                  if (!snapshot.exists()) {
-                    agencyRef.set(
-                      {
-                        timestamp: firebase.database.ServerValue.TIMESTAMP,
-                      },
-                      function (error) {
-                        if (error) {
-                          console.error(
-                            "Error updating marketing user:",
-                            error
-                          );
-                        } else {
-                          console.log(
-                            `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
-                          );
-                          doCheckForMarketing = false; // Resetuj flag
-                        }
-                      }
-                    );
-                  } else {
-                    console.log(
-                      `Timestamp already exists for user '${userId}' in agency '${dinamicParam}'.`
-                    );
-                  }
-                });
-              }
-
               unity.SendMessage(
                 "JavaScriptManager",
                 "AuthFinished",
@@ -542,39 +568,6 @@
               );
             } else {
               console.log("No user data available for user ID:", userId);
-
-              //check if flag is set!
-              if (doCheckForMarketing) {
-                const agencyRef = firebase
-                  .database()
-                  .ref(`marketing/${dinamicParam}/${userId}`);
-                agencyRef.once("value", function (snapshot) {
-                  if (!snapshot.exists()) {
-                    agencyRef.set(
-                      {
-                        timestamp: firebase.database.ServerValue.TIMESTAMP,
-                      },
-                      function (error) {
-                        if (error) {
-                          console.error(
-                            "Error updating marketing user:",
-                            error
-                          );
-                        } else {
-                          console.log(
-                            `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
-                          );
-                          doCheckForMarketing = false;
-                        }
-                      }
-                    );
-                  } else {
-                    console.log(
-                      `Timestamp already exists for user '${userId}' in agency '${dinamicParam}'.`
-                    );
-                  }
-                });
-              }
 
               unity.SendMessage(
                 "JavaScriptManager",

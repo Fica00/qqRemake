@@ -59,7 +59,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoCheckHasBoundAccount();    
     
     [DllImport("__Internal")]
-    public static extern bool CheckIsOnPc();
+    public static extern bool CheckIsOnPc();    
+    
+    [DllImport("__Internal")]
+    public static extern bool DoTellDeviceId(string _deviceId);
 
 
     public bool IsPwaPlatform
@@ -274,6 +277,7 @@ public class JavaScriptManager : MonoBehaviour
     {
         if (Application.isEditor)
         {
+            _callBack?.Invoke(true);
             return;
         }
         

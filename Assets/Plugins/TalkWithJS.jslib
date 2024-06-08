@@ -93,5 +93,11 @@ mergeInto(LibraryManager.library,
         }, function(err) {
           console.error('Could not copy text to clipboard: ', err);
         });
+      },
+      
+      DoTellDeviceId: function(deviceId)
+      {
+        var text = UTF8ToString(deviceId);
+        SaveAgencyUniqueDevice(text);
       }
 });

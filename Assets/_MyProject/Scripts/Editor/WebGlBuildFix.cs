@@ -15,11 +15,41 @@ public static class WebGlBuildFix
             return;
         }
         
-        string _indexTemplatePath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("WebTemplate/indexTemplate"));
-        File.Copy(_indexTemplatePath, _destinationPath + Path.DirectorySeparatorChar + "index.html", true);
-        Debug.Log($"Overridden index.html using template from {_indexTemplatePath}");
+        
+        
+        string _path = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("WebTemplate/indexTemplate"));
+        File.Copy(_path, _destinationPath + Path.DirectorySeparatorChar + "index.html", true);
+        Debug.Log($"Overridden index.html using template from {_path}");
 
-        string _templateDataPath = _indexTemplatePath.Replace("indexTemplate.html", "TemplateDataTemplate");
+        // Copy manifest.webmanifest
+        string _destinationManifestPath = Path.Combine(_destinationPath, "manifest.webmanifest");
+        string _manifestData = @"
+        {
+            ""name"": ""Qoomon Quest"",
+            ""short_name"": ""Qoomon Quest"",
+            ""start_url"": ""index.html"",
+            ""display"": ""fullscreen"",
+            ""background_color"": ""#231F20"",
+            ""theme_color"": ""#000"",
+            ""description"": """",
+            ""icons"": [
+                {
+                    ""src"": ""TemplateData/icons/unity-logo-dark.png"",
+                    ""sizes"": ""144x144"",
+                    ""type"": ""image/png"",
+                    ""purpose"": ""any maskable""
+                },
+                {
+                    ""src"": ""TemplateData/icons/unity-logo-dark.png"",
+                    ""sizes"": ""512x512"",
+                    ""type"": ""image/png""
+                }
+            ]
+        }";
+        File.WriteAllText(_destinationManifestPath, _manifestData);
+        Debug.Log($"Overridden manifest.webmanifest using preset text");
+
+        string _templateDataPath = _path.Replace("indexTemplate.html", "TemplateDataTemplate");
         string _destinationTemplateDataPath = _destinationPath + Path.DirectorySeparatorChar + "TemplateData";
         
         if (Directory.Exists(_destinationTemplateDataPath))

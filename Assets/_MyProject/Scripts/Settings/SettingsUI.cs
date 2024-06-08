@@ -132,6 +132,7 @@ public class SettingsUI : MonoBehaviour
 
         JavaScriptManager.Instance.CheckHasBoundAccount(_hasBoundAccount =>
         {
+            RegisterAnonymousHandler.Instance.CheckIsGuest();
             if (_hasBoundAccount)
             {
                 return;
@@ -139,6 +140,7 @@ public class SettingsUI : MonoBehaviour
 
             socialOverlayHandler.Setup();
         });
+        
     }
 
     private void Close()
