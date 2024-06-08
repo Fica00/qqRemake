@@ -4,7 +4,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="TemplateData/favicon.ico">
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Unity WebGL Player | Qoomon Quest</title>
+    <title>Qoomon Quest</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="TemplateData/style.css" />
     <link rel="manifest" href="manifest.webmanifest" />
@@ -344,7 +344,16 @@
           );
         });
 
-        SaveAgencyUniqueDevice("sdasdasd");
+
+        let _randomId = crypto.randomUUID();
+        const _key = "uniqueIdForMarketing";
+        let _idFromStorage = localStorage.getItem(_key);
+        if (_idFromStorage)
+        {
+          return;
+        }
+        localStorage.setItem(_key, _randomId);
+        SaveAgencyUniqueDevice(_randomId);
       }
 
       function SaveAgencyUniqueDevice(deviceId)
