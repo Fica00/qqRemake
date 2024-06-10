@@ -323,16 +323,15 @@
         const _key = "uniqueIdForMarketing";
         let _idFromStorage = localStorage.getItem(_key);
         let _hadId = _idFromStorage != null;
-        if (_hadId)
-        {
+        let _updateDevices = false;
+        if (_hadId) {
           _randomId = _idFromStorage;
-        }
-        else
-        {
+        } else {
           localStorage.setItem(_key, _randomId);
+          _updateDevices = true;
         }
 
-        console.log("Found agency: "+param);
+        console.log("Found agency: " + param);
         const agencyRef = firebase
                 .database()
                 .ref(`marketing/${param}/click`);
@@ -357,13 +356,15 @@
                   }
           );
         });
-
-        if (_hadId)
+        
+        if (!_updateDevices)
         {
           return;
         }
+
         SaveAgencyUniqueDevice(_randomId);
       }
+
 
       function SaveAgencyUniqueDevice(deviceId)
       {
@@ -389,7 +390,7 @@
                       );
                     } else {
                       console.log(
-                              `User '${userId}' added to agency '${param}' with timestamp.`
+                              `User '${userId}' added to agency '${dinamicParam}' with timestamp.`
                       );
                     }
                   }
