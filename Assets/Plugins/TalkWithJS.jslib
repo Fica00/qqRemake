@@ -72,5 +72,5 @@ mergeInto(LibraryManager.library,
             }).catch(function(err) {
                 unityInstance.SendMessage('JavaScriptManager', 'ReceiveClipboardText', 'failed');
             });
-    
+    }
 });
