@@ -1,0 +1,55 @@
+Duck Doug.png
+	size: 1024, 1024
+	filter: Linear, Linear
+daizi
+	bounds: 720, 58, 46, 134
+	offsets: 0, 7, 46, 141
+heye
+	bounds: 333, 508, 508, 190
+heye0
+	bounds: 19, 2, 381, 574
+	rotate: 90
+jdtl
+	bounds: 588, 322, 241, 186
+jdtr
+	bounds: 2, 314, 231, 187
+jjzl
+	bounds: 671, 194, 161, 46
+jjzr
+	bounds: 318, 6, 162, 51
+	offsets: 0, 0, 168, 51
+jxtl
+	bounds: 641, 92, 77, 81
+	offsets: 1, 1, 79, 83
+jxtr
+	bounds: 222, 110, 64, 77
+	offsets: 1, 1, 67, 81
+shui
+	bounds: 641, 17, 104, 57
+sr
+	bounds: 2, 75, 114, 143
+ssbl
+	bounds: 543, 48, 96, 125
+	offsets: 1, 1, 98, 128
+sszl
+	bounds: 346, 689, 145, 86
+	offsets: 1, 1, 147, 89
+sszr
+	bounds: 396, 79, 145, 138
+	offsets: 1, 1, 147, 140
+st
+	bounds: 265, 368, 306, 192
+	offsets: 0, 8, 306, 200
+	rotate: 180
+sxbl
+	bounds: 234, 224, 110, 146
+	offsets: 1, 2, 112, 149
+sxbl2
+	bounds: 543, 175, 123, 147
+	offsets: 1, 1, 125, 149
+tou
+	bounds: 2, 502, 342, 273
+weiba
+	bounds: 114, 72, 108, 104
+zui
+	bounds: 2, 172, 237, 145
