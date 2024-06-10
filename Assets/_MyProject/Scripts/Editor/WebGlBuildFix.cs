@@ -6,24 +6,22 @@ using UnityEngine;
 public static class WebGlBuildFix
 {
     private static string projectName = "QoomonQuest";
-    
+
     [PostProcessBuild(1)]
-    public static void OnPostprocessBuild(BuildTarget _target, string _destinationPath)
+    public static void OnPostprocessBuild(BuildTarget target, string destinationPath)
     {
-        if (_target != BuildTarget.WebGL)
+        if (target != BuildTarget.WebGL)
         {
             return;
         }
-        
-        
-        
-        string _path = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("WebTemplate/indexTemplate"));
-        File.Copy(_path, _destinationPath + Path.DirectorySeparatorChar + "index.html", true);
-        Debug.Log($"Overridden index.html using template from {_path}");
+
+        string indexPath = AssetDatabase.GetAssetPath(Resources.Load<TextAsset>("WebTemplate/indexTemplate"));
+        File.Copy(indexPath, Path.Combine(destinationPath, "index.html"), true);
+        Debug.Log($"Overridden index.html using template from {indexPath}");
 
         // Copy manifest.webmanifest
-        string _destinationManifestPath = Path.Combine(_destinationPath, "manifest.webmanifest");
-        string _manifestData = @"
+        string manifestPath = Path.Combine(destinationPath, "manifest.webmanifest");
+        string manifestData = @"
         {
             ""name"": ""Qoomon Quest"",
             ""short_name"": ""Qoomon Quest"",
@@ -46,74 +44,73 @@ public static class WebGlBuildFix
                 }
             ]
         }";
-        File.WriteAllText(_destinationManifestPath, _manifestData);
+        File.WriteAllText(manifestPath, manifestData);
         Debug.Log($"Overridden manifest.webmanifest using preset text");
 
-        string _templateDataPath = _path.Replace("indexTemplate.html", "TemplateDataTemplate");
-        string _destinationTemplateDataPath = _destinationPath + Path.DirectorySeparatorChar + "TemplateData";
-        
-        if (Directory.Exists(_destinationTemplateDataPath))
+        string baseTemplatePath = Path.GetDirectoryName(indexPath);
+
+        // Copy TemplateData folder
+        string templateDataPath = Path.Combine(baseTemplatePath, "TemplateDataTemplate");
+        string destinationTemplateDataPath = Path.Combine(destinationPath, "TemplateData");
+        CopyFolder(templateDataPath, destinationTemplateDataPath);
+
+        // Copy js folder
+        string jsPath = Path.Combine(baseTemplatePath, "js");
+        string destinationJsPath = Path.Combine(destinationPath, "js");
+        CopyFolder(jsPath, destinationJsPath);
+
+        // Rename files in the "Build" folder
+        string buildFolderPath = Path.Combine(destinationPath, "Build");
+        if (Directory.Exists(buildFolderPath))
         {
-            Directory.Delete(_destinationTemplateDataPath, true);
-        }
-        Directory.CreateDirectory(_destinationTemplateDataPath);
-        
-        CopyDirectoryContents(_templateDataPath, _destinationTemplateDataPath);
-        Debug.Log($"Overridden TemplateData using template from {_templateDataPath}");
-        
-        // Call the rename method for the "Build" folder
-        string _buildFolderPath = Path.Combine(_destinationPath, "Build");
-        if (Directory.Exists(_buildFolderPath))
-        {
-            RenameFilesInBuildFolder(_buildFolderPath, projectName);
+            RenameFilesInBuildFolder(buildFolderPath, projectName);
         }
     }
 
-    private static void CopyDirectoryContents(string _sourceDirName, string _destDirName)
+    private static void CopyFolder(string sourcePath, string destinationPath)
     {
-        DirectoryInfo _dir = new DirectoryInfo(_sourceDirName);
-        if (!_dir.Exists)
+        if (Directory.Exists(destinationPath))
         {
-            throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + _sourceDirName);
+            Directory.Delete(destinationPath, true);
+        }
+        Directory.CreateDirectory(destinationPath);
+
+        DirectoryInfo dir = new DirectoryInfo(sourcePath);
+        if (!dir.Exists)
+        {
+            throw new DirectoryNotFoundException($"Source directory does not exist or could not be found: {sourcePath}");
         }
 
-        DirectoryInfo[] _dirs = _dir.GetDirectories();
-        FileInfo[] _files = _dir.GetFiles();
-        
-        foreach (FileInfo _file in _files)
+        foreach (FileInfo file in dir.GetFiles())
         {
-            if (_file.Extension.Equals(".meta"))
+            if (file.Extension.Equals(".meta"))
+            {
+                continue;
+            }
+            string tempPath = Path.Combine(destinationPath, file.Name);
+            file.CopyTo(tempPath, true);
+        }
+
+        foreach (DirectoryInfo subdir in dir.GetDirectories())
+        {
+            string tempPath = Path.Combine(destinationPath, subdir.Name);
+            CopyFolder(subdir.FullName, tempPath);
+        }
+    }
+
+    private static void RenameFilesInBuildFolder(string buildFolderPath, string projectName)
+    {
+        DirectoryInfo dir = new DirectoryInfo(buildFolderPath);
+        foreach (FileInfo file in dir.GetFiles())
+        {
+            if (file.Extension.Equals(".meta"))
             {
                 continue;
             }
 
-            string _tempPath = Path.Combine(_destDirName, _file.Name);
-            _file.CopyTo(_tempPath, true);
-        }
-
-        foreach (DirectoryInfo _subDir in _dirs)
-        {
-            string _tempPath = Path.Combine(_destDirName, _subDir.Name);
-            Directory.CreateDirectory(_tempPath);
-            CopyDirectoryContents(_subDir.FullName, _tempPath);
-        }
-    }
-
-    private static void RenameFilesInBuildFolder(string _buildFolderPath, string _projectName)
-    {
-        DirectoryInfo _dir = new DirectoryInfo(_buildFolderPath);
-        FileInfo[] _files = _dir.GetFiles();
-
-        foreach (FileInfo _file in _files)
-        {
-            if (_file.Extension.Equals(".meta"))
-            {
-                continue;
-            }
-
-            string _newFileName = _projectName + _file.Name.Substring(_file.Name.IndexOf('.'));
-            string _newFilePath = Path.Combine(_buildFolderPath, _newFileName);
-            _file.MoveTo(_newFilePath);
+            string newFileName = projectName + file.Name.Substring(file.Name.IndexOf('.'));
+            string newFilePath = Path.Combine(buildFolderPath, newFileName);
+            file.MoveTo(newFilePath);
         }
     }
 }
