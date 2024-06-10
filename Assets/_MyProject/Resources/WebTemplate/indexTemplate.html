@@ -319,6 +319,19 @@
           return;
         }
 
+        let _randomId = crypto.randomUUID();
+        const _key = "uniqueIdForMarketing";
+        let _idFromStorage = localStorage.getItem(_key);
+        let _hadId = _idFromStorage != null;
+        if (_hadId)
+        {
+          _randomId = _idFromStorage;
+        }
+        else
+        {
+          localStorage.setItem(_key, _randomId);
+        }
+
         console.log("Found agency: "+param);
         const agencyRef = firebase
                 .database()
@@ -328,6 +341,7 @@
           agencyRef.push(
                   {
                     timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    deviceId: _randomId
                   },
                   function (error) {
                     if (error) {
@@ -344,15 +358,10 @@
           );
         });
 
-
-        let _randomId = crypto.randomUUID();
-        const _key = "uniqueIdForMarketing";
-        let _idFromStorage = localStorage.getItem(_key);
-        if (_idFromStorage)
+        if (_hadId)
         {
           return;
         }
-        localStorage.setItem(_key, _randomId);
         SaveAgencyUniqueDevice(_randomId);
       }
 
