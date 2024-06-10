@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class HttpCommunicationHandler : MonoBehaviour
 {
     public static HttpCommunicationHandler Instance;
-    private const string SERVER_URI = "https://ec2-54-234-153-167.compute-1.amazonaws.com/";
+    private const string SERVER_URI = "https://api.qoomonquest.com/";
     private string AuthenticateUri => SERVER_URI + "authenticate";
     private string PurgeUri => SERVER_URI + "purge-cache";
 
@@ -65,9 +65,11 @@ public class HttpCommunicationHandler : MonoBehaviour
     private IEnumerator Post(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError)
     {
         using UnityWebRequest _webRequest = UnityWebRequest.Post(_uri, _jsonData);
+        using CertificateHandler _certificate = new ForceAcceptAll();
         byte[] _jsonToSend = new System.Text.UTF8Encoding().GetBytes(_jsonData);
         _webRequest.uploadHandler = new UploadHandlerRaw(_jsonToSend);
         _webRequest.downloadHandler = new DownloadHandlerBuffer();
+        _webRequest.certificateHandler = _certificate;
         _webRequest.SetRequestHeader("Content-Type", "application/json");
 
         yield return _webRequest.SendWebRequest();
@@ -86,6 +88,7 @@ public class HttpCommunicationHandler : MonoBehaviour
 
         _webRequest.uploadHandler.Dispose();
         _webRequest.downloadHandler.Dispose();
+        _certificate.Dispose();
         _webRequest.Dispose();
     }
 
