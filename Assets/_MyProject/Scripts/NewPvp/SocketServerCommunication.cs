@@ -12,7 +12,7 @@ public class SocketServerCommunication : MonoBehaviour
     public static Action OnILeftRoom;
     
     public static SocketServerCommunication Instance;
-    private const string SERVER_URI = "https://ec2-54-234-153-167.compute-1.amazonaws.com/hubs/game";
+    private const string SERVER_URI = "https://api.qoomonquest.com/hubs/game";
     private HubConnection connection;
     private string authKey;
 
