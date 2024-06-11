@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5288211069838764632}
   - component: {fileID: 4748480914842480975}
   - component: {fileID: 5739790578559636297}
+  - component: {fileID: 8052539941102746420}
   m_Layer: 5
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -177,6 +178,7 @@ MonoBehaviour:
   <Display>k__BackingField: {fileID: 8094611445278841944}
   <Reveal>k__BackingField: {fileID: 9123291093834940967}
   <SpecialEffects>k__BackingField: []
+  Animator: {fileID: 8052539941102746420}
   IsMy: 0
   CanChangePlace: 1
   IsForcedToBePlaced: 0
@@ -206,6 +208,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8052539941102746420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102185798641947804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4611cee651a72b443b0d4eca28ebb401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  revealKey: reveal
+  increasedPowerKey: increasedPower
+  decreasedPowerKey: decreasedPower
 --- !u!1 &163180176746285967
 GameObject:
   m_ObjectHideFlags: 0
