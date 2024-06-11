@@ -16,10 +16,9 @@ public class QoomonAnimator : MonoBehaviour
     [SerializeField] private bool useNewAnimation;
     [SerializeField] private List<AnimationHelper> animationHelpers = new ();
     private CardObject cardObject;
-    private Spine.AnimationState state;
 
     public bool HasAnimations => cardObject != null;
-    private bool isRevealAnimationDone;
+    [HideInInspector]public bool IsRevealAnimationDone;
     private string currentAnimation;
     
     public void Setup(CardObject _cardObject)
@@ -30,12 +29,16 @@ public class QoomonAnimator : MonoBehaviour
         // }
         if (!useNewAnimation)
         {
+            animator.gameObject.SetActive(false);
             return;
         }
 
-        state = animator.AnimationState;
         cardObject = _cardObject;
         cardObject.Stats.UpdatedPowerBasedOnPrevious += CheckPower;
+        if (!cardObject.IsMy)
+        {
+            animator.transform.eulerAngles = Vector3.zero;
+        }
     }
 
     private void OnDisable()
@@ -54,10 +57,10 @@ public class QoomonAnimator : MonoBehaviour
             case ChangeStatus.Same:
                 break;
             case ChangeStatus.Increased:
-                state.SetAnimation(0,increasedPowerKey, false);
+                PlayAnimation(increasedPowerKey, false);
                 break;
             case ChangeStatus.Decreased:
-                state.SetAnimation(0,decreasedPowerKey, false);
+                PlayAnimation(decreasedPowerKey, false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_status), _status, null);
@@ -67,8 +70,9 @@ public class QoomonAnimator : MonoBehaviour
     public IEnumerator RevealAnimation()
     {
         cardObject.Reveal.PreReveal();
-        isRevealAnimationDone = false;
-        yield return new WaitUntil(() => isRevealAnimationDone);
+        IsRevealAnimationDone = false;
+        PlayAnimation(revealKey,false);
+        yield return new WaitUntil(() => IsRevealAnimationDone);
         cardObject.Reveal.Finish();
         cardObject.Subscribe();
     }
@@ -101,6 +105,7 @@ public class QoomonAnimator : MonoBehaviour
 
     private void PlayAnimation(string _animationKey, bool _loop, bool _playIdleOnEnd=true)
     {
+        animator.gameObject.SetActive(true);
         AnimationHelper _animationHelper = animationHelpers.Find(_animationData => _animationData.AnimationKey == _animationKey);
         if (_animationHelper!=null)
         {
@@ -135,7 +140,7 @@ public class QoomonAnimator : MonoBehaviour
     {
         if (_trackEntry.Animation.Name==revealKey)
         {
-            isRevealAnimationDone = true;
+            IsRevealAnimationDone = true;
         }
         
         AnimationHelper _animationHelper = animationHelpers.Find(_animationData => _animationData.AnimationKey == _trackEntry.Animation.Name);
