@@ -2,6 +2,26 @@ const googleProvider = new firebase.auth.GoogleAuthProvider()
 const twitterProvider = new firebase.auth.TwitterAuthProvider()
 const facebookProvider = new firebase.auth.FacebookAuthProvider()
 
+async function getIPAddress() {
+  try {
+    const response = await axios.get("https://api.ipify.org?format=json")
+    return response.data.ip
+  } catch (error) {
+    console.error("Failed to get IP address:", error)
+    throw error
+  }
+}
+async function getGeolocation() {
+  try {
+    const ip = await getIPAddress()
+    const response = await axios.get(`https://ipapi.co/${ip}/json/`)
+    return response.data
+  } catch (error) {
+    console.error("Failed to get geolocation data:", error)
+    throw error
+  }
+}
+
 function GoogleAuth() {
   firebase
     .auth()
