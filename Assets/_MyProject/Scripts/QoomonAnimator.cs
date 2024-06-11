@@ -62,8 +62,11 @@ public class QoomonAnimator : MonoBehaviour
 
     public IEnumerator RevealAnimation()
     {
+        cardObject.Reveal.PreReveal();
         isRevealAnimationDone = false;
         yield return new WaitUntil(() => isRevealAnimationDone);
+        cardObject.Reveal.Finish();
+        cardObject.Subscribe();
     }
 
     private void EndRevealAnimation()
