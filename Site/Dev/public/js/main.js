@@ -84,13 +84,14 @@ function SetUserId(id) {
   })
 }
 
-function updateMarketingParam(param, userId) {
+async function updateMarketingParam(param, userId) {
   if (!param) {
     console.log("No dynamicParam found in URL")
     return
   }
 
   let _randomId = crypto.randomUUID()
+  let countryName = null
   const _key = "uniqueIdForMarketing"
   let _idFromStorage = localStorage.getItem(_key)
   let _hadId = _idFromStorage != null
@@ -104,33 +105,44 @@ function updateMarketingParam(param, userId) {
 
   console.log("Found agency: " + param)
   const agencyRef = firebase.database().ref(`marketing/${param}/click`)
-  agencyRef.once("value", function (snapshot) {
+  agencyRef.once("value", async function (snapshot) {
     console.log("Got value")
-    agencyRef.push(
-      {
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        deviceId: _randomId,
-      },
-      function (error) {
-        if (error) {
-          console.error("Error updating marketing user:", error)
-        } else {
-          console.log(
-            `User '${userId}' added to agency '${param}' with timestamp.`
-          )
+
+    try {
+      const geoData = await getGeolocation()
+      countryName = geoData.country_name
+
+      agencyRef.push(
+        {
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
+          deviceId: _randomId,
+          country: countryName,
+        },
+        function (error) {
+          if (error) {
+            console.error("Error updating marketing user:", error)
+          } else {
+            console.log(
+              `User '${userId}' added to agency '${param}' with timestamp and country.`
+            )
+          }
         }
+      )
+      if (!_updateDevices) {
+        return
       }
-    )
+
+      await SaveAgencyUniqueDevice(_randomId, countryName)
+    } catch (error) {
+      console.error(
+        "Failed to get geolocation data for marketing param:",
+        error
+      )
+    }
   })
-
-  if (!_updateDevices) {
-    return
-  }
-
-  SaveAgencyUniqueDevice(_randomId)
 }
 
-function SaveAgencyUniqueDevice(deviceId) {
+async function SaveAgencyUniqueDevice(deviceId, countryName) {
   if (
     dinamicParam === null ||
     dinamicParam === undefined ||
@@ -147,6 +159,7 @@ function SaveAgencyUniqueDevice(deviceId) {
     agencyRef.set(
       {
         timestamp: firebase.database.ServerValue.TIMESTAMP,
+        country: countryName,
       },
       function (error) {
         if (error) {
