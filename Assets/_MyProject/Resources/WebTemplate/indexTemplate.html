@@ -280,7 +280,7 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
-        const tutorialImages = document.querySelectorAll("#unity-tutorial img");
+        const tutorialImages = document.querySelectorAll("#unity-tutorial>img");
         const totalImages = tutorialImages.length;
         let currentIndex =
           parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
