@@ -1,0 +1,57 @@
+Shielder.png
+	size: 2048, 512
+	filter: Linear, Linear
+dun_l
+	bounds: 2, 92, 344, 418
+	offsets: 2, 1, 347, 421
+dun_r
+	bounds: 762, 54, 288, 456
+	offsets: 1, 1, 291, 459
+jdtl
+	bounds: 1450, 236, 111, 116
+	offsets: 1, 2, 114, 120
+jdtr
+	bounds: 128, 3, 119, 87
+	offsets: 1, 2, 121, 90
+jjzl
+	bounds: 699, 2, 147, 50
+	offsets: 1, 1, 149, 52
+jjzr
+	bounds: 1200, 30, 156, 63
+	offsets: 1, 2, 158, 66
+jxtl
+	bounds: 2, 6, 124, 84
+	offsets: 1, 1, 127, 86
+jxtr
+	bounds: 1362, 4, 86, 105
+	offsets: 2, 1, 89, 107
+pijia
+	bounds: 1269, 95, 372, 179
+	rotate: 270
+ssbl
+	bounds: 1449, 354, 123, 156
+	offsets: 1, 1, 125, 158
+ssbr
+	bounds: 1052, 67, 132, 146
+	offsets: 1, 1, 134, 148
+	rotate: 90
+sszl
+	bounds: 454, 3, 82, 107
+	offsets: 1, 1, 84, 109
+	rotate: 90
+sszr
+	bounds: 583, 12, 100, 114
+	offsets: 1, 2, 102, 118
+	rotate: 90
+st
+	bounds: 1052, 201, 309, 226
+	rotate: 90
+sxbl
+	bounds: 348, 7, 104, 118
+	offsets: 2, 1, 107, 120
+sxbr
+	bounds: 1450, 58, 122, 156
+	offsets: 1, 1, 124, 158
+tou
+	bounds: 348, 87, 423, 412
+	rotate: 90

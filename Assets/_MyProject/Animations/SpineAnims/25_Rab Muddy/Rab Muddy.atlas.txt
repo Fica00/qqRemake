@@ -1,0 +1,85 @@
+Rab Muddy.png
+	size: 1024, 1024
+	filter: Linear, Linear
+bu
+	bounds: 331, 147, 291, 130
+	rotate: 180
+denglong
+	bounds: 2, 214, 133, 189
+	offsets: 1, 2, 135, 192
+denglongbs
+	bounds: 387, 36, 71, 51
+	offsets: 1, 1, 73, 54
+denglonggm
+	bounds: 696, 251, 192, 225
+	offsets: 7, 6, 205, 237
+	rotate: 90
+douli
+	bounds: 391, 412, 283, 304
+	offsets: 1, 1, 285, 306
+	rotate: 90
+huxu_l
+	bounds: 936, 319, 130, 86
+	offsets: 1, 1, 132, 89
+	rotate: 90
+huxu_r
+	bounds: 924, 41, 88, 72
+	offsets: 1, 1, 90, 74
+jjzl
+	bounds: 137, 293, 110, 63
+	offsets: 2, 1, 113, 65
+	rotate: 90
+jjzr
+	bounds: 2, 2, 130, 55
+	offsets: 1, 1, 136, 57
+jl
+	bounds: 624, 100, 149, 180
+	rotate: 270
+jr
+	bounds: 137, 115, 158, 182
+	rotate: 270
+lingjin
+	bounds: 245, 268, 264, 142
+	offsets: 1, 1, 266, 145
+ssbl
+	bounds: 2, 59, 117, 153
+	offsets: 1, 1, 119, 155
+ssbr
+	bounds: 666, 2, 96, 122
+	offsets: 1, 2, 98, 125
+	rotate: 90
+sszl
+	bounds: 923, 258, 75, 59
+	offsets: 2, 2, 78, 63
+sszr
+	bounds: 951, 177, 50, 79
+	offsets: 2, 1, 64, 82
+st
+	bounds: 697, 444, 312, 251
+	offsets: 0, 0, 312, 265
+sxbl
+	bounds: 525, 272, 149, 138
+	rotate: 180
+sxbl0
+	bounds: 121, 60, 99, 53
+	offsets: 1, 1, 101, 55
+sxbl2
+	bounds: 806, 115, 143, 134
+	offsets: 4, 1, 148, 136
+sxbr
+	bounds: 797, 2, 111, 125
+	offsets: 1, 1, 114, 127
+	rotate: 90
+tou
+	bounds: 2, 405, 387, 290
+tuer_l
+	bounds: 225, 5, 145, 163
+	offsets: 0, 11, 145, 174
+	rotate: 270
+tuer_r
+	bounds: 460, 38, 109, 204
+	rotate: 90
+weiba
+	bounds: 951, 121, 54, 61
+	offsets: 1, 1, 56, 63
+	rotate: 90

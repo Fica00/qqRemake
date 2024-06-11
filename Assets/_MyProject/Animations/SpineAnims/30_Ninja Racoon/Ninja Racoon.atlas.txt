@@ -1,0 +1,72 @@
+Ninja Racoon.png
+	size: 2048, 512
+	filter: Linear, Linear
+erduo_l
+	bounds: 1254, 24, 169, 160
+	rotate: 90
+erduo_r
+	bounds: 2, 25, 125, 171
+	rotate: 270
+huxu_l
+	bounds: 1428, 240, 114, 129
+	offsets: 1, 1, 116, 132
+huxu_r
+	bounds: 1539, 157, 81, 77
+	offsets: 1, 1, 83, 79
+	rotate: 90
+jdtl
+	bounds: 1105, 110, 157, 124
+	offsets: 1, 1, 159, 126
+jdtr
+	bounds: 481, 6, 137, 101
+	offsets: 1, 1, 139, 103
+jxtl
+	bounds: 1302, 195, 124, 135
+	offsets: 1, 1, 126, 137
+jxtr
+	bounds: 1415, 371, 114, 133
+	offsets: 1, 1, 116, 135
+jzl
+	bounds: 1101, 7, 127, 83
+	offsets: 1, 1, 134, 85
+jzr
+	bounds: 898, 9, 168, 80
+kua
+	bounds: 770, 22, 182, 126
+	offsets: 1, 1, 184, 128
+	rotate: 90
+pddd
+	bounds: 1539, 17, 43, 93
+s_l
+	bounds: 345, 2, 105, 134
+	offsets: 1, 1, 108, 136
+	rotate: 90
+s_lxb
+	bounds: 1307, 360, 144, 106
+	offsets: 1, 1, 146, 108
+	rotate: 90
+shou_r
+	bounds: 175, 11, 75, 144
+	offsets: 2, 1, 78, 146
+	rotate: 90
+ssszz
+	bounds: 1531, 406, 84, 98
+	offsets: 1, 1, 87, 101
+sszr
+	bounds: 1416, 69, 124, 121
+	offsets: 2, 1, 131, 123
+	rotate: 90
+st
+	bounds: 1072, 236, 268, 233
+	rotate: 270
+sxbr
+	bounds: 620, 3, 109, 104
+	offsets: 1, 1, 111, 107
+tou
+	bounds: 2, 88, 431, 416
+weiba
+	bounds: 770, 74, 333, 430
+wq
+	bounds: 434, 109, 395, 333
+	offsets: 43, 1, 439, 335
+	rotate: 90

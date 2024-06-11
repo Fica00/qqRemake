@@ -1,0 +1,65 @@
+Gunner Kaka.png
+	size: 1024, 1024
+	filter: Linear, Linear
+daizi
+	bounds: 857, 70, 94, 165
+	rotate: 90
+dayi_l
+	bounds: 2, 197, 201, 404
+	rotate: 90
+huxu_l
+	bounds: 2, 16, 101, 71
+	offsets: 1, 2, 103, 74
+huxu_r
+	bounds: 171, 7, 93, 88
+	offsets: 2, 2, 96, 91
+jjzl
+	bounds: 516, 51, 137, 68
+	offsets: 1, 1, 140, 70
+jjzr
+	bounds: 305, 326, 145, 72
+	offsets: 1, 1, 147, 74
+jxtl
+	bounds: 272, 12, 102, 89
+	offsets: 1, 1, 105, 91
+jxtr
+	bounds: 376, 2, 104, 87
+	offsets: 1, 1, 106, 89
+pifeng
+	bounds: 385, 621, 409, 393
+ssbl
+	bounds: 2, 89, 167, 154
+	offsets: 1, 1, 170, 157
+ssbr
+	bounds: 408, 207, 191, 235
+	rotate: 90
+ssbr2
+	bounds: 789, 779, 191, 235
+sszl
+	bounds: 768, 722, 110, 89
+	offsets: 1, 1, 122, 91
+sszr
+	bounds: 891, 10, 93, 68
+	offsets: 1, 1, 95, 70
+st
+	bounds: 745, 431, 284, 277
+	rotate: 90
+sxbl
+	bounds: 369, 91, 114, 210
+	rotate: 90
+sxbl2
+	bounds: 171, 97, 114, 210
+	rotate: 90
+sxbr
+	bounds: 702, 29, 135, 125
+	offsets: 1, 1, 137, 127
+tou
+	bounds: 2, 618, 433, 396
+tuijia
+	bounds: 662, 230, 316, 199
+weiba
+	bounds: 629, 121, 227, 390
+	rotate: 90
+wuqi
+	bounds: 2, 400, 658, 216
+	offsets: 1, 2, 660, 219

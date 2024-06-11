@@ -1,0 +1,101 @@
+{ "skeleton": { "images": "D:/My Documents/我的挫图/接单/卡牌游戏q版角色/狮子/img/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 1, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "maofa_fg", "bone": "root", "attachment": "maofa_fg", "blend": "additive" },
+	{ "name": "maofa", "bone": "root", "attachment": "maofa" },
+	{ "name": "ssbr", "bone": "root", "attachment": "ssbr" },
+	{ "name": "sxbr", "bone": "root", "attachment": "sxbr" },
+	{ "name": "sszr", "bone": "root", "attachment": "sszr" },
+	{ "name": "sszr_fg", "bone": "root", "attachment": "sszr_fg", "blend": "additive" },
+	{ "name": "wb", "bone": "root", "attachment": "wb" },
+	{ "name": "jjzl", "bone": "root", "attachment": "jjzl" },
+	{ "name": "jdtl", "bone": "root", "attachment": "jdtl" },
+	{ "name": "jxtl", "bone": "root", "attachment": "jxtl" },
+	{ "name": "jjzr", "bone": "root", "attachment": "jjzr" },
+	{ "name": "jdtr", "bone": "root", "attachment": "jdtr" },
+	{ "name": "jxtr", "bone": "root", "attachment": "jxtr" },
+	{ "name": "kua", "bone": "root", "attachment": "kua" },
+	{ "name": "dauzi", "bone": "root", "attachment": "dauzi" },
+	{ "name": "st", "bone": "root", "attachment": "st" },
+	{ "name": "ssbl", "bone": "root", "attachment": "ssbl" },
+	{ "name": "tou", "bone": "root", "attachment": "tou" },
+	{ "name": "huxu_r", "bone": "root", "attachment": "huxu_r" },
+	{ "name": "huxu_l", "bone": "root", "attachment": "huxu_l" },
+	{ "name": "sxbl", "bone": "root", "attachment": "sxbl" },
+	{ "name": "sszl1", "bone": "root", "attachment": "sszl1" }
+],
+"skins": {
+	"default": {
+		"maofa_fg": {
+			"maofa_fg": { "x": 545, "y": -470, "width": 586, "height": 742 }
+		},
+		"maofa": {
+			"maofa": { "x": 545, "y": -462.5, "width": 572, "height": 685 }
+		},
+		"ssbr": {
+			"ssbr": { "x": 373, "y": -611.5, "width": 140, "height": 137 }
+		},
+		"sxbr": {
+			"sxbr": { "x": 322.5, "y": -626, "width": 89, "height": 124 }
+		},
+		"sszr": {
+			"sszr": { "x": 313.5, "y": -586.5, "width": 95, "height": 101 }
+		},
+		"sszr_fg": {
+			"sszr_fg": { "x": 316.5, "y": -579.5, "width": 165, "height": 165 }
+		},
+		"wb": {
+			"wb": { "x": 629.5, "y": -605, "width": 219, "height": 316 }
+		},
+		"jjzl": {
+			"jjzl": { "x": 646, "y": -834.5, "width": 154, "height": 69 }
+		},
+		"jdtl": {
+			"jdtl": { "x": 550, "y": -758, "width": 164, "height": 106 }
+		},
+		"jxtl": {
+			"jxtl": { "x": 589, "y": -790.5, "width": 122, "height": 109 }
+		},
+		"jjzr": {
+			"jjzr": { "x": 324.5, "y": -830, "width": 149, "height": 68 }
+		},
+		"jdtr": {
+			"jdtr": { "x": 403.5, "y": -755.5, "width": 161, "height": 103 }
+		},
+		"jxtr": {
+			"jxtr": { "x": 366.5, "y": -778.5, "width": 125, "height": 117 }
+		},
+		"kua": {
+			"kua": { "x": 489, "y": -733, "width": 186, "height": 114 }
+		},
+		"dauzi": {
+			"dauzi": { "x": 482.5, "y": -778.5, "width": 61, "height": 123 }
+		},
+		"st": {
+			"st": { "x": 501.5, "y": -621.5, "width": 269, "height": 249 }
+		},
+		"ssbl": {
+			"ssbl": { "x": 576.5, "y": -618.5, "width": 169, "height": 137 }
+		},
+		"tou": {
+			"tou": { "x": 485.5, "y": -406.5, "width": 379, "height": 401 }
+		},
+		"huxu_r": {
+			"huxu_r": { "x": 337.5, "y": -462.5, "width": 107, "height": 73 }
+		},
+		"huxu_l": {
+			"huxu_l": { "x": 538, "y": -472, "width": 130, "height": 98 }
+		},
+		"sxbl": {
+			"sxbl": { "x": 507, "y": -660, "width": 160, "height": 114 }
+		},
+		"sszl1": {
+			"sszl1": { "x": 408.5, "y": -645, "width": 113, "height": 98 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

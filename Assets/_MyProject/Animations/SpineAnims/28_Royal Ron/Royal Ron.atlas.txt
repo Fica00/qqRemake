@@ -1,0 +1,42 @@
+Royal Ron.png
+	size: 2048, 512
+	filter: Linear, Linear
+gong
+	bounds: 451, 2, 162, 691
+	rotate: 90
+jian
+	bounds: 433, 313, 675, 158
+	offsets: 2, 2, 679, 161
+jiandai
+	bounds: 1371, 72, 170, 399
+	offsets: 1, 1, 172, 401
+jjzl
+	bounds: 1179, 9, 160, 77
+jjzr
+	bounds: 651, 13, 171, 86
+jl
+	bounds: 1543, 185, 226, 286
+jr
+	bounds: 1771, 196, 222, 275
+ssbl
+	bounds: 829, 162, 231, 149
+	offsets: 1, 1, 233, 151
+ssbr
+	bounds: 512, 173, 160, 138
+	offsets: 1, 2, 163, 142
+sszr
+	bounds: 674, 229, 73, 82
+	offsets: 1, 1, 75, 85
+st
+	bounds: 1066, 85, 386, 303
+	rotate: 90
+sxbl
+	bounds: 1644, 81, 178, 152
+sxbr
+	bounds: 1810, 77, 166, 121
+	rotate: 180
+tou
+	bounds: 2, 64, 508, 407
+xuan
+	bounds: 1341, 30, 42, 608
+	rotate: 90

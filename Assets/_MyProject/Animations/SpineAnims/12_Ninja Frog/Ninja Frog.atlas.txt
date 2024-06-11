@@ -1,0 +1,56 @@
+Ninja Frog.png
+	size: 2048, 512
+	filter: Linear, Linear
+jdtl
+	bounds: 1024, 110, 157, 124
+	offsets: 1, 1, 159, 126
+	rotate: 90
+jdtr
+	bounds: 471, 6, 137, 101
+	offsets: 1, 1, 139, 103
+jxtl
+	bounds: 345, 2, 124, 135
+	offsets: 1, 1, 126, 137
+jxtr
+	bounds: 1150, 243, 114, 133
+	offsets: 1, 1, 116, 135
+jzl
+	bounds: 2, 20, 178, 92
+	offsets: 1, 1, 180, 95
+jzr
+	bounds: 610, 30, 153, 77
+	offsets: 1, 1, 155, 79
+kua
+	bounds: 807, 108, 182, 126
+	offsets: 1, 1, 184, 128
+pddd
+	bounds: 1041, 269, 43, 93
+s_l
+	bounds: 1150, 107, 105, 134
+	offsets: 1, 1, 108, 136
+s_lxb
+	bounds: 182, 6, 144, 106
+	offsets: 1, 1, 146, 108
+shou_r
+	bounds: 876, 31, 75, 144
+	offsets: 2, 1, 78, 146
+	rotate: 90
+ssszz
+	bounds: 1165, 392, 97, 112
+	offsets: 1, 2, 99, 115
+sszr
+	bounds: 1041, 378, 126, 122
+	offsets: 1, 1, 128, 124
+	rotate: 90
+st
+	bounds: 807, 236, 268, 233
+	rotate: 90
+sxbr
+	bounds: 765, 2, 109, 104
+	offsets: 1, 1, 111, 107
+tou
+	bounds: 2, 114, 468, 390
+wq
+	bounds: 471, 109, 395, 333
+	offsets: 43, 1, 439, 335
+	rotate: 90

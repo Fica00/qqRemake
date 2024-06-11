@@ -1,0 +1,69 @@
+Samu-Kitsune.png
+	size: 1024, 1024
+	filter: Linear, Linear
+bu
+	bounds: 838, 281, 389, 180
+	rotate: 90
+hudiejie
+	bounds: 2, 2, 94, 96
+	offsets: 1, 4, 95, 100
+	rotate: 90
+huxu_l
+	bounds: 517, 18, 122, 52
+	offsets: 1, 1, 124, 54
+	rotate: 90
+huxu_r
+	bounds: 931, 24, 109, 72
+	offsets: 1, 1, 112, 74
+	rotate: 90
+jdtl
+	bounds: 388, 20, 127, 120
+	offsets: 1, 2, 129, 123
+jdtr
+	bounds: 591, 165, 201, 95
+	offsets: 1, 1, 204, 97
+jjzl
+	bounds: 617, 551, 119, 55
+	offsets: 1, 1, 122, 57
+	rotate: 90
+jjzr
+	bounds: 229, 56, 152, 64
+	offsets: 1, 1, 155, 67
+jxtl
+	bounds: 591, 40, 124, 123
+	offsets: 1, 2, 127, 126
+jxtr
+	bounds: 717, 42, 121, 114
+	offsets: 1, 1, 123, 116
+	rotate: 90
+shenti
+	bounds: 454, 280, 259, 244
+	rotate: 90
+ssbl
+	bounds: 104, 30, 123, 90
+	offsets: 1, 1, 125, 92
+ssbr
+	bounds: 838, 135, 141, 144
+	offsets: 1, 1, 143, 147
+sszl
+	bounds: 833, 43, 96, 90
+	offsets: 6, 8, 103, 99
+sszr
+	bounds: 2, 98, 177, 100
+	offsets: 2, 2, 180, 105
+	rotate: 90
+sxbl
+	bounds: 430, 555, 115, 185
+	offsets: 1, 1, 117, 187
+	rotate: 90
+sxbr
+	bounds: 388, 142, 201, 133
+	offsets: 1, 2, 204, 137
+tou
+	bounds: 2, 277, 463, 393
+weiba
+	bounds: 117, 122, 269, 171
+	rotate: 180
+wuqi
+	bounds: 700, 262, 136, 408
+	offsets: 1, 1, 138, 410

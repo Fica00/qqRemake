@@ -1,0 +1,42 @@
+Monk Lazzi.png
+	size: 1024, 1024
+	filter: Linear, Linear
+muyu
+	bounds: 897, 577, 152, 119
+	offsets: 1, 2, 155, 123
+	rotate: 90
+muyuchui
+	bounds: 609, 7, 121, 195
+	offsets: 2, 2, 125, 199
+	rotate: 90
+shipin
+	bounds: 427, 12, 180, 135
+	offsets: 1, 1, 182, 137
+ssbl
+	bounds: 664, 130, 138, 218
+	offsets: 5, 1, 144, 220
+	rotate: 90
+ssbr
+	bounds: 669, 489, 240, 226
+	offsets: 1, 1, 242, 228
+	rotate: 90
+sszl
+	bounds: 897, 438, 115, 61
+	offsets: 2, 2, 119, 64
+sszr
+	bounds: 897, 501, 121, 74
+	offsets: 1, 1, 123, 91
+st
+	bounds: 2, 100, 423, 273
+	rotate: 180
+sxbl
+	bounds: 668, 270, 226, 217
+	offsets: 36, 0, 262, 217
+sxbr
+	bounds: 845, 2, 161, 177
+	rotate: 270
+tou
+	bounds: 2, 318, 397, 411
+xiashen
+	bounds: 400, 149, 580, 266
+	rotate: 90

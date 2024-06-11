@@ -1,0 +1,50 @@
+Wolf Queen.png
+	size: 2048, 512
+	filter: Linear, Linear
+bianzi
+	bounds: 2, 64, 439, 568
+	rotate: 90
+daizil
+	bounds: 343, 18, 74, 154
+	rotate: 270
+daizir
+	bounds: 1087, 51, 93, 177
+	offsets: 0, 0, 102, 177
+	rotate: 270
+fazhang
+	bounds: 1148, 148, 192, 355
+	offsets: 1, 1, 194, 358
+hua
+	bounds: 916, 4, 128, 142
+	rotate: 90
+qunzi
+	bounds: 862, 118, 385, 284
+	rotate: 90
+sl
+	bounds: 1342, 158, 238, 345
+slxz
+	bounds: 1796, 17, 250, 260
+	rotate: 180
+ssbr
+	bounds: 1209, 21, 141, 252
+	rotate: 90
+st
+	bounds: 1774, 252, 251, 225
+	rotate: 90
+sxbr
+	bounds: 365, 264, 120, 239
+tou
+	bounds: 465, 139, 364, 395
+	offsets: 3, 0, 367, 395
+	rotate: 90
+toufa_l
+	bounds: 1496, 46, 215, 284
+	rotate: 180
+toufa_r
+	bounds: 657, 2, 199, 257
+	rotate: 90
+yifu_l
+	bounds: 2, 35, 156, 347
+	rotate: 270
+yifu_r
+	bounds: 1562, 110, 241, 393

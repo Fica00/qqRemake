@@ -1,0 +1,58 @@
+Sammie.png
+	size: 2048, 512
+	filter: Linear, Linear
+huxu_l
+	bounds: 1036, 14, 150, 133
+	offsets: 1, 2, 153, 136
+huxu_r
+	bounds: 1533, 139, 95, 123
+	offsets: 1, 1, 97, 126
+jdtl
+	bounds: 1362, 110, 253, 169
+	offsets: 2, 1, 256, 171
+	rotate: 90
+jdtr
+	bounds: 1188, 102, 261, 172
+	offsets: 2, 1, 264, 174
+	rotate: 90
+jjzl
+	bounds: 1630, 69, 194, 97
+	rotate: 90
+jjzr
+	bounds: 147, 15, 136, 115
+jxtl
+	bounds: 351, 431, 183, 72
+	offsets: 6, 1, 190, 74
+jxtr
+	bounds: 1126, 387, 157, 116
+	offsets: 1, 1, 159, 118
+shenti
+	bounds: 930, 100, 343, 256
+	rotate: 270
+ssbl
+	bounds: 2, 50, 143, 140
+	offsets: 1, 2, 145, 143
+ssbr
+	bounds: 1285, 367, 110, 136
+	offsets: 1, 1, 112, 138
+sszl
+	bounds: 827, 7, 75, 86
+	offsets: 1, 1, 79, 89
+sszr
+	bounds: 1696, 212, 291, 97
+	offsets: 1, 1, 293, 99
+	rotate: 90
+sxbl
+	bounds: 551, 2, 69, 97
+	offsets: 1, 2, 71, 100
+	rotate: 90
+sxbr
+	bounds: 1533, 32, 82, 105
+	offsets: 1, 1, 84, 107
+tou
+	bounds: 516, 49, 433, 454
+weiba
+	bounds: 2, 46, 565, 457
+xiabai
+	bounds: 1477, 264, 218, 239
+	offsets: 0, 0, 222, 239
