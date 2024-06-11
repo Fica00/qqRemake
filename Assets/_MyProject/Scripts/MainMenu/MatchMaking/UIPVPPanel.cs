@@ -84,7 +84,7 @@ public class UIPVPPanel : MonoBehaviour
     {
         ManageInteractables(false);
         SocketServerCommunication.OnILeftRoom += OnLeftRoom;
-        SocketServerCommunication.Instance.LeaveRoom();
+        SocketServerCommunication.Instance.CancelMatchMaking();
     }
 
     private void OnLeftRoom()

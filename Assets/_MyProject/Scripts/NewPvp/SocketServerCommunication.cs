@@ -57,6 +57,7 @@ public class SocketServerCommunication : MonoBehaviour
         connection.On<bool>(nameof(MatchLeftAsync), MatchLeftAsync);   
         connection.On<string,string,string>(nameof(MatchFoundAsync), MatchFoundAsync);
         connection.On(nameof(MatchMakingStartedAsync),MatchMakingStartedAsync);
+        connection.On(nameof(MatchMakingCanceledAsync),MatchMakingCanceledAsync);
 
         try
         {
@@ -76,6 +77,12 @@ public class SocketServerCommunication : MonoBehaviour
     {
         Debug.Log("UserDisconnectedAsync: "+_userName);
         OnOpponentLeftRoom?.Invoke();
+    }
+    
+    private void MatchMakingCanceledAsync()
+    {
+        Debug.Log("MatchMakingCanceledAsync: ");
+        OnILeftRoom?.Invoke();
     }
     
     private void UserLeftAsync(string _userName)
@@ -146,6 +153,11 @@ public class SocketServerCommunication : MonoBehaviour
     public void LeaveRoom()
     {
         connection.SendAsync("LeaveMatchAsync");
+    }
+
+    public void CancelMatchMaking()
+    {
+        connection.SendAsync("CancelMatchMakeAsync");
     }
     
     #endregion
