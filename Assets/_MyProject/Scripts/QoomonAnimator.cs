@@ -5,9 +5,10 @@ using UnityEngine;
 public class QoomonAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private string revealKey = "reveal";
-    [SerializeField] private string increasedPowerKey = "increasedPower";
-    [SerializeField] private string decreasedPowerKey = "decreasedPower";
+    [SerializeField] private string revealKey = "dengchang";
+    [SerializeField] private string increasedPowerKey = "buff";
+    [SerializeField] private string decreasedPowerKey = "debuff";
+    [SerializeField] private bool useNewAnimation;
     private CardObject cardObject;
 
     public bool HasAnimations => cardObject != null;
@@ -15,7 +16,11 @@ public class QoomonAnimator : MonoBehaviour
     
     public void Setup(CardObject _cardObject)
     {
-        if (animator==null)
+        // if (animator==null)
+        // {
+        //     return;
+        // }
+        if (!useNewAnimation)
         {
             return;
         }
