@@ -189,6 +189,7 @@ MonoBehaviour:
   nameDisplay: {fileID: 2605240325611389697}
   showStats: {fileID: 7939073563728973941}
   statsDisplay: {fileID: 0}
+  holder: {fileID: 8363583969666827553}
 --- !u!222 &8990705211574012801
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ RectTransform:
   m_GameObject: {fileID: 6669493921306730411}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5991778364415685917}

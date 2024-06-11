@@ -21,6 +21,7 @@ public class GameplayManager : MonoBehaviour
     public static Action<LaneLocation, bool, Color, int> OnFlashAllSpotsOnLocation;
     public static Action<LaneLocation, bool, Color> OnHideHighlightWholePlace;
     public static Action<LaneLocation, bool> OnHideHighlightWholePlaceDotted;
+    public static Action OnGameplayStarted;
     public static bool DrewCardDirectlyToHand;
     
     public GameplayPlayer MyPlayer;
@@ -276,6 +277,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);
+        OnGameplayStarted?.Invoke();
         yield return StartCoroutine(InitialDraw());
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)

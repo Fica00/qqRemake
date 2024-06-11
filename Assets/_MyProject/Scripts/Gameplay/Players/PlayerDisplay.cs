@@ -1,14 +1,15 @@
+using DG.Tweening;
 using Newtonsoft.Json;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using ZXing.Datamatrix;
 
 public class PlayerDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameDisplay;
     [SerializeField] private Button showStats;
     [SerializeField] private PlayerStatsDisplay statsDisplay;
+    [SerializeField] private Transform holder;
     private GameplayPlayer player;
     
     private void OnEnable()
@@ -16,11 +17,14 @@ public class PlayerDisplay : MonoBehaviour
         showStats.onClick.AddListener(ShowStats);
         
         ShowName();
+        GameplayManager.OnGameplayStarted += ShowName;
     }
 
     private void OnDisable()
     {
         showStats.onClick.RemoveListener(ShowStats);
+        GameplayManager.OnGameplayStarted -= ShowName;
+        DOTween.KillAll();
     }
 
     private void ShowStats()
@@ -94,33 +98,35 @@ public class PlayerDisplay : MonoBehaviour
     public void Setup(GameplayPlayer _player)
     {
         player = _player;
-        ShowName();
     }
 
     private void ShowName()
     {
-        if (player!= null && player.IsMy)
+        holder.DOScale(Vector3.one, 1).OnComplete(() =>
         {
-            nameDisplay.text = DataManager.Instance.PlayerData.Name;
-        }
-        else
-        {
-            if (SceneManager.IsAIScene)
+            if (player!= null && player.IsMy)
             {
-                nameDisplay.text = BotPlayer.Name;
+                nameDisplay.text = DataManager.Instance.PlayerData.Name;
             }
             else
             {
-                if (SceneManager.IsGameplayTutorialScene)
+                if (SceneManager.IsAIScene)
                 {
-                    nameDisplay.text = Tutorial.MatchMaking.OpponentsName;
+                    nameDisplay.text = BotPlayer.Name;
                 }
                 else
                 {
-                    SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(RequestName));
+                    if (SceneManager.IsGameplayTutorialScene)
+                    {
+                        nameDisplay.text = Tutorial.MatchMaking.OpponentsName;
+                    }
+                    else
+                    {
+                        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(RequestName));
+                    }
                 }
-            }
-        }
+            } 
+        });
     }
 
     private void RequestName()
