@@ -281,8 +281,9 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
-        const tutorialImages = document.querySelectorAll("#unity-tutorial img");
+        const tutorialImages = document.querySelectorAll("#unity-tutorial>img");
         const totalImages = tutorialImages.length;
+        console.log(totalImages, 'slike')
         let currentIndex =
           parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
         tutorialImages[currentIndex].classList.add("active");
