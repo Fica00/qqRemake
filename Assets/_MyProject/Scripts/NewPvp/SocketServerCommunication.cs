@@ -40,9 +40,11 @@ public class SocketServerCommunication : MonoBehaviour
         connection = new HubConnectionBuilder()
             .WithUrl(SERVER_URI
                 , _options =>
-            {
-                _options.AccessTokenProvider = () => Task.FromResult(authKey);
-            }
+                {
+                    _options.AccessTokenProvider = () => Task.FromResult(authKey);
+                    _options.SkipNegotiation = true;
+                    _options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                }
                 )
             .WithAutomaticReconnect()
             .Build();
