@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NaughtyAttributes;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
@@ -13,7 +12,6 @@ public class QoomonAnimator : MonoBehaviour
     [SerializeField] private string increasedPowerKey = "buff";
     [SerializeField] private string decreasedPowerKey = "debuff";
     [SerializeField] private string idleKey = "daiji";
-    [SerializeField] private bool useNewAnimation;
     [SerializeField] private List<AnimationHelper> animationHelpers = new ();
     private CardObject cardObject;
 
@@ -23,13 +21,9 @@ public class QoomonAnimator : MonoBehaviour
     
     public void Setup(CardObject _cardObject)
     {
-        // if (animator==null)
-        // {
-        //     return;
-        // }
-        if (!useNewAnimation)
+        if (animator==null)
         {
-            animator.gameObject.SetActive(false);
+            Debug.Log(123);
             return;
         }
 
@@ -72,36 +66,12 @@ public class QoomonAnimator : MonoBehaviour
         cardObject.Reveal.PreReveal();
         IsRevealAnimationDone = false;
         PlayAnimation(revealKey,false);
+        Debug.Log(cardObject.name, cardObject);
         yield return new WaitUntil(() => IsRevealAnimationDone);
         cardObject.Reveal.Finish();
         cardObject.Subscribe();
     }
 
-
-
-    [Button()]
-    private void TestReveal()
-    {
-        PlayAnimation(revealKey, false);
-    }
-
-    [Button()]
-    private void TestBuff()
-    {
-        PlayAnimation(increasedPowerKey, false);
-    }
-    
-    [Button()]
-    private void TestDeBuff()
-    {
-        PlayAnimation(decreasedPowerKey, false);
-    }
-    
-    [Button()]
-    private void TestIdle()
-    {
-        PlayAnimation(idleKey, false,false);
-    }
 
     private void PlayAnimation(string _animationKey, bool _loop, bool _playIdleOnEnd=true)
     {
@@ -111,6 +81,7 @@ public class QoomonAnimator : MonoBehaviour
         {
             foreach (var _object in _animationHelper.Objects)
             {
+                Debug.Log(123);
                 _object.SetActive(true);
             }
         }
@@ -119,39 +90,12 @@ public class QoomonAnimator : MonoBehaviour
         if (_playIdleOnEnd)
         {
             _animation.Complete += PlayIdle;
-            _animation.Interrupt += TryToDisableObjects;
-
         }
-        else
-        {
-            _animation.Interrupt += TryToDisableObjects;
-        }
-
-
     }
     
     private void PlayIdle(TrackEntry _trackEntry)
     {
-        TryToDisableObjects(_trackEntry);
         animator.AnimationState.SetAnimation(0, idleKey, true);
-    }
-    
-    private void TryToDisableObjects(TrackEntry _trackEntry)
-    {
-        if (_trackEntry.Animation.Name==revealKey)
-        {
-            IsRevealAnimationDone = true;
-        }
-        
-        AnimationHelper _animationHelper = animationHelpers.Find(_animationData => _animationData.AnimationKey == _trackEntry.Animation.Name);
-        if (_animationHelper == null)
-        {
-            return;
-        }
-        foreach (var _object in _animationHelper.Objects)
-        {
-            _object.SetActive(false);
-        }
     }
 
 }
