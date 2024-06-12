@@ -60,7 +60,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 18_Soulomon
+      value: 18_Pyro
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animator
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: useNewAnimation
@@ -85,11 +89,11 @@ PrefabInstance:
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 375889a353e934815adf64748f42b6cc, type: 3}
+      objectReference: {fileID: 21300000, guid: f2f42b5870243a3428fe524c30f233e6, type: 3}
     - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 375889a353e934815adf64748f42b6cc, type: 3}
+      objectReference: {fileID: 21300000, guid: 6c35b0d6a5c6efb4abfe3110143a3c7c, type: 3}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -177,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.SpriteInHand
       value: 
-      objectReference: {fileID: 21300000, guid: 93b2a336bacbe4e3b8698681ff0986af, type: 3}
+      objectReference: {fileID: 21300000, guid: f2f42b5870243a3428fe524c30f233e6, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
@@ -196,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Name>k__BackingField
-      value: Soulomon
+      value: Pyro
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Power>k__BackingField
@@ -205,7 +209,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: 375889a353e934815adf64748f42b6cc, type: 3}
+      objectReference: {fileID: 21300000, guid: 6c35b0d6a5c6efb4abfe3110143a3c7c, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: <color=#C38C15>On Summon</color>:\nDestroy your other Qoomons here.\n+20
@@ -218,7 +222,7 @@ PrefabInstance:
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 375889a353e934815adf64748f42b6cc, type: 3}
+      objectReference: {fileID: 21300000, guid: 6c35b0d6a5c6efb4abfe3110143a3c7c, type: 3}
     - target: {fileID: 6796600185718709079, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: skeletonDataAsset
       value: 
