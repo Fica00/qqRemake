@@ -21,6 +21,7 @@ public class PlayerStatistics
     {
         CheckForNewLogin();
         CheckForTimeSpent();
+        CheckForPwa();
     }
 
     private void CheckForNewLogin()
@@ -114,7 +115,17 @@ public class PlayerStatistics
     {
         NoteCheckPoint("First deck update",_change);
     }
-    
+
+    private void CheckForPwa()
+    {
+        if (!JavaScriptManager.Instance.IsPwaPlatform)
+        {
+            return;
+        }
+        
+        NoteCheckPoint("First time opened as pwa");
+    }
+
     public void NoteCheckPoint(string _description, string _additionalData= null, bool _checkForExisting = true)
     {
         CheckPoint _newCheckPoint = new CheckPoint { Description = _description, Date = DateTime.UtcNow, AdditionalData = _additionalData};
@@ -129,4 +140,5 @@ public class PlayerStatistics
         CheckPoints.Add(_newCheckPoint);
         PlayerData.UpdatedStatistics?.Invoke();
     }
+
 }
