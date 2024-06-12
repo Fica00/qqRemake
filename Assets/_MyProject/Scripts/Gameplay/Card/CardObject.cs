@@ -157,14 +157,17 @@ public class CardObject : MonoBehaviour
         return true;
     }
 
-    public void ForcePlace(LaneDisplay _laneDisplay)
+    public void ForcePlace(LaneDisplay _laneDisplay, bool _checkIfCan = true)
     {
         GameplayPlayer _player = IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
         LanePlaceIdentifier _placeIdentifier = _laneDisplay.GetPlaceLocation(IsMy);
 
-        if (!_laneDisplay.CanPlace(this))
+        if (_checkIfCan)
         {
-            return;
+            if (!_laneDisplay.CanPlace(this))
+            {
+                return;
+            }
         }
 
         PlaceCommand _command = new PlaceCommand()

@@ -37,7 +37,7 @@ public class CardEffectDestroyEnemysNRandomXCostQommonsHere : CardEffectBase
          CardObject _card=null;
          foreach (var _cardOnLane in _oppoentsCardsOnLine)
          {
-            if (qommonsCost.Contains(_cardOnLane.Stats.Energy))
+            if (qommonsCost.Contains(_cardOnLane.Details.Mana))
             {
                _card = _cardOnLane;
                break;

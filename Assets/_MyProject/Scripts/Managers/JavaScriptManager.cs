@@ -250,8 +250,8 @@ public class JavaScriptManager : MonoBehaviour
     }
 
     [Button()]
-    private void UnlockCard()
+    private void UnlockCards()
     {
-        DataManager.Instance.PlayerData.AddQoomon(15);
+        DataManager.Instance.PlayerData.AddQoomon(46);
     }
 }

@@ -112,19 +112,24 @@ public class LaneDisplay : MonoBehaviour
         return true;
     }
 
-    public bool CanPlaceAnyQommon()
+    public bool CanPlaceAnyQommon(CardObject _card)
     {
         if (LaneSpecifics.CantPlaceCommonsOnRound.Contains(GameplayManager.Instance.CurrentRound))
         {
             return false;
         }
-        if (LaneSpecifics.MaxAmountOfQommons <= AmountOfQommonsHere(true))
+        if (LaneSpecifics.MaxAmountOfQommons <= AmountOfQommonsHere(_card.IsMy))
         {
             return false;
         }
 
         return true;
     }
+
+    public bool IsFull(CardObject _card)
+    {
+        return AmountOfQommonsHere(_card.IsMy)>=4;
+    } 
 
     public bool CanRemoveCards()
     {

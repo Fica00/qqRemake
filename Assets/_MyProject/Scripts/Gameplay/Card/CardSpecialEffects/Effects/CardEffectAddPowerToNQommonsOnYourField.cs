@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,7 +29,7 @@ public class CardEffectAddPowerToNQommonsOnYourField : CardEffectBase
         CheckForAvailableCards(GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, LaneLocation.Mid));
         CheckForAvailableCards(GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy, LaneLocation.Bot));
 
-        _availableCards = _availableCards.OrderBy(_element => Guid.NewGuid()).ToList();
+        _availableCards = _availableCards.OrderBy(_ => Guid.NewGuid()).ToList();
         List<CardObject> _effectedCards = new List<CardObject>();
 
         for (int _i = 0; _i < amountOfQommons; _i++)
@@ -43,10 +42,12 @@ public class CardEffectAddPowerToNQommonsOnYourField : CardEffectBase
             {
                 break;
             }
-            
-            _effectedCards.Add(_availableCards[_i]);
-            _availableCards[_i].Stats.Power += powerToAdd;
-            LanePlaceIdentifier _identifier = _availableCards[_i].GetComponentInParent<LanePlaceIdentifier>();
+
+
+            CardObject _effectedCard = _availableCards[_i];
+            _effectedCards.Add(_effectedCard);
+            _effectedCard.Stats.Power += powerToAdd;
+            LanePlaceIdentifier _identifier = _effectedCard.GetComponentInParent<LanePlaceIdentifier>();
             GameplayManager.Instance.FlashLocation(_identifier.Id,Color.white, 3);
         }
         
