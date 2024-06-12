@@ -23,7 +23,6 @@ public class QoomonAnimator : MonoBehaviour
     {
         if (animator==null)
         {
-            Debug.Log(123);
             return;
         }
 
@@ -66,7 +65,6 @@ public class QoomonAnimator : MonoBehaviour
         cardObject.Reveal.PreReveal();
         IsRevealAnimationDone = false;
         PlayAnimation(revealKey,false);
-        Debug.Log(cardObject.name, cardObject);
         yield return new WaitUntil(() => IsRevealAnimationDone);
         cardObject.Reveal.Finish();
         cardObject.Subscribe();
@@ -81,7 +79,6 @@ public class QoomonAnimator : MonoBehaviour
         {
             foreach (var _object in _animationHelper.Objects)
             {
-                Debug.Log(123);
                 _object.SetActive(true);
             }
         }

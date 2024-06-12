@@ -81,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: IsRevealAnimationDone
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: animationHelpers.Array.size
