@@ -225,8 +225,10 @@ MonoBehaviour:
   increasedPowerKey: buff
   decreasedPowerKey: debuff
   idleKey: daiji
-  useNewAnimation: 1
-  animationHelpers: []
+  animationHelpers:
+  - AnimationKey: dengchang
+    Objects:
+    - {fileID: 5274472886470253961}
   IsRevealAnimationDone: 0
 --- !u!1 &163180176746285967
 GameObject:
@@ -1575,7 +1577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4677234633123295855
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1611,8 +1613,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shadowObject: {fileID: 100205961747838565}
-  revealObject: {fileID: 5274472886470253961}
-  IsReveled: 0
+  revealObject: {fileID: 5939046570312737085}
+  IsReveled: 1
 --- !u!1 &8798959384164403548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,7 +1764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6891016694986208608, guid: 1ac5fb9c69bd7294aaa9fab28777d23f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9159567884395973917, guid: 1ac5fb9c69bd7294aaa9fab28777d23f, type: 3}
       propertyPath: m_Pivot.x
@@ -2037,6 +2039,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d9bcef84b10c8b6429b7f86e98a960c7, type: 3}
+--- !u!1 &5939046570312737085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2504570063979401105, guid: d9bcef84b10c8b6429b7f86e98a960c7, type: 3}
+  m_PrefabInstance: {fileID: 8118229087227473580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7350003916886100957 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1633060405772690801, guid: d9bcef84b10c8b6429b7f86e98a960c7, type: 3}

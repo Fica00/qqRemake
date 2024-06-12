@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
       value: 
-      objectReference: {fileID: 6891016694986208608, guid: 1ac5fb9c69bd7294aaa9fab28777d23f, type: 3}
+      objectReference: {fileID: 5873345339362866694}
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -100,7 +100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_RootOrder
-      value: 25
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchorMax.x
@@ -239,5 +239,10 @@ PrefabInstance:
 --- !u!224 &1889361197954896172 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 1779169598681541519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5873345339362866694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
   m_PrefabInstance: {fileID: 1779169598681541519}
   m_PrefabAsset: {fileID: 0}
