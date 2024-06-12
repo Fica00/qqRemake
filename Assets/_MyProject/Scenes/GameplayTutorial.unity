@@ -1962,6 +1962,7 @@ MonoBehaviour:
   playsFirstDisplays:
   - {fileID: 5686523579364797519}
   - {fileID: 5686523579364797518}
+  tutorialImages: {fileID: 0}
   manaDisplay: {fileID: 622924707}
 --- !u!1001 &5686523579364797513
 PrefabInstance:

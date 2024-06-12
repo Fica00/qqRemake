@@ -65,4 +65,9 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
     }
+[Button()]
+private void DrawCard()
+{
+    GameplayManager.Instance.DrawCard(GameplayManager.Instance.MyPlayer);
+}
 }
