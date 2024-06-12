@@ -95,6 +95,11 @@ public class QoomonAnimator : MonoBehaviour
     
     private void PlayIdle(TrackEntry _trackEntry)
     {
+        if (_trackEntry.Animation.Name==revealKey)
+        {
+            IsRevealAnimationDone = true;
+        }
+        
         animator.AnimationState.SetAnimation(0, idleKey, true);
     }
 
