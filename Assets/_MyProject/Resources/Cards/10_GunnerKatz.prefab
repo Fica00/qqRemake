@@ -70,6 +70,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: useNewAnimation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].AnimationKey
+      value: dengchang
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
+      value: 
+      objectReference: {fileID: 6891016694986208608, guid: 1ac5fb9c69bd7294aaa9fab28777d23f, type: 3}
     - target: {fileID: 1320126881876742923, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -92,7 +112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchorMax.x
@@ -203,10 +223,22 @@ PrefabInstance:
       value: '<color=#C38C15>On Summon</color>:\nif your opponent played a  Qoomon
         here this turn\n+20  Power '
       objectReference: {fileID: 0}
+    - target: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 4c37e1c168d4449b2ab693851b046a53, type: 3}
+    - target: {fileID: 6796600185718709079, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c9281858804e8854f9f45bf065245f78, type: 2}
+    - target: {fileID: 8749235354405596055, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

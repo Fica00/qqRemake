@@ -65,6 +65,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: useNewAnimation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].AnimationKey
+      value: dengchang
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
+      value: 
+      objectReference: {fileID: 6891016694986208608, guid: 1ac5fb9c69bd7294aaa9fab28777d23f, type: 3}
     - target: {fileID: 982940706372193339, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.x
       value: 235
@@ -103,7 +123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchorMax.x
@@ -217,10 +237,18 @@ PrefabInstance:
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: <color=#C38C15>On Summon</color>:\nAdd another Ninja Frog to your hand
       objectReference: {fileID: 0}
+    - target: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c20cbef0208714d5e8488d275046e3a8, type: 3}
+    - target: {fileID: 6796600185718709079, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c0ef13f85387200409ff8ac560655a68, type: 2}
     - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_SizeDelta.x
       value: 235
@@ -236,6 +264,10 @@ PrefabInstance:
     - target: {fileID: 7112212987485854343, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8749235354405596055, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
