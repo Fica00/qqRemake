@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <link rel="apple-touch-icon" sizes="180x180" href="TemplateData/favicon.ico">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="TemplateData/favicon.ico"
+    />
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Qoomon Quest</title>
@@ -14,6 +18,30 @@
     <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-analytics-compat.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://www.str67gj.com/scripts/sdk/everflow.js"
+    ></script>
+    <script type="text/javascript">
+      EF.click({
+        offer_id: EF.urlParameter("oid"),
+        affiliate_id: EF.urlParameter("affid"),
+        sub1: "creative_name",
+        sub2: "device_type",
+        sub3: "geo_country_code",
+        sub4: "source_id",
+        sub5: EF.urlParameter("sub5"),
+        uid: EF.urlParameter("uid"),
+        source_id: EF.urlParameter("source_id"),
+        transaction_id: EF.urlParameter("_ef_transaction_id"),
+      });
+
+      function triggerConversionScript() {
+        EF.conversion({
+          offer_id: 13,
+        });
+      }
+    </script>
     <style>
       @media (orientation: landscape) {
         /* body {
@@ -50,7 +78,7 @@
       #unity-tutorial img.active {
         display: block;
       }
-      #loadingContainer{
+      #loadingContainer {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -79,7 +107,6 @@
       Please rotate your device to portrait mode to continue.
     </div>
     <div id="unity-container">
-      <h2 id="token"></h2>
       <canvas id="unity-canvas" width="1179" height="2556"></canvas>
       <div id="unity-tutorial">
         <img
@@ -114,7 +141,7 @@
           <img
             src="./TemplateData/loadingText.png"
             alt="tutorial card 5"
-            style="display: block; width: 100%; margin-top: 10px;"
+            style="display: block; width: 100%; margin-top: 10px"
           />
         </div>
       </div>
@@ -283,7 +310,6 @@
       script.onload = () => {
         const tutorialImages = document.querySelectorAll("#unity-tutorial>img");
         const totalImages = tutorialImages.length;
-        console.log(totalImages, 'slike')
         let currentIndex =
           parseInt(localStorage.getItem("currentTutorialIndex")) || 0;
         tutorialImages[currentIndex].classList.add("active");
