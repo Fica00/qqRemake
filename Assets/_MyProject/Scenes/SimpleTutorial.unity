@@ -5201,16 +5201,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 75863049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74cb3a8043d2cf64b8a7e628d8a9ddaa, type: 3}
+  m_Script: {fileID: 11500000, guid: e350b2735a4a9b24e87cfe834c85d1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holder: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: 38e12bbd44fe8884291339c89ff1bce7, type: 3}
   - {fileID: 21300000, guid: 2cdddb869b0205f409f2a0aa03241a27, type: 3}
   - {fileID: 21300000, guid: e4da51f22f0d4794fbf581b67a9d1afb, type: 3}
   image: {fileID: 2129292850}
-  next: {fileID: 633033384}
-  previous: {fileID: 1007123030}
 --- !u!1 &85261897
 GameObject:
   m_ObjectHideFlags: 0

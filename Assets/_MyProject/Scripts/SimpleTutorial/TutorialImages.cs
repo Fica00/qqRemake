@@ -8,7 +8,7 @@ public class TutorialImages : MonoBehaviour
     [SerializeField] private Sprite[] sprites;
     [SerializeField] private Image image;
 
-    private Action callback;
+    protected Action Callback;
     private int index;
 
     private void OnEnable()
@@ -31,23 +31,28 @@ public class TutorialImages : MonoBehaviour
         }
         else
         {
-            DataManager.Instance.PlayerData.HasFinishedTutorial = 1;
-            holder.SetActive(false);
-            callback?.Invoke();
+            Close();
         }
 
         Show();
     }
 
-    private void Show()
+    protected virtual void Close()
     {
-        image.sprite = sprites[index];
+        DataManager.Instance.PlayerData.HasFinishedTutorial = 1;
+        holder.SetActive(false);
+        Callback?.Invoke();
     }
 
-    public void Setup(Action _callback)
+    public virtual void Setup(Action _callback)
     {
-        callback = _callback;
+        Callback = _callback;
         holder.SetActive(true);
         Show();
+    }
+    
+    protected void Show()
+    {
+        image.sprite = sprites[index];
     }
 }
