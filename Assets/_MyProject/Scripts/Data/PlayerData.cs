@@ -127,7 +127,7 @@ public class PlayerData
         }
     }
 
-    public List<DeckData> Decks
+    [JsonIgnore]public List<DeckData> Decks
     {
         get => decks;
         set => decks = value;

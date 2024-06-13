@@ -4,13 +4,61 @@ using UnityEngine;
 public class CardEffectAddPowerToLaneBelow : CardEffectBase
 {
     [SerializeField] private int amountOfPower;
+    private int powerAdded;
+    private bool subscribed;
     
     public override void Subscribe()
     {
         AddPower();
+        LaneSpecifics.UpdatedAmountOfOngoingEffects += Recalculate;
+        subscribed = true;
+    }
+
+    private void OnDisable()
+    {
+        if (!subscribed)
+        {
+            return;
+        }
+        
+        LaneSpecifics.UpdatedAmountOfOngoingEffects -= Recalculate;
+
+    }
+
+    private void Recalculate()
+    {
+        LaneDisplay _lane = GetLane();
+        if (_lane)
+        {
+            ChangeLanePower(_lane,-powerAdded);
+        }
+
+        powerAdded = 0;
+        AddPower();
     }
 
     void AddPower()
+    {
+        LaneDisplay _lane = GetLane();
+
+        if (_lane==null)
+        {
+            return;
+        }
+
+        int _powerToAdd = 0;
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+        {
+            _powerToAdd += amountOfPower;
+        }
+
+        ChangeLanePower(_lane,_powerToAdd);
+        powerAdded = _powerToAdd;
+        
+        _lane.ShowEnlargedPowerAnimation(cardObject.IsMy);
+    }
+
+    private LaneDisplay GetLane()
     {
         LaneDisplay _lane = null;
 
@@ -31,18 +79,12 @@ public class CardEffectAddPowerToLaneBelow : CardEffectBase
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (_lane==null)
-        {
-            return;
-        }
+        return _lane;
+    }
 
+    private void ChangeLanePower(LaneDisplay _lane, int _powerToAdd)
+    {
         int _index = cardObject.IsMy ? 0 : 1;
-
-        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
-        {
-            _lane.LaneSpecifics.ChangeExtraPower(_index,amountOfPower);
-        }
-        
-        _lane.ShowEnlargedPowerAnimation(cardObject.IsMy);
+        _lane.LaneSpecifics.ChangeExtraPower(_index,_powerToAdd);
     }
 }

@@ -10,6 +10,7 @@ public class CardEffectAddPowerToAdjacentLocations : CardEffectBase
     public override void Subscribe()
     {
         ChangePower(amountOfPower);
+        LaneSpecifics.UpdatedAmountOfOngoingEffects += Recalculate;
     }
 
     private void OnDisable()
@@ -27,11 +28,33 @@ public class CardEffectAddPowerToAdjacentLocations : CardEffectBase
         {
             // ignored
         }
-
+        LaneSpecifics.UpdatedAmountOfOngoingEffects -= Recalculate;
+        
         _powerAdded = 0;
     }
 
+    private void Recalculate()
+    {
+        List<LaneDisplay> _effectedLocations = GetLanes();
+        AddPowerToLanes(-_powerAdded, _effectedLocations);
+        ChangePower(amountOfPower);
+    }
+
     void ChangePower(int _amountOfPower)
+    {
+        List<LaneDisplay> _effectedLocations = GetLanes();
+
+        int _powerToAdd = 0;
+
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+        {
+            _powerToAdd += _amountOfPower;
+        }
+
+        AddPowerToLanes(_powerToAdd, _effectedLocations);
+    }
+
+    private List<LaneDisplay> GetLanes()
     {
         List<LaneDisplay> _effectedLocations = new List<LaneDisplay>();
         switch (cardObject.LaneLocation)
@@ -52,13 +75,11 @@ public class CardEffectAddPowerToAdjacentLocations : CardEffectBase
                 throw new ArgumentOutOfRangeException();
         }
 
-        int _powerToAdd = 0;
+        return _effectedLocations;
+    }
 
-        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
-        {
-            _powerToAdd += _amountOfPower;
-        }
-
+    private void AddPowerToLanes(int _powerToAdd,List<LaneDisplay> _effectedLocations)
+    {
         int _index = cardObject.IsMy ? 0 : 1;
         _powerAdded = _powerToAdd;
 
