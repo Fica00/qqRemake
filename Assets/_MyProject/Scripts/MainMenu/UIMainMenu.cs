@@ -42,6 +42,13 @@ public class UIMainMenu : MonoBehaviour
         {
             TryRewardForPwaAndBid();
         }
+        
+        JavaScriptManager.Instance.CheckHasBoundAccount(SaveIsGuest);
+    }
+
+    private void SaveIsGuest(bool _hasBoundedAccount)
+    {
+        DataManager.Instance.PlayerData.IsGuest = !_hasBoundedAccount;
     }
 
     private void TryRewardForPwaAndBid()
