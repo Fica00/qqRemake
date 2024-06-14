@@ -14,10 +14,7 @@ public class CardEffectAddSameCardToHandOnReveal : CardEffectBase
     {
         CardObject _drawnCard = CardsManager.Instance.CreateCard(cardObject.Details.Id, cardObject.IsMy);
         GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
-        Debug.Log(GameplayManager.Instance.MyPlayer);
-        Debug.Log(GameplayManager.Instance.OpponentPlayer);
-        Debug.Log(_player);
-        if (!_player.IsMy)
+        if (!_player.IsMy && (SocketServerCommunication.Instance.MatchData != null))
         {
             return;
         }

@@ -197,4 +197,9 @@ public class SocketServerCommunication : MonoBehaviour
             throw;
         }
     }
+
+    public void ResetMatchData()
+    {
+        MatchData = null;
+    }
 }
