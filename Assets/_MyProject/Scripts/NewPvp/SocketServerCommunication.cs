@@ -37,6 +37,8 @@ public class SocketServerCommunication : MonoBehaviour
 
     public async void Init(Action<bool> _callBack)
     {
+        Debug.Log($"Creating connection");
+
         connection = new HubConnectionBuilder()
             .WithUrl(SERVER_URI
                 , _options =>
@@ -48,6 +50,8 @@ public class SocketServerCommunication : MonoBehaviour
                 )
             .WithAutomaticReconnect()
             .Build();
+        
+        Debug.Log($"Setting callbacks");
 
         connection.On<string>(nameof(UserDisconnectedAsync), UserDisconnectedAsync);        
         connection.On<string>(nameof(UserRejoinedAsync), UserRejoinedAsync);
@@ -59,9 +63,11 @@ public class SocketServerCommunication : MonoBehaviour
         connection.On(nameof(MatchMakingStartedAsync),MatchMakingStartedAsync);
         connection.On(nameof(MatchMakingCanceledAsync),MatchMakingCanceledAsync);
 
+        Debug.Log($"Trying to connect");
         try
         {
             await connection.StartAsync();
+            Debug.Log($"Connection successful");
             _callBack?.Invoke(true);
         }
         catch (Exception _error)
