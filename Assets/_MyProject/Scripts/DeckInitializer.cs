@@ -37,7 +37,14 @@ public class DeckInitializer : MonoBehaviour
                 Id = 4,
                 Name = "Ongoing",
                 CardsInDeck = new List<int> { 4, 21, 6, 20, 22, 42, 38, 39, 40, 41, 43, 44 }
+            },
+            new DeckData
+            {
+                Id = 5,
+                Name = "BotTutorial",
+                CardsInDeck = new List<int> { 0, 1, 6, 20, 22, 9, 38, 39, 21, 7, 43,8}
             }
+            
         };
 
     }

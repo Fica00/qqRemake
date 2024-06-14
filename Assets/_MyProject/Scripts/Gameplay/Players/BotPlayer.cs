@@ -52,7 +52,7 @@ public class BotPlayer : GameplayPlayer
         GameplayManager.UpdatedGameState -= ManageGameState;
     }
 
-    private void ManageGameState()
+    protected virtual void ManageGameState()
     {
         switch (GameplayManager.Instance.GameplayState)
         {
@@ -66,6 +66,7 @@ public class BotPlayer : GameplayPlayer
                 }
                 if (!hasPlayedThisRound)
                 {
+                    Debug.Log("BotPlayer");
                     playCoroutine = StartCoroutine(PlayCards());
                 }
                 break;

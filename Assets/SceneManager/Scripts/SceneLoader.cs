@@ -41,12 +41,10 @@ namespace SceneManagement
         {
             if (_useAsyncLoading)
             {
-                Debug.Log("LoadAsync "+_key);
                 LoadAsync(_key);
             }
             else
             {
-                Debug.Log("NoramalLoad "+_key);
                 UnitySceneManager.LoadScene(_key);
             }
         }

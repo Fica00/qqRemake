@@ -1,5 +1,6 @@
 using System.Collections;
 using Tutorial;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayTutorial : GameplayManager
@@ -16,6 +17,7 @@ public class GameplayTutorial : GameplayManager
     protected override IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);
+        SetupTutorialLocation();
         yield return StartCoroutine(InitialDraw());
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
@@ -41,7 +43,44 @@ public class GameplayTutorial : GameplayManager
                 yield return StartCoroutine(RoundCheckForCardsThatShouldMoveToHand());
                 if (!DrewCardDirectlyToHand||CurrentRound==1)
                 {
-                    RoundDrawCard();
+                    //RoundDrawCard();
+
+                    if (CurrentRound == 2)
+                    {
+                        CardObject _card = MyPlayer.GetCardFromDeck(3); // Goldie
+                        MyPlayer.DrawCard(_card, true);
+                        MyPlayer.AddCardToHand(_card);
+                    }
+                    if (CurrentRound == 3)
+                    {
+                        CardObject _card1 = MyPlayer.GetCardFromDeck(8); //samu-kitsune 
+                        MyPlayer.DrawCard(_card1, true);
+                        MyPlayer.AddCardToHand(_card1);
+                        
+                        CardObject _card2 = MyPlayer.GetCardFromDeck(29); //Dun-dun
+                        MyPlayer.DrawCard(_card2, true);
+                        MyPlayer.AddCardToHand(_card2);
+                    }
+                    if (CurrentRound == 4)
+                    {
+                        CardObject _card = MyPlayer.GetCardFromDeck(7); //Mukong
+                        MyPlayer.DrawCard(_card, true);
+                        MyPlayer.AddCardToHand(_card);
+                    }
+                    if (CurrentRound == 5)
+                    {
+                        CardObject _card1 = MyPlayer.GetCardFromDeck(9); //Geisha-Ko
+                        MyPlayer.DrawCard(_card1, true);
+                        MyPlayer.AddCardToHand(_card1);
+                        
+                        CardObject _card2 = MyPlayer.GetCardFromDeck(21); //Arhcer Penny
+                        MyPlayer.DrawCard(_card2, true);
+                        MyPlayer.AddCardToHand(_card2);
+                        
+                        CardObject _card3 = MyPlayer.GetCardFromDeck(11); //Gunner Kaka
+                        MyPlayer.DrawCard(_card3, true);
+                        MyPlayer.AddCardToHand(_card3);
+                    }
                 }
             }
 
@@ -81,22 +120,42 @@ public class GameplayTutorial : GameplayManager
         }
     }
 
+    private void SetupTutorialLocation()  //Reci ne magicnim brojevima
+    {
+        DataManager.Instance.locationsPicked[0] = 6;
+        DataManager.Instance.locationsPicked[1] = 22;
+        DataManager.Instance.locationsPicked[2] = 2;
+    }
+
     protected override IEnumerator InitialDraw()
     {
         yield return new WaitForSeconds(1);
-        Debug.Log(1);
+        
         CardObject _card = MyPlayer.GetCardFromDeck(1);
         MyPlayer.DrawCard(_card, true);
         MyPlayer.AddCardToHand(_card);
-
-        _card = OpponentPlayer.GetCardFromDeck(1);
+        
+        _card = OpponentPlayer.GetCardFromDeck(0);
         OpponentPlayer.DrawCard(_card, true);
         OpponentPlayer.AddCardToHand(_card);
     }
 
+    private IEnumerator SecondDraw()
+    {
+        CardObject _card1 = MyPlayer.GetCardFromDeck(4);
+        MyPlayer.DrawCard(_card1, true);
+        MyPlayer.AddCardToHand(_card1);
+        
+        CardObject _card2 = MyPlayer.GetCardFromDeck(5);
+        MyPlayer.DrawCard(_card2, true);
+        MyPlayer.AddCardToHand(_card2);
+
+        yield break;
+    }
+
     public void ShowMana()
     {
-        StartCoroutine(base.InitialDraw());
+        StartCoroutine(SecondDraw()); // Ovde ubaci sledece dve karte
         manaDisplay.Setup();
     }
 }
