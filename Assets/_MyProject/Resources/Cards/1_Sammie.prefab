@@ -70,26 +70,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: useNewAnimation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: animationHelpers.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: animationHelpers.Array.data[0].AnimationKey
-      value: dengchang
-      objectReference: {fileID: 0}
-    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: animationHelpers.Array.data[0].Objects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
-      value: 
-      objectReference: {fileID: 2813828059358480619}
     - target: {fileID: 496303657185991024, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: skeletonDataAsset
       value: 
@@ -248,11 +228,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6813691438660932459}
   m_SourcePrefab: {fileID: 100100000, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
---- !u!1 &2813828059358480619 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-  m_PrefabInstance: {fileID: 7943796220825949538}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7833644581794066369 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

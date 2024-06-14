@@ -13,6 +13,7 @@ public class QoomonAnimator : MonoBehaviour
     [SerializeField] private string decreasedPowerKey = "debuff";
     [SerializeField] private string idleKey = "daiji";
     [SerializeField] private List<AnimationHelper> animationHelpers = new ();
+    [SerializeField] private float revealDelay;
     private CardObject cardObject;
 
     public bool HasAnimations => cardObject != null;
@@ -83,10 +84,19 @@ public class QoomonAnimator : MonoBehaviour
             }
         }
 
-        var _animation = animator.AnimationState.SetAnimation(0, _animationKey, _loop);
-        if (_playIdleOnEnd)
+        StartCoroutine(DoPlayAnimation());
+        IEnumerator DoPlayAnimation()
         {
-            _animation.Complete += PlayIdle;
+            if (_animationKey == revealKey)
+            {
+                yield return new WaitForSeconds(revealDelay);
+            }
+            
+            var _animation = animator.AnimationState.SetAnimation(0, _animationKey, _loop);
+            if (_playIdleOnEnd)
+            {
+                _animation.Complete += PlayIdle;
+            }
         }
     }
     
