@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 using Statistics;
@@ -13,6 +14,7 @@ public class PlayerStatistics
     public List<Login> Logins = new ();
     public List<TimeSpent> TimeSpent = new();
     public List<CheckPoint> CheckPoints = new();
+    public List<MatchPlayed> MatchesPlayed = new ();
 
 
     private bool didCheckForTimeSpent;
@@ -138,6 +140,28 @@ public class PlayerStatistics
         }
         
         CheckPoints.Add(_newCheckPoint);
+        PlayerData.UpdatedStatistics?.Invoke();
+    }
+
+    public void IncreaseMatchCount()
+    {
+        if (MatchesPlayed.Count==0)
+        {
+            if (CheckPoints.Find(_checkPoint => _checkPoint.Description == "Finished first game")==null)
+            {
+                return;
+            }
+        }
+
+        string _date = DateTime.UtcNow.Date.ToString(CultureInfo.InvariantCulture);
+        MatchPlayed _dayData = MatchesPlayed.Find(_data => _data.Date == _date);
+        if (_dayData==null)
+        {
+            _dayData = new MatchPlayed(){Date = _date};
+            MatchesPlayed.Add(_dayData);
+        }
+
+        _dayData.Count++;
         PlayerData.UpdatedStatistics?.Invoke();
     }
 

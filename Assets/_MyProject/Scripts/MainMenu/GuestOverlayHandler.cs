@@ -28,6 +28,7 @@ public class GuestOverlayHandler : OverlayHandler
     private void Hide()
     {
         DataManager.Instance.PlayerData.Statistics.NoteCheckPoint(CHECK_POINT, "Selected play");
+        NewsHandler.Instance.ShowNews();
         Close();
     }
 

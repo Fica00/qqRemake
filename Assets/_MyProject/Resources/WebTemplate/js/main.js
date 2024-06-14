@@ -2,11 +2,25 @@ let currentUser = null;
 let userId = null;
 let unity = null;
 let isBreakingScript = false;
-const dinamicParam = new URLSearchParams(window.location.search).get("a");
+let isEvAgency = false;
 const btnCancelPayment = document.querySelector("#btn-cancelPayment");
 const stripe = Stripe(
   "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
 );
+let dinamicParam = new URLSearchParams(window.location.search).get("a");
+// Proveri da li "a" parametar postoji, ako ne postoji generiši "dinamicParam" iz sub1, sub2, sub3 i sub4
+if (!dinamicParam) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const sub1 = urlParams.get("sub1");
+  const sub2 = urlParams.get("sub2");
+  const sub3 = urlParams.get("sub3");
+  const sub4 = urlParams.get("sub4");
+
+  if (sub1 && sub2 && sub3 && sub4) {
+    isEvAgency = true;
+    dinamicParam = `${sub1}${sub2}${sub3}${sub4}`;
+  }
+}
 
 document.addEventListener("unityInitialized", function () {
   CheckUserSession();
@@ -105,6 +119,7 @@ async function updateMarketingParam(param, userId) {
   }
 
   console.log("Found agency: " + param);
+  const agencyRefforIsEvAgency = firebase.database().ref(`marketing/${param}`);
   const agencyRef = firebase.database().ref(`marketing/${param}/click`);
   agencyRef.once("value", async function (snapshot) {
     console.log("Got value");
@@ -130,6 +145,22 @@ async function updateMarketingParam(param, userId) {
           }
         }
       );
+
+      agencyRefforIsEvAgency.update(
+        {
+          isEvAgency: isEvAgency,
+        },
+        function (error) {
+          if (error) {
+            console.error("Error updating isEvAgency:", error);
+          } else {
+            console.log(
+              `Agency '${param}' updated with isEvAgency: ${isEvAgency}.`
+            );
+          }
+        }
+      );
+
       if (!_updateDevices) {
         return;
       }
@@ -250,7 +281,8 @@ function tellUnityUserInfo(userId, isGuest, userInfo) {
         );
       } else {
         console.log("No user data available for user ID:", userId);
-
+        console.log("Before calling conversion!!");
+        triggerConversionScript();
         unity.SendMessage(
           "JavaScriptManager",
           "AuthFinished",
