@@ -9,13 +9,18 @@ const stripe = Stripe(
 );
 let dinamicParam = new URLSearchParams(window.location.search).get("a");
 // Proveri da li "a" parametar postoji, ako ne postoji generiši "dinamicParam" iz sub1, sub2, sub3 i sub4
+console.log(dinamicParam);
 if (!dinamicParam) {
   const urlParams = new URLSearchParams(window.location.search);
+console.log(urlParams);
   const sub1 = urlParams.get("sub1");
+  console.log(sub1);
   const sub2 = urlParams.get("sub2");
-  const sub3 = urlParams.get("sub3");
-  const sub4 = urlParams.get("sub4");
-
+console.log(sub2);  
+const sub3 = urlParams.get("sub3");
+console.log(sub3);  
+const sub4 = urlParams.get("sub4");
+console.log(sub4);
   if (sub1 && sub2 && sub3 && sub4) {
     isEvAgency = true;
     dinamicParam = `${sub1}${sub2}${sub3}${sub4}`;
