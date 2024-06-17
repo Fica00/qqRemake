@@ -33,7 +33,7 @@ public class GameplayManager : MonoBehaviour
     [field: SerializeField] public int MaxAmountOfCardsInHand { get; private set; }
     [field: SerializeField] public int DurationOfRound { get; private set; }
     [field: SerializeField] public TableHandler TableHandler { get; private set; }
-
+    
     public CommandsHandler CommandsHandler = new CommandsHandler();
 
     [SerializeField] protected EndTurnHandler endTurnHandler;

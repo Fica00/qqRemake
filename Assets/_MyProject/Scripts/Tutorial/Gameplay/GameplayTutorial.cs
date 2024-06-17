@@ -7,6 +7,9 @@ public class GameplayTutorial : GameplayManager
 {
     public new static GameplayTutorial Instance;
     [SerializeField] private TutorialMessage manaDisplay;
+    [SerializeField] private TutorialManager tutorialManager;
+
+    public bool cardsPlayed= false;
 
     protected override void Awake()
     {
@@ -29,6 +32,7 @@ public class GameplayTutorial : GameplayManager
             iFinished = false;
             resolvedEndOfTheRound = false;
             GameplayState = GameplayState.ResolvingBeginingOfRound;
+            if (CurrentRound == 1) { yield return new WaitUntil((() => tutorialManager.isAddsPowerAndHighestPowerPanelShowen));}
             CurrentRound++;
             if (CurrentRound <= 3)
             {
@@ -99,8 +103,11 @@ public class GameplayTutorial : GameplayManager
                 }
             }
             StartCoroutine(RevealCards(_whoPlaysFirst));
+           
             yield return new WaitUntil(() => resolvedEndOfTheRound);
             yield return new WaitForSeconds(2.5f);
+
+            cardsPlayed = true;
         }
 
         bool _canContinue = false;

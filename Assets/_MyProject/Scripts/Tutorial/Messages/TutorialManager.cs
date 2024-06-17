@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Tutorial
 {
-    public class TutorialMana : TutorialMessage
+    public class TutorialManager : TutorialMessage
     {
         [SerializeField] private GameObject qommonsHighlight;
         [SerializeField] private TextMeshProUGUI qommonsText;        
@@ -34,8 +34,12 @@ namespace Tutorial
         [SerializeField] private TextMeshProUGUI stakeSecondPartText;
         [SerializeField] private Button input;
 
+        [SerializeField] private GameObject myCoomonPlaces;
+        [SerializeField] private GameObject opponentCommonPlaces;
+
         private int counter;
         private Coroutine coroutineTutorial;
+        public bool isAddsPowerAndHighestPowerPanelShowen = false;
 
         private void OnEnable()
         {
@@ -118,12 +122,20 @@ namespace Tutorial
                 endTurnText.text = "Press the end turn button";
             }
         }
+
+        private GameObject _myQoomonCard = default;
+        private GameObject _opponentQoomonCard = default;
         
         private IEnumerator  ShowForSecondRound()
-        { 
+        {
+            
+           
+            
             if (counter == 3)
             {
-                yield return new WaitForSeconds(4);
+                yield return new WaitUntil(() => GameplayTutorial.Instance.cardsPlayed);
+                _opponentQoomonCard = opponentCommonPlaces.GetComponentInChildren<CardObject>().gameObject;
+                _opponentQoomonCard.SetActive(false);
                 Debug.Log("Nakon 4 sekunde");
                 qoomonAddsPower.SetActive(true);
                 input.gameObject.SetActive(true);
@@ -131,13 +143,18 @@ namespace Tutorial
             }
             else if (counter == 4)
             {
+                _opponentQoomonCard.SetActive(true);
                 qoomonAddsPower.SetActive(false);
+                _myQoomonCard =  myCoomonPlaces.GetComponentInChildren<CardObject>().gameObject;
+                _myQoomonCard.SetActive(false);
                 highestPowerWin.SetActive(true);
             }
             else if(counter == 5)
             {
+                _myQoomonCard.SetActive(true);
                 highestPowerWin.SetActive(false);
                 gainMana.SetActive(true);
+                isAddsPowerAndHighestPowerPanelShowen = true;
             }
             else if (counter == 6)
             {
