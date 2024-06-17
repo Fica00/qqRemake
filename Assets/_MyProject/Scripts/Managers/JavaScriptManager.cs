@@ -61,6 +61,9 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern void DoCopyToClipboard(string _text);
+    
+    [DllImport("__Internal")]
+    public static extern void DoCreateAndSetupConnection(string _token);
 
 
     public bool ShowPwaWarning
@@ -97,6 +100,11 @@ public class JavaScriptManager : MonoBehaviour
     public void GoogleAuth()
     {
         AuthWithGoogle();
+    }
+
+    public void CreateAndSetupConnection(string _token)
+    {
+        DoCreateAndSetupConnection(_token);
     }
 
     public void LoginTwitter()

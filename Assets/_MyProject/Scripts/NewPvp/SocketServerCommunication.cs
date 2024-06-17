@@ -10,6 +10,8 @@ public class SocketServerCommunication : MonoBehaviour
     public static Action OnOpponentJoinedRoom;
     public static Action OnOpponentLeftRoom;
     public static Action OnILeftRoom;
+
+    public static Action<bool> OnInitFinished;
     
     public static SocketServerCommunication Instance;
     private const string SERVER_URI = "https://api.qoomonquest.com/hubs/game";
@@ -34,11 +36,17 @@ public class SocketServerCommunication : MonoBehaviour
     {
         authKey = _authKey;
     }
+    
+    public void ReceiveConnectionOutcome(int _success)
+    {
+        OnInitFinished?.Invoke(_success == 1);
+    }
 
-    public async void Init(Action<bool> _callBack)
+    public async void Init()
     {
         if (!Application.isEditor)
         {
+            JavaScriptManager.Instance.CreateAndSetupConnection(authKey);
             return;
         }
         
@@ -73,12 +81,12 @@ public class SocketServerCommunication : MonoBehaviour
         {
             await connection.StartAsync();
             Debug.Log($"Connection successful");
-            _callBack?.Invoke(true);
+            OnInitFinished?.Invoke(true);
         }
         catch (Exception _error)
         {
             Debug.Log($"Trying to connect with: {SERVER_URI} , authToken: {authKey}\nFailed with error: {_error}");
-            _callBack?.Invoke(false);
+            OnInitFinished?.Invoke(false);
         }
     }
 
@@ -117,6 +125,17 @@ public class SocketServerCommunication : MonoBehaviour
 
         OnILeftRoom?.Invoke();
     }
+    
+    private void MatchLeftAsyncFromJs(int _status)
+    {
+        if (_status == 0)
+        {
+            Debug.Log("Failed to leave room");
+            return;
+        }
+        
+        OnILeftRoom?.Invoke();
+    }
 
     private void ReceiveOldMessagesAsync(List<string> _messages)
     {
@@ -127,7 +146,7 @@ public class SocketServerCommunication : MonoBehaviour
         }
     }
 
-    private void ReceiveOldMessagesAsync(string _jsonData)
+    private void ReceiveOldMessagesAsyncJson(string _jsonData)
     {
         Debug.Log("ReceiveOldMessagesAsync json call" );
         List<string> _messages = JsonConvert.DeserializeObject<List<string>>(_jsonData);
@@ -147,11 +166,11 @@ public class SocketServerCommunication : MonoBehaviour
         OnOpponentJoinedRoom?.Invoke();
     }
 
-    private void MatchFoundAsync(string _jsonData)
+    private void MatchFoundAsyncJson(string _jsonData)
     {
         Debug.Log($"MatchFoundAsync json call: {_jsonData}");
         MatchFoundData _data = JsonConvert.DeserializeObject<MatchFoundData>(_jsonData);
-        MatchFoundAsync(_data.RoomName,_data.FirstPlayer,_data.SecondPlayer);
+        MatchFoundAsync(_data.RoomName, _data.FirstPlayer, _data.SecondPlayer);
     }
     
     private void MatchMakingStartedAsync()

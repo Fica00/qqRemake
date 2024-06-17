@@ -58,11 +58,14 @@ public class UIPlayPanel : MonoBehaviour
         
         ManageInteractables(false);
         inputBlocker.SetActive(true);
-        SocketServerCommunication.Instance.Init(ShowPvp);
+        
+        SocketServerCommunication.OnInitFinished += ShowPvp;
+        SocketServerCommunication.Instance.Init();
     }
 
     private void ShowPvp(bool _status)
     {
+        SocketServerCommunication.OnInitFinished -= ShowPvp;
         inputBlocker.SetActive(false);
         if (!_status)
         {

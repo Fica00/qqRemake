@@ -90,6 +90,11 @@ mergeInto(LibraryManager.library,
         cancelMatchMake();
     },
     
+    DoCreateAndSetupConnection: function(token)
+    {
+        createAndSetupConnection(UTF8ToString(token));
+    },
+    
     DoCopyToClipboard: function(textPtr) {
         var text = UTF8ToString(textPtr);
     
