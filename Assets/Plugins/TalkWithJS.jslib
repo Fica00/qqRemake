@@ -70,6 +70,26 @@ mergeInto(LibraryManager.library,
         SignOut();
     },
     
+    DoSendMessage: function(roomNamePtr, messagePtr)
+    {
+        sendMessage(UTF8ToString(roomNamePtr), UTF8ToString(messagePtr));
+    },
+    
+    DoLeaveMatch: function()
+    {
+        leaveMatch();
+    },
+    
+    DoMatchMakeAsync: function()
+    {
+        matchMakeAsync();
+    },
+   
+    DoCancelMatchMake: function()
+    {
+        cancelMatchMake();
+    },
+    
     DoCopyToClipboard: function(textPtr) {
         var text = UTF8ToString(textPtr);
     

@@ -37,6 +37,11 @@ public class SocketServerCommunication : MonoBehaviour
 
     public async void Init(Action<bool> _callBack)
     {
+        if (!Application.isEditor)
+        {
+            return;
+        }
+        
         Debug.Log($"Creating connection");
 
         connection = new HubConnectionBuilder()
@@ -121,6 +126,13 @@ public class SocketServerCommunication : MonoBehaviour
             Debug.Log(_message);
         }
     }
+
+    private void ReceiveOldMessagesAsync(string _jsonData)
+    {
+        Debug.Log("ReceiveOldMessagesAsync json call" );
+        List<string> _messages = JsonConvert.DeserializeObject<List<string>>(_jsonData);
+        ReceiveOldMessagesAsync(_messages);
+    }
     
     private void ReceiveMessageAsync(string _message)
     {
@@ -134,40 +146,76 @@ public class SocketServerCommunication : MonoBehaviour
         MatchData = new MatchData() { RoomName = _roomName,Players = new List<string>() { _firstPlayer, _secondPlayer } };
         OnOpponentJoinedRoom?.Invoke();
     }
+
+    private void MatchFoundAsync(string _jsonData)
+    {
+        Debug.Log($"MatchFoundAsync json call: {_jsonData}");
+        MatchFoundData _data = JsonConvert.DeserializeObject<MatchFoundData>(_jsonData);
+        MatchFoundAsync(_data.RoomName,_data.FirstPlayer,_data.SecondPlayer);
+    }
     
     private void MatchMakingStartedAsync()
     {
         Debug.Log($"MatchMakingStartedAsync");
     }
-
-
+    
     #endregion
-
 
     #region Send messages
 
     public new void SendMessage(string _message)
     {
+        if (!Application.isEditor)
+        {
+            Debug.Log("SendMessage not editor: " + _message);
+            JavaScriptManager.Instance.SendMessage(MatchData.RoomName,_message);
+            return;
+        }
+        
+        Debug.Log("SendMessage editor: " + _message);
         connection.SendAsync("SendMessageAsync", MatchData.RoomName,_message);
     }
 
     public void StartMatchMaking()
     {
+        if (!Application.isEditor)
+        {
+            Debug.Log("StartMatchMaking not editor");
+            JavaScriptManager.Instance.MatchMakeAsync();
+            return;
+        }
+        
+        Debug.Log("StartMatchMaking editor");
         connection.SendAsync("MatchMakeAsync");
     }
 
     public void LeaveRoom()
     {
+        if (!Application.isEditor)
+        {
+            Debug.Log("LeaveRoom not editor");
+            JavaScriptManager.Instance.LeaveMatch();
+            return;
+        }
+        
+        Debug.Log("LeaveRoom editor");
         connection.SendAsync("LeaveMatchAsync");
     }
 
     public void CancelMatchMaking()
     {
+        if (!Application.isEditor)
+        {
+            Debug.Log("CancelMatchMaking not editor");
+            JavaScriptManager.Instance.CancelMatchMake();
+            return;
+        }
+        
+        Debug.Log("CancelMatchMaking editor");
         connection.SendAsync("CancelMatchMakeAsync");
     }
     
     #endregion
-
 
     public void RegisterMessage(GameObject _object, string _functionName, string _data= null)
     {

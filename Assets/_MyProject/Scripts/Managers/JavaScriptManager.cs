@@ -48,6 +48,18 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoSignOut();    
     
     [DllImport("__Internal")]
+    public static extern void DoSendMessage(string _roomName, string _message); 
+    
+    [DllImport("__Internal")]
+    public static extern void DoLeaveMatch(); 
+    
+    [DllImport("__Internal")]
+    public static extern void DoMatchMakeAsync(); 
+    
+    [DllImport("__Internal")]
+    public static extern void DoCancelMatchMake(); 
+    
+    [DllImport("__Internal")]
     public static extern void DoCopyToClipboard(string _text);
 
 
@@ -119,6 +131,26 @@ public class JavaScriptManager : MonoBehaviour
     public void SignOut()
     {
         DoSignOut();
+    }
+    
+    public void SendMessage(string _roomName, string _message)
+    {
+        DoSendMessage(_roomName, _message);
+    }
+    
+    public void LeaveMatch()
+    {
+        DoLeaveMatch();
+    }
+    
+    public void MatchMakeAsync()
+    {
+        DoMatchMakeAsync();
+    }
+    
+    public void CancelMatchMake()
+    {
+        DoCancelMatchMake();
     }
 
     public void CopyToClipboard(string _text)
