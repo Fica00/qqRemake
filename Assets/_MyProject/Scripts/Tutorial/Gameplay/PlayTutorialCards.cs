@@ -8,8 +8,11 @@ namespace Tutorial
 {
     public class PlayTutorialCards : MonoBehaviour
     {
+        public static Action OnNextStep;
+        
         [SerializeField] private GameObject dragAnimation;
         [SerializeField] private int round;
+        
 
         private void OnEnable()
         {
@@ -35,7 +38,6 @@ namespace Tutorial
                     if (round == 1)
                     {
                         dragAnimation.SetActive(true);
-                        CommandsHandler.AddedNewCommandForMe += FinishAnimation;
                     }
                     GameplayPlayer.AddedCardToTable += CheckForLocation;
                    
@@ -56,22 +58,69 @@ namespace Tutorial
             
             if (round == 1)
             {
-                
-                Debug.Log(_command.Location);
-                if (_command.Location !=  0)   //LaneLocation.Top)
+                if (_command.Location ==  0 && _command.Card.Details.Id ==  1)
                 {
-                    GameplayManager.Instance.MyPlayer.CancelAllCommands();
+                    
+                    GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                    FinishAnimation();
+                   return;
                 }
-                GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                GameplayManager.Instance.MyPlayer.CancelAllCommands();
+                
             }
-            
-
             if (round == 2)
             {
-                if (_command.Location != LaneLocation.Mid)
+                if (_command.Location == LaneLocation.Mid && _command.Card.Details.Id ==  3)
                 {
-                    GameplayManager.Instance.MyPlayer.CancelAllCommands();
+                    GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                    return;
+                    
                 }
+                GameplayManager.Instance.MyPlayer.CancelAllCommands();
+            }
+            if (round == 3)
+            {
+                if (_command.Location == LaneLocation.Bot &&  _command.Card.Details.Id ==  8)
+                {
+                    GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                    OnNextStep?.Invoke();
+                    return;
+                } 
+                GameplayManager.Instance.MyPlayer.CancelAllCommands();
+            }
+            if (round == 4)
+            {
+                if (_command.Location == LaneLocation.Mid &&  _command.Card.Details.Id ==  7)
+                {
+                    GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                    OnNextStep?.Invoke();
+                    return;
+                }
+                GameplayManager.Instance.MyPlayer.CancelAllCommands();
+                
+            }
+            if (round == 5)
+            {
+                if (_command.Location == LaneLocation.Mid &&  _command.Card.Details.Id ==  9)
+                {
+                    
+                    GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                    OnNextStep?.Invoke();
+                    return;
+                } 
+                GameplayManager.Instance.MyPlayer.CancelAllCommands();
+               
+            }
+            if (round == 6)
+            {
+                if (_command.Location == LaneLocation.Bot &&  _command.Card.Details.Id ==  5)
+                {
+                    GameplayPlayer.AddedCardToTable -= CheckForLocation;
+                    OnNextStep?.Invoke();
+                    return;
+                  
+                } 
+                GameplayManager.Instance.MyPlayer.CancelAllCommands(); 
             }
         }
 
@@ -79,7 +128,7 @@ namespace Tutorial
 
         private void FinishAnimation()
         {
-            CommandsHandler.AddedNewCommandForMe -= FinishAnimation;
+            
             dragAnimation.SetActive(false);
             GameplayTutorial.Instance.ShowMana();
             
