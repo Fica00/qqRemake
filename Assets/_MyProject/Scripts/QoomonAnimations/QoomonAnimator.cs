@@ -24,6 +24,7 @@ public class QoomonAnimator : MonoBehaviour
     {
         if (animator==null)
         {
+            Debug.Log("No animator attached"+ _cardObject.Details.Name,gameObject);
             return;
         }
 
@@ -84,6 +85,11 @@ public class QoomonAnimator : MonoBehaviour
 
     private void PlayAnimation(string _animationKey, bool _loop, bool _playIdleOnEnd=true)
     {
+        if (animator==null)
+        {
+            return;
+        }
+        
         animator.gameObject.SetActive(true);
         AnimationHelper _animationHelper = animationHelpers.Find(_animationData => _animationData.AnimationKey == _animationKey);
         if (_animationHelper!=null)
