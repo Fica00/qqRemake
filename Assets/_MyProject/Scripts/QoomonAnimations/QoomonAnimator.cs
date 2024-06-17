@@ -51,10 +51,10 @@ public class QoomonAnimator : MonoBehaviour
             case ChangeStatus.Same:
                 break;
             case ChangeStatus.Increased:
-                PlayAnimation(increasedPowerKey, false);
+                PlayWinAnimation();
                 break;
             case ChangeStatus.Decreased:
-                PlayAnimation(decreasedPowerKey, false);
+                PlayLoseAnimation();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_status), _status, null);
@@ -71,6 +71,16 @@ public class QoomonAnimator : MonoBehaviour
         cardObject.Subscribe();
     }
 
+    public void PlayWinAnimation()
+    {
+        PlayAnimation(increasedPowerKey, false);
+    }
+
+    public void PlayLoseAnimation()
+    {
+        PlayAnimation(decreasedPowerKey, false);
+    }
+    
 
     private void PlayAnimation(string _animationKey, bool _loop, bool _playIdleOnEnd=true)
     {
