@@ -16,6 +16,7 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button showSettings;
     [SerializeField] private Button showRank;
     [SerializeField] private Button showMissions;
+    [SerializeField] private Button discordButton;
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
 
     public static bool ShowStartingAnimation;
@@ -143,6 +144,7 @@ public class UIMainMenu : MonoBehaviour
         showSettings.onClick.AddListener(ShowSettings);
         showRank.onClick.AddListener(ShowRankRewards);
         showMissions.onClick.AddListener(ShowMissions);
+        discordButton.onClick.AddListener(NoteDiscord);
 
         ShowDeckName();
     }
@@ -156,6 +158,7 @@ public class UIMainMenu : MonoBehaviour
         showSettings.onClick.RemoveListener(ShowSettings);
         showRank.onClick.RemoveListener(ShowRankRewards);
         showMissions.onClick.RemoveListener(ShowMissions);
+        discordButton.onClick.RemoveListener(NoteDiscord);
     }
 
     public void ShowSceneTransition(Action _callBack)
@@ -191,5 +194,10 @@ public class UIMainMenu : MonoBehaviour
     private void ShowMissions()
     {
         SceneManager.Instance.LoadMissionsPage();
+    }
+    
+    private void NoteDiscord()
+    {
+        DataManager.Instance.PlayerData.Statistics.NoteCheckPoint(BackgroundHandler.DISCORD_CLICK);
     }
 }
