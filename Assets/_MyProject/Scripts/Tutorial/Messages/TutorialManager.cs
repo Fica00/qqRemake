@@ -33,6 +33,13 @@ namespace Tutorial
         [SerializeField] private GameObject stakeSecondPart;
         [SerializeField] private TextMeshProUGUI stakeSecondPartText;
         [SerializeField] private Button input;
+        [SerializeField] private GameObject samuKitsunePart;
+        [SerializeField] private GameObject mukongPart;
+        [SerializeField] private GameObject geishaKoPart;
+        [SerializeField] private GameObject satiTheTigarPart;
+        [SerializeField] private GameObject laneTop;
+        [SerializeField] private GameObject laneMid;
+        [SerializeField] private GameObject laneBot;
         [SerializeField] private GameObject battleTextGameObject;
         [SerializeField] private TextMeshProUGUI battleText;
 
@@ -50,7 +57,17 @@ namespace Tutorial
             
             input.onClick.AddListener(Next);
             EndTurnHandler.OnEndTurn += EndTurn;
+            EndTurnHandler.OnEndTurn += EndTurnGoldi;
             CardInteractions.OnClicked += OnCloseShowAbility;
+        }
+
+        private void EndTurnGoldi()
+        {
+            if (counter == 9)
+            {
+                hoverWinLocations.SetActive(false);
+                EndTurnHandler.OnEndTurn -= EndTurnGoldi;
+            }
         }
 
         private void EndTurn()
@@ -72,10 +89,10 @@ namespace Tutorial
         private void OnCloseShowAbility(CardObject _cardObject)
         {
             Debug.Log("OnCLoseShowAbility "+counter);
-            if (counter == 6)
+            if (counter == 7)
             {
                 cardsSpecialAbilities.SetActive(false);
-                CardInteractions.OnClicked -= OnCloseShowAbility;
+                CardInteractions.OnClicked -= OnCloseShowAbility;  //Ovde regulises onaj deo sa abilitijima
                 Next();
             }
             
@@ -84,12 +101,25 @@ namespace Tutorial
 
         private void Next()
         {
+            TurnOfGOParts();
             counter++;
-            battleTextGameObject.SetActive(false);
+            
             Debug.Log("Next counter" + counter);
            
                 coroutineTutorial = StartCoroutine(ShowStep());
             
+        }
+
+        private void TurnOfGOParts()
+        {
+            
+            samuKitsunePart.SetActive(false);
+            geishaKoPart.SetActive(false);
+            satiTheTigarPart.SetActive(false);
+            mukongPart.SetActive(false);
+            laneTop.SetActive(false);
+            laneMid.SetActive(false);
+            laneBot.SetActive(false);
         }
 
         public override void Setup()
@@ -108,6 +138,7 @@ namespace Tutorial
         
         private IEnumerator  ShowStep()
         {
+            Debug.Log(counter);
             if (counter==0)
             {
                 yield return new WaitForSeconds(2);
@@ -146,40 +177,51 @@ namespace Tutorial
                 _myQoomonCard.SetActive(false);
                 highestPowerWin.SetActive(true);
             }
-            else if(counter == 5)
+            else if (counter == 5)
             {
                 _myQoomonCard.SetActive(true);
                 highestPowerWin.SetActive(false);
+                winLocations.SetActive(true);
+                input.gameObject.SetActive(true);
+            }
+            else if(counter == 6)
+            {
+                winLocations.SetActive(false);
+                input.gameObject.SetActive(false);
                 gainMana.SetActive(true);
+                input.gameObject.SetActive(true);
                 isAddsPowerAndHighestPowerPanelShowen = true;
             }
-            else if (counter == 6)
+            else if (counter == 7)
             {
                 input.gameObject.SetActive(false);
                 yield return new WaitUntil(() => GameplayManager.Instance.GameplayState == GameplayState.Playing);
                 gainMana.SetActive(false);
+                yield return new WaitForSeconds(2);
                 cardsSpecialAbilities.SetActive(true);
                 
                 //CardDetailsPanel.OnClose +=  
                 
             }
-            else if (counter == 7)
+            else if (counter == 8)
             {
                 yield return new WaitForSeconds(4);
                 cardsSpecialAbilities.SetActive(false);
                 hoverWinLocations.SetActive(true);
                 input.gameObject.SetActive(true);
             }
-            else if (counter == 8)
+            else if (counter == 9)
             {
                 input.gameObject.SetActive(false);
                 hoverWinLocationsText.text = "Play Goldie on middle location and end turn";
                 yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 3);
+                hoverWinLocationsText.text = "";
                 hoverWinLocations.SetActive(false);
+                yield return new WaitUntil(() => GameplayManager.Instance.GameplayState == GameplayState.Playing);
                 stakeFirstPart.SetActive(true);
                 Next();
             }
-            else if (counter == 9)
+            else if (counter == 10)
             {
                 yield return new WaitUntil(() => BetClickHandler.Instance.DidIBetThisRound);
                 stakeFirstPart.SetActive(false);
@@ -187,36 +229,47 @@ namespace Tutorial
                 stakeSecondPart.SetActive(true);
                 input.gameObject.SetActive(true);
             }
-            else if(counter == 10)
+            else if(counter == 11)
             {
-                battleTextGameObject.SetActive(true);
-                battleText.text = "Play Samu on Location 3";
+                
+                samuKitsunePart.SetActive(true);
+                laneBot.SetActive(true);
                 stakeSecondPart.SetActive(false);
                 input.gameObject.SetActive(false);
                 PlayTutorialCards.OnNextStep += Next;
             }
-            else if(counter == 11)
-            {
-                yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 4 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
-                battleTextGameObject.SetActive(true);
-                battleText.text = "Opponent is contesting here! Play Mukong to secure this location.";
-               
-            }
             else if(counter == 12)
             {
-                yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 5 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
-                battleTextGameObject.SetActive(true);
-                battleText.text = "Geisha-Ko can double your power. Play her in this location where you have the most power .";
+                yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 4 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
+                samuKitsunePart.SetActive(false);
+                laneBot.SetActive(false);
+                mukongPart.SetActive(true);
+                laneMid.SetActive(true);
                
             }
             else if(counter == 13)
             {
+                yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 5 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
+                mukongPart.SetActive(false);
+                geishaKoPart.SetActive(true);
+                laneMid.SetActive(true);
+               
+            }
+            else if(counter == 14)
+            {
                 yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 6 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
-                battleTextGameObject.SetActive(true);
-                battleText.text = "Looks like we are losing in Location 1. Play Sati-the-Tiger here to efficiently spend your mana!."; 
-                PlayTutorialCards.OnNextStep -= Next;
+                geishaKoPart.SetActive(false);
+                laneMid.SetActive(false);
+                satiTheTigarPart.SetActive(true);
+                laneBot.SetActive(true);
+               
                 
             }
+            else if (counter == 15)
+            {
+                PlayTutorialCards.OnNextStep -= Next;
+            }
+            
         }
     }
 }
