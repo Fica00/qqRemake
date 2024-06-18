@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 302662402811961596}
-  - component: {fileID: 8260233785356499059}
+  - component: {fileID: 1047626149190248493}
   m_Layer: 5
   m_Name: Effect
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8260233785356499059
+--- !u!114 &1047626149190248493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,11 +46,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5626197040477765215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e6610ec585004246beeff7d75dbcf0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 891680a79fee21e449d90a02955f8f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfQommons: 0
-  qommonsCost: 5a000000
+  powerX: 90
 --- !u!1001 &2291434493140940771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61,7 +60,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 56_DarkBlade Variant
+      value: 56_DarkBlade
       objectReference: {fileID: 0}
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
