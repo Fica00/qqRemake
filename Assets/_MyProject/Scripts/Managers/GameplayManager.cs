@@ -305,8 +305,10 @@ public class GameplayManager : MonoBehaviour
         {
             return;
         }
-        
-        _player.AddCardToHand(_drawnCard);
+
+        int _cardId = _drawnCard.Details.Id;
+        Destroy(_drawnCard.gameObject);
+        _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
     }
 
     protected virtual IEnumerator GameplayRoutine()

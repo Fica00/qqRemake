@@ -64,5 +64,11 @@ public class GameplayDev : MonoBehaviour
     private void DrawSoulomon()
     {
         GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
+    }    
+    
+    [Button("Draw card")]
+    private void DrawCard()
+    {
+        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.DrawCard());
     }
 }
