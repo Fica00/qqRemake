@@ -1648,7 +1648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationsPicked: ffffffffffffffffffffffff
-  IsGuestOverlayShown: 0
+  CanShowPwaOverlay: 0
 --- !u!1 &665109491
 GameObject:
   m_ObjectHideFlags: 0
@@ -3314,6 +3314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea00243922160c4fa344f3b778e01a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pwaOverlayHandler: {fileID: 1080303564}
 --- !u!1 &1233206098
 GameObject:
   m_ObjectHideFlags: 0
