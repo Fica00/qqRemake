@@ -40,13 +40,11 @@ public class CardEffectDestroyYourOtherQommonsHereWithPowerGreaterOrEqualX : Car
             if (_cardOnLane.Stats.Power >= powerX) 
             {
                 _cardsToBeDestroyed.Add(_cardOnLane);
-                Debug.Log("!!!!!!!!!!!!!!!!!!Add card to destroy!!!!!!!!!!!!!!!!!!!");
             }
         }
 
         if (_cardsToBeDestroyed.Count == 0)
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!No cards to destroy!!!!!!!!!!!!!!!!!!!");
             return;
         }
         
