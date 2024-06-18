@@ -5,6 +5,8 @@ using UnityEngine;
 public class Initialization : MonoBehaviour
 {
     public static Initialization Instance;
+    
+    [SerializeField] private PwaOverlayHandler pwaOverlayHandler;
 
     private void Awake()
     {
@@ -24,7 +26,22 @@ public class Initialization : MonoBehaviour
         AuthHandler.Instance.Authenticate();
     }
 
-    public void CheckForStartingData(bool _isNewAccount, string _agency)
+    private void TryShowPwaOverlay()
+    {
+        if(JavaScriptManager.Instance.IsPwaPlatform)
+        {
+            return;
+        }
+
+        if (JavaScriptManager.Instance.IsOnPc())
+        {
+            return;
+        }
+      
+        pwaOverlayHandler.SetupWithText(JavaScriptManager.Instance.IsAndroid());
+    }
+
+    public void CheckForStartingData(bool _isNewAccount, bool _isGuest, string _agency)
     {
         if (_isNewAccount)
         {
@@ -34,10 +51,15 @@ public class Initialization : MonoBehaviour
                 {
                     AuthOnServer();
                     DataManager.Instance.PlayerData.Agency = _agency;
-                    
+                    DataManager.Instance.PlayerData.IsGuest = _isGuest;
+                    DataManager.Instance.PlayerData.IsNewAccount = true;
+
+                    DataManager.Instance.SaveIsGuest();
+
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
                     {
-                        DataManager.Instance.PlayerData.Exp = PlayerData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level - 1];
+                        DataManager.Instance.PlayerData.Exp =
+                            PlayerData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level - 1];
                     }
                 }
                 else
@@ -72,6 +94,7 @@ public class Initialization : MonoBehaviour
         }
         SocketServerCommunication.Instance.SetAuthToken(_token.Token);
         FinishInit();
+        DataManager.Instance.SaveIsGuest();
     }
 
     private void FinishInit()
@@ -85,7 +108,12 @@ public class Initialization : MonoBehaviour
         }
         else
         {
-            SceneManager.Instance.LoadMainMenu();
+            BotPlayer.GenerateNewData();
+            SceneManager.Instance.LoadAIGameplay(false);
+            return;
         }
+        
+        DataManager.Instance.CanShowPwaOverlay = true;
+        SceneManager.Instance.LoadMainMenu();
     }
 }

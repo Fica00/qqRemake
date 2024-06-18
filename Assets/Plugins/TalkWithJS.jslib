@@ -68,6 +68,21 @@ mergeInto(LibraryManager.library,
     DoSignOut: function()
     {
         SignOut();
+    },    
+    
+    DoIsAndroid: function()
+    {
+        IsAndroid();
+    },    
+    
+    DoCheckHasBoundAccount: function()
+    {
+        CheckHasBoundAccount();
+    },    
+    
+    CheckIsOnPc: function()
+    {
+        return IsOnPc();
     },
     
     DoSendMessage: function(roomNamePtr, messagePtr)
@@ -103,5 +118,11 @@ mergeInto(LibraryManager.library,
         }, function(err) {
           console.error('Could not copy text to clipboard: ', err);
         });
+      },
+      
+      DoTellDeviceId: function(deviceId)
+      {
+        var text = UTF8ToString(deviceId);
+        SaveAgencyUniqueDevice(text);
       }
 });

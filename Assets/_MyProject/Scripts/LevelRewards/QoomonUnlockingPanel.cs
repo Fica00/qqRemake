@@ -34,7 +34,6 @@ public class QoomonUnlockingPanel : MonoBehaviour
     {
         claim.gameObject.SetActive(false);
         backHolder.SetActive(true);
-        
     }
 
     private void Close()

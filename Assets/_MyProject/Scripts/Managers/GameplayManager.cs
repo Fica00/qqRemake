@@ -39,6 +39,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected List<LaneDisplay> lanes;
     [SerializeField] protected GameObject[] flags;
     [SerializeField] protected GameObject[] playsFirstDisplays;
+    [SerializeField] private TutorialImages tutorialImages;
 
     private GameplayState gameplayState = GameplayState.StartingAnimation;
     private int currentRound;
@@ -138,6 +139,16 @@ public class GameplayManager : MonoBehaviour
     
     private void TriggerGameEndEvents(GameResult _result)
     {
+        if(!DataManager.Instance.PlayerData.HasPlayedFirstGame)
+        {
+            DataManager.Instance.PlayerData.HasPlayedFirstGame = true;
+            DataManager.Instance.PlayerData.HasFinishedFirstGame = true;
+        }
+        else
+        {
+            DataManager.Instance.CanShowPwaOverlay = true;
+        }
+        
         if (_result is not (GameResult.IWon or GameResult.Escaped))
         {
             return;
@@ -203,11 +214,33 @@ public class GameplayManager : MonoBehaviour
 
     protected virtual void StartGameplay()
     {
-        CommandsHandler.Setup();
-        CurrentRound = 0;
-        SetupPlayers();
-        TableHandler.Setup();
-        StartCoroutine(GameplayRoutine());
+        StartCoroutine(StartRoutine());
+        IEnumerator StartRoutine()
+        {
+            CommandsHandler.Setup();
+            CurrentRound = 0;
+            SetupPlayers();
+            TableHandler.Setup();
+            
+            bool _canContinue = false;
+            
+            if (!DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.HasFinishedFirstGame)
+            {
+                tutorialImages.Setup(AllowContinue);
+            }
+            else
+            {
+                _canContinue = true;
+            }
+            
+            yield return new WaitUntil(() => _canContinue);
+            StartCoroutine(GameplayRoutine());
+
+            void AllowContinue()
+            {
+                _canContinue = true;
+            }
+        }
     }
     
     protected virtual void SetupPlayers()
@@ -353,6 +386,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void AcceptAutoBet()
     {
         BetClickHandler.Instance.AcceptAutoBet();
+        OpponentAcceptedBet();
     }
 
     protected virtual bool ReadyToStart()
@@ -535,35 +569,10 @@ public class GameplayManager : MonoBehaviour
     }
 
 
-    private bool hasEnteredOnceForOpponent = false;
-    private bool hasQuadrupled = false;
     public virtual void OpponentAcceptedBet()
     {
-        AdjustBetAmountForOpponent();
-        
-        if (currentBet>8)
-        {
-            currentBet = 8;
-        }
+        currentBet *= 2;
         UpdatedBet?.Invoke();
-    }
-
-    private void AdjustBetAmountForOpponent()
-    {
-        if((!BetClickHandler.Instance.DidDoubledForLastStep || hasEnteredOnceForOpponent) && !hasQuadrupled)
-        {
-            currentBet *= 4;
-            Debug.Log("CurrentBet " + currentBet);
-        }
-        else if(!hasEnteredOnceForOpponent)
-        {
-            hasEnteredOnceForOpponent = true;
-        }
-        else
-        {
-            currentBet *= 2;
-            hasQuadrupled = true;
-        }
     }
 
     public void OpponentFinished()

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class DataManager : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class DataManager : MonoBehaviour
     public int[] locationsPicked = {-1, -1, -1};
 
     private bool isSubscribed;
-    public bool IsGuestOverlayShown;
+    public bool CanShowPwaOverlay;
 
     private void Awake()
     {
@@ -92,6 +91,15 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlayerDevices += SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet += SaveWalletRequest;
         PlayerData.UpdatedAgency += SaveAgency;
+        PlayerData.UpdatedIsGuest += SaveIsGuest;
+        PlayerData.UpdatedBeforeFirstGameOverlayShown += SaveBeforeFirstGameOverlayShown;
+        PlayerData.UpdatedAfterFirstGameOverlayShown += SaveAfterFirstGameOverlayShown;
+        PlayerData.UpdatedGuestOverlayShown += SaveGuestOverlayShown;
+        PlayerData.UpdatedIsNewAccount += SaveIsNewAccount;
+        PlayerData.UpdatedHasPlayedFirstGame += SaveHasPlayedFirstGame;
+        PlayerData.UpdatedHasPickedUpPwaReward += SaveHasPickedUpPwaReward;
+        PlayerData.UpdatedSettingsFirstTimeShown += SaveSettingsFirstTimeShown;
+        PlayerData.UpdatedStatistics += SaveStatistics;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -171,6 +179,15 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlayerDevices -= SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet -= SaveWalletRequest;
         PlayerData.UpdatedAgency -= SaveAgency;
+        PlayerData.UpdatedIsGuest -= SaveIsGuest;
+        PlayerData.UpdatedBeforeFirstGameOverlayShown -= SaveBeforeFirstGameOverlayShown;
+        PlayerData.UpdatedAfterFirstGameOverlayShown -= SaveAfterFirstGameOverlayShown;
+        PlayerData.UpdatedGuestOverlayShown -=  SaveGuestOverlayShown;
+        PlayerData.UpdatedIsNewAccount -= SaveIsNewAccount;
+        PlayerData.UpdatedHasPlayedFirstGame -= SaveHasPlayedFirstGame;
+        PlayerData.UpdatedHasPickedUpPwaReward -= SaveHasPickedUpPwaReward;
+        PlayerData.UpdatedSettingsFirstTimeShown -= SaveSettingsFirstTimeShown;
+        PlayerData.UpdatedStatistics -= SaveStatistics;
     }
 
     private void SaveTutorial()
@@ -319,5 +336,48 @@ public class DataManager : MonoBehaviour
     private void SaveAgency()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Agency),JsonConvert.SerializeObject(PlayerData.Agency));
+    }
+    
+    public void SaveIsGuest()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.IsGuest),JsonConvert.SerializeObject(PlayerData.IsGuest));
+    }
+    
+    private void SaveIsNewAccount()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.IsNewAccount),JsonConvert.SerializeObject(PlayerData.IsNewAccount));
+    }
+    
+    private void SaveBeforeFirstGameOverlayShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.BeforeFirstGameOverlayShown),JsonConvert.SerializeObject(PlayerData.BeforeFirstGameOverlayShown));
+    }
+    
+    private void SaveGuestOverlayShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.GuestOverlayShown),JsonConvert.SerializeObject(PlayerData.GuestOverlayShown));
+    }
+    private void SaveAfterFirstGameOverlayShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.AfterFirstGameOverlayShown),JsonConvert.SerializeObject(PlayerData.AfterFirstGameOverlayShown));
+    }
+    
+    private void SaveHasPlayedFirstGame()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.HasPlayedFirstGame),JsonConvert.SerializeObject(PlayerData.HasPlayedFirstGame));
+    }
+    
+    private void SaveHasPickedUpPwaReward()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.HasPickedUpPwaReward),JsonConvert.SerializeObject(PlayerData.HasPickedUpPwaReward));
+    }
+    private void SaveSettingsFirstTimeShown()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.SettingsFirstTimeShown),JsonConvert.SerializeObject(PlayerData.SettingsFirstTimeShown));
+    }
+    
+    private void SaveStatistics()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.Statistics),JsonConvert.SerializeObject(PlayerData.Statistics));
     }
 }

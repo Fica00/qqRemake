@@ -10,6 +10,8 @@ public class DeviceData
     public string OperatingSystem;
     public string UniqueIdentifier;
     public string Platform;
+    public string IpAddressV4;
+    public string IpAddressV6;
 
 
     public static DeviceData Get()

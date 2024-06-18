@@ -55,6 +55,8 @@ public class GameplayUI : MonoBehaviour
 
     private void ShowResult(GameResult _result)
     {
+        DataManager.Instance.PlayerData.Statistics.IncreaseMatchCount();
+        DataManager.Instance.PlayerData.Statistics.NoteCheckPoint("Finished first game");
         StartCoroutine(ShowResultRoutine(_result));
     }
 

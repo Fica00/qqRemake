@@ -68,7 +68,7 @@ public class LevelRewardsPanel : MonoBehaviour
       }
 
       DataManager.Instance.PlayerData.ClaimedLevelReward(_levelReward);
-      
+      DataManager.Instance.PlayerData.Statistics.NoteCheckPoint("Claimed level reward",_checkForExisting:false);
       Start();
    }
 

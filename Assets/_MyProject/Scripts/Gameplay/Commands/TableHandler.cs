@@ -242,31 +242,34 @@ public class TableHandler : MonoBehaviour
                 foreach (var _card in GetCards(_isMy, _location))
                 {
                     _extraPower += _card.Stats.ChagePowerDueToLocation;
-                    foreach (var _specialEffect in _card.SpecialEffects)
-                    {
-                        if (_specialEffect is CardEffectDoublePowerOnCurrentLane)
-                        {
-                            int _geishasPower =0;
-                            for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
-                            {
-                                if (j==0)
-                                {
-                                    _geishasPower = _power;
-                                    continue;
-                                }
-                                _geishasPower *= 2;
-                            }
-                            
-                            _power = _geishasPower;
-                        }
-                    }
                 }
-
-                //add extra power
                 _power += _extraPower;
-
+                
                 _power += _laneDisplay.LaneSpecifics.ExtraPower[_playerIndex];
 
+                foreach (var _card in GetCards(_isMy, _location))
+                {
+                    foreach (var _specialEffect in _card.SpecialEffects)
+                    {
+                        if (_specialEffect is not CardEffectDoublePowerOnCurrentLane)
+                        {
+                            continue;
+                        }
+                        int _geishasPower =0;
+                        for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                        {
+                            if (j==0)
+                            {
+                                _geishasPower = _power;
+                                continue;
+                            }
+                            _geishasPower *= 2;
+                        }
+                            
+                        _power = _geishasPower;
+                    }
+                }
+                
                 _powerHolder[i] = _power;
 
                 UpdatedPower?.Invoke(_location);

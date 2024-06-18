@@ -117,4 +117,9 @@ public static class Utils
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    public static DateTime WithoutHours(this DateTime _date)
+    {
+        return new DateTime(_date.Year, _date.Month, _date.Day,0,0,0);
+    }
 }

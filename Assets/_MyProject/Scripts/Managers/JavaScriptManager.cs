@@ -9,6 +9,8 @@ public class JavaScriptManager : MonoBehaviour
     public static Action<string> OnGotUserData;
     public string Version;
 
+    private Action<bool> boundedCallBack;
+
     [field: SerializeField] public bool IsDemo { get; private set; }
 
     [DllImport("__Internal")]
@@ -60,13 +62,23 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoCancelMatchMake(); 
     
     [DllImport("__Internal")]
+    public static extern bool DoIsAndroid();    
+    
+    [DllImport("__Internal")]
+    public static extern void DoCheckHasBoundAccount();    
+    
+    [DllImport("__Internal")]
+    public static extern bool CheckIsOnPc();    
+    
+    [DllImport("__Internal")]
+    public static extern bool DoTellDeviceId(string _deviceId);
     public static extern void DoCopyToClipboard(string _text);
     
     [DllImport("__Internal")]
     public static extern void DoCreateAndSetupConnection(string _token);
 
 
-    public bool ShowPwaWarning
+    public bool IsPwaPlatform
     {
         get
         {
@@ -222,12 +234,12 @@ public class JavaScriptManager : MonoBehaviour
             Debug.Log("Found Auth handler");
             Debug.Log(SceneManager.CurrentSceneName);
             
-            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.Agency);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount, _response.IsGuest ,_response.Agency);
         }
         else
         {
             Debug.Log("Got agency null");
-            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount);
+            AuthHandler.Instance.Auth(_response.UserId,_response.IsNewAccount,_response.IsGuest);
         }
     }
 
@@ -275,16 +287,55 @@ public class JavaScriptManager : MonoBehaviour
 
     public void SuccessLinkingLoginAccount()
     {
+        DataManager.Instance.PlayerData.Statistics.NoteCheckPoint("Linked account");
         RegisterAnonymousHandler.Instance.HideRegistrationPage();
     }
 
     public void UserAlreadyHasAccount() 
     {
-        RegisterAnonymousHandler.Instance.UserAleradyHaveAccount();
+        RegisterAnonymousHandler.Instance.UserAlreadyHaveAccount();
     }
 
     public void RequestUserData()
     {
         DoCheckIfUserIsLoggedIn();
+    }
+
+    public bool IsAndroid()
+    {
+        if (Application.isEditor)
+        {
+            return true;
+        }
+
+        return DoIsAndroid();
+    }
+
+    public void CheckHasBoundAccount(Action<bool> _callBack)
+    {
+        if (Application.isEditor)
+        {
+            _callBack?.Invoke(true);
+            return;
+        }
+        
+        boundedCallBack = _callBack;
+        DoCheckHasBoundAccount();
+    }
+
+    public void HasBoundedAccount(string _message)
+    {
+        BoundedData _bounded = JsonConvert.DeserializeObject<BoundedData>(_message);
+        boundedCallBack?.Invoke(_bounded.IsBounded);
+    }
+
+    public bool IsOnPc()
+    {
+        if (Application.isEditor)
+        {
+            return true;
+        }
+        
+        return CheckIsOnPc();
     }
 }

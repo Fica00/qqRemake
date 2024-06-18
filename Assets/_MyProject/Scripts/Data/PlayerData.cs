@@ -35,6 +35,17 @@ public class PlayerData
     private string userWalletAddress;
     private bool didRequestUserWallet;
     private string agency;
+    private bool isGuest;
+    private bool isNewAccount;
+    private bool hasPlayedFirstGame;
+    private bool hasFinishedFirstGame;
+    private bool hasPickedUpPwaReward;
+    private PlayerStatistics statistics = new ();
+
+    private bool beforeFirstGameOverlayShown;
+    private bool afterFirstGameOverlayShown;
+    private bool guestOverlayShown;
+    private PwaOverlay settingsFirstTimeShown;
 
     public DateTime DateCreatedAccount;
 
@@ -66,7 +77,15 @@ public class PlayerData
     public static Action UpdatedUserWalletAddress;
     public static Action UpdatedDidRequestUserWallet;
     public static Action UpdatedAgency;
-
+    public static Action UpdatedIsGuest;
+    public static Action UpdatedBeforeFirstGameOverlayShown;
+    public static Action UpdatedAfterFirstGameOverlayShown;
+    public static Action UpdatedGuestOverlayShown;
+    public static Action UpdatedIsNewAccount;
+    public static Action UpdatedHasPlayedFirstGame;
+    public static Action UpdatedHasPickedUpPwaReward;
+    public static Action UpdatedSettingsFirstTimeShown;
+    public static Action UpdatedStatistics;
 
     public void CreateNewPlayer()
     {
@@ -75,8 +94,6 @@ public class PlayerData
         DateCreatedAccount = DateTime.UtcNow.Date;
         lastDayConnected = DateCreatedAccount;
         daysConnectedInRow = 1;
-
-        Debug.Log("CreateNewPlayer");
 
         if (JavaScriptManager.Instance.IsDemo)
         {
@@ -90,18 +107,13 @@ public class PlayerData
 
     private void SetupDemo()
     {
-        Debug.Log("SetupDemo");
-
         DeckData starterDeck = DeckInitializer.InitializeDecks().First(deck => deck.Id == 0);
         decks.Add(starterDeck);
         ownedQoomons.AddRange(starterDeck.CardsInDeck);
-
     }
 
     private void Setup()
     {
-        Debug.Log("Setup");
-
         decks = DeckInitializer.InitializeDecks();
 
         foreach (var _card in CardsManager.Instance.GetAllPlayableCards())
@@ -151,6 +163,7 @@ public class PlayerData
     public void AddNewDeck()
     {
         decks.Add(new DeckData { Id = decks.Count, CardsInDeck = new() });
+        statistics.NoteFirstDeckUpdate("Added deck");
         UpdatedDecks?.Invoke();
     }
 
@@ -179,12 +192,12 @@ public class PlayerData
         get => ownedQoomons;
         set => ownedQoomons = value;
     }
-
-
+    
     public void AddCardToSelectedDeck(int _cardId)
     {
         DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
         _deck.CardsInDeck.Add(_cardId);
+        statistics.NoteFirstDeckUpdate("Added card");
         UpdatedCardsInDeck?.Invoke();
     }
 
@@ -192,6 +205,7 @@ public class PlayerData
     {
         DeckData _deck = decks.Find(_deck => _deck.Id == selectedDeck);
         _deck.CardsInDeck.Remove(_cardId);
+        statistics.NoteFirstDeckUpdate("Removed card");
         UpdatedCardsInDeck?.Invoke();
     }
 
@@ -214,6 +228,7 @@ public class PlayerData
         }
 
         _deck.Name = _name;
+        statistics.NoteFirstDeckUpdate("Changed name");
         UpdatedDeckName?.Invoke();
     }
 
@@ -243,6 +258,46 @@ public class PlayerData
         }
     }
 
+    public bool HasPickedUpPwaReward
+    {
+        get => hasPickedUpPwaReward;
+        set
+        {
+            hasPickedUpPwaReward = value;
+            UpdatedHasPickedUpPwaReward?.Invoke();
+        }
+    }
+
+    public bool IsGuest
+    {
+        get => isGuest;
+        set
+        {
+            isGuest = value;
+            UpdatedIsGuest?.Invoke();
+        }
+    }
+    
+    public bool HasPlayedFirstGame
+    {
+        get => hasPlayedFirstGame;
+        set
+        {
+            hasPlayedFirstGame = value;
+            UpdatedHasPlayedFirstGame?.Invoke();
+        }
+    }
+    
+    public PwaOverlay SettingsFirstTimeShown
+    {
+        get => settingsFirstTimeShown;
+        set
+        {
+            settingsFirstTimeShown = value;
+            UpdatedSettingsFirstTimeShown?.Invoke();
+        }
+    }
+
     public double USDC
     {
         get => usdc;
@@ -268,6 +323,7 @@ public class PlayerData
     }
 
     public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
+
     public int Exp
     {
         get => exp;
@@ -433,7 +489,7 @@ public class PlayerData
             UpdatedAmountOfRankGamesPlayed?.Invoke();
         }
     }
-    
+
     public string Agency
     {
         get => agency;
@@ -441,6 +497,16 @@ public class PlayerData
         {
             agency = value;
             UpdatedAgency?.Invoke();
+        }
+    }
+    
+    public bool IsNewAccount
+    {
+        get => isNewAccount;
+        set
+        {
+            isNewAccount = value;
+            UpdatedIsNewAccount?.Invoke();
         }
     }
 
@@ -523,7 +589,41 @@ public class PlayerData
             UpdatedHasFinishedTutorial?.Invoke();
         }
     }
+    
+    public bool HasFinishedFirstGame
+    {
+        get => hasFinishedFirstGame;
+        set => hasFinishedFirstGame = value;
+    }
+    
+    public bool BeforeFirstGameOverlayShown
+    {
+        get => beforeFirstGameOverlayShown;
+        set
+        {
+            beforeFirstGameOverlayShown = value;
+            UpdatedBeforeFirstGameOverlayShown?.Invoke();
+        }
+    }
+    public bool AfterFirstGameOverlayShown
+    {
+        get => afterFirstGameOverlayShown;
+        set
+        {
+            afterFirstGameOverlayShown = value;
+            UpdatedAfterFirstGameOverlayShown?.Invoke();
+        }
+    }
 
+    public bool GuestOverlayShown
+    {
+        get => guestOverlayShown;
+        set
+        {
+            guestOverlayShown = value;
+            UpdatedGuestOverlayShown?.Invoke();
+        }
+    }
     public bool PlayBackgroundMusic
     {
         get => playBackgroundMusic;
@@ -653,6 +753,16 @@ public class PlayerData
         {
             didRequestUserWallet = value;
             UpdatedDidRequestUserWallet?.Invoke();
+        }
+    }
+
+    public PlayerStatistics Statistics
+    {
+        get => statistics;
+        set
+        {
+            statistics = value;
+            UpdatedStatistics?.Invoke();
         }
     }
 }
