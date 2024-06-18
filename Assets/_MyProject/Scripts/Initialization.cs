@@ -19,6 +19,7 @@ public class Initialization : MonoBehaviour
     {
         RankSo.Init();
         InitDataManager();
+        TryShowPwaOverlay();
     }
 
     private void InitDataManager()
@@ -53,8 +54,6 @@ public class Initialization : MonoBehaviour
                     DataManager.Instance.PlayerData.Agency = _agency;
                     DataManager.Instance.PlayerData.IsGuest = _isGuest;
                     DataManager.Instance.PlayerData.IsNewAccount = true;
-
-                    DataManager.Instance.SaveIsGuest();
 
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
                     {
@@ -100,13 +99,11 @@ public class Initialization : MonoBehaviour
     private void FinishInit()
     {
         AudioManager.Instance.Init();
-
-        if (DataManager.Instance.PlayerData.HasFinishedTutorial == 0 && DataManager.Instance.PlayerData.Exp == 0)
-        {
-            DataManager.Instance.Subscribe();
-            SceneManager.Instance.LoadSimpleTutorial();
-        }
-        else
+        DataManager.Instance.Subscribe();
+        MissionManager.Instance.Setup();
+        DataManager.Instance.PlayerData.Statistics.StartSession();
+        
+        if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
             BotPlayer.GenerateNewData();
             SceneManager.Instance.LoadAIGameplay(false);
