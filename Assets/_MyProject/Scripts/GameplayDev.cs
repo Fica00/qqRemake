@@ -70,4 +70,5 @@ private void DrawCard()
 {
     GameplayManager.Instance.DrawCard(GameplayManager.Instance.MyPlayer);
 }
+
 }
