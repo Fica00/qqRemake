@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.SpriteInHand
       value: 
-      objectReference: {fileID: 21300000, guid: 17b1968db9a3fc740ad90397d38be408, type: 3}
+      objectReference: {fileID: 21300000, guid: f420df63fd7a74a4a8bebd2751ccd149, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
@@ -178,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: 17b1968db9a3fc740ad90397d38be408, type: 3}
+      objectReference: {fileID: 21300000, guid: f420df63fd7a74a4a8bebd2751ccd149, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: '<color=#C38C15>On Summon</color>: \nGive 2 random Qoomons in your hand

@@ -63,6 +63,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 51_Ratama
       objectReference: {fileID: 0}
+    - target: {fileID: 3054809361159682638, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -150,7 +154,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.SpriteInHand
       value: 
-      objectReference: {fileID: 21300000, guid: 5b3e8e0143680364099d84f0f9cdd14f, type: 3}
+      objectReference: {fileID: 21300000, guid: 975219846520b774990952750003fe7a, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
@@ -178,7 +182,7 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: 5b3e8e0143680364099d84f0f9cdd14f, type: 3}
+      objectReference: {fileID: 21300000, guid: 975219846520b774990952750003fe7a, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: '<color=#C38C15>On Summon</color>: \nGive a random Qoomon in your opponent''s
