@@ -79,6 +79,24 @@ public class GameplayPlayer : MonoBehaviour
         }
     }
 
+    [HideInInspector]
+    public List<CardObject> CurrentCardsInHand
+    {
+        get
+        {
+            return cardsInHand;
+        }
+    }
+
+    [HideInInspector]
+    public List<CardObject> CurrentDeckCards
+    {
+        get
+        {
+            return CardsInDeck;
+        }
+    }
+
     public virtual void Setup()
     {
         List<int> _cardsInDeck = new List<int>(DataManager.Instance.PlayerData.CardIdsInDeck);
