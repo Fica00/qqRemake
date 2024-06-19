@@ -28,6 +28,7 @@ namespace Tutorial
         [SerializeField] private TextMeshProUGUI cardsSpecialAbilitiesText;
         [SerializeField] private GameObject hoverWinLocations;
         [SerializeField] private TextMeshProUGUI hoverWinLocationsText;
+        [SerializeField] private GameObject goldiPart;
         [SerializeField] private GameObject stakeFirstPart;
         [SerializeField] private TextMeshProUGUI stakeFirstPartText;
         [SerializeField] private GameObject stakeSecondPart;
@@ -37,11 +38,21 @@ namespace Tutorial
         [SerializeField] private GameObject mukongPart;
         [SerializeField] private GameObject geishaKoPart;
         [SerializeField] private GameObject satiTheTigarPart;
+
+        [SerializeField] private GameObject darkLayerQoomonsInHandMid;
+        [SerializeField] private GameObject darkLayerQoomonsInHandBot;
+            
+        [SerializeField] private GameObject playerNameHolder;
+        [SerializeField] private TextMeshProUGUI playerNameText;
+        [SerializeField] private GameObject statsDarkerLayer;
+        [SerializeField] private GameObject playerNameStats;
+        [SerializeField] private TextMeshProUGUI playerNameStatsText;
+
+        
         [SerializeField] private GameObject laneTop;
         [SerializeField] private GameObject laneMid;
         [SerializeField] private GameObject laneBot;
-        [SerializeField] private GameObject battleTextGameObject;
-        [SerializeField] private TextMeshProUGUI battleText;
+        
 
         [SerializeField] private GameObject myCoomonPlaces;
         [SerializeField] private GameObject opponentCommonPlaces;
@@ -50,6 +61,8 @@ namespace Tutorial
         
         private int counter;
         private Coroutine coroutineTutorial;
+        
+        
         public bool isAddsPowerAndHighestPowerPanelShowen = false;
 
         private void OnEnable()
@@ -59,7 +72,23 @@ namespace Tutorial
             EndTurnHandler.OnEndTurn += EndTurn;
             EndTurnHandler.OnEndTurn += EndTurnGoldi;
             CardInteractions.OnClicked += OnCloseShowAbility;
+            PlayerStatsDisplay.OnPlayerNameClicked += OnPlayerClicked;
+            PlayerStatsDisplay.OnPlayerStatsClose += OnPlayerStatsClosed;
+            PlayTutorialCards.OnCardPlacedCorrected += TurnOfGOParts;
         }
+
+        private void OnPlayerStatsClosed()
+        {
+            PlayerStatsDisplay.OnPlayerStatsClose -= OnPlayerStatsClosed;
+            Next();
+        }
+
+        private void OnPlayerClicked()
+        {
+            PlayerStatsDisplay.OnPlayerNameClicked -= OnPlayerClicked;
+            Next();
+        }
+        
 
         private void EndTurnGoldi()
         {
@@ -72,9 +101,9 @@ namespace Tutorial
 
         private void EndTurn()
         {
-            endTurnHighlight.SetActive(false); 
-            Debug.Log("Counter" +counter);
-            counter = 3;
+            endTurnHighlight.SetActive(false); ;
+            counter = 6;
+            Debug.Log("EndTurn Counter: "+counter);
             coroutineTutorial = StartCoroutine(ShowStep());
             EndTurnHandler.OnEndTurn -= EndTurn;
         }
@@ -84,12 +113,13 @@ namespace Tutorial
         private void OnDisable()
         {
             input.onClick.RemoveListener(Next);
+            PlayTutorialCards.OnCardPlacedCorrected -= TurnOfGOParts;
         }
 
         private void OnCloseShowAbility(CardObject _cardObject)
         {
             Debug.Log("OnCLoseShowAbility "+counter);
-            if (counter == 7)
+            if (counter == 9)
             {
                 cardsSpecialAbilities.SetActive(false);
                 CardInteractions.OnClicked -= OnCloseShowAbility;  //Ovde regulises onaj deo sa abilitijima
@@ -112,7 +142,7 @@ namespace Tutorial
 
         private void TurnOfGOParts()
         {
-            
+            goldiPart.SetActive(false);
             samuKitsunePart.SetActive(false);
             geishaKoPart.SetActive(false);
             satiTheTigarPart.SetActive(false);
@@ -120,6 +150,8 @@ namespace Tutorial
             laneTop.SetActive(false);
             laneMid.SetActive(false);
             laneBot.SetActive(false);
+            darkLayerQoomonsInHandMid.SetActive(false);
+            darkLayerQoomonsInHandBot.SetActive(false);
         }
 
         public override void Setup()
@@ -149,17 +181,38 @@ namespace Tutorial
             else if (counter==1)
             {
                 qommonsHighlight.SetActive(false);
-                qommonsCantPlay.SetActive(true);
-                qommonsCantPlayText.text = "You can't play those now";
+                gainMana.SetActive(true);
+               
             }
             else if (counter==2)
             {
+                gainMana.SetActive(false);
+                qommonsCantPlay.SetActive(true);
+                qommonsCantPlayText.text = "You can't play those now";
+            }
+            else if(counter == 3)
+            {
                 qommonsCantPlay.SetActive(false);
                 input.gameObject.SetActive(false);
+                playerNameHolder.SetActive(true);
+                playerNameText.text = DataManager.Instance.PlayerData.Name;
+            }
+            else if (counter == 4)
+            {
+                playerNameHolder.SetActive(false);
+                statsDarkerLayer.SetActive(true);
+                playerNameStats.SetActive(true);
+                playerNameStatsText.text =  DataManager.Instance.PlayerData.Name;
+                
+            }
+            else if (counter==5) // Odavde nastaviti na gore sa brojevima
+            {
+                statsDarkerLayer.SetActive(false);
+                playerNameStats.SetActive(false);
                 endTurnHighlight.SetActive(true);
                 endTurnText.text = "Press the end turn button";
             }
-            if (counter == 3)
+            if (counter == 6)
             {
                 yield return new WaitUntil(() => GameplayTutorial.Instance.cardsPlayed);
                 _opponentQoomonCard = opponentCommonPlaces.GetComponentInChildren<CardObject>().gameObject;
@@ -169,7 +222,7 @@ namespace Tutorial
                 input.gameObject.SetActive(true);
                 StopCoroutine(coroutineTutorial);
             }
-            else if (counter == 4)
+            else if (counter == 7)
             {
                 _opponentQoomonCard.SetActive(true);
                 qoomonAddsPower.SetActive(false);
@@ -177,95 +230,99 @@ namespace Tutorial
                 _myQoomonCard.SetActive(false);
                 highestPowerWin.SetActive(true);
             }
-            else if (counter == 5)
+            else if (counter == 8)
             {
                 _myQoomonCard.SetActive(true);
                 highestPowerWin.SetActive(false);
                 winLocations.SetActive(true);
                 input.gameObject.SetActive(true);
             }
-            else if(counter == 6)
+            else if(counter == 9)
             {
                 winLocations.SetActive(false);
-                input.gameObject.SetActive(false);
-                gainMana.SetActive(true);
-                input.gameObject.SetActive(true);
                 isAddsPowerAndHighestPowerPanelShowen = true;
-            }
-            else if (counter == 7)
-            {
+            
                 input.gameObject.SetActive(false);
                 yield return new WaitUntil(() => GameplayManager.Instance.GameplayState == GameplayState.Playing);
-                gainMana.SetActive(false);
                 yield return new WaitForSeconds(2);
                 cardsSpecialAbilities.SetActive(true);
                 
                 //CardDetailsPanel.OnClose +=  
                 
             }
-            else if (counter == 8)
+            else if (counter == 10)
             {
                 yield return new WaitForSeconds(4);
                 cardsSpecialAbilities.SetActive(false);
                 hoverWinLocations.SetActive(true);
                 input.gameObject.SetActive(true);
             }
-            else if (counter == 9)
+            else if (counter == 11)
             {
                 input.gameObject.SetActive(false);
-                hoverWinLocationsText.text = "Play Goldie on middle location and end turn";
+                hoverWinLocations.SetActive(false);
+                goldiPart.SetActive(true);
+                laneMid.SetActive(true);
+                darkLayerQoomonsInHandMid.SetActive(true);
                 yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 3);
                 hoverWinLocationsText.text = "";
-                hoverWinLocations.SetActive(false);
+                goldiPart.SetActive(false);
+                darkLayerQoomonsInHandMid.SetActive(false);
                 yield return new WaitUntil(() => GameplayManager.Instance.GameplayState == GameplayState.Playing);
                 stakeFirstPart.SetActive(true);
                 Next();
             }
-            else if (counter == 10)
+            else if (counter == 12)
             {
                 yield return new WaitUntil(() => BetClickHandler.Instance.DidIBetThisRound);
                 stakeFirstPart.SetActive(false);
-                yield return new WaitForSeconds(4);
+                yield return new WaitForSeconds(6);
                 stakeSecondPart.SetActive(true);
                 input.gameObject.SetActive(true);
             }
-            else if(counter == 11)
+            else if(counter == 13)
             {
-                
                 samuKitsunePart.SetActive(true);
+                darkLayerQoomonsInHandBot.SetActive(true);
                 laneBot.SetActive(true);
                 stakeSecondPart.SetActive(false);
                 input.gameObject.SetActive(false);
                 PlayTutorialCards.OnNextStep += Next;
             }
-            else if(counter == 12)
+            else if(counter == 14)
             {
                 yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 4 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
                 samuKitsunePart.SetActive(false);
+                darkLayerQoomonsInHandBot.SetActive(false);
                 laneBot.SetActive(false);
                 mukongPart.SetActive(true);
+                darkLayerQoomonsInHandMid.SetActive(true);
                 laneMid.SetActive(true);
                
             }
-            else if(counter == 13)
+            else if(counter == 15)
             {
                 yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 5 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
                 mukongPart.SetActive(false);
+                darkLayerQoomonsInHandMid.SetActive(false);
                 geishaKoPart.SetActive(true);
+                darkLayerQoomonsInHandMid.SetActive(true);
                 laneMid.SetActive(true);
                
             }
-            else if(counter == 14)
+            else if(counter == 16)
             {
                 yield return new WaitUntil(() => GameplayManager.Instance.CurrentRound == 6 && GameplayManager.Instance.GameplayState == GameplayState.Playing);
                 geishaKoPart.SetActive(false);
+                darkLayerQoomonsInHandMid.SetActive(false);
                 laneMid.SetActive(false);
                 satiTheTigarPart.SetActive(true);
+                darkLayerQoomonsInHandBot.SetActive(true);
                 laneBot.SetActive(true);
                
                 
             }
-            else if (counter == 15)
+            else if (counter == 17)
             {
                 PlayTutorialCards.OnNextStep -= Next;
             }

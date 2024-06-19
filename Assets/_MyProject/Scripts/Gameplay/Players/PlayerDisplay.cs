@@ -1,13 +1,17 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
 public class PlayerDisplay : MonoBehaviour
 {
+    
+    
     [SerializeField] private TextMeshProUGUI nameDisplay;
     [SerializeField] private Button showStats;
     [SerializeField] private PlayerStatsDisplay statsDisplay;
     private GameplayPlayer player;
+    
     
     private void OnEnable()
     {
@@ -23,6 +27,7 @@ public class PlayerDisplay : MonoBehaviour
 
     private void ShowStats()
     {
+        
         if (statsDisplay.IsOpen)
         {
             statsDisplay.Close();
@@ -33,6 +38,7 @@ public class PlayerDisplay : MonoBehaviour
         {
             if (player.IsMy)
             {
+                
                 statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
             }
             else

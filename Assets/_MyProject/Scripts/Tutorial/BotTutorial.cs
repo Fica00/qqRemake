@@ -62,15 +62,15 @@ public class BotTutorial : BotPlayer
     
     
     
-    private IEnumerator PlayCards()   // TODO: Srediti kako da igra po potezima
+    private IEnumerator PlayCards()  
     {
-        Debug.Log("botType"+botType);
+        
         botType = BotType.Version2;
         if (botType is BotType.Version2 or BotType.Version3)
         {
-            Debug.Log("Pre wait-a");
+           
             yield return new WaitUntil(() => GameplayManager.Instance.IFinished );
-            Debug.Log("OVDE je vec prosao zato sto je GameplayManager.Instance.IFinished"+GameplayManager.Instance.IFinished);
+           
             int _randomNumber = Random.Range(0, 10);
             if (_randomNumber > 5)
             {

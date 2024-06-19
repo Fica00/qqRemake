@@ -9,6 +9,7 @@ namespace Tutorial
     public class PlayTutorialCards : MonoBehaviour
     {
         public static Action OnNextStep;
+        public static Action OnCardPlacedCorrected;
         
         [SerializeField] private GameObject dragAnimation;
         [SerializeField] private int round;
@@ -60,7 +61,7 @@ namespace Tutorial
             {
                 if (_command.Location ==  0 && _command.Card.Details.Id ==  1)
                 {
-                    
+                    OnCardPlacedCorrected?.Invoke();
                     GameplayPlayer.AddedCardToTable -= CheckForLocation;
                     FinishAnimation();
                    return;
@@ -72,6 +73,7 @@ namespace Tutorial
             {
                 if (_command.Location == LaneLocation.Mid && _command.Card.Details.Id ==  3)
                 {
+                    OnCardPlacedCorrected?.Invoke();
                     GameplayPlayer.AddedCardToTable -= CheckForLocation;
                     return;
                     
@@ -82,6 +84,7 @@ namespace Tutorial
             {
                 if (_command.Location == LaneLocation.Bot &&  _command.Card.Details.Id ==  8)
                 {
+                    OnCardPlacedCorrected?.Invoke();
                     GameplayPlayer.AddedCardToTable -= CheckForLocation;
                     OnNextStep?.Invoke();
                     return;
@@ -92,6 +95,7 @@ namespace Tutorial
             {
                 if (_command.Location == LaneLocation.Mid &&  _command.Card.Details.Id ==  7)
                 {
+                    OnCardPlacedCorrected?.Invoke();
                     GameplayPlayer.AddedCardToTable -= CheckForLocation;
                     OnNextStep?.Invoke();
                     return;
@@ -103,7 +107,7 @@ namespace Tutorial
             {
                 if (_command.Location == LaneLocation.Mid &&  _command.Card.Details.Id ==  9)
                 {
-                    
+                    OnCardPlacedCorrected?.Invoke();
                     GameplayPlayer.AddedCardToTable -= CheckForLocation;
                     OnNextStep?.Invoke();
                     return;
@@ -115,6 +119,7 @@ namespace Tutorial
             {
                 if (_command.Location == LaneLocation.Bot &&  _command.Card.Details.Id ==  5)
                 {
+                    OnCardPlacedCorrected?.Invoke();
                     GameplayPlayer.AddedCardToTable -= CheckForLocation;
                     OnNextStep?.Invoke();
                     return;

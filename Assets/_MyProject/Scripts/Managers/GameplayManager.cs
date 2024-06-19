@@ -354,6 +354,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void AcceptAutoBet()
     {
         BetClickHandler.Instance.AcceptAutoBet();
+        OpponentAcceptedBet();
     }
 
     protected virtual bool ReadyToStart()
@@ -540,32 +541,11 @@ public class GameplayManager : MonoBehaviour
     private bool hasQuadrupled = false;
     public virtual void OpponentAcceptedBet()
     {
-        AdjustBetAmountForOpponent();
-        
-        if (currentBet>8)
-        {
-            currentBet = 8;
-        }
+        currentBet *= 2;
         UpdatedBet?.Invoke();
     }
 
-    private void AdjustBetAmountForOpponent()
-    {
-        if((!BetClickHandler.Instance.DidDoubledForLastStep || hasEnteredOnceForOpponent) && !hasQuadrupled)
-        {
-            currentBet *= 4;
-            Debug.Log("CurrentBet " + currentBet);
-        }
-        else if(!hasEnteredOnceForOpponent)
-        {
-            hasEnteredOnceForOpponent = true;
-        }
-        else
-        {
-            currentBet *= 2;
-            hasQuadrupled = true;
-        }
-    }
+   
 
     public void OpponentFinished()
     {

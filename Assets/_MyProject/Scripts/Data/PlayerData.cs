@@ -84,7 +84,7 @@ public class PlayerData
         lastDayConnected = DateCreatedAccount;
         daysConnectedInRow = 1;
 
-        Debug.Log("CreateNewPlayer");
+       
 
         if (JavaScriptManager.Instance.IsDemo)
         {
@@ -98,7 +98,7 @@ public class PlayerData
 
     private void SetupDemo()
     {
-        Debug.Log("SetupDemo");
+       
 
         DeckData starterDeck = DeckInitializer.InitializeDecks().First(deck => deck.Id == 0);
         decks.Add(starterDeck);

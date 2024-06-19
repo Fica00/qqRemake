@@ -43,7 +43,7 @@ namespace Tutorial
             Utils.DoColor(matchText,1,1,0, () =>
             {
                 Utils.DoScale(matchBackground, new Vector3(0.8f,0.8f,0.8f), 1,1);
-                matchBackground.transform.DOMove(matchPosition.position, 2).SetDelay(1).OnComplete(ShowPlayers);
+                matchBackground.transform.DOMove(matchPosition.position, 1).SetDelay(0.5f).OnComplete(ShowPlayers);
             });
         }
 
@@ -57,13 +57,15 @@ namespace Tutorial
                 myPlayer.transform.DOMove(myPlayerPosition.position, 1).OnComplete(() =>
                 {
                     opponentPlayer.Setup(OpponentsName, OpponentsDeck);
-                    Utils.DoColor(searchingForOpponent,1,0,3, () =>
+                    Utils.DoColor(searchingForOpponent,1,0,1, () =>
                     {
                         opponentPlayer.transform.localScale = Vector3.one;
                     });
-                    opponentPlayer.transform.DOMove(opponentPlayerPosition.position, 1).SetDelay(3).OnComplete(() =>
+                    opponentPlayer.transform.DOMove(opponentPlayerPosition.position, 1).SetDelay(1).OnComplete(() =>
                     {
-                        int _delay = 2;
+                        
+                        int _delay = 1;
+                        searchingForOpponent.text = "Match Found";
                         Utils.DoScale(opponentPlayer.gameObject,Vector3.zero, 1,_delay);
                         Utils.DoScale(myPlayer.gameObject,Vector3.zero, 1,_delay);
                         Utils.DoColor(vsImage,0,1,_delay);
