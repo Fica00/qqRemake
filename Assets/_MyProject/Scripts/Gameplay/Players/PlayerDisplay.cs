@@ -55,6 +55,7 @@ public class PlayerDisplay : MonoBehaviour
             {
                 if (SceneManager.IsGameplayTutorialScene)
                 {
+                    statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
                     return;
                 }
 
