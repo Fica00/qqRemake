@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3975338762557918613
+--- !u!1001 &1309888486446150343
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 68_BuckyBarnes
+      value: 48_ScarletWitch
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchorMax.x
@@ -95,6 +95,39 @@ PrefabInstance:
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.SpriteInHand
+      value: 
+      objectReference: {fileID: 21300000, guid: b02c3cd45a128fb448790142a2c37c30, type: 3}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <SpecialEffects>k__BackingField.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Id>k__BackingField
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Mana>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Name>k__BackingField
+      value: ScarletWitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Power>k__BackingField
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
+      value: 
+      objectReference: {fileID: 21300000, guid: b02c3cd45a128fb448790142a2c37c30, type: 3}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Description>k__BackingField
+      value: '<color=#C38C15>On Summon</color>: \nReplace this location with a new
+        one.'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

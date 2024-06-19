@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardEffectDestroyYourOtherQommonsHereWithPowerGreaterOrEqualX : CardEffectBase
+public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : CardEffectBase
 {
     [SerializeField] private int powerX;
 
