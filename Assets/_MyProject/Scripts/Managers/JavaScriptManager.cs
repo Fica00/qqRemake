@@ -301,10 +301,4 @@ public class JavaScriptManager : MonoBehaviour
         
         return CheckIsOnPc();
     }
-
-    [Button()]
-    public void SetupDeck()
-    {
-        DataManager.Instance.PlayerData.AddQoomon(22);
-    }
 }
