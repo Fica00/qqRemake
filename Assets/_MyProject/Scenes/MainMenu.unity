@@ -10956,6 +10956,7 @@ MonoBehaviour:
   showMissions: {fileID: 276635654}
   discordButton: {fileID: 2004858435}
   qoomonUnlockingPanel: {fileID: 1590220840}
+  uiPlayPanel: {fileID: 1175484254}
 --- !u!114 &1017926789
 MonoBehaviour:
   m_ObjectHideFlags: 0

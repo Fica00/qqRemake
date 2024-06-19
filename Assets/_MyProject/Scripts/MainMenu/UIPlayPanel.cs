@@ -33,7 +33,7 @@ public class UIPlayPanel : MonoBehaviour
         PhotonManager.OnILeftRoom -= ILeftRoom;
     }
 
-    private void Start()
+    public void TryAutoMatch()
     {
         if (!PlayAgain)
         {
