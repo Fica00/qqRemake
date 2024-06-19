@@ -38,7 +38,6 @@ public class PlayerDisplay : MonoBehaviour
         {
             if (player.IsMy)
             {
-                
                 statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
             }
             else
@@ -80,6 +79,10 @@ public class PlayerDisplay : MonoBehaviour
         if (player!= null && player.IsMy)
         {
             nameDisplay.text = DataManager.Instance.PlayerData.Name;
+            if (SceneManager.IsGameplayTutorialScene)
+            {
+                nameDisplay.text = Tutorial.MatchMaking.MyName;
+            }
         }
         else
         {

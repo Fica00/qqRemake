@@ -21,6 +21,9 @@ namespace Tutorial
         public static string OpponentsName = "Ninja Frog";
         public static string OpponentsDeck = "Opponents deck";
         
+        public static string MyName = "Sati-the-tiger";
+        public static string MyDeck = "";
+        
         private Action callBack;
         
         public void Setup(Action _callBack)
@@ -51,7 +54,7 @@ namespace Tutorial
         {
             Utils.DoColor(vsImage,1,1,0, () =>
             {
-                myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
+                myPlayer.Setup(MyName, MyDeck);
                 myPlayer.transform.localScale = Vector3.one;
                 Utils.DoColor(searchingForOpponent,1,1,0);
                 myPlayer.transform.DOMove(myPlayerPosition.position, 1).OnComplete(() =>
@@ -65,14 +68,24 @@ namespace Tutorial
                     {
                         
                         int _delay = 1;
-                        searchingForOpponent.text = "Match Found";
-                        Utils.DoScale(opponentPlayer.gameObject,Vector3.zero, 1,_delay);
-                        Utils.DoScale(myPlayer.gameObject,Vector3.zero, 1,_delay);
-                        Utils.DoColor(vsImage,0,1,_delay);
-                        Utils.DoScale(matchBackground,Vector3.zero,1,_delay, () =>
+                        Color _color = searchingForOpponent.color;
+                        _color.a = 0;
+                        searchingForOpponent.DOColor(_color, .2f).OnComplete(() =>
                         {
-                            gameObject.SetActive(false);
-                            callBack?.Invoke();
+                            _color.a = 1;
+                            searchingForOpponent.text = "Match Found";
+                            searchingForOpponent.DOColor(_color, .2f).OnComplete(() =>
+                            {
+                                Utils.DoScale(opponentPlayer.gameObject,Vector3.zero, 1,_delay);
+                                Utils.DoScale(myPlayer.gameObject,Vector3.zero, 1,_delay);
+                                Utils.DoColor(vsImage,0,1,_delay);
+                                Utils.DoColor(searchingForOpponent,0,1,_delay);
+                                Utils.DoScale(matchBackground,Vector3.zero,1,_delay, () =>
+                                {
+                                    gameObject.SetActive(false);
+                                    callBack?.Invoke();
+                                });
+                            });
                         });
                     });
                 });
