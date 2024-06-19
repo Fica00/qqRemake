@@ -18,7 +18,7 @@ namespace Tutorial
         [SerializeField] private TextMeshProUGUI searchingForOpponent;
         [SerializeField] private RectTransform opponentPlayerPosition;
 
-        public static string OpponentsName = "Opponents name";
+        public static string OpponentsName = "Ninja Frog";
         public static string OpponentsDeck = "Opponents deck";
         
         private Action callBack;
