@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Tutorial;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayTutorial : GameplayManager
@@ -11,7 +10,7 @@ public class GameplayTutorial : GameplayManager
     public static Action<CardObject> OnDrawSecondTwoCards;
     [SerializeField] private TutorialMessage manaDisplay;
     [SerializeField] private TutorialManager tutorialManager;
-
+    [SerializeField] private GameObject opponentsEffect;
     
     public bool cardsPlayed= false;
 
@@ -68,6 +67,8 @@ public class GameplayTutorial : GameplayManager
                         CardObject _card2 = MyPlayer.GetCardFromDeck(29); //Dun-dun
                         MyPlayer.DrawCard(_card2, true);
                         MyPlayer.AddCardToHand(_card2);
+
+                        opponentsEffect.SetActive(false);
                     }
                     if (CurrentRound == 4)
                     {
