@@ -12,12 +12,21 @@ namespace Tutorial
         public static Action OnCardPlacedCorrected;
         
         [SerializeField] private GameObject dragAnimation;
+        [SerializeField] private GameObject parentObject;
         [SerializeField] private int round;
-        
+
+        [SerializeField] private GameObject qoomonToMove;
 
         private void OnEnable()
         {
             GameplayManager.UpdatedGameState += CheckGameState;
+            GameplayPlayer.DrewCard += MoveoQoomonOverDarkLayerOnQoomon;
+        }
+
+        private void MoveoQoomonOverDarkLayerOnQoomon(CardObject _card)
+        {
+            qoomonToMove = _card.gameObject;
+            GameplayPlayer.DrewCard -= MoveoQoomonOverDarkLayerOnQoomon;
         }
 
         private void OnDisable()
@@ -39,6 +48,7 @@ namespace Tutorial
                     if (round == 1)
                     {
                         dragAnimation.SetActive(true);
+                        qoomonToMove.gameObject.transform.SetParent(parentObject.transform);
                     }
                     GameplayPlayer.AddedCardToTable += CheckForLocation;
                    
@@ -51,6 +61,8 @@ namespace Tutorial
                     throw new ArgumentOutOfRangeException();
             }
         }
+        
+        
 
         private void CheckForLocation(PlaceCommand _command)
         {

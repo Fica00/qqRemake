@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Tutorial;
 using Unity.VisualScripting;
@@ -6,9 +7,12 @@ using UnityEngine;
 public class GameplayTutorial : GameplayManager
 {
     public new static GameplayTutorial Instance;
+
+    public static Action<CardObject> OnDrawSecondTwoCards;
     [SerializeField] private TutorialMessage manaDisplay;
     [SerializeField] private TutorialManager tutorialManager;
 
+    
     public bool cardsPlayed= false;
 
     protected override void Awake()
@@ -149,13 +153,16 @@ public class GameplayTutorial : GameplayManager
 
     private IEnumerator SecondDraw()
     {
+        
         CardObject _card1 = MyPlayer.GetCardFromDeck(4);
         MyPlayer.DrawCard(_card1, true);
         MyPlayer.AddCardToHand(_card1);
+        OnDrawSecondTwoCards?.Invoke(_card1);
         
         CardObject _card2 = MyPlayer.GetCardFromDeck(5);
         MyPlayer.DrawCard(_card2, true);
         MyPlayer.AddCardToHand(_card2);
+        OnDrawSecondTwoCards?.Invoke(_card2);
 
         yield break;
     }
