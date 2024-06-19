@@ -68,6 +68,11 @@ public class QoomonAnimator : MonoBehaviour
         IsRevealAnimationDone = false;
         PlayAnimation(revealKey,false);
         yield return new WaitUntil(() => IsRevealAnimationDone);
+        if (cardObject==null)
+        {
+            cardObject.Reveal.Finish();
+            yield break;
+        }
         cardObject.Reveal.Finish();
         cardObject.Subscribe();
     }
@@ -107,8 +112,19 @@ public class QoomonAnimator : MonoBehaviour
             {
                 yield return new WaitForSeconds(revealDelay);
             }
+
+            TrackEntry _animation;
+            try
+            {
+                _animation = animator.AnimationState.SetAnimation(0, _animationKey, _loop);
+
+            }
+            catch
+            {
+                DialogsManager.Instance.OkDialog.Setup($"{cardObject.Details.Name} doesn't have animation key: "+_animationKey);
+                yield break;
+            }
             
-            var _animation = animator.AnimationState.SetAnimation(0, _animationKey, _loop);
             if (_playIdleOnEnd)
             {
                 _animation.Complete += PlayIdle;

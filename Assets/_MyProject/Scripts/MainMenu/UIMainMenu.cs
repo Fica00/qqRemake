@@ -72,6 +72,11 @@ public class UIMainMenu : MonoBehaviour
         {
             return;
         }
+        int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+        if (_qoomonId==-1)
+        {
+            return;
+        }
         
         JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
 
@@ -89,9 +94,7 @@ public class UIMainMenu : MonoBehaviour
             {
                 DataManager.Instance.PlayerData.HasPickedUpPwaReward = true;
                 DialogsManager.Instance.OkDialog.OnOkPressed.RemoveListener(OnOkButtonPressed);
-                
-                int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-        
+
                 DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
         
                 qoomonUnlockingPanel.Setup(_qoomonId, null);
@@ -109,16 +112,18 @@ public class UIMainMenu : MonoBehaviour
         {
             return false;
         }
+        int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+        if (_qoomonId==-1)
+        {
+            return false;
+        }
         
         DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(RewardQoomon);
         DialogsManager.Instance.OkDialog.Setup("You won a new qoomon for completing first game!");
         return true;
-        
-        
 
         void RewardQoomon()
         {
-            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
 
             DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
             DataManager.Instance.PlayerData.HasFinishedFirstGame = false;

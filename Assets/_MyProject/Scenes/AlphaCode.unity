@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Version: 0.0.70
-  <IsDemo>k__BackingField: 1
+  <IsDemo>k__BackingField: 0
 --- !u!4 &301907328
 Transform:
   m_ObjectHideFlags: 0

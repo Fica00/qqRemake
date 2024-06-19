@@ -99,7 +99,7 @@ public class AuthHandler : MonoBehaviour
         callBackForOAUTh = _callBack;
         if (Application.isEditor)
         {
-            FirebaseManager.Instance.TryLoginAndGetData("unity5@help.com", "unity123",
+            FirebaseManager.Instance.TryLoginAndGetData("unity9@help.com", "unity123",
                 (_status) => { HandleLoginResult(_status, callBackForOAUTh, false); });
             IsGuest = true;
         }
