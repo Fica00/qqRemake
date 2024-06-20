@@ -16,6 +16,7 @@ namespace Tutorial
         [SerializeField] private int round;
 
         [SerializeField] private GameObject qoomonToMove;
+        [SerializeField] private GameObject EndButtonBlocator;
 
         private void OnEnable()
         {
@@ -47,6 +48,7 @@ namespace Tutorial
 
                     if (round == 1)
                     {
+                        EndButtonBlocator.SetActive(true);
                         dragAnimation.SetActive(true);
                         qoomonToMove.gameObject.transform.SetParent(parentObject.transform);
                     }

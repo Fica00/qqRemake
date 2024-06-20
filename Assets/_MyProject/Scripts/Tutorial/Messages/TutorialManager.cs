@@ -40,6 +40,9 @@ namespace Tutorial
         [SerializeField] private TextMeshProUGUI playerNameStatsText;
 
         
+        
+        [SerializeField] private GameObject EndGameButtonBlocator;
+        
         [SerializeField] private GameObject laneTop;
         [SerializeField] private GameObject laneMid;
         [SerializeField] private GameObject laneBot;
@@ -71,9 +74,9 @@ namespace Tutorial
         {
             
             input.onClick.AddListener(Next);
-            EndTurnHandler.OnEndTurn += EndTurn;
-            EndTurnHandler.OnEndTurn += EndTurnGoldi;
-            CardInteractions.OnClicked += OnCloseShowAbility;
+            
+           
+           
             PlayTutorialCards.OnCardPlacedCorrected += TurnOfGOParts;
             GameplayTutorial.OnDrawSecondTwoCards += AddDarkLayerOnQoomon;
 
@@ -159,16 +162,22 @@ namespace Tutorial
             PlayTutorialCards.OnCardPlacedCorrected -= TurnOfGOParts;
         }
 
-        private void OnCloseShowAbility(CardObject _cardObject)
+        private void OnShowAbility(CardObject _cardObject)
         {
             Debug.Log("OnCLoseShowAbility "+counter);
             if (counter == 9)
             {
                 cardsSpecialAbilities.SetActive(false);
-                CardInteractions.OnClicked -= OnCloseShowAbility;  //Ovde regulises onaj deo sa abilitijima
-                Next();
+                
             }
             
+        }
+
+        private void OnCLoseAbitliy()
+        {
+            CardInteractions.OnClicked -= OnShowAbility;
+            CardDetailsPanel.OnClose -= OnCLoseAbitliy;
+            Next();
         }
         
 
@@ -242,6 +251,7 @@ namespace Tutorial
                 input.gameObject.SetActive(false);
                 playerNameHolder.SetActive(true);
                 playerNameText.text = DataManager.Instance.PlayerData.Name;
+                EndTurnHandler.OnEndTurn += EndTurn;
             }
             else if (counter == 4)
             {
@@ -252,13 +262,15 @@ namespace Tutorial
                 playerNameStats.SetActive(true);
                 playerNameStatsText.text =  DataManager.Instance.PlayerData.Name;
                 
+                
             }
             else if (counter==5) // Odavde nastaviti na gore sa brojevima
             {
-                
+                EndGameButtonBlocator.SetActive(false);
                 statsDarkerLayer.SetActive(false);
                 playerNameStats.SetActive(false);
                 endTurnHighlight.SetActive(true);
+               
             }
             if (counter == 6)
             {
@@ -288,6 +300,7 @@ namespace Tutorial
             }
             else if(counter == 9)
             {
+                CardInteractions.OnClicked += OnShowAbility;
                 winLocations.SetActive(false);
                 hoverWinLocations.SetActive(true);
                 isAddsPowerAndHighestPowerPanelShowen = true;
@@ -296,13 +309,14 @@ namespace Tutorial
                 yield return new WaitForSeconds(2);
                 cardsSpecialAbilities.SetActive(true);
                 darkLayerQQList.Single(x=>x.Details.Id == goldieID).gameObject.transform.SetParent(parentGameObject.transform);
+                darkLayerQQList.Single(x => x.Details.Id == goldieID).GetComponent<CardInteractions>().CanDrag = false;
                // TurnOfDarkLayerOverQoomonById(goldieID);      
-                //CardDetailsPanel.OnClose +=  
-                
+               CardDetailsPanel.OnClose += OnCLoseAbitliy;
+
             }
             else if (counter == 10)
             {
-                yield return new WaitForSeconds(4);
+                yield return new WaitForSeconds(1);
                 cardsSpecialAbilities.SetActive(false);
                 Next();
                 // hoverWinLocations.SetActive(true);
@@ -313,7 +327,8 @@ namespace Tutorial
             {
                 // input.gameObject.SetActive(false);
                 // hoverWinLocations.SetActive(false);
-                
+                darkLayerQQList.Single(x => x.Details.Id == goldieID).GetComponent<CardInteractions>().CanDrag = true;
+                EndTurnHandler.OnEndTurn += EndTurnGoldi;
                 goldiPart.SetActive(true);
                 laneMid.SetActive(true);
                 darkLayerQoomonsInHandMid.SetActive(true);
@@ -321,12 +336,14 @@ namespace Tutorial
                 goldiPart.SetActive(false);
                 darkLayerQoomonsInHandMid.SetActive(false);
                 yield return new WaitUntil(() => GameplayManager.Instance.GameplayState == GameplayState.Playing);
+                EndGameButtonBlocator.SetActive(true);
                 stakeFirstPart.SetActive(true);
                 Next();
                 
             }
             else if (counter == 12)
             {
+                
                 yield return new WaitUntil(() => BetClickHandler.Instance.DidIBetThisRound);
                 stakeFirstPart.SetActive(false);
                 yield return new WaitForSeconds(6);
@@ -335,6 +352,7 @@ namespace Tutorial
             }
             else if(counter == 13)
             {
+                EndGameButtonBlocator.SetActive(false);
                 samuKitsunePart.SetActive(true);
                 placeHolderObject.SetActive(true);
                 placeHolderObject.transform.SetSiblingIndex(3);

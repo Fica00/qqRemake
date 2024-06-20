@@ -86,9 +86,14 @@ public class GameplayTutorial : GameplayManager
                         MyPlayer.DrawCard(_card2, true);
                         MyPlayer.AddCardToHand(_card2);
                         
+                        Debug.Log("Gunner");
                         CardObject _card3 = MyPlayer.GetCardFromDeck(11); //Gunner Kaka
+                        Debug.Log("Gunner2");
+
                         MyPlayer.DrawCard(_card3, true);
+                        Debug.Log("Gunner3");
                         MyPlayer.AddCardToHand(_card3);
+                        Debug.Log("Gunner4");
                     }
                 }
             }
@@ -113,7 +118,13 @@ public class GameplayTutorial : GameplayManager
             yield return new WaitForSeconds(2.5f);
 
             cardsPlayed = true;
+          //  OnFinishedGameplayLoop?.Invoke();
         }
+        
+        AcceptAutoBet();
+        
+        bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
+        DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
 
         bool _canContinue = false;
         for (int i = 0; i < Lanes.Count; i++)
@@ -123,6 +134,7 @@ public class GameplayTutorial : GameplayManager
             _canContinue = false;
         }
         yield return new WaitForSeconds(1);
+        DataManager.Instance.PlayerData.PlayBackgroundMusic = _playBackgroundMusic;
         GameResult _result = TableHandler.CalculateWinner();
         GameEnded?.Invoke(_result);
         

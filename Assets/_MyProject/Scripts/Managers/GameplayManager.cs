@@ -324,7 +324,7 @@ public class GameplayManager : MonoBehaviour
             StartCoroutine(RevealCards(_whoPlaysFirst));
             yield return new WaitUntil(() => resolvedEndOfTheRound);
             yield return new WaitForSeconds(1);
-            OnFinishedGameplayLoop?.Invoke();
+            //OnFinishedGameplayLoop?.Invoke();
         }
 
         AcceptAutoBet();
