@@ -27,11 +27,11 @@ public class CardEffectAddManaToRandomQoomonInOpponentHand : CardEffectBase
             return;
         }
 
-        List<CardObject> _oppoentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
+        List<CardObject> _opponentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
 
-        var randomCardInHand = Random.Range(0, _oppoentsCardsInHand.Count);
+        var randomCardInHand = Random.Range(0, _opponentsCardsInHand.Count);
 
-        CardObject randomCard = _oppoentsCardsInHand[randomCardInHand];
+        CardObject randomCard = _opponentsCardsInHand[randomCardInHand];
 
         if (randomCard.Stats.Energy < manaLessThan)
         {

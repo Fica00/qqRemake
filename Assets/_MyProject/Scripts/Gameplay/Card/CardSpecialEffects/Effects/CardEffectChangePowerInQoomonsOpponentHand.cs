@@ -26,9 +26,9 @@ public class CardEffectChangePowerInQoomonsOpponentHand : CardEffectBase
             return;
         }
 
-        List<CardObject> _oppoentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
+        List<CardObject> _opponentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
 
-        foreach (var _card in _oppoentsCardsInHand)
+        foreach (var _card in _opponentsCardsInHand)
         {
             _card.Stats.Power += power;
         }

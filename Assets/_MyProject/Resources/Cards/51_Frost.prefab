@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5692961853910903780
+--- !u!1 &3968435744701261252
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5823866555936853376}
-  - component: {fileID: 5194136714601991477}
+  - component: {fileID: 4679222336383183674}
+  - component: {fileID: 7516912371771918396}
   m_Layer: 5
   m_Name: Effect
   m_TagString: Untagged
@@ -17,19 +17,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5823866555936853376
+--- !u!224 &4679222336383183674
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5692961853910903780}
+  m_GameObject: {fileID: 3968435744701261252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4733693580041382003}
+  m_Father: {fileID: 7483175393162218285}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -37,20 +37,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5194136714601991477
+--- !u!114 &7516912371771918396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5692961853910903780}
+  m_GameObject: {fileID: 3968435744701261252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d352397c136eea40a5ba17e74328b01, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f07ed5d0fb4582418814aeebd590151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   power: 20
---- !u!1001 &4844131117868880592
+  numberOfQoomons: 2
+--- !u!1001 &7300668089362067854
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -60,7 +61,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 55_Morbius
+      value: 51_Frost
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
@@ -149,44 +150,48 @@ PrefabInstance:
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.SpriteInHand
       value: 
-      objectReference: {fileID: 21300000, guid: aec8da7e56682a64497955b4075508b2, type: 3}
+      objectReference: {fileID: 21300000, guid: f420df63fd7a74a4a8bebd2751ccd149, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Id>k__BackingField
-      value: 55
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <SpecialEffects>k__BackingField.Array.data[0]
       value: 
-      objectReference: {fileID: 5194136714601991477}
+      objectReference: {fileID: 7516912371771918396}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Mana>k__BackingField
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Name>k__BackingField
-      value: Morbius
+      value: Frost
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: <Details>k__BackingField.<Power>k__BackingField
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Sprite>k__BackingField
       value: 
-      objectReference: {fileID: 21300000, guid: aec8da7e56682a64497955b4075508b2, type: 3}
+      objectReference: {fileID: 21300000, guid: f420df63fd7a74a4a8bebd2751ccd149, type: 3}
     - target: {fileID: 4748480914842480975, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
-      value: <color="green">Ongoing</color>:\n'+20 Power for each time you discard
-        a Qoomon.
+      value: '<color=#C38C15>On Summon</color>: \nGive 2 random Qoomons in your hand
+        +20 Power.'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5823866555936853376}
+      addedObject: {fileID: 4679222336383183674}
   m_SourcePrefab: {fileID: 100100000, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
---- !u!224 &4733693580041382003 stripped
+--- !u!224 &7483175393162218285 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
-  m_PrefabInstance: {fileID: 4844131117868880592}
+  m_PrefabInstance: {fileID: 7300668089362067854}
   m_PrefabAsset: {fileID: 0}

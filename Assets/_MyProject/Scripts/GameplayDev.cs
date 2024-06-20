@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameplayDev : MonoBehaviour
 {
@@ -64,5 +65,35 @@ public class GameplayDev : MonoBehaviour
     private void DrawSoulomon()
     {
         GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
+    }
+
+    public CardObject cardForUse;
+    [Button("Discard card")]
+    private void DiscardCard()
+    {
+        GameplayManager.Instance.MyPlayer.DiscardCardFromHand(cardForUse);
+    }
+
+    [Button("Destroy card on your table")]
+    private void DestroyYourCard()
+    {
+        GameplayManager.Instance.MyPlayer.DestroyCardFromTable(cardForUse);
+    }
+
+    public List<CardObject> TestList = new List<CardObject>();
+
+    [Button("See list of qoomons on table")]
+    private void CheckListOnTable()
+    {
+        TestList.Clear();
+        TestList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnBot);
+        TestList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnMid);
+        TestList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnTop);
+    }
+
+    [Button("Add card to hand")]
+    private void AddToHand()
+    {
+        GameplayManager.Instance.MyPlayer.AddCardToHand(cardForUse, true);
     }
 }

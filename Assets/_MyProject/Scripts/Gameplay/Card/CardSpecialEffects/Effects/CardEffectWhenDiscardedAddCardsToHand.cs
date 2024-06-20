@@ -5,6 +5,11 @@ public class CardEffectWhenDiscardedAddCardsToHand : CardEffectBase
     [SerializeField] private int amount;
     [SerializeField] private int cost;
 
+    public override void Subscribe()
+    {
+        //nothing to do here
+    }
+
     private void OnEnable()
     {
         GameplayPlayer.DiscardedCard += CheckCard;
@@ -30,6 +35,12 @@ public class CardEffectWhenDiscardedAddCardsToHand : CardEffectBase
 
     private void AddToHand() 
     {
-        // add amount of cards with this cost
+        for (int i = 0; i < amount; i++)
+        {
+            CardObject _copyOfCard = CardsManager.Instance.CreateCard(cardObject.Details.Id, cardObject.IsMy);
+            _copyOfCard.Stats.Energy = cost;
+
+            GameplayManager.Instance.MyPlayer.AddCardToHand(_copyOfCard, true);
+        }
     }
 }

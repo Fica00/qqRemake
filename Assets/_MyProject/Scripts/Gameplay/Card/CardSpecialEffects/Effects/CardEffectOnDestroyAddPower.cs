@@ -5,6 +5,11 @@ public class CardEffectOnDestroyAddPower : CardEffectBase
 {
     [SerializeField] private int power;
 
+    public override void Subscribe()
+    {
+        //nothing to do here
+    }
+
     private void OnEnable()
     {
         GameplayPlayer.DestroyedCardFromTable += CheckCard;
@@ -30,8 +35,11 @@ public class CardEffectOnDestroyAddPower : CardEffectBase
 
     private void AddPower() 
     {
-        // lista z
         List<CardObject> _addPowerList = new List<CardObject>();
+
+        _addPowerList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnBot);
+        _addPowerList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnMid);
+        _addPowerList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnTop);
 
         foreach (var _card in _addPowerList)
         {
