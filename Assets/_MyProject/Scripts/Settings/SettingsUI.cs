@@ -7,8 +7,6 @@ public class SettingsUI : MonoBehaviour
 {
     [SerializeField] private Button logoutButton;
     [SerializeField] private InputField nameInput;
-    [SerializeField] private Button linkWithFacebook;
-    [SerializeField] private Button linkWithGoogle;
     [SerializeField] private Button redeemCode;
     [SerializeField] private Button reportABug;
     [SerializeField] private Button playerSupport;
@@ -25,8 +23,6 @@ public class SettingsUI : MonoBehaviour
     private void OnEnable()
     {
         logoutButton.onClick.AddListener(Logout);
-        //linkWithFacebook.onClick.AddListener(LinkWithFacebook); => Rekao dule da se izbacuje Facebook
-        //linkWithGoogle.onClick.AddListener(LinkWithGoogle);
         redeemCode.onClick.AddListener(RedeemCode);
         reportABug.onClick.AddListener(ReportABug);
         playerSupport.onClick.AddListener(PlayerSupport);
@@ -43,8 +39,6 @@ public class SettingsUI : MonoBehaviour
     private void OnDisable()
     {
         logoutButton.onClick.RemoveListener(Logout);
-        //linkWithFacebook.onClick.RemoveListener(LinkWithFacebook);
-        //linkWithGoogle.onClick.RemoveListener(LinkWithGoogle);
         redeemCode.onClick.RemoveListener(RedeemCode);
         reportABug.onClick.RemoveListener(ReportABug);
         playerSupport.onClick.RemoveListener(PlayerSupport);
@@ -63,7 +57,7 @@ public class SettingsUI : MonoBehaviour
 
     private void ShowTutorial()
     {
-        SceneManager.Instance.LoadSimpleTutorial();
+        SceneManager.Instance.LoadTutorial();
     }
 
     private void Logout()
@@ -84,16 +78,6 @@ public class SettingsUI : MonoBehaviour
             yield return new WaitForSeconds(1);
             SceneManager.Instance.LoadAlphaCode();
         }
-    }
-
-    private void LinkWithFacebook()
-    {
-        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
-    }
-
-    private void LinkWithGoogle()
-    {
-        DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
     }
 
     private void RedeemCode()

@@ -8,9 +8,9 @@ public class LaneVizualizator : MonoBehaviour
     [SerializeField] private LaneLocation location;
     [Space()]
     [SerializeField]
-    private List<LanePlaceIdentifier> myPlaces;
-    [SerializeField] private Image myLane;
-    [SerializeField] private GameObject laneIndicator;
+    protected List<LanePlaceIdentifier> myPlaces;
+    [SerializeField] protected Image myLane;
+    [SerializeField] protected GameObject laneIndicator;
     [Space()]
     [SerializeField]
     private List<LanePlaceIdentifier> opponentPlaces;
@@ -234,7 +234,7 @@ public class LaneVizualizator : MonoBehaviour
             .OnUpdate(() => { wholeLaneBlue.color = _color; });
     }
 
-    private void CheckIfLaneIsAvailable(CardObject _card)
+    protected virtual void CheckIfLaneIsAvailable(CardObject _card)
     {
         foreach (var _myPlace in myPlaces)
         {

@@ -1,13 +1,17 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
 public class PlayerDisplay : MonoBehaviour
 {
+    
+    
     [SerializeField] private TextMeshProUGUI nameDisplay;
     [SerializeField] private Button showStats;
     [SerializeField] private PlayerStatsDisplay statsDisplay;
     private GameplayPlayer player;
+    
     
     private void OnEnable()
     {
@@ -23,6 +27,7 @@ public class PlayerDisplay : MonoBehaviour
 
     private void ShowStats()
     {
+        
         if (statsDisplay.IsOpen)
         {
             statsDisplay.Close();
@@ -50,6 +55,7 @@ public class PlayerDisplay : MonoBehaviour
             {
                 if (SceneManager.IsGameplayTutorialScene)
                 {
+                    statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
                     return;
                 }
 
@@ -74,6 +80,10 @@ public class PlayerDisplay : MonoBehaviour
         if (player!= null && player.IsMy)
         {
             nameDisplay.text = DataManager.Instance.PlayerData.Name;
+            if (SceneManager.IsGameplayTutorialScene)
+            {
+                nameDisplay.text = Tutorial.MatchMaking.MyName;
+            }
         }
         else
         {

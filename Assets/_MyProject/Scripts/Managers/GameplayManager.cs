@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using DG.Tweening;
-using Photon.Pun;
-using UnityEditor.Rendering;
-using Unity.VisualScripting;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -41,7 +38,6 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected List<LaneDisplay> lanes;
     [SerializeField] protected GameObject[] flags;
     [SerializeField] protected GameObject[] playsFirstDisplays;
-    [SerializeField] private TutorialImages tutorialImages;
 
     private GameplayState gameplayState = GameplayState.StartingAnimation;
     private int currentRound;
@@ -216,33 +212,11 @@ public class GameplayManager : MonoBehaviour
 
     protected virtual void StartGameplay()
     {
-        StartCoroutine(StartRoutine());
-        IEnumerator StartRoutine()
-        {
-            CommandsHandler.Setup();
-            CurrentRound = 0;
-            SetupPlayers();
-            TableHandler.Setup();
-            
-            bool _canContinue = false;
-            
-            if (!DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.HasFinishedFirstGame)
-            {
-                tutorialImages.Setup(AllowContinue);
-            }
-            else
-            {
-                _canContinue = true;
-            }
-            
-            yield return new WaitUntil(() => _canContinue);
-            StartCoroutine(GameplayRoutine());
-
-            void AllowContinue()
-            {
-                _canContinue = true;
-            }
-        }
+        CommandsHandler.Setup();
+        CurrentRound = 0;
+        SetupPlayers();
+        TableHandler.Setup();
+        StartCoroutine(GameplayRoutine());
     }
     
     protected virtual void SetupPlayers()
