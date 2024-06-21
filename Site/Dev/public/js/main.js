@@ -26,7 +26,7 @@ if (!dinamicParam) {
     isEvAgency = true;
     dinamicParam = `${sub1}${sub2}${sub3}${sub4}${sub5}`;
   } else {
-    dinamicParam = "All Users";
+    dinamicParam = "Organic";
   }
 }
 
