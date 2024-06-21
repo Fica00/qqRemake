@@ -18889,6 +18889,38 @@ PrefabInstance:
       propertyPath: <Id>k__BackingField
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_text
+      value: The Qoomons with the highest Power here get +30 Power.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_fontSize
+      value: 44.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_lineSpacing
+      value: -95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_wordSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 12848318070634169, guid: d3116389020679d4a821d32359510fed, type: 2}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_paragraphSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6481201980197314994, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
       propertyPath: <Id>k__BackingField
       value: 6
@@ -18989,6 +19021,10 @@ PrefabInstance:
       propertyPath: <Id>k__BackingField
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8519208871293517474, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8801683089788131172, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
       propertyPath: <Id>k__BackingField
       value: 7
@@ -19086,6 +19122,10 @@ PrefabInstance:
     - target: {fileID: 4094581373781489216, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -148.79999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_lineSpacing
+      value: -95
       objectReference: {fileID: 0}
     - target: {fileID: 6186439834564067483, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -19312,6 +19352,10 @@ PrefabInstance:
     - target: {fileID: 3547572324800197840, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
       propertyPath: location
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378788193597335705, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
+      propertyPath: m_lineSpacing
+      value: -95
       objectReference: {fileID: 0}
     - target: {fileID: 6481201980197314994, guid: 097620c8ee2b269469841ad3aaceac73, type: 3}
       propertyPath: <Id>k__BackingField
