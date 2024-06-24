@@ -3830,6 +3830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 198881678}
   progressDisplay: {fileID: 396616108}
+  levelHolder: {fileID: 1235969027}
   progressFill: {fileID: 100598588}
 --- !u!1 &276635649
 GameObject:
@@ -4510,6 +4511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 1280018258}
   progressDisplay: {fileID: 1461344736}
+  levelHolder: {fileID: 1546853868}
   progressFill: {fileID: 1999695803}
 --- !u!1 &348430905
 GameObject:
@@ -12338,14 +12340,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225540555}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.008727774, y: -0, z: -0, w: 0.9999619}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 339519698}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -1, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -3.6535, y: -146.24}

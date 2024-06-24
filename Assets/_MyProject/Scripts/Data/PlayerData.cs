@@ -86,6 +86,8 @@ public class PlayerData
     public static Action UpdatedHasPickedUpPwaReward;
     public static Action UpdatedSettingsFirstTimeShown;
     public static Action UpdatedStatistics;
+    
+    public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
 
     public void CreateNewPlayer()
     {
@@ -322,7 +324,6 @@ public class PlayerData
         UpdatedGamePasses?.Invoke();
     }
 
-    public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
 
     public int Exp
     {
@@ -330,6 +331,10 @@ public class PlayerData
         set
         {
             exp = value;
+            if (exp>ExpBorders[^1])
+            {
+                exp = ExpBorders[^1];
+            }
             UpdatedExp?.Invoke();
         }
     }
@@ -361,13 +366,14 @@ public class PlayerData
     {
         get
         {
-            if (Level >= ExpBorders.Length)
+            if (IsMaxLevel)
             {
                 return 1.0f;
             }
 
             int _currentLevelXp = Level == 0 ? exp : Exp - GetXpForLevel(Level - 1);
-            int _nextLevelXp = GetXpForLevel(Level);
+            int _nextLevelXp = GetXpForNextLevel();
+            Debug.Log($"{_currentLevelXp} -> {_nextLevelXp} => { (float)_currentLevelXp / _nextLevelXp}");
             return (float)_currentLevelXp / _nextLevelXp;
         }
     }
@@ -377,9 +383,9 @@ public class PlayerData
     {
         get
         {
-            if (Level >= ExpBorders.Length)
+            if (IsMaxLevel)
             {
-                return Exp - GetXpForLevel(ExpBorders.Length - 1);
+                return 1;
             }
 
             if (Level == 0)
@@ -398,16 +404,23 @@ public class PlayerData
             return ExpBorders[Level];
         }
 
+        if (IsMaxLevel)
+        {
+            return 1;
+        }
+        
         return ExpBorders[Level] - ExpBorders[Level - 1];
     }
 
+    public bool IsMaxLevel => Level > ExpBorders.Length - 1;
+
     public int GetXpForLevel(int _level)
     {
-        if (Level >= ExpBorders.Length)
+        if (IsMaxLevel)
         {
-            return 0;
+            return 1;
         }
-
+        Debug.Log($"exp needed for level: {_level} -> {ExpBorders[_level]}");
         return ExpBorders[_level];
     }
 
