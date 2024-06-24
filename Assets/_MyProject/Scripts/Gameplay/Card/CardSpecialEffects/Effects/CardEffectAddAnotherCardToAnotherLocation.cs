@@ -26,18 +26,19 @@ public class CardEffectAddAnotherCardToAnotherLocation : CardEffectBase
         _randomIndexses = _randomIndexses.OrderBy(_element => System.Guid.NewGuid()).ToArray();
         for (int _i = 0; _i < _randomIndexses.Length; _i++)
         {
-            int _laneIndex = +_randomIndexses[_i];
+            int _laneIndex = _randomIndexses[_i];
             if (_laneIndex == (int)cardObject.LaneLocation)
             {
                 continue;
             }
-            if (GameplayManager.Instance.Lanes[_laneIndex].GetPlaceLocation(_copyOfCard.IsMy) != null)
+
+            if (GameplayManager.Instance.Lanes[_laneIndex].GetPlaceLocation(_copyOfCard.IsMy) == null)
             {
-                bool _shouldSkip = false;
-                if (!GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex]))
-                {
-                    continue;
-                }
+                continue;
+            }
+            bool _shouldSkip = false;
+            if (GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex]))
+            {
                 var _laneAbility = GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]];
                 if (_laneAbility!=null)
                 {
@@ -50,17 +51,17 @@ public class CardEffectAddAnotherCardToAnotherLocation : CardEffectBase
                         }
                     }
                 }
-              
-                if (_shouldSkip)
-                {
-                    continue;
-                }
+            }
+            
+            if (_shouldSkip)
+            {
+                continue;
+            }
 
-                if (GameplayManager.Instance.Lanes[_laneIndex].CanPlace(_copyOfCard))
-                {
-                    _choosendLane = GameplayManager.Instance.Lanes[_laneIndex];
-                    break;   
-                }
+            if (GameplayManager.Instance.Lanes[_laneIndex].CanPlace(_copyOfCard))
+            {
+                _choosendLane = GameplayManager.Instance.Lanes[_laneIndex];
+                break;   
             }
         }
 

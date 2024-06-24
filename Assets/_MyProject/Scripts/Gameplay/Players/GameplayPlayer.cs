@@ -28,7 +28,7 @@ public class GameplayPlayer : MonoBehaviour
 
     public List<CardObject> CardsInDeck; //Vrati ovo na protected
 
-    protected List<CardObject> CardsInHand
+    public List<CardObject> CardsInHand
     {
         get => cardsInHand;
         set
