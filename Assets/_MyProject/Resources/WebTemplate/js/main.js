@@ -24,7 +24,8 @@ if (!dinamicParam) {
   const sub5 = urlParams.get("sub5");
   if (sub1 && sub2 && sub3 && sub4) {
     isEvAgency = true;
-    dinamicParam = `${sub1}${sub2}${sub3}${sub4}${sub5}`;
+    // dinamicParam = `${sub1}${sub2}${sub3}${sub4}${sub5}`;
+    dinamicParam = `Stardust`;
   } else {
     dinamicParam = "Organic";
   }
