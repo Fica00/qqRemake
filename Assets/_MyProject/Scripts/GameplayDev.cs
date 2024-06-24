@@ -80,17 +80,6 @@ public class GameplayDev : MonoBehaviour
         GameplayManager.Instance.MyPlayer.DestroyCardFromTable(cardForUse);
     }
 
-    public List<CardObject> TestList = new List<CardObject>();
-
-    [Button("See list of qoomons on table")]
-    private void CheckListOnTable()
-    {
-        TestList.Clear();
-        TestList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnBot);
-        TestList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnMid);
-        TestList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnTop);
-    }
-
     [Button("Add card to hand")]
     private void AddToHand()
     {
