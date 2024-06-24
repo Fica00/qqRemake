@@ -12,6 +12,8 @@ public class UIPlayPanel : MonoBehaviour
     [SerializeField] private UIPVPPanel pvpPanel;
     [SerializeField] private UIMatchMakingVsBot matchMakingVsBot;
 
+    public static bool PlayAgain;
+    
     private void OnEnable()
     {
         playButton.onClick.AddListener(StartMatch);
@@ -22,6 +24,16 @@ public class UIPlayPanel : MonoBehaviour
     {
         playButton.onClick.RemoveListener(StartMatch);
         overlayPlayButton.onClick.RemoveListener(StartMatch);
+    }
+    
+    public void TryAutoMatch()
+    {
+        if (!PlayAgain)
+        {
+            return;
+        }
+        PlayAgain = false;
+        StartMatch();
     }
 
     private void StartMatch()

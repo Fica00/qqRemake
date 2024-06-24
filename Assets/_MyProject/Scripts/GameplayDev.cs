@@ -1,3 +1,4 @@
+using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -64,5 +65,23 @@ public class GameplayDev : MonoBehaviour
     private void DrawSoulomon()
     {
         GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
+    }    
+    
+    [Button("Draw card")]
+    private void DrawCard()
+    {
+        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.DrawCard());
+    }
+
+    [Button("Remove all cards in hand")]
+    private void ForcePlaceTeapot()
+    {
+        CardObject _card = CardsManager.Instance.CreateCard(35, true);
+        foreach (var _cardInHand in GameplayManager.Instance.MyPlayer.CardsInHand.ToList())
+        {
+            GameplayManager.Instance.MyPlayer.DiscardCardFromHand(_cardInHand);
+        }
+        
+        GameplayManager.Instance.MyPlayer.AddCardToHand(_card);
     }
 }

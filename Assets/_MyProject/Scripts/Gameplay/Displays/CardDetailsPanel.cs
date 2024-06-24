@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Sequence = DG.Tweening.Sequence;
 
 public class CardDetailsPanel : MonoBehaviour
 {
+    public static Action OnClose;
+    
     [SerializeField] private Button closeButton;
     [SerializeField] private GameObject detailsHolder;
     [SerializeField] private Image qommonDisplay;
@@ -110,6 +114,7 @@ public class CardDetailsPanel : MonoBehaviour
             sequence.Kill();
         }
 
+        OnClose?.Invoke();
         manaHolder.SetActive(false);
         powerHolder.SetActive(false);
         nameDispaly.text = string.Empty;

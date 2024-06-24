@@ -16,7 +16,9 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button showSettings;
     [SerializeField] private Button showRank;
     [SerializeField] private Button showMissions;
+    [SerializeField] private Button discordButton;
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
+    [SerializeField] private UIPlayPanel uiPlayPanel;
 
     public static bool ShowStartingAnimation;
     private bool hasPickedUpFirstGameReward;
@@ -40,7 +42,11 @@ public class UIMainMenu : MonoBehaviour
         bool _didReward = TryRewardAfterFirstGame();
         if (!_didReward)
         {
-            TryRewardForPwaAndBid();
+            bool _canRewardPwa = TryRewardForPwaAndBid();
+            if (!_canRewardPwa)
+            {
+                TryToAutoMatch();
+            }
         }
         
         JavaScriptManager.Instance.CheckHasBoundAccount(SaveIsGuest);
@@ -52,29 +58,30 @@ public class UIMainMenu : MonoBehaviour
         DataManager.Instance.PlayerData.IsGuest = !_hasBoundedAccount;
     }
 
-    private void TryRewardForPwaAndBid()
+    private bool TryRewardForPwaAndBid()
     {
         if (JavaScriptManager.Instance.IsOnPc())
         {
-            return;
+            return false;
         }
 
         if (!JavaScriptManager.Instance.IsPwaPlatform)
         {
-            return;
+            return false;
         }
 
         if (DataManager.Instance.PlayerData.HasPickedUpPwaReward)
         {
-            return;
+            return false;
         }
 
         if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
-            return;
+            return false;
         }
-        
+
         JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
+        return true;
 
         void TryToReward(bool _didBind)
         {
@@ -95,9 +102,14 @@ public class UIMainMenu : MonoBehaviour
         
                 DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
         
-                qoomonUnlockingPanel.Setup(_qoomonId, null);
+                qoomonUnlockingPanel.Setup(_qoomonId, TryToAutoMatch);
             }
         }
+    }
+
+    private void TryToAutoMatch()
+    {
+        uiPlayPanel.TryAutoMatch();
     }
 
     private bool TryRewardAfterFirstGame()
@@ -129,11 +141,17 @@ public class UIMainMenu : MonoBehaviour
 
         void ManagePwaDialogAndOverlay()
         {
-            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(TryRewardForPwaAndBid);
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(() =>
+            {
+                bool _canReward = TryRewardForPwaAndBid();
+                if (!_canReward)
+                {
+                    TryToAutoMatch();
+                }
+            });
             DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
             DataManager.Instance.CanShowPwaOverlay = true;
         }
-
     }
 
     private void OnEnable()
@@ -145,6 +163,7 @@ public class UIMainMenu : MonoBehaviour
         showSettings.onClick.AddListener(ShowSettings);
         showRank.onClick.AddListener(ShowRankRewards);
         showMissions.onClick.AddListener(ShowMissions);
+        discordButton.onClick.AddListener(NoteDiscord);
 
         ShowDeckName();
     }
@@ -158,6 +177,7 @@ public class UIMainMenu : MonoBehaviour
         showSettings.onClick.RemoveListener(ShowSettings);
         showRank.onClick.RemoveListener(ShowRankRewards);
         showMissions.onClick.RemoveListener(ShowMissions);
+        discordButton.onClick.RemoveListener(NoteDiscord);
     }
 
     public void ShowSceneTransition(Action _callBack)
@@ -194,5 +214,9 @@ public class UIMainMenu : MonoBehaviour
     {
         SceneManager.Instance.LoadMissionsPage();
     }
-
+    
+    private void NoteDiscord()
+    {
+        DataManager.Instance.PlayerData.Statistics.NoteCheckPoint(BackgroundHandler.DISCORD_CLICK);
+    }
 }

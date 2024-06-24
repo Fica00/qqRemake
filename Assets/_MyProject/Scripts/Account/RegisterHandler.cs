@@ -15,7 +15,6 @@ public class RegisterHandler : MonoBehaviour
     {
         loginAnimation.SetActive(false);
         gameObject.SetActive(true);
-
         if (Application.isEditor)
         {
             LoginAsGuest();

@@ -105,8 +105,7 @@ public class Initialization : MonoBehaviour
         
         if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
-            BotPlayer.GenerateNewData();
-            SceneManager.Instance.LoadAIGameplay(false);
+            SceneManager.Instance.LoadTutorial(false);
             return;
         }
         

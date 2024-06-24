@@ -39,7 +39,6 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected List<LaneDisplay> lanes;
     [SerializeField] protected GameObject[] flags;
     [SerializeField] protected GameObject[] playsFirstDisplays;
-    [SerializeField] private TutorialImages tutorialImages;
 
     private GameplayState gameplayState = GameplayState.StartingAnimation;
     private int currentRound;
@@ -214,33 +213,11 @@ public class GameplayManager : MonoBehaviour
 
     protected virtual void StartGameplay()
     {
-        StartCoroutine(StartRoutine());
-        IEnumerator StartRoutine()
-        {
-            CommandsHandler.Setup();
-            CurrentRound = 0;
-            SetupPlayers();
-            TableHandler.Setup();
-            
-            bool _canContinue = false;
-            
-            if (!DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.HasFinishedFirstGame)
-            {
-                tutorialImages.Setup(AllowContinue);
-            }
-            else
-            {
-                _canContinue = true;
-            }
-            
-            yield return new WaitUntil(() => _canContinue);
-            StartCoroutine(GameplayRoutine());
-
-            void AllowContinue()
-            {
-                _canContinue = true;
-            }
-        }
+        CommandsHandler.Setup();
+        CurrentRound = 0;
+        SetupPlayers();
+        TableHandler.Setup();
+        StartCoroutine(GameplayRoutine());
     }
     
     protected virtual void SetupPlayers()
@@ -303,8 +280,10 @@ public class GameplayManager : MonoBehaviour
         {
             return;
         }
-        
-        _player.AddCardToHand(_drawnCard);
+
+        int _cardId = _drawnCard.Details.Id;
+        Destroy(_drawnCard.gameObject);
+        _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
     }
 
     protected virtual IEnumerator GameplayRoutine()

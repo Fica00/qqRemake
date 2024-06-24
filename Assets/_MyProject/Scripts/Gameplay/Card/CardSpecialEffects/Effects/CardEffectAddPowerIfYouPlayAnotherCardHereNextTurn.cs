@@ -59,6 +59,7 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
                     {
                         return;
                     }
+                    
                     GameplayManager.Instance.HideHighlihtWholeLocation(cardObject.LaneLocation, cardObject.IsMy, colorEffect);
                     firstPhase = false;
                 }

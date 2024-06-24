@@ -38,7 +38,7 @@
 
       function triggerConversionScript() {
         EF.conversion({
-          offer_id: 13,
+          offer_id: EF.urlParameter("oid"),
         });
       }
     </script>
@@ -141,7 +141,7 @@
           <img
             src="./TemplateData/loadingText.png"
             alt="tutorial card 5"
-            style="display: block; width: 100%; margin-top: 10px;"
+            style="display: block; width: 100%; margin-top: 10px"
           />
         </div>
       </div>

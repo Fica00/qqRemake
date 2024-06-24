@@ -11,7 +11,7 @@ public class ModeHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI modeDisplay;
     [SerializeField] private Button changeModeButton;
 
-    private GameMode mode;
+    private static GameMode mode = GameMode.VsAi;
 
     private void Awake()
     {
@@ -30,7 +30,6 @@ public class ModeHandler : MonoBehaviour
     
     private void OnEnable()
     {
-        mode = GameMode.VsPlayer;
         changeModeButton.onClick.AddListener(ChangeMode);
         OnUpdatedMode += ShowMode;
         ShowMode();
@@ -66,13 +65,5 @@ public class ModeHandler : MonoBehaviour
         }
 
         modeDisplay.text = _modeName;
-    }
-
-    private void Start()
-    {
-        if (JavaScriptManager.Instance.IsDemo)
-        {
-            Mode = GameMode.VsAi;
-        }
     }
 }
