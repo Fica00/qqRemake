@@ -15894,6 +15894,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QoomonRewardDisplay
       objectReference: {fileID: 0}
+    - target: {fileID: 226291522737994782, guid: b00941a5e1fdf9743a3d6818c609db64, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 226291522737994783, guid: b00941a5e1fdf9743a3d6818c609db64, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
