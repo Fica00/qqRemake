@@ -309,8 +309,22 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
-    public virtual void ChangeCardEnergy(CardObject _randomCardInHand, int _amount) 
+    public virtual void ChangeCardEnergy(int _lessThan, int _amount) 
     {
+        List<CardObject> _opponentsCardsInHand = OpponentPlayer.CurrentCardsInHand;
+
+        if (_opponentsCardsInHand.Count == 0)
+        {
+            return;
+        }
+
+        CardObject _randomCardInHand = _opponentsCardsInHand.OrderBy(_ => Guid.NewGuid()).First(_qoomon => _qoomon.Stats.Energy < _lessThan);
+
+        if (_randomCardInHand == null)
+        {
+            return;
+        }
+
         _randomCardInHand.Stats.Energy += _amount;
     }
 
