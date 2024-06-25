@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102185798641947804, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Name
-      value: 67_PowerPot
+      value: 57_PowerPot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320126881876742923, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Pivot.x
@@ -22,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_AnchorMax.x

@@ -76,15 +76,14 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     }
 
     private void Awake()
-    {
+    {        
+        button = GetComponent<Button>();
+        Instance = this;
+        
         if (ModeHandler.ModeStatic == GameMode.Friendly)
         {
             holder.SetActive(false);
-            return;
         }
-        
-        button = GetComponent<Button>();
-        Instance = this;
     }
 
     private void OnEnable()
