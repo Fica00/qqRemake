@@ -15,7 +15,7 @@ public class PlayerStatistics
     public List<TimeSpent> TimeSpent = new();
     public List<CheckPoint> CheckPoints = new();
     public List<MatchPlayed> MatchesPlayed = new ();
-
+    public static List<int> SeenCards = new List<int>();
 
     private bool didCheckForTimeSpent;
 
@@ -167,6 +167,17 @@ public class PlayerStatistics
         }
 
         _dayData.Count++;
+        PlayerData.UpdatedStatistics?.Invoke();
+    }
+
+    public void NoteSeenCard(int _cardId)
+    {
+        if (SeenCards.Contains(_cardId))
+        {
+            return;
+        }
+        
+        SeenCards.Add(_cardId);
         PlayerData.UpdatedStatistics?.Invoke();
     }
 
