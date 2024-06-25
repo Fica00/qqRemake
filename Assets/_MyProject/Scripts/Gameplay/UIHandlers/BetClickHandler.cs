@@ -30,15 +30,45 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             switch (BetStatus)
             {
                 case BetStatus.DefaultBet:
-                    return 1;
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 1,
+                        AutoBetStatus.Initialized => 1,
+                        AutoBetStatus.Accepted => 2,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 case BetStatus.FirstIncreaseRequest:
-                    return 1;
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 1,
+                        AutoBetStatus.Initialized => 1,
+                        AutoBetStatus.Accepted => 2,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 case BetStatus.FirstIncreaseAccepted:
-                    return 2;
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 2,
+                        AutoBetStatus.Initialized => 2,
+                        AutoBetStatus.Accepted => 4,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 case BetStatus.SecondIncreaseRequest:
-                    return 2;
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 2,
+                        AutoBetStatus.Initialized => 2,
+                        AutoBetStatus.Accepted => 4,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 case BetStatus.SecondIncreaseAccepted:
-                    return 4;
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 4,
+                        AutoBetStatus.Initialized => 4,
+                        AutoBetStatus.Accepted => 8,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -147,11 +177,15 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         holder.transform.DOScale(Vector3.one,1);
         stakeAnimator.SetTrigger(STAKE_KEY);
         GameplayManager.Instance.OpponentAcceptedBet();
-        IncreaseBetStatus();
     }
     
     private void ManageRoundEnded()
     {
+        if (!didOpponentInitBetIncrease)
+        {
+            return;
+        }
+        
         if (GameplayManager.Instance.GameplayState==GameplayState.ResolvingEndOfRound)
         {
             AcceptBet();
@@ -178,18 +212,50 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private string GetNextBetText()
     {
+        Debug.Log(BetStatus);
+        Debug.Log(AutoBetStatus);
         switch (BetStatus)
         {
             case BetStatus.DefaultBet:
-                return string.Empty;
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => string.Empty,
+                    AutoBetStatus.Initialized => "Next 2",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             case BetStatus.FirstIncreaseRequest:
-                return "Next 2";
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => "Next 2",
+                    AutoBetStatus.Initialized => "Next 4",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             case BetStatus.FirstIncreaseAccepted:
-                return string.Empty;
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => string.Empty,
+                    AutoBetStatus.Initialized => "Next 4",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             case BetStatus.SecondIncreaseRequest:
-                return "Next 4";
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => "Next 4",
+                    AutoBetStatus.Initialized => "Next 8",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             case BetStatus.SecondIncreaseAccepted:
-                return string.Empty;
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => string.Empty,
+                    AutoBetStatus.Initialized => "Next 8",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -200,6 +266,8 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
         pulsingLight.gameObject.SetActive(false);
         IncreaseAutoBetStatus();
+        stakeAnimator.SetTrigger(STAKE_KEY);
+        holder.transform.DOScale(Vector3.one, 1);
     }
     
     private void IncreaseAutoBetStatus()
@@ -232,6 +300,8 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OpponentAcceptedBet()
     {
+        stakeAnimator.SetTrigger(STAKE_KEY);
+        holder.transform.DOScale(Vector3.one, 1);
         IncreaseBetStatus();
     }
 }

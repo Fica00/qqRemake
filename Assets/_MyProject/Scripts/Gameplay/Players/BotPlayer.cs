@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -66,7 +67,6 @@ public class BotPlayer : GameplayPlayer
                 }
                 if (!hasPlayedThisRound)
                 {
-                    Debug.Log("BotPlayer");
                     playCoroutine = StartCoroutine(PlayCards());
                 }
                 break;
@@ -218,5 +218,11 @@ public class BotPlayer : GameplayPlayer
             _randomIndex = 0;
         }
         return DecksForRandom[_randomIndex];
+    }
+
+    [Button()]
+    private void Bet()
+    {
+        BetClickHandler.Instance.ShowOpponentWantsToIncreaseBet();
     }
 }
