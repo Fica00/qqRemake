@@ -15,12 +15,10 @@ public class CardEffectAddManaToRandomQoomonInOpponentHand : CardEffectBase
             return;
         }
 
-        if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects < 1)
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
-            return;
+            AddManaToRandom();
         }
-
-        AddManaToRandom();
     }
 
     private void AddManaToRandom()
@@ -30,6 +28,6 @@ public class CardEffectAddManaToRandomQoomonInOpponentHand : CardEffectBase
             return;
         }
 
-        GameplayManager.Instance.ChangeCardEnergy(manaLessThan, manaToAdd);
+        GameplayManager.Instance.ChangeCardEnergy(manaLessThan, manaToAdd, GameplayManager.Instance.OpponentPlayer);
     }
 }

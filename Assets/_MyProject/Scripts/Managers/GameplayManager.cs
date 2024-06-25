@@ -309,10 +309,9 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
-    public virtual void ChangeCardEnergy(int _lessThan, int _amount) 
+    public virtual void ChangeCardEnergy(int _lessThan, int _amount, GameplayPlayer _player) 
     {
-        List<CardObject> _opponentsCardsInHand = OpponentPlayer.CurrentCardsInHand;
-
+        var _opponentsCardsInHand = _player.CurrentCardsInHand;
         if (_opponentsCardsInHand.Count == 0)
         {
             return;

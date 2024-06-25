@@ -226,29 +226,15 @@ public class GameplayManagerPVP : GameplayManager
         photonView.RPC(nameof(OpponentDiscardedACard),RpcTarget.Others,_card.Details.Id);
     }
 
-    public override void ChangeCardEnergy(int _lessThan, int _amount)
+    public override void ChangeCardEnergy(int _lessThan, int _amount, GameplayPlayer _player)
     {
         photonView.RPC(nameof(ChangeCardEnergyRPC), RpcTarget.Others, _lessThan, _amount);
     }
 
     [PunRPC]
-    private void ChangeCardEnergyRPC(int _lessThan, int _amount) 
+    private void ChangeCardEnergyRPC(int _lessThan, int _amount)
     {
-        List<CardObject> _opponentsCardsInHand = MyPlayer.CurrentCardsInHand;
-
-        if (_opponentsCardsInHand.Count == 0)
-        {
-            return;
-        }
-
-        CardObject _randomCardInHand = _opponentsCardsInHand.OrderBy(_ => Guid.NewGuid()).First(_qoomon => _qoomon.Stats.Energy < _lessThan);
-
-        if (_randomCardInHand == null)
-        {
-            return;
-        }
-
-        _randomCardInHand.Stats.Energy += _amount;
+        base.ChangeCardEnergy(_lessThan, _amount, MyPlayer);
     }
 
     [PunRPC]
