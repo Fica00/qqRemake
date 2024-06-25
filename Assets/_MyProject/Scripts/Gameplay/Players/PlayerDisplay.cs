@@ -99,10 +99,16 @@ public class PlayerDisplay : MonoBehaviour
     public void Setup(GameplayPlayer _player)
     {
         player = _player;
+        ShowName();
     }
 
     private void ShowName()
     {
+        Debug.Log(player);
+        if (player)
+        {
+            Debug.Log(player.IsMy);
+        }
         holder.DOScale(Vector3.one, 1).OnComplete(() =>
         {
             if (player!= null && player.IsMy)

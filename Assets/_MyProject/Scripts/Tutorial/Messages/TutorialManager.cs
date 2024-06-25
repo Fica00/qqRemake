@@ -32,10 +32,8 @@ namespace Tutorial
         [SerializeField] private GameObject darkLayerQoomonsInHandBot;
             
         [SerializeField] private GameObject playerNameHolder;
-        [SerializeField] private TextMeshProUGUI playerNameText;
         [SerializeField] private GameObject statsDarkerLayer;
         [SerializeField] private GameObject playerNameStats;
-        [SerializeField] private TextMeshProUGUI playerNameStatsText;
         
         [SerializeField] private GameObject EndGameButtonBlocator;
         
@@ -199,7 +197,6 @@ namespace Tutorial
                 qommonsCantPlay.SetActive(false);
                 input.gameObject.SetActive(false);
                 playerNameHolder.SetActive(true);
-                playerNameText.text = DataManager.Instance.PlayerData.Name;
                 EndTurnHandler.OnEndTurn += EndTurn;
             }
             else if (counter == 4)
@@ -209,9 +206,6 @@ namespace Tutorial
                 playerNameHolder.SetActive(false);
                 statsDarkerLayer.SetActive(true);
                 playerNameStats.SetActive(true);
-                playerNameStatsText.text =  DataManager.Instance.PlayerData.Name;
-                
-                
             }
             else if (counter==5) // Odavde nastaviti na gore sa brojevima
             {

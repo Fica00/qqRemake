@@ -3063,7 +3063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   registerHandler: {fileID: 1493178073}
   email: unity6@help.com
-  isNewAccount: 1
+  isNewAccount: 0
 --- !u!4 &1028840299
 Transform:
   m_ObjectHideFlags: 0

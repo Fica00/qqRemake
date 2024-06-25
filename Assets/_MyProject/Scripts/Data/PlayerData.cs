@@ -373,7 +373,6 @@ public class PlayerData
 
             int _currentLevelXp = Level == 0 ? exp : Exp - GetXpForLevel(Level - 1);
             int _nextLevelXp = GetXpForNextLevel();
-            Debug.Log($"{_currentLevelXp} -> {_nextLevelXp} => { (float)_currentLevelXp / _nextLevelXp}");
             return (float)_currentLevelXp / _nextLevelXp;
         }
     }
@@ -420,7 +419,6 @@ public class PlayerData
         {
             return 1;
         }
-        Debug.Log($"exp needed for level: {_level} -> {ExpBorders[_level]}");
         return ExpBorders[_level];
     }
 
