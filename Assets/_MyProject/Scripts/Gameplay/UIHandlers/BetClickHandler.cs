@@ -88,13 +88,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         
         IncreaseAutoBetStatus();
     }
-    
-    private void IncreaseAutoBetStatus()
-    {
-        AutoBetStatus = (AutoBetStatus)((int)AutoBetStatus + 1);
-        ShowBet();
-    }
-    
+
     public void OnPointerUp(PointerEventData _eventData)
     {
         InitIncreaseBet();
@@ -177,14 +171,41 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     
     private void ShowBet()
     {
-        //todo show bet
-        //todo show next bet
+        betDisplay.text = CurrentBet.ToString();
+        betDisplayAnimation.text = CurrentBet.ToString();
+        nextBetDisplay.text = GetNextBetText();
+    }
+
+    private string GetNextBetText()
+    {
+        switch (BetStatus)
+        {
+            case BetStatus.DefaultBet:
+                return string.Empty;
+            case BetStatus.FirstIncreaseRequest:
+                return "Next 2";
+            case BetStatus.FirstIncreaseAccepted:
+                return string.Empty;
+            case BetStatus.SecondIncreaseRequest:
+                return "Next 4";
+            case BetStatus.SecondIncreaseAccepted:
+                return string.Empty;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public void AcceptAutoBet()
     {
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
         pulsingLight.gameObject.SetActive(false);
+        IncreaseAutoBetStatus();
+    }
+    
+    private void IncreaseAutoBetStatus()
+    {
+        AutoBetStatus = (AutoBetStatus)((int)AutoBetStatus + 1);
+        ShowBet();
     }
 
     public void OnPointerDown(PointerEventData _eventData)
@@ -211,6 +232,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OpponentAcceptedBet()
     {
-        //todo accept bet
+        IncreaseBetStatus();
     }
 }
