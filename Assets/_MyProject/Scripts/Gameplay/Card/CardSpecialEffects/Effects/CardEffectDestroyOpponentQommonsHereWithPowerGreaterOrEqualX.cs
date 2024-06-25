@@ -12,11 +12,10 @@ public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : Card
             return;
         }
 
-        if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects < 1)
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
-            return;
+            DestroyQommons();
         }
-        DestroyQommons();
     }
 
     void DestroyQommons()
@@ -49,7 +48,7 @@ public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : Card
         
         if (GameplayManager.IsPvpGame)
         {
-            ((GameplayManagerPVP)GameplayManager.Instance).TellOpponentToDestroyCardsOnTable(_cardsToBeDestroyed, false);
+            ((GameplayManagerPvp)GameplayManager.Instance).TellOpponentToDestroyCardsOnTable(_cardsToBeDestroyed, false);
         }
 
         GameplayPlayer _opponentPlayer = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer : GameplayManager.Instance.MyPlayer;

@@ -286,9 +286,10 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
     }
 
-    public virtual void ChangeCardEnergy(int _lessThan, int _amount, GameplayPlayer _player) 
+    public virtual void ChangeInOpponentHandRandomCardEnergy(int _lessThan, int _amount, GameplayPlayer _player) 
     {
         var _opponentsCardsInHand = _player.CurrentCardsInHand;
+
         if (_opponentsCardsInHand.Count == 0)
         {
             return;
@@ -302,6 +303,21 @@ public class GameplayManager : MonoBehaviour
         }
 
         _randomCardInHand.Stats.Energy += _amount;
+    }
+
+    public virtual void ChangeAllInOpponentHandPower(int _amount, GameplayPlayer _player)
+    {
+        var _opponentsCardsInHand = _player.CurrentCardsInHand;
+
+        if (_opponentsCardsInHand.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var _card in _opponentsCardsInHand)
+        {
+            _card.Stats.Power += _amount;
+        }
     }
 
     protected virtual IEnumerator GameplayRoutine()

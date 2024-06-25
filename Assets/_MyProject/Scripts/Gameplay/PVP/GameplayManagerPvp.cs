@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 using MessageHelpers;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameplayManagerPvp : GameplayManager
 {
@@ -232,18 +233,30 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
     }
 
-    public override void ChangeCardEnergy(int _lessThan, int _amount, GameplayPlayer _player)
+    public override void ChangeAllInOpponentHandPower(int _amount, GameplayPlayer _player) 
     {
-        photonView.RPC(nameof(ChangeCardEnergyRPC), RpcTarget.Others, _lessThan, _amount);
+        AddPower _addPower = new AddPower { Power = _amount};
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeCardEnergy), JsonConvert.SerializeObject(_addPower));
     }
 
-    //[PunRPC]
-    private void ChangeCardEnergyRPC(int _lessThan, int _amount)
+    public override void ChangeInOpponentHandRandomCardEnergy(int _lessThan, int _amount, GameplayPlayer _player)
     {
-        base.ChangeCardEnergy(_lessThan, _amount, MyPlayer);
+        AddEnergy _addEnergy = new AddEnergy { Energy = _amount , Cost = _lessThan};
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeCardEnergy), JsonConvert.SerializeObject(_addEnergy));
     }
 
-    //[PunRPC]
+    private void ChangeCardEnergy(string _data)
+    {
+        AddEnergy _addEnergy = JsonConvert.DeserializeObject<AddEnergy>(_data);
+        base.ChangeInOpponentHandRandomCardEnergy(_addEnergy.Cost, _addEnergy.Energy, MyPlayer);
+    }
+
+    private void ChangeCardPower(string _data)
+    {
+        AddPower _addPower = JsonConvert.DeserializeObject<AddPower>(_data);
+        base.ChangeAllInOpponentHandPower(_addPower.Power, MyPlayer);
+    }
+
     private void OpponentIsReadyToStart()
     {
         opponentIsReadyToStart = true;

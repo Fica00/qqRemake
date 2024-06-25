@@ -12,11 +12,10 @@ public class CardEffectChangePowerInQoomonsOpponentHand : CardEffectBase
             return;
         }
 
-        if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects < 1)
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
-            return;
+            ChangePower();
         }
-        ChangePower();
     }
 
     private void ChangePower()
@@ -26,11 +25,6 @@ public class CardEffectChangePowerInQoomonsOpponentHand : CardEffectBase
             return;
         }
 
-        List<CardObject> _opponentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
-
-        foreach (var _card in _opponentsCardsInHand)
-        {
-            _card.Stats.Power += power;
-        }
+        GameplayManager.Instance.ChangeAllInOpponentHandPower(power, GameplayManager.Instance.OpponentPlayer);
     }
 }
