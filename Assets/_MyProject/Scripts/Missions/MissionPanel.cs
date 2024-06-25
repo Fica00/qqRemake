@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -6,46 +7,69 @@ using UnityEngine.UI;
 
 public class MissionPanel : MonoBehaviour
 {
+    public static MissionPanel Instance;
+
     [SerializeField] private LoginProgressDisplay loginProgressDisplay;
     [SerializeField] private Transform progressHolder;
     [SerializeField] private Button close;
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
     [SerializeField] private TextMeshProUGUI loggedInText;
+    [SerializeField] private TextMeshProUGUI willRefreshInText;
     [SerializeField] private TextMeshProUGUI numberOfTasksCompleted;
     [SerializeField] private MissionDisplay missionDisplay;
+    [SerializeField] private SeasonalTaskDisplay seasonalTaskDisplay;
     [SerializeField] private Transform missionHolder;
+    [SerializeField] private Transform seasonalHolder;
+    [SerializeField] private GameObject seasonalHeader;
+    [SerializeField] private GameObject seasonalSeparator;
+    
+    public Button pwaOverlay;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void OnEnable()
     {
         close.onClick.AddListener(Close);
         LoginProgressDisplay.OnClicked += TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
-    }
 
+        pwaOverlay.onClick.AddListener(ClosePwaOverlay);
+    }
+    
     private void OnDisable()
     {
         close.onClick.RemoveListener(Close);
         LoginProgressDisplay.OnClicked -= TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
+
+        pwaOverlay.onClick.RemoveListener(ClosePwaOverlay);
     }
 
     private void ShowCompletedText(MissionProgress _obj)
     {
-        ShowCompletedText();
+        ShowDailyCompletedText();
     }
 
     private void Close()
     {
-        
         SceneManager.Instance.LoadMainMenu();
+    }
+
+    private void ClosePwaOverlay()
+    {
+        pwaOverlay.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         ShowLoginRewards();
         loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7 days";
-        ShowCompletedText();
+        ShowDailyCompletedText();
         ShowMissions();
+        TryShowSeasonalTasks();
         StartCoroutine(ShowText());
     }
 
@@ -53,14 +77,15 @@ public class MissionPanel : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            ShowCompletedText();
+            ShowDailyCompletedText();
             yield return new WaitForSeconds(1);
         }
     }
 
-    private void ShowCompletedText()
+    private void ShowDailyCompletedText()
     {
-        numberOfTasksCompleted.text = $"<size=62>Daily missions</size>\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
+        willRefreshInText.text = $"Will be refreshed in {GetRefreshTime()}";
+        numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
     private string GetRefreshTime()
@@ -76,11 +101,11 @@ public class MissionPanel : MonoBehaviour
             return $"{(int)_timeSpan.TotalMinutes}m";
         }
 
-        if (_timeSpan.TotalSeconds>0)
+        if (_timeSpan.TotalSeconds > 0)
         {
             return $"{(int)_timeSpan.TotalSeconds}s";
         }
-        
+
         return "0s";
     }
 
@@ -90,7 +115,7 @@ public class MissionPanel : MonoBehaviour
         {
             LoginProgressDisplay _rewardDisplay = Instantiate(loginProgressDisplay, progressHolder);
             bool _didUnlock = _reward.Days <= DataManager.Instance.PlayerData.WeeklyLoginAmount;
-            _rewardDisplay.Setup(_didUnlock,_reward.Days);
+            _rewardDisplay.Setup(_didUnlock, _reward.Days);
         }
     }
 
@@ -103,27 +128,56 @@ public class MissionPanel : MonoBehaviour
         }
     }
 
+    private void TryShowSeasonalTasks()
+    {
+        if (Application.isEditor)
+        {
+            SetSeasonalElementsActive(false);
+            return;
+        }
+
+        foreach (SeasonalTaskType _seasonalTask in Enum.GetValues(typeof(SeasonalTaskType)))
+        {
+            if (JavaScriptManager.Instance.IsPwaPlatform && _seasonalTask == SeasonalTaskType.Pwa)
+            {
+                continue;
+            }
+
+            if (!DataManager.Instance.PlayerData.IsGuest && _seasonalTask == SeasonalTaskType.SocialAccount)
+            {
+                continue;
+            }
+            
+            SeasonalTaskDisplay _seasonalTaskDisplay = Instantiate(seasonalTaskDisplay, seasonalHolder);
+            _seasonalTaskDisplay.Setup(_seasonalTask);
+        }
+        
+        if (seasonalHolder.childCount == 0)
+        {
+            SetSeasonalElementsActive(false);
+        }
+    }
+    
+    private void SetSeasonalElementsActive(bool _isActive)
+    {
+        seasonalHeader.SetActive(_isActive);
+        seasonalHolder.gameObject.SetActive(_isActive);
+        seasonalSeparator.SetActive(_isActive);
+    }
+
     private void TryClaim(int _rewardNumber)
     {
-        
-
         int _choseQoomon = DoTryClaim(_rewardNumber);
-        if (_choseQoomon==-1)
+        if (_choseQoomon == -1)
         {
-            
-
             return;
         }
         
-
         qoomonUnlockingPanel.Setup(_choseQoomon, () => SceneManager.Instance.ReloadScene());
-        
-
     }
 
     public static int DoTryClaim(int _rewardNumber)
     {
-
         if (DataManager.Instance.PlayerData.WeeklyLoginAmount < _rewardNumber)
         {
             return -1;
@@ -137,17 +191,16 @@ public class MissionPanel : MonoBehaviour
 
         int _choseQoomon = DataManager.Instance.PlayerData.GetQoomonFromPool();
         DataManager.Instance.PlayerData.AddClaimedLoginReward(_rewardNumber);
-        
+
         if (_choseQoomon != -1)
         {
             DataManager.Instance.PlayerData.AddQoomon(_choseQoomon);
             return _choseQoomon;
         }
 
-        DataManager.Instance.PlayerData.Exp += 15;       
+        DataManager.Instance.PlayerData.Exp += 15;
 
         SceneManager.Instance.ReloadScene();
         return -1;
     }
-
 }

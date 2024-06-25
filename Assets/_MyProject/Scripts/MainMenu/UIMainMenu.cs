@@ -18,7 +18,6 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button showMissions;
     [SerializeField] private Button discordButton;
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
-    [SerializeField] private UIPlayPanel uiPlayPanel;
 
     public static bool ShowStartingAnimation;
     private bool hasPickedUpFirstGameReward;
@@ -42,15 +41,10 @@ public class UIMainMenu : MonoBehaviour
         bool _didReward = TryRewardAfterFirstGame();
         if (!_didReward)
         {
-            bool _canRewardPwa = TryRewardForPwaAndBid();
-            if (!_canRewardPwa)
-            {
-                TryToAutoMatch();
-            }
+            TryRewardForPwaAndBid();
         }
         
         JavaScriptManager.Instance.CheckHasBoundAccount(SaveIsGuest);
-        SocketServerCommunication.Instance.ResetMatchData();
     }
 
     private void SaveIsGuest(bool _hasBoundedAccount)
@@ -58,36 +52,29 @@ public class UIMainMenu : MonoBehaviour
         DataManager.Instance.PlayerData.IsGuest = !_hasBoundedAccount;
     }
 
-    private bool TryRewardForPwaAndBid()
+    private void TryRewardForPwaAndBid()
     {
         if (JavaScriptManager.Instance.IsOnPc())
         {
-            return false;
+            return;
         }
 
         if (!JavaScriptManager.Instance.IsPwaPlatform)
         {
-            return false;
+            return;
         }
 
         if (DataManager.Instance.PlayerData.HasPickedUpPwaReward)
         {
-            return false;
+            return;
         }
 
         if (!DataManager.Instance.PlayerData.HasPlayedFirstGame)
         {
-            return false;
-        }
-
-        int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-        if (_qoomonId==-1)
-        {
-            return false;
+            return;
         }
         
         JavaScriptManager.Instance.CheckHasBoundAccount(TryToReward);
-        return true;
 
         void TryToReward(bool _didBind)
         {
@@ -103,17 +90,14 @@ public class UIMainMenu : MonoBehaviour
             {
                 DataManager.Instance.PlayerData.HasPickedUpPwaReward = true;
                 DialogsManager.Instance.OkDialog.OnOkPressed.RemoveListener(OnOkButtonPressed);
-
+                
+                int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+        
                 DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
         
-                qoomonUnlockingPanel.Setup(_qoomonId, TryToAutoMatch);
+                qoomonUnlockingPanel.Setup(_qoomonId, null);
             }
         }
-    }
-
-    private void TryToAutoMatch()
-    {
-        uiPlayPanel.TryAutoMatch();
     }
 
     private bool TryRewardAfterFirstGame()
@@ -126,18 +110,14 @@ public class UIMainMenu : MonoBehaviour
         {
             return false;
         }
-        int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
-        if (_qoomonId==-1)
-        {
-            return false;
-        }
         
         DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(RewardQoomon);
         DialogsManager.Instance.OkDialog.Setup("You won a new qoomon for completing first game!");
         return true;
-
+        
         void RewardQoomon()
         {
+            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
 
             DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
             DataManager.Instance.PlayerData.HasFinishedFirstGame = false;
@@ -147,14 +127,7 @@ public class UIMainMenu : MonoBehaviour
 
         void ManagePwaDialogAndOverlay()
         {
-            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(() =>
-            {
-                bool _canReward = TryRewardForPwaAndBid();
-                if (!_canReward)
-                {
-                    TryToAutoMatch();
-                }
-            });
+            DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(TryRewardForPwaAndBid);
             DialogsManager.Instance.OkDialog.Setup("Bind with your social account and add app to home screen to unlock another card!");
             DataManager.Instance.CanShowPwaOverlay = true;
         }
