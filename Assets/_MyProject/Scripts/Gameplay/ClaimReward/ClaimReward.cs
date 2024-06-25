@@ -60,13 +60,13 @@ public class ClaimReward : MonoBehaviour
                {
                   if (ModeHandler.ModeStatic!=GameMode.Friendly)
                   {
-                     DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+                     DataManager.Instance.PlayerData.RankPoints += BetClickHandler.Instance.CurrentBet;
                   }
                }
             }
             else
             {
-               DataManager.Instance.PlayerData.RankPoints -= GameplayManager.Instance.CurrentBet;
+               DataManager.Instance.PlayerData.RankPoints -= BetClickHandler.Instance.CurrentBet;
             }
             levelFill.DOFillAmount(RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage, 1f);
             ShowProgress();

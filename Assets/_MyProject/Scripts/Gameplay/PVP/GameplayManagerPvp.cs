@@ -118,15 +118,6 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentWantsToUndoState));
     }
 
-    protected override void AcceptAutoBet()
-    {
-        if (!SocketServerCommunication.Instance.MatchData.IsMasterClient)
-        {
-            return;
-        }
-        base.AcceptAutoBet();
-    }
-
     public override void Bet()
     {
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentWantsToBet));
@@ -299,7 +290,7 @@ public class GameplayManagerPvp : GameplayManager
 
     private void OpponentWantsToBet()
     {
-        FindObjectOfType<BetClickHandler>().ShowOpponentWantsToIncreaseBet();
+        BetClickHandler.Instance.ShowOpponentWantsToIncreaseBet();
     }
 
     private void ShowLaneAbility(string _data)
