@@ -58,7 +58,10 @@ public class ClaimReward : MonoBehaviour
             {
                if (result != GameResult.Draw)
                {
-                  DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+                  if (ModeHandler.ModeStatic!=GameMode.Friendly)
+                  {
+                     DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+                  }
                }
             }
             else
@@ -139,7 +142,11 @@ public class ClaimReward : MonoBehaviour
       }
       else
       {
-         DataManager.Instance.PlayerData.Exp += expReward;
+         if (ModeHandler.ModeStatic!=GameMode.Friendly)
+         {
+            DataManager.Instance.PlayerData.Exp += expReward;
+            expDisplay.gameObject.SetActive(false);
+         }
       }
       ShowProgress();
    }

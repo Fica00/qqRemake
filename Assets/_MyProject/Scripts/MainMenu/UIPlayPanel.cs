@@ -11,6 +11,7 @@ public class UIPlayPanel : MonoBehaviour
     [Space()]
     [SerializeField] private UIPVPPanel pvpPanel;
     [SerializeField] private UIMatchMakingVsBot matchMakingVsBot;
+    [SerializeField] private UIFriendlyPanel friendlyPanel;
 
     public static bool PlayAgain;
     
@@ -36,6 +37,12 @@ public class UIPlayPanel : MonoBehaviour
         StartMatch();
     }
 
+    private void StartFriendlyMatch()
+    {
+        ModeHandler.Instance.Mode = GameMode.Friendly;
+        StartMatch();
+    }
+
     private void StartMatch()
     {
         switch (ModeHandler.Instance.Mode)
@@ -44,10 +51,10 @@ public class UIPlayPanel : MonoBehaviour
                 ShowAIMatchMaking();
                 break;
             case GameMode.VsPlayer:
-                ConnectWithServer();
+                ConnectWithServer(ShowPvp);
                 break;
             case GameMode.Friendly:
-                DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
+                ConnectWithServer(ShowFriendly);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -64,7 +71,7 @@ public class UIPlayPanel : MonoBehaviour
         matchMakingVsBot.Setup(Random.Range(3f,7f));
     }
 
-    private void ConnectWithServer()
+    private void ConnectWithServer(Action _callBack)
     {
         if (!CanPlay)
         {
@@ -74,23 +81,33 @@ public class UIPlayPanel : MonoBehaviour
         ManageInteractables(false);
         inputBlocker.SetActive(true);
         
-        SocketServerCommunication.OnInitFinished += ShowPvp;
+        SocketServerCommunication.OnInitFinished += HandleConnection;
         SocketServerCommunication.Instance.Init();
+        
+        void HandleConnection(bool _status)
+        {
+            SocketServerCommunication.OnInitFinished -= HandleConnection;
+            inputBlocker.SetActive(false);
+            ManageInteractables(true);
+            if (!_status)
+            {
+                DialogsManager.Instance.OkDialog.Setup("Something went wrong while connecting with server, please try again later");
+                return;
+            }
+            
+            _callBack?.Invoke();
+        }
     }
 
-    private void ShowPvp(bool _status)
+    private void ShowPvp()
     {
-        SocketServerCommunication.OnInitFinished -= ShowPvp;
-        inputBlocker.SetActive(false);
-        if (!_status)
-        {
-            ManageInteractables(true);
-            DialogsManager.Instance.OkDialog.Setup("Something went wrong while connecting with server, please try again later");
-            return;
-        }
-        
         SocketServerCommunication.Instance.StartMatchMaking();
         pvpPanel.Setup();
+    }
+
+    private void ShowFriendly()
+    {
+        friendlyPanel.Setup();
     }
 
     public void OnLeftRoom()

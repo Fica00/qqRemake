@@ -42,7 +42,6 @@ const createAndSetupConnection = async (token) => {
     connection.on('MatchMakingStartedAsync', () => {
         console.log("MatchMakingStartedAsync");
         unity.SendMessage("SocketCommunication", "MatchMakingStartedAsync");
-    });
 
     connection.on('MatchMakingCanceledAsync', () => {
         console.log("MatchMakingCanceledAsync");
@@ -56,6 +55,12 @@ const createAndSetupConnection = async (token) => {
         unity.SendMessage("SocketCommunication", "MatchLeftAsyncFromJs", successInt);
     });
 
+    });    
+    
+    connection.on('RoomIsFullAsync', () => {
+        console.log("RoomIsFullAsync");
+        unity.SendMessage("SocketCommunication", "RoomIsFullAsync");
+    });
     await start();
 };
 
@@ -94,4 +99,9 @@ const matchMakeAsync = async () => {
 const cancelMatchMake = async () => {
     console.log("cancelMatchMake js");
     await connection.send('CancelMatchMakeAsync')
+}
+
+const joinFriendlyMatch = async (roomName) => {
+    console.log("joinFriendlyMatch js");
+    await connection.send('JoinFriendlyMatch',roomName)
 }

@@ -338,7 +338,10 @@ public class GameplayManager : MonoBehaviour
             OnFinishedGameplayLoop?.Invoke();
         }
 
-        AcceptAutoBet();
+        if (ModeHandler.ModeStatic!=GameMode.Friendly)
+        {
+            AcceptAutoBet();
+        }
         
         bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
         DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
