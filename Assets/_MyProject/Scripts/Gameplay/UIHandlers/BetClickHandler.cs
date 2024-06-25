@@ -212,8 +212,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private string GetNextBetText()
     {
-        Debug.Log(BetStatus);
-        Debug.Log(AutoBetStatus);
         switch (BetStatus)
         {
             case BetStatus.DefaultBet:
