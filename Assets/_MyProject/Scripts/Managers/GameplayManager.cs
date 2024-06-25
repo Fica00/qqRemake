@@ -309,6 +309,11 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(_drawnCard);
     }
 
+    public virtual void ChangeCardEnergy(CardObject _randomCardInHand, int _amount) 
+    {
+        _randomCardInHand.Stats.Energy += _amount;
+    }
+
     protected virtual IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);

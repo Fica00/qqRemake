@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardEffectAddManaToRandomQoomonInOpponentHand : CardEffectBase
@@ -17,25 +19,26 @@ public class CardEffectAddManaToRandomQoomonInOpponentHand : CardEffectBase
         {
             return;
         }
+
         AddManaToRandom();
     }
 
     private void AddManaToRandom()
     {
-        if (GameplayManager.IsPvpGame && !cardObject.IsMy)
+        List<CardObject> _opponentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
+
+        if (_opponentsCardsInHand.Count == 0)
         {
             return;
         }
 
-        List<CardObject> _opponentsCardsInHand = GameplayManager.Instance.OpponentPlayer.CurrentCardsInHand;
+        CardObject _randomCardInHand = _opponentsCardsInHand.OrderBy(_ => Guid.NewGuid()).First(_qoomon => _qoomon.Stats.Energy < manaLessThan);
 
-        var randomCardInHand = Random.Range(0, _opponentsCardsInHand.Count);
-
-        CardObject randomCard = _opponentsCardsInHand[randomCardInHand];
-
-        if (randomCard.Stats.Energy < manaLessThan)
+        if (_randomCardInHand == null)
         {
-            randomCard.Stats.Energy += manaToAdd;
+            return;
         }
+
+        GameplayManager.Instance.ChangeCardEnergy(_randomCardInHand, manaToAdd);
     }
 }

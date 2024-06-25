@@ -226,6 +226,18 @@ public class GameplayManagerPVP : GameplayManager
         photonView.RPC(nameof(OpponentDiscardedACard),RpcTarget.Others,_card.Details.Id);
     }
 
+    public override void ChangeCardEnergy(CardObject _randomCardInHand, int _amount)
+    {
+        photonView.RPC(nameof(ChangeCardEnergyRPC), RpcTarget.Others, _randomCardInHand.Details.Id);
+    }
+
+    [PunRPC]
+    private void ChangeCardEnergyRPC(int _cardID, int _amount) 
+    {
+        CardObject _randomCardInHand = MyPlayer.GetCardFromHand(_cardID);
+        _randomCardInHand.Stats.Energy += _amount;
+    }
+
     [PunRPC]
     private void OpponentIsReadyToStart()
     {

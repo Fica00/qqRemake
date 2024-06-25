@@ -172,6 +172,12 @@ public class GameplayPlayer : MonoBehaviour
         return CardsInDeck.Find(_card => _card.Details.Id == _cardId);
     }
 
+    public CardObject GetCardFromHand(int _cardId)
+    {
+        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND, CardsInHand.Count.ToString());
+        return CardsInHand.Find(_card => _card.Details.Id == _cardId);
+    }
+
     public CardObject DrawCard(CardObject _card, bool _updateDeck)
     {
         if (_updateDeck)
