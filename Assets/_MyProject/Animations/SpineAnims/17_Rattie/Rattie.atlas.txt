@@ -1,0 +1,40 @@
+Rattie.png
+	size: 1024, 512
+	filter: Linear, Linear
+erduo_r
+	bounds: 796, 191, 126, 228
+jjzl
+	bounds: 881, 23, 138, 74
+jjzr
+	bounds: 363, 5, 122, 66
+	rotate: 180
+jl
+	bounds: 899, 96, 123, 159
+jr
+	bounds: 2, 9, 101, 156
+sl
+	bounds: 526, 61, 82, 196
+	rotate: 90
+ssbr
+	bounds: 113, 3, 153, 91
+	offsets: 1, 1, 155, 93
+sszr
+	bounds: 924, 262, 47, 64
+	offsets: 1, 1, 49, 67
+st
+	bounds: 718, 65, 149, 165
+	rotate: 90
+sxbr
+	bounds: 924, 328, 76, 91
+	offsets: 1, 2, 79, 94
+tou
+	bounds: 2, 55, 409, 364
+weiba
+	bounds: 436, 2, 450, 204
+	rotate: 180
+wuqi
+	bounds: 599, 208, 195, 211
+	offsets: 1, 1, 197, 214
+yifu
+	bounds: 322, 184, 275, 235
+	rotate: 180

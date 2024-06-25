@@ -1,0 +1,49 @@
+Wolf King.png
+	size: 2048, 512
+	filter: Linear, Linear
+bu
+	bounds: 438, 2, 302, 142
+doupeng_h
+	bounds: 385, 160, 565, 350
+doupeng_l
+	bounds: 1482, 2, 286, 338
+	rotate: 180
+erduo_r
+	bounds: 1380, 78, 82, 161
+	offsets: 1, 1, 84, 163
+fazhang
+	bounds: 1155, 78, 223, 432
+	offsets: 1, 1, 226, 434
+jjzl
+	bounds: 1155, 12, 139, 64
+	offsets: 1, 1, 141, 67
+jjzr
+	bounds: 952, 438, 165, 72
+	offsets: 1, 1, 168, 74
+jxtl
+	bounds: 2, 16, 102, 155
+	rotate: 270
+jxtr
+	bounds: 742, 22, 95, 151
+sl
+	bounds: 1730, 2, 145, 226
+ssbr
+	bounds: 1733, 227, 141, 283
+sszl
+	bounds: 361, 2, 86, 77
+	offsets: 1, 5, 88, 83
+sszr
+	bounds: 1861, 408, 84, 102
+	offsets: 1, 1, 86, 105
+st
+	bounds: 1380, 241, 269, 258
+	rotate: 90
+sxbr
+	bounds: 1640, 400, 88, 110
+	offsets: 1, 1, 90, 113
+tou
+	bounds: 2, 11, 465, 499
+xiangquan
+	bounds: 910, 2, 411, 243
+	offsets: 1, 1, 413, 245
+	rotate: 90

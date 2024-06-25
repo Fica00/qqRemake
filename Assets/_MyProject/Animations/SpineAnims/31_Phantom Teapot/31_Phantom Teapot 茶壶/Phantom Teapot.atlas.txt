@@ -1,0 +1,33 @@
+Phantom Teapot.png
+	size: 2048, 512
+	filter: Linear, Linear
+chahu
+	bounds: 1024, 139, 422, 314
+	offsets: 0, 0, 425, 314
+gaizi
+	bounds: 197, 68, 203, 96
+	offsets: 1, 1, 205, 98
+hubing
+	bounds: 615, 144, 407, 309
+	offsets: 1, 1, 410, 311
+huzui
+	bounds: 2, 36, 128, 193
+	offsets: 1, 2, 130, 196
+	rotate: 90
+yan_0
+	bounds: 402, 91, 174, 73
+	offsets: 2, 4, 181, 84
+yan_1
+	bounds: 2, 166, 611, 287
+	offsets: 9, 4, 627, 298
+yan_2
+	bounds: 1396, 2, 175, 177
+	offsets: 17, 10, 205, 203
+	rotate: 90
+yan_3
+	bounds: 1447, 179, 251, 274
+	offsets: 17, 14, 288, 302
+yan_4
+	bounds: 1700, 166, 287, 178
+	offsets: 9, 22, 310, 215
+	rotate: 90

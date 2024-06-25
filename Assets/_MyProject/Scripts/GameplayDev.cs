@@ -9,26 +9,26 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.ForceEndGame(GameResult.Escaped);
     }
-    
+
     [Button("Draw")]
     private void Draw()
     {
         GameplayManager.Instance.ForceEndGame(GameResult.Draw);
     }
-    
+
     [Button("I won")]
     private void Won()
     {
         GameplayManager.Instance.ForceEndGame(GameResult.IWon);
     }
-    
+
     [Button("I lost")]
     private void Lost()
     {
         GameplayManager.Instance.ForceEndGame(GameResult.ILost);
     }
-    
-        
+
+
     [Button("I forfeit")]
     private void IForfeit()
     {
@@ -59,14 +59,14 @@ public class GameplayDev : MonoBehaviour
     {
         GameplayManager.Instance.MyPlayer.DiscardCardFromHand(GameplayManager.Instance.MyPlayer.GetQommonFromHand(17));
     }
-    
-    
+
+
     [Button("Draw soulomon")]
     private void DrawSoulomon()
     {
         GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
-    }    
-    
+    }
+
     [Button("Draw card")]
     private void DrawCard()
     {
@@ -81,7 +81,7 @@ public class GameplayDev : MonoBehaviour
         {
             GameplayManager.Instance.MyPlayer.DiscardCardFromHand(_cardInHand);
         }
-        
+
         GameplayManager.Instance.MyPlayer.AddCardToHand(_card);
     }
 }

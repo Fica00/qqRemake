@@ -1,0 +1,61 @@
+Black Ben.png
+	size: 1024, 1024
+	filter: Linear, Linear
+bu
+	bounds: 408, 145, 94, 163
+erduo_l
+	bounds: 770, 312, 102, 169
+erduo_r
+	bounds: 676, 242, 103, 165
+	offsets: 0, 3, 103, 168
+jianjia_l
+	bounds: 750, 150, 129, 86
+	offsets: 1, 1, 131, 88
+jianjia_r
+	bounds: 874, 323, 134, 95
+	offsets: 1, 1, 136, 97
+jjzl
+	bounds: 863, 238, 150, 83
+	offsets: 1, 1, 152, 85
+jjzr
+	bounds: 750, 73, 137, 71
+	offsets: 1, 1, 139, 73
+jl
+	bounds: 770, 553, 125, 144
+jr
+	bounds: 830, 420, 141, 142
+jxtl
+	bounds: 498, 128, 122, 88
+	offsets: 2, 1, 125, 90
+jxtr
+	bounds: 905, 563, 111, 139
+	offsets: 1, 1, 113, 142
+ssbl
+	bounds: 881, 146, 120, 90
+	offsets: 1, 1, 122, 92
+ssbr
+	bounds: 504, 218, 125, 90
+	offsets: 1, 1, 128, 92
+sszl
+	bounds: 622, 55, 90, 89
+	offsets: 1, 1, 92, 91
+sszr
+	bounds: 781, 243, 72, 67
+	offsets: 1, 1, 74, 69
+st
+	bounds: 770, 699, 249, 194
+	rotate: 90
+sxbl
+	bounds: 631, 146, 117, 95
+	offsets: 1, 2, 119, 98
+sxbr
+	bounds: 889, 54, 108, 90
+	offsets: 1, 2, 110, 93
+tou
+	bounds: 2, 2, 420, 405
+wuqi
+	bounds: 2, 409, 766, 539
+	offsets: 1, 1, 768, 541
+xiangquan
+	bounds: 383, 310, 291, 97
+	offsets: 1, 1, 293, 99

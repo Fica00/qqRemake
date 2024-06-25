@@ -1,0 +1,69 @@
+Cappy.png
+	size: 2048, 512
+	filter: Linear, Linear
+diaoshi
+	bounds: 662, 11, 29, 119
+dizi
+	bounds: 1369, 69, 84, 248
+	offsets: 1, 1, 86, 250
+jjzl
+	bounds: 136, 38, 135, 69
+	offsets: 1, 2, 137, 72
+jjzr
+	bounds: 136, 38, 135, 69
+	offsets: 1, 2, 137, 72
+jl
+	bounds: 1455, 222, 97, 198
+	rotate: 90
+jr
+	bounds: 1455, 222, 97, 198
+	rotate: 90
+qunzi
+	bounds: 437, 83, 363, 228
+	rotate: 90
+shengzi
+	bounds: 1455, 47, 264, 270
+	rotate: 90
+sl
+	bounds: 871, 89, 257, 264
+sr
+	bounds: 1079, 20, 140, 173
+	rotate: 270
+sr0
+	bounds: 1222, 94, 145, 284
+sr2
+	bounds: 1083, 162, 145, 284
+	rotate: 180
+sszl
+	bounds: 2, 2, 132, 105
+	offsets: 1, 1, 134, 107
+sszl2
+	bounds: 350, 2, 133, 105
+	offsets: 1, 1, 135, 107
+	rotate: 90
+sszl3
+	bounds: 1455, 105, 132, 115
+	offsets: 1, 1, 134, 117
+sszr
+	bounds: 536, 25, 56, 73
+	offsets: 1, 1, 59, 75
+	rotate: 90
+sszr1
+	bounds: 457, 29, 60, 77
+	offsets: 1, 11, 63, 89
+	rotate: 90
+sszr2
+	bounds: 273, 30, 60, 77
+	offsets: 1, 11, 63, 89
+sszr3
+	bounds: 2, 125, 58, 78
+	offsets: 1, 11, 61, 90
+st
+	bounds: 667, 88, 358, 208
+	rotate: 90
+sxbl
+	bounds: 1328, 319, 185, 127
+	offsets: 1, 1, 187, 130
+tou
+	bounds: 2, 108, 435, 338
+	offsets: 0, 1, 435, 339

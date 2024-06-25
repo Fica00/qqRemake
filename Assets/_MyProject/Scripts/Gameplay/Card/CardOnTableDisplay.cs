@@ -16,6 +16,7 @@ public class CardOnTableDisplay : MonoBehaviour
     private TextMeshProUGUI powerDisplay;
     [SerializeField] private Image qommonDisplay;
 
+
     public Image QommonDisplay => qommonDisplay;
     
     public void Setup(CardObject _cardObject)
@@ -36,6 +37,10 @@ public class CardOnTableDisplay : MonoBehaviour
             1 => 0.9f,
             _ => 1
         };
+        if (cardObject.Animator.HasAnimations && cardObject.Animator.IsRevealAnimationDone)
+        {
+            qommonDisplay.gameObject.SetActive(false);
+        }
 
         transform.localScale = new Vector3(_newScale, _newScale, _newScale);
     }

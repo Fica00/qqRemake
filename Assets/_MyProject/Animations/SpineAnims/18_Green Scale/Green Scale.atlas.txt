@@ -1,0 +1,34 @@
+Green Scale.png
+	size: 1024, 1024
+	filter: Linear, Linear
+shetou
+	bounds: 2, 28, 118, 89
+sl
+	bounds: 494, 77, 216, 154
+	rotate: 270
+sr
+	bounds: 462, 2, 151, 189
+	rotate: 90
+sszr
+	bounds: 2, 867, 62, 57
+	offsets: 2, 1, 65, 59
+st
+	bounds: 384, 679, 260, 245
+st2
+	bounds: 145, 199, 457, 462
+	rotate: 90
+tou
+	bounds: 2, 569, 413, 355
+toudai
+	bounds: 2, 571, 127, 71
+wuqi
+	bounds: 2, 331, 236, 426
+	offsets: 1, 1, 238, 428
+	rotate: 90
+wuqib
+	bounds: 2, 119, 210, 136
+	offsets: 1, 1, 212, 139
+	rotate: 90
+yifu
+	bounds: 197, 48, 199, 308
+	rotate: 90

@@ -1,0 +1,54 @@
+Wolf Prince.png
+	size: 1024, 1024
+	filter: Linear, Linear
+bu
+	bounds: 2, 38, 118, 192
+	rotate: 90
+fazhang
+	bounds: 609, 178, 94, 313
+	offsets: 1, 1, 97, 315
+	rotate: 90
+jingbu
+	bounds: 701, 273, 416, 161
+	offsets: 9, 0, 425, 161
+	rotate: 270
+jjzl
+	bounds: 196, 25, 144, 64
+	offsets: 1, 1, 146, 67
+jjzr
+	bounds: 486, 306, 161, 79
+	offsets: 1, 1, 163, 81
+jxtl
+	bounds: 228, 91, 150, 226
+	rotate: 270
+jxtr
+	bounds: 862, 457, 145, 232
+	offsets: 0, 2, 145, 234
+sl
+	bounds: 9, 158, 155, 252
+	rotate: 90
+ssbr
+	bounds: 864, 324, 110, 133
+	offsets: 1, 1, 112, 135
+sszl
+	bounds: 924, 226, 96, 81
+	offsets: 1, 1, 99, 83
+	rotate: 90
+sszr
+	bounds: 456, 70, 96, 107
+	offsets: 1, 1, 98, 110
+	rotate: 90
+st
+	bounds: 450, 387, 302, 254
+	rotate: 90
+sxbr
+	bounds: 790, 35, 141, 208
+	rotate: 90
+tou
+	bounds: 2, 257, 447, 432
+weiba
+	bounds: 369, 168, 238, 276
+	rotate: 180
+yifu_l
+	bounds: 577, 2, 174, 211
+	rotate: 90

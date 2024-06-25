@@ -1,0 +1,39 @@
+Archer Penny.png
+	size: 2048, 512
+	filter: Linear, Linear
+gong
+	bounds: 1293, 243, 117, 634
+	offsets: 1, 1, 119, 636
+	rotate: 90
+jian
+	bounds: 2, 147, 531, 213
+	offsets: 1, 1, 533, 215
+jzl
+	bounds: 1617, 4, 143, 101
+jzr
+	bounds: 354, 45, 168, 100
+qunzi
+	bounds: 862, 76, 429, 284
+ssbl
+	bounds: 1613, 105, 216, 136
+	offsets: 0, 0, 216, 143
+ssbr
+	bounds: 1831, 87, 154, 153
+	offsets: 1, 1, 156, 156
+	rotate: 90
+sszr
+	bounds: 1929, 312, 52, 48
+	offsets: 1, 1, 54, 51
+st
+	bounds: 1271, 15, 344, 226
+	offsets: 0, 0, 344, 237
+sxbl
+	bounds: 198, 8, 154, 137
+sxbr
+	bounds: 2, 24, 196, 121
+tou
+	bounds: 535, 2, 358, 361
+	rotate: 90
+xuan
+	bounds: 872, 38, 42, 608
+	rotate: 90

@@ -1,0 +1,28 @@
+Puffer.png
+	size: 1024, 1024
+	filter: Linear, Linear
+beilou
+	bounds: 521, 169, 547, 457
+	offsets: 1, 2, 549, 460
+	rotate: 90
+ji
+	bounds: 205, 20, 126, 89
+	rotate: 90
+sl
+	bounds: 490, 16, 151, 283
+	rotate: 90
+sr
+	bounds: 293, 4, 207, 226
+	rotate: 270
+sszl
+	bounds: 885, 46, 91, 119
+sszr
+	bounds: 2, 2, 75, 112
+	rotate: 90
+sszr2
+	bounds: 2, 78, 68, 201
+	rotate: 90
+st
+	bounds: 2, 148, 518, 568
+wb
+	bounds: 750, 5, 150, 162

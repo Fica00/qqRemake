@@ -1,0 +1,77 @@
+Rab Pinky.png
+	size: 1024, 1024
+	filter: Linear, Linear
+bu
+	bounds: 193, 228, 271, 143
+	offsets: 0, 2, 271, 145
+douli
+	bounds: 389, 371, 256, 267
+	offsets: 1, 1, 258, 270
+erduo_l
+	bounds: 181, 86, 149, 158
+	rotate: 90
+erduo_l2
+	bounds: 514, 84, 98, 179
+	rotate: 270
+erduo_r
+	bounds: 643, 145, 105, 211
+	rotate: 90
+huluobo
+	bounds: 2, 99, 98, 161
+	offsets: 1, 1, 100, 164
+	rotate: 90
+huluobo2
+	bounds: 340, 83, 157, 172
+	offsets: 0, 0, 157, 177
+	rotate: 270
+huxu_l
+	bounds: 2, 14, 133, 83
+	offsets: 1, 1, 136, 85
+huxu_r
+	bounds: 830, 2, 93, 91
+	offsets: 2, 1, 96, 93
+jjzl
+	bounds: 410, 27, 110, 54
+	offsets: 1, 2, 112, 57
+jjzr
+	bounds: 137, 35, 125, 49
+	offsets: 1, 1, 127, 51
+jl
+	bounds: 466, 201, 168, 197
+	rotate: 90
+jr
+	bounds: 833, 201, 155, 189
+	rotate: 90
+lingjin
+	bounds: 877, 367, 271, 135
+	offsets: 1, 1, 273, 137
+	rotate: 90
+ssbl
+	bounds: 856, 95, 104, 145
+	offsets: 1, 1, 106, 147
+	rotate: 90
+ssbr
+	bounds: 293, 13, 84, 115
+	offsets: 1, 1, 92, 123
+	rotate: 90
+sszl
+	bounds: 522, 9, 96, 79
+	offsets: 6, 0, 102, 79
+sszr
+	bounds: 619, 11, 52, 71
+	offsets: 1, 1, 54, 73
+st
+	bounds: 647, 331, 307, 228
+	rotate: 90
+sxbl
+	bounds: 2, 199, 182, 152
+	offsets: 1, 1, 184, 154
+sxbr
+	bounds: 695, 38, 105, 133
+	offsets: 1, 30, 107, 164
+	rotate: 90
+tou
+	bounds: 2, 353, 385, 285
+weiba
+	bounds: 331, 183, 50, 55
+	offsets: 1, 1, 52, 57

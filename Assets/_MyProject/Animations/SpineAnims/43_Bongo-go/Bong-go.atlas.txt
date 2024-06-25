@@ -1,0 +1,51 @@
+Bong-go.png
+	size: 1024, 1024
+	filter: Linear, Linear
+daizi
+	bounds: 2, 2, 65, 240
+	rotate: 270
+gu1
+	bounds: 446, 358, 235, 339
+	offsets: 2, 2, 238, 343
+gu2
+	bounds: 480, 22, 238, 334
+	offsets: 1, 1, 240, 336
+jjzl
+	bounds: 833, 844, 159, 52
+	offsets: 9, 0, 168, 54
+	rotate: 90
+jjzr
+	bounds: 827, 165, 127, 55
+	offsets: 1, 1, 129, 57
+	rotate: 90
+jxtl
+	bounds: 720, 294, 117, 139
+	offsets: 1, 1, 119, 146
+jxtr
+	bounds: 720, 160, 105, 132
+	offsets: 1, 1, 107, 134
+ssbl
+	bounds: 480, 714, 156, 289
+	offsets: 1, 1, 158, 291
+ssbr
+	bounds: 683, 566, 175, 227
+	offsets: 1, 1, 177, 229
+sszl
+	bounds: 720, 61, 125, 97
+	offsets: 1, 2, 127, 100
+sszr
+	bounds: 817, 444, 120, 81
+	offsets: 1, 1, 122, 83
+	rotate: 90
+st
+	bounds: 2, 683, 476, 320
+sxbl
+	bounds: 638, 795, 193, 208
+	offsets: 1, 2, 196, 211
+sxbr
+	bounds: 683, 435, 132, 129
+	offsets: 1, 1, 134, 131
+tou
+	bounds: 2, 333, 442, 348
+xiashen
+	bounds: 2, 49, 476, 282

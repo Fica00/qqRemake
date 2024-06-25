@@ -1,0 +1,32 @@
+Sensei Suma.png
+	size: 2048, 512
+	filter: Linear, Linear
+shanzi
+	bounds: 920, 55, 374, 293
+	offsets: 1, 112, 377, 406
+	rotate: 90
+shanzi2
+	bounds: 438, 10, 84, 58
+	offsets: 1, 2, 87, 61
+shanzi_0
+	bounds: 524, 14, 30, 123
+	offsets: 15, 1, 46, 125
+	rotate: 90
+sl
+	bounds: 1215, 88, 321, 341
+	offsets: 0, 0, 321, 346
+sr
+	bounds: 1446, 80, 260, 349
+sszr
+	bounds: 2, 2, 104, 101
+	offsets: 1, 2, 112, 119
+	rotate: 90
+st
+	bounds: 2, 13, 551, 416
+sxbr
+	bounds: 2, 138, 72, 141
+	offsets: 1, 1, 74, 143
+tou
+	bounds: 515, 8, 421, 403
+	offsets: 14, 0, 435, 403
+	rotate: 90

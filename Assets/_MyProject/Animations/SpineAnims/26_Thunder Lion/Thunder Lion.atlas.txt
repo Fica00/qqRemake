@@ -1,0 +1,76 @@
+Thunder Lion.png
+	size: 2048, 1024
+	filter: Linear, Linear
+dauzi
+	bounds: 1866, 261, 61, 123
+huxu_l
+	bounds: 1735, 634, 128, 96
+	offsets: 1, 1, 130, 98
+huxu_r
+	bounds: 1864, 54, 105, 71
+	offsets: 1, 1, 107, 73
+	rotate: 90
+jdtl
+	bounds: 1663, 350, 161, 104
+	offsets: 1, 1, 164, 106
+	rotate: 90
+jdtr
+	bounds: 1666, 161, 158, 101
+	offsets: 1, 1, 161, 103
+	rotate: 90
+jjzl
+	bounds: 1795, 7, 152, 67
+	offsets: 1, 1, 154, 69
+	rotate: 90
+jjzr
+	bounds: 1844, 433, 147, 66
+	offsets: 1, 1, 149, 68
+	rotate: 90
+jxtl
+	bounds: 1735, 513, 119, 107
+	offsets: 2, 1, 122, 109
+	rotate: 90
+jxtr
+	bounds: 1679, 37, 122, 114
+	offsets: 2, 1, 125, 117
+	rotate: 90
+kua
+	bounds: 1463, 399, 184, 112
+	offsets: 1, 1, 186, 114
+maofa
+	bounds: 571, 2, 586, 742
+	rotate: 180
+maofa_fg
+	bounds: 2, 2, 586, 742
+ssbl
+	bounds: 1454, 172, 167, 135
+	offsets: 1, 1, 169, 137
+	rotate: 90
+ssbr
+	bounds: 1598, 513, 138, 135
+	offsets: 1, 1, 140, 137
+	rotate: 90
+sszl1
+	bounds: 1769, 321, 110, 95
+	offsets: 1, 1, 113, 98
+	rotate: 90
+sszr
+	bounds: 1857, 161, 93, 98
+	offsets: 1, 2, 95, 101
+sszr_fg
+	bounds: 1442, 590, 154, 154
+	offsets: 4, 6, 165, 165
+st
+	bounds: 1192, 419, 269, 249
+sxbl
+	bounds: 1479, 12, 158, 111
+	offsets: 1, 2, 160, 114
+	rotate: 90
+sxbr
+	bounds: 1769, 161, 86, 121
+	offsets: 2, 2, 89, 124
+tou
+	bounds: 1107, 16, 371, 401
+	offsets: 8, 0, 379, 401
+wb
+	bounds: 1458, 81, 219, 316
