@@ -26,9 +26,9 @@ public class GameplayPlayer : MonoBehaviour
     private List<CardObject> cardsInHand;
     private List<CardObject> cardsInDiscardPile;
 
-    protected List<CardObject> CardsInDeck;
+    public List<CardObject> CardsInDeck; //Vrati ovo na protected
 
-    protected List<CardObject> CardsInHand
+    public List<CardObject> CardsInHand
     {
         get => cardsInHand;
         set
@@ -40,12 +40,9 @@ public class GameplayPlayer : MonoBehaviour
     protected List<CardObject> CardsInDiscardPile
     {
         get => cardsInDiscardPile;
-        set
-        {
-            cardsInDiscardPile = value;
-            PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS,cardsInDiscardPile.Count.ToString());
-        }
+        set => cardsInDiscardPile = value;
     }
+    
     protected int energy;
 
     public List<CardObject> CardsOnTop;
@@ -162,13 +159,11 @@ public class GameplayPlayer : MonoBehaviour
         
         AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW_CARD);
         CardObject _card = CardsInDeck[0];
-        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK,CardsInDeck.Count.ToString());
         return DrawCard(_card, true);
     }
 
     public CardObject GetCardFromDeck(int _cardId)
     {
-        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK,CardsInDeck.Count.ToString());
         return CardsInDeck.Find(_card => _card.Details.Id == _cardId);
     }
 
@@ -184,7 +179,6 @@ public class GameplayPlayer : MonoBehaviour
         
         AudioManager.Instance.PlaySoundEffect(AudioManager.DRAW_CARD);
         DrewCard?.Invoke(_card);
-        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK,CardsInDeck.Count.ToString());
         return _card;
     }
 
@@ -195,7 +189,6 @@ public class GameplayPlayer : MonoBehaviour
             EventsManager.DrawCard?.Invoke();
         }
         CardsInHand.Add(_cardObject);
-        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
         _cardObject.SetCardLocation(CardLocation.Hand);
         AddedCardToHand?.Invoke(_cardObject,_showAnimation);
     }
@@ -207,7 +200,6 @@ public class GameplayPlayer : MonoBehaviour
             CardsInHand.Remove(_cardObject);
         }
         RemovedCardFromHand?.Invoke(_cardObject);
-        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
     }
 
     public void CheckForCardsThatShouldMoveToHand(Action _callback)
@@ -398,7 +390,6 @@ public class GameplayPlayer : MonoBehaviour
         CardsInHand.Remove(_card);
         GameplayManager.Instance.TellOpponentThatIDiscardedACard(_card);
         AnimateRoutine();
-        PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND,cardsInHand.Count.ToString());
 
         void AnimateRoutine()
         {
@@ -408,7 +399,6 @@ public class GameplayPlayer : MonoBehaviour
             {
                 RemoveCardFromHand(_card);
                 CardsInDiscardPile.Add(_card);
-                PhotonManager.Instance.TryUpdateCustomProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS,cardsInDiscardPile.Count.ToString());
                 _card.SetCardLocation(CardLocation.Discarded);
                 _card.transform.SetParent(null);
                 DiscardedCard?.Invoke(_card);

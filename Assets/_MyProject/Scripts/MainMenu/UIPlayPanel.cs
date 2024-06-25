@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -14,26 +13,20 @@ public class UIPlayPanel : MonoBehaviour
     [SerializeField] private UIMatchMakingVsBot matchMakingVsBot;
 
     public static bool PlayAgain;
-
+    
     private void OnEnable()
     {
         playButton.onClick.AddListener(StartMatch);
         overlayPlayButton.onClick.AddListener(StartMatch);
-
-        PhotonManager.OnIJoinedRoom += JoinedRoom;
-        PhotonManager.OnILeftRoom += ILeftRoom;
     }
 
     private void OnDisable()
     {
         playButton.onClick.RemoveListener(StartMatch);
         overlayPlayButton.onClick.RemoveListener(StartMatch);
-
-        PhotonManager.OnIJoinedRoom -= JoinedRoom;
-        PhotonManager.OnILeftRoom -= ILeftRoom;
     }
-
-    private void Start()
+    
+    public void TryAutoMatch()
     {
         if (!PlayAgain)
         {
@@ -51,15 +44,7 @@ public class UIPlayPanel : MonoBehaviour
                 ShowAIMatchMaking();
                 break;
             case GameMode.VsPlayer:
-                if (!PhotonManager.Instance.CanStartMatch)
-                {
-                    PhotonManager.Instance.FixSelf();
-                    DialogsManager.Instance.OkDialog.Setup("Cleaning up the data, please try again in few moments");
-                    return;
-                }
-        
-                inputBlocker.SetActive(true);
-                ShowPVPPanel();
+                ConnectWithServer();
                 break;
             case GameMode.Friendly:
                 DialogsManager.Instance.OkDialog.Setup("This feature is not implemented yet");
@@ -75,37 +60,40 @@ public class UIPlayPanel : MonoBehaviour
         {
             return;
         }
-        
+
         matchMakingVsBot.Setup(Random.Range(3f,7f));
     }
 
-    private void ShowPVPPanel()
+    private void ConnectWithServer()
     {
         if (!CanPlay)
         {
             return;
         }
+        
         ManageInteractables(false);
-        StartCoroutine(SearchForMatch());
-        IEnumerator SearchForMatch()
-        {
-            while (!PhotonManager.IsOnMasterServer || !PhotonManager.CanCreateRoom)
-            {
-                yield return null;
-            }
-            
-            PhotonManager.Instance.JoinRandomRoom();
-        }
+        inputBlocker.SetActive(true);
+        
+        SocketServerCommunication.OnInitFinished += ShowPvp;
+        SocketServerCommunication.Instance.Init();
     }
 
-    private void JoinedRoom()
+    private void ShowPvp(bool _status)
     {
+        SocketServerCommunication.OnInitFinished -= ShowPvp;
         inputBlocker.SetActive(false);
-        ManageInteractables(false);
+        if (!_status)
+        {
+            ManageInteractables(true);
+            DialogsManager.Instance.OkDialog.Setup("Something went wrong while connecting with server, please try again later");
+            return;
+        }
+        
+        SocketServerCommunication.Instance.StartMatchMaking();
         pvpPanel.Setup();
     }
 
-    private void ILeftRoom()
+    public void OnLeftRoom()
     {
         ManageInteractables(true);
     }

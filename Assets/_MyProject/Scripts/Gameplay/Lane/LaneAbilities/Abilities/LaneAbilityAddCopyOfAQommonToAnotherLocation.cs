@@ -44,43 +44,53 @@ public class LaneAbilityAddCopyOfAQommonToAnotherLocation : LaneAbilityBase
             {
                 continue;
             }
-            
-            if (GameplayManager.Instance.Lanes[_laneIndex].GetPlaceLocation(_copyOfCard.IsMy) != null)
+
+            if (GameplayManager.Instance.Lanes[_laneIndex].GetPlaceLocation(_copyOfCard.IsMy) == null)
             {
-                bool _shouldSkip = false;
-                var _laneAbility = GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex])?
-                    GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]]:
-                    null;
-                if (_laneAbility!=null)
+                continue;
+            }
+            bool _shouldSkip = false;
+            var _laneAbility = GameplayManager.Instance.LaneAbilities.ContainsKey(GameplayManager.Instance.Lanes[_laneIndex])?
+                GameplayManager.Instance.LaneAbilities[GameplayManager.Instance.Lanes[_laneIndex]]:
+                null;
+            
+            if (_laneAbility!=null)
+            {
+                foreach (var _laneEffect in _laneAbility.Abilities)
                 {
-                    foreach (var _laneEffect in _laneAbility.Abilities)
+                    if (_laneEffect is LaneAbilityOnlyXQommonsCanBePlacedHere _limitationAbility)
                     {
-                        if (_laneEffect is LaneAbilityOnlyXQommonsCanBePlacedHere)
+                        _shouldSkip = true;
+                        var _myQoomonsOnLane = GameplayManager.Instance.TableHandler.GetCards(_card.IsMy,GameplayManager.Instance.Lanes[_laneIndex]
+                        .Location );
+                        if (_myQoomonsOnLane.Count<_limitationAbility.AmountOfQommons)
                         {
-                            _shouldSkip = true;
-                            break;
+                            _shouldSkip = false;
                         }
+                        break;
                     }
                 }
+            }
               
-                if (_shouldSkip)
-                {
-                    continue;
-                }
+            if (_shouldSkip)
+            {
+                continue;
+            }
 
-                if (GameplayManager.Instance.Lanes[_laneIndex].CanPlace(_copyOfCard))
-                {
-                    _choosendLane = GameplayManager.Instance.Lanes[_laneIndex];
-                    break;   
-                }
+            if (GameplayManager.Instance.Lanes[_laneIndex].CanPlace(_copyOfCard))
+            {
+                _choosendLane = GameplayManager.Instance.Lanes[_laneIndex];
+                break;   
             }
         }
 
         if (_choosendLane == null)
         {
+            Destroy(_copyOfCard.gameObject);
             return;
         }
 
+        
         _copyOfCard.ForcePlace(_choosendLane);
         
         StartCoroutine(DelayPowerIcoliser(_copyOfCard.GetComponentInParent<LanePlaceIdentifier>().Id, _card.Stats.Power - _copyOfCard.Details

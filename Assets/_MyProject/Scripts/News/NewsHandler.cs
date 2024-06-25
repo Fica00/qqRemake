@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class NewsHandler : MonoBehaviour
 {
-    public static NewsHandler Instance;
-    
     [SerializeField] private List<NewsData> news = new ();
     [SerializeField] private NewsDisplay newsPrefab;
     [SerializeField] private Transform newsHolder;
     private List<NewsDisplay> shownDisplays = new();
     private int newsIndex;
     private static bool hasSeenNews;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private IEnumerator Start()
     {

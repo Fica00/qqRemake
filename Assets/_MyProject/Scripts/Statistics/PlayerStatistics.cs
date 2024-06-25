@@ -133,7 +133,7 @@ public class PlayerStatistics
         CheckPoint _newCheckPoint = new CheckPoint { Description = _description, Date = DateTime.UtcNow, AdditionalData = _additionalData};
         if (_checkForExisting)
         {
-            if (CheckPoints.Any(_checkPoint => _checkPoint.Description == _description))
+            if (HasCheckPoint(_description))
             {
                 return;
             }
@@ -141,6 +141,11 @@ public class PlayerStatistics
         
         CheckPoints.Add(_newCheckPoint);
         PlayerData.UpdatedStatistics?.Invoke();
+    }
+
+    public bool HasCheckPoint(string _description)
+    {
+        return CheckPoints.Any(_checkPoint => _checkPoint.Description == _description);
     }
 
     public void IncreaseMatchCount()

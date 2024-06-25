@@ -1,5 +1,3 @@
-using System.Collections;
-using UnityEngine;
 public class LaneAbilityWhenYouPlayCardHereCopyItToHand : LaneAbilityBase
 {
     public override void Subscribe()

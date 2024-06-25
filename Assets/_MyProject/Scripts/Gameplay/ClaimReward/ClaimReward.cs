@@ -13,7 +13,8 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private Image resultDisplay;
    [SerializeField] private TextMeshProUGUI levelDisplay;
    [SerializeField] private TextMeshProUGUI progressDisplay;
-   [SerializeField] private Button next;
+   [SerializeField] private Button home;
+   [SerializeField] private Button nextMatch;
    [SerializeField] private GameObject xpRewardDisplay;
    
    [SerializeField] private Sprite won;
@@ -32,13 +33,15 @@ public class ClaimReward : MonoBehaviour
    private void OnEnable()
    {
       claim.onClick.AddListener(ShowLevel);
-      next.onClick.AddListener(Leave);
+      home.onClick.AddListener(Leave);
+      nextMatch.onClick.AddListener(NextMatch);
    }
 
    private void OnDisable()
    {
       claim.onClick.RemoveListener(ShowLevel);
-      next.onClick.AddListener(Leave);
+      home.onClick.RemoveListener(Leave);
+      nextMatch.onClick.RemoveListener(NextMatch);
    }
 
    private void ShowLevel()
@@ -70,10 +73,23 @@ public class ClaimReward : MonoBehaviour
 
    private void Leave()
    {
-      next.interactable=false;
+      home.interactable=false;
+      nextMatch.interactable = false;
       GameplayUI.Instance.ClosingAnimation(() =>
       {
          UIMainMenu.ShowStartingAnimation = true;
+         SceneManager.Instance.LoadMainMenu(false);
+      });
+   }
+   
+   private void NextMatch()
+   {
+      home.interactable=false;
+      nextMatch.interactable = false;
+      GameplayUI.Instance.ClosingAnimation(() =>
+      {
+         UIMainMenu.ShowStartingAnimation = true;
+         UIPlayPanel.PlayAgain = true;
          SceneManager.Instance.LoadMainMenu(false);
       });
    }

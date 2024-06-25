@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using DG.Tweening;
-using Photon.Pun;
-using UnityEditor.Rendering;
-using Unity.VisualScripting;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -24,6 +21,7 @@ public class GameplayManager : MonoBehaviour
     public static Action<LaneLocation, bool, Color, int> OnFlashAllSpotsOnLocation;
     public static Action<LaneLocation, bool, Color> OnHideHighlightWholePlace;
     public static Action<LaneLocation, bool> OnHideHighlightWholePlaceDotted;
+    public static Action OnGameplayStarted;
     public static bool DrewCardDirectlyToHand;
     
     public GameplayPlayer MyPlayer;
@@ -41,7 +39,6 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] protected List<LaneDisplay> lanes;
     [SerializeField] protected GameObject[] flags;
     [SerializeField] protected GameObject[] playsFirstDisplays;
-    [SerializeField] private TutorialImages tutorialImages;
 
     private GameplayState gameplayState = GameplayState.StartingAnimation;
     private int currentRound;
@@ -93,7 +90,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
-        FlagClickHandler.OnForefiet += Forfiet;
+        FlagClickHandler.OnForefiet += Forfeit;
         GameEnded += UpdateQommonsWinLose;
         GameEnded += TriggerGameEndEvents;
     }
@@ -102,7 +99,7 @@ public class GameplayManager : MonoBehaviour
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
-        FlagClickHandler.OnForefiet -= Forfiet;
+        FlagClickHandler.OnForefiet -= Forfeit;
         GameEnded -= UpdateQommonsWinLose;
         GameEnded -= TriggerGameEndEvents;
     }
@@ -114,7 +111,7 @@ public class GameplayManager : MonoBehaviour
         MyPlayer.FinishedTurn?.Invoke();
     }
 
-    protected virtual void Forfiet()
+    protected virtual void Forfeit()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.IForefiet);
@@ -216,33 +213,11 @@ public class GameplayManager : MonoBehaviour
 
     protected virtual void StartGameplay()
     {
-        StartCoroutine(StartRoutine());
-        IEnumerator StartRoutine()
-        {
-            CommandsHandler.Setup();
-            CurrentRound = 0;
-            SetupPlayers();
-            TableHandler.Setup();
-            
-            bool _canContinue = false;
-            
-            if (!DataManager.Instance.PlayerData.HasPlayedFirstGame && !DataManager.Instance.PlayerData.HasFinishedFirstGame)
-            {
-                tutorialImages.Setup(AllowContinue);
-            }
-            else
-            {
-                _canContinue = true;
-            }
-            
-            yield return new WaitUntil(() => _canContinue);
-            StartCoroutine(GameplayRoutine());
-
-            void AllowContinue()
-            {
-                _canContinue = true;
-            }
-        }
+        CommandsHandler.Setup();
+        CurrentRound = 0;
+        SetupPlayers();
+        TableHandler.Setup();
+        StartCoroutine(GameplayRoutine());
     }
     
     protected virtual void SetupPlayers()
@@ -305,8 +280,10 @@ public class GameplayManager : MonoBehaviour
         {
             return;
         }
-        
-        _player.AddCardToHand(_drawnCard);
+
+        int _cardId = _drawnCard.Details.Id;
+        Destroy(_drawnCard.gameObject);
+        _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
     }
 
     public virtual void ChangeCardEnergy(int _lessThan, int _amount, GameplayPlayer _player) 
@@ -330,6 +307,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);
+        OnGameplayStarted?.Invoke();
         yield return StartCoroutine(InitialDraw());
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)

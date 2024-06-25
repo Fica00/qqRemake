@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,28 +69,23 @@ public class TableHandler : MonoBehaviour
         {
             return -1;
         }
-        else if (_myAmountOfWinningLocations < _opponentAmountOfWinningLocations)
+
+        if (_myAmountOfWinningLocations < _opponentAmountOfWinningLocations)
         {
             return 1;
         }
-        else
+
+        if (!GameplayManager.IsPvpGame)
         {
-            if (PhotonNetwork.CurrentRoom == null)
-            {
-                return -1;
-            }
-            else
-            {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
+            return -1;
         }
+
+        if (SocketServerCommunication.Instance.MatchData.IsMasterClient)
+        {
+            return -1;
+        }
+
+        return 1;
     }
 
     public IEnumerator RevealCards(List<PlaceCommand> _commands)

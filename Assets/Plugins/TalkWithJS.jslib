@@ -85,6 +85,31 @@ mergeInto(LibraryManager.library,
         return IsOnPc();
     },
     
+    DoSendMessage: function(roomNamePtr, messagePtr)
+    {
+        sendMessage(UTF8ToString(roomNamePtr), UTF8ToString(messagePtr));
+    },
+    
+    DoLeaveMatch: function()
+    {
+        leaveMatch();
+    },
+    
+    DoMatchMakeAsync: function()
+    {
+        matchMakeAsync();
+    },
+   
+    DoCancelMatchMake: function()
+    {
+        cancelMatchMake();
+    },
+    
+    DoCreateAndSetupConnection: function(token)
+    {
+        createAndSetupConnection(UTF8ToString(token));
+    },
+    
     DoCopyToClipboard: function(textPtr) {
         var text = UTF8ToString(textPtr);
     

@@ -11,13 +11,14 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField] private GameObject loginAnimation;
     [SerializeField] private GameObject registerAnimation;
 
-
-   
-    
     public void Setup()
     {
         loginAnimation.SetActive(false);
         gameObject.SetActive(true);
+        if (Application.isEditor)
+        {
+            LoginAsGuest();
+        }
     }
 
     private void OnEnable()

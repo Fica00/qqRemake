@@ -1,7 +1,10 @@
 using System.Collections;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using MessageHelpers;
+
 
 public class UIPVPPanel : MonoBehaviour
 {
@@ -24,29 +27,21 @@ public class UIPVPPanel : MonoBehaviour
         gameObject.SetActive(true);
         TryShowTransition();
 
-        if (PhotonManager.Instance.IsMasterClient)
-        {
-            botRoutine = BringBot();
-            StartCoroutine(botRoutine);
-        }
+        // botRoutine = BringBot();
+        // StartCoroutine(botRoutine);
     }
 
     private IEnumerator BringBot()
     {
         yield return new WaitForSeconds(7);
-        PhotonManager.Instance.CloseRoom();
-        yield return new WaitForSeconds(2);
-        if (PhotonManager.Instance.CurrentRoom.PlayerCount!=1)
-        {
-            yield break;
-        }
-        PhotonManager.OnILeftRoom += StartVsBot;
-        Cancel();
+        SocketServerCommunication.OnILeftRoom += DoBringBot;
+        SocketServerCommunication.Instance.LeaveRoom();
     }
-    
-    private void StartVsBot()
+
+    private void DoBringBot()
     {
-        PhotonManager.OnILeftRoom -= StartVsBot;
+        SocketServerCommunication.OnILeftRoom -= DoBringBot;
+        Cancel();
         ModeHandler.Instance.Mode = GameMode.VsAi;
         playPanel.BringBot();
         gameObject.SetActive(false);
@@ -58,33 +53,45 @@ public class UIPVPPanel : MonoBehaviour
         ManageInteractables(true);
 
         cancelButton.onClick.AddListener(Cancel);
-        PhotonManager.OnIJoinedRoom += TryShowTransition;
-        PhotonManager.OnILeftRoom += Close;
-        PhotonManager.OnOpponentJoinedRoom += OpponentJoined;
+        SocketServerCommunication.OnOpponentJoinedRoom += OpponentJoined;
     }
 
     private void OnDisable()
     {
         cancelButton.onClick.RemoveListener(Cancel);
 
-        PhotonManager.OnIJoinedRoom -= TryShowTransition;
-        PhotonManager.OnILeftRoom -= Close;
-        PhotonManager.OnOpponentJoinedRoom -= OpponentJoined;
+        SocketServerCommunication.OnOpponentJoinedRoom -= OpponentJoined;
+        StopAllCoroutines();
     }
 
     private void TryShowTransition()
     {
-        if (PhotonManager.Instance.CurrentRoom.PlayerCount==2)
+        if (SocketServerCommunication.Instance.MatchData==null)
         {
-            LoadGameplay();
-            ShowOpponent();
+            return;
         }
+
+        if (SocketServerCommunication.Instance.MatchData.Players.Count!=2)
+        {
+            return;
+        }
+        
+        LoadGameplay();
+        RequestOpponentData();
     }
 
     private void Cancel()
     {
         ManageInteractables(false);
-        PhotonManager.Instance.LeaveRoom();
+        SocketServerCommunication.OnILeftRoom += OnLeftRoom;
+        SocketServerCommunication.Instance.CancelMatchMaking();
+    }
+
+    private void OnLeftRoom()
+    {
+        SocketServerCommunication.OnILeftRoom -= OnLeftRoom;
+        playPanel.OnLeftRoom();
+        Close();
     }
 
     private void Close()
@@ -101,17 +108,8 @@ public class UIPVPPanel : MonoBehaviour
     private void OpponentJoined()
     {
         ManageInteractables(false);
-        ShowOpponent();
+        RequestOpponentData();
         LoadGameplay();
-    }
-
-    private void ShowOpponent()
-    {
-        opponentPlayer.Setup(
-            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME),
-            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.DECK_NAME));
-        opponentPlayer.gameObject.SetActive(true);
-        header.text = "Opponent found!";
     }
 
     private void LoadGameplay()
@@ -119,16 +117,8 @@ public class UIPVPPanel : MonoBehaviour
         StartCoroutine(Delay());
         IEnumerator Delay()
         {
-            yield return new WaitForSeconds(2);
-            if (PhotonManager.Instance.IsMasterClient)
-            {
-                UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
-                PhotonManager.Instance.CloseRoom();
-            }
-            else
-            {
-                UIMainMenu.Instance.ShowSceneTransition(null);
-            }
+            yield return new WaitForSeconds(4);
+            UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
         }
     }
 
@@ -136,5 +126,34 @@ public class UIPVPPanel : MonoBehaviour
     {
         cancelButton.interactable = _status;
     }
+
+
+    private void RequestOpponentData()
+    {
+        Debug.Log("Requesting opponent data");
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentAskedForMyData));
+    }
     
+    private void OpponentAskedForMyData()
+    {
+        Debug.Log("Sending my data to opponent");
+        OpponentData _data = new OpponentData
+        {
+            Name = DataManager.Instance.PlayerData.Name, DeckName = DataManager.Instance.PlayerData.GetSelectedDeck().Name
+        };
+        
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(ShowOpponentData), JsonConvert.SerializeObject(_data));
+    }
+
+    private void ShowOpponentData(string _dataJson)
+    {
+        Debug.Log("Received data from opponent: "+_dataJson);
+        OpponentData _data = JsonConvert.DeserializeObject<OpponentData>(_dataJson);
+        opponentPlayer.Setup(
+            _data.Name,
+            _data.DeckName);
+        opponentPlayer.gameObject.SetActive(true);
+        header.text = "Opponent found!";
+    }
+
 }

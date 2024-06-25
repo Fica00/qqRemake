@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Player 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
-  m_sharedMaterial: {fileID: -8492591010878448660, guid: d3c2c369de984e44fa43fcc157d01389, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d3116389020679d4a821d32359510fed, type: 2}
+  m_sharedMaterial: {fileID: 12848318070634169, guid: d3116389020679d4a821d32359510fed, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60.45
+  m_fontSize: 35.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -189,6 +189,7 @@ MonoBehaviour:
   nameDisplay: {fileID: 2605240325611389697}
   showStats: {fileID: 7939073563728973941}
   statsDisplay: {fileID: 0}
+  holder: {fileID: 8363583969666827553}
 --- !u!222 &8990705211574012801
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ RectTransform:
   m_GameObject: {fileID: 6669493921306730411}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5991778364415685917}

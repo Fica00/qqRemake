@@ -47,6 +47,10 @@ public class CardOnTableDisplay : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (cardObject==null)
+        {
+            return;
+        }
         cardObject.Stats.UpdatedPower -= ShowPower;
     }
 

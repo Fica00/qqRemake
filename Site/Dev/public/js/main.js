@@ -12,24 +12,137 @@ let dinamicParam = new URLSearchParams(window.location.search).get("a");
 console.log(dinamicParam);
 if (!dinamicParam) {
   const urlParams = new URLSearchParams(window.location.search);
-console.log(urlParams);
+  console.log(urlParams);
   const sub1 = urlParams.get("sub1");
   console.log(sub1);
   const sub2 = urlParams.get("sub2");
-console.log(sub2);  
-const sub3 = urlParams.get("sub3");
-console.log(sub3);  
-const sub4 = urlParams.get("sub4");
-console.log(sub4);
+  console.log(sub2);
+  const sub3 = urlParams.get("sub3");
+  console.log(sub3);
+  const sub4 = urlParams.get("sub4");
+  console.log(sub4);
+  const sub5 = urlParams.get("sub5");
   if (sub1 && sub2 && sub3 && sub4) {
     isEvAgency = true;
-    dinamicParam = `${sub1}${sub2}${sub3}${sub4}`;
+    // dinamicParam = `${sub1}${sub2}${sub3}${sub4}${sub5}`;
+    dinamicParam = `Stardust`;
+  } else {
+    dinamicParam = "Organic";
   }
 }
 
 document.addEventListener("unityInitialized", function () {
   CheckUserSession();
 });
+
+// Zamenjeno: Korišćenje Web Crypto API-ja umesto require("crypto")
+async function generateSignature(clientId, clientSecret, body, timestamp) {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(clientSecret);
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  const message = `${clientId}${timestamp}${JSON.stringify(body)}`;
+  const messageData = encoder.encode(message);
+  const signatureArrayBuffer = await crypto.subtle.sign(
+    "HMAC",
+    cryptoKey,
+    messageData
+  );
+  const signature = Array.from(new Uint8Array(signatureArrayBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return signature;
+}
+
+async function sendUserIdentifierToEarnAlliance(userId, email) {
+  const clientId = "31941903-89d8-4bad-8e85-9b05754eecdb";
+  const clientSecret = "pbrs3SRCUbO92iir14s8VnlBDA5uDQE9";
+  const gameId = "91e6b829-3371-4edb-b45f-93bc1bc22063";
+  const url = "https://events.earnalliance.com/v2/custom-events";
+
+  const timestamp = Date.now();
+  const body = {
+    gameId: gameId,
+    identifiers: [
+      {
+        userId: userId,
+        email: email,
+      },
+    ],
+  };
+
+  const signature = await generateSignature(
+    clientId,
+    clientSecret,
+    body,
+    timestamp
+  );
+
+  try {
+    const response = await axios.post(url, body, {
+      headers: {
+        "x-client-id": clientId,
+        "x-timestamp": timestamp,
+        "x-signature": signature,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("User identifier sent to EarnAlliance:", response.data);
+  } catch (error) {
+    console.error("Error sending user identifier to EarnAlliance:", error);
+  }
+}
+
+async function sendEventToEarnAlliance(eventType, userId) {
+  const clientId = "31941903-89d8-4bad-8e85-9b05754eecdb";
+  const clientSecret = "pbrs3SRCUbO92iir14s8VnlBDA5uDQE9";
+  const gameId = "91e6b829-3371-4edb-b45f-93bc1bc22063";
+  const url = "https://events.earnalliance.com/v2/custom-events";
+
+  const timestamp = Date.now();
+  const body = {
+    gameId: gameId,
+    events: [
+      {
+        userId: userId,
+        event: eventType,
+        time: new Date().toISOString(),
+      },
+    ],
+  };
+
+  const signature = await generateSignature(
+    clientId,
+    clientSecret,
+    body,
+    timestamp
+  );
+
+  try {
+    const response = await axios.post(url, body, {
+      headers: {
+        "x-client-id": clientId,
+        "x-timestamp": timestamp,
+        "x-signature": signature,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Event sent to EarnAlliance:", response.data);
+  } catch (error) {
+    console.error("Error sending event to EarnAlliance:", error);
+  }
+}
+
+function isEarnAllianceLink() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get("test") === "earnalliance";
+}
 
 function CheckHasBoundAccount() {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -287,6 +400,17 @@ function tellUnityUserInfo(userId, isGuest, userInfo) {
       } else {
         console.log("No user data available for user ID:", userId);
         console.log("Before calling conversion!!");
+
+        // Dodato: Slanje identifikatora korisnika EarnAlliance API-ju
+        if (isEarnAllianceLink()) {
+          sendUserIdentifierToEarnAlliance(userId, userInfo.email);
+        }
+
+        // Dodato: Slanje događaja EarnAlliance API-ju
+        if (isEarnAllianceLink()) {
+          sendEventToEarnAlliance("USER_SIGNUP", userId);
+        }
+
         triggerConversionScript();
         unity.SendMessage(
           "JavaScriptManager",

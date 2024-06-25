@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class FadeAnimations : MonoBehaviour
 {
     [SerializeField] private bool takeThisObjectAsWell;
-    
+    [SerializeField] private List<GameObject> ignoreObjects = new();
+
     private List<Image> images = new ();
     private List<TextMeshProUGUI> texts = new ();
 
@@ -61,6 +62,10 @@ public class FadeAnimations : MonoBehaviour
     {
         foreach (var _image in images)
         {
+            if (ignoreObjects.Contains(_image.gameObject))
+            {
+                continue;
+            }
             Color _color = _image.color;
             _color.a = _oldAlpha;
             _image.color = _color;
@@ -70,6 +75,10 @@ public class FadeAnimations : MonoBehaviour
 
         foreach (var _text in texts)
         {
+            if (ignoreObjects.Contains(_text.gameObject))
+            {
+                continue;
+            }
             Color _color = _text.color;
             _color.a = _oldAlpha;
             _text.color = _color;
