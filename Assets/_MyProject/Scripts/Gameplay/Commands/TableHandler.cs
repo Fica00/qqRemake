@@ -147,7 +147,15 @@ public class TableHandler : MonoBehaviour
         IEnumerator DoRevealRoutine(PlaceCommand _command)
         {
             yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
-            yield return StartCoroutine(_command.Card.RevealCard());
+            CardObject _card = _command.Card;
+            if (_card.Animator.HasAnimations)
+            {
+                yield return StartCoroutine(_card.Animator.RevealAnimation());
+            }
+            else
+            {
+                yield return StartCoroutine(_card.RevealCard());
+            }
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
             {
@@ -162,8 +170,8 @@ public class TableHandler : MonoBehaviour
                     break;
             }
             
-            AddCardOnLane(_command.Card, _cardsOnLane);
-            OnRevealdCard?.Invoke(_command.Card);
+            AddCardOnLane(_card, _cardsOnLane);
+            OnRevealdCard?.Invoke(_card);
             _commands.Remove(_command);
         }
     }

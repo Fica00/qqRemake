@@ -1,0 +1,40 @@
+Master Octo.png
+	size: 2048, 1024
+	filter: Linear, Linear
+cj1
+	bounds: 860, 51, 372, 266
+	rotate: 270
+cj2
+	bounds: 891, 681, 325, 250
+	rotate: 270
+cj3
+	bounds: 751, 359, 412, 263
+	rotate: 90
+cj4
+	bounds: 149, 2, 360, 195
+	rotate: 180
+sl
+	bounds: 509, 6, 354, 292
+sl2
+	bounds: 1043, 73, 245, 208
+sln
+	bounds: 765, 788, 124, 218
+sr
+	bounds: 993, 281, 337, 295
+	rotate: 90
+sszr
+	bounds: 2, 41, 107, 136
+	offsets: 2, 1, 110, 138
+st
+	bounds: 374, 582, 424, 389
+	rotate: 90
+tou
+	bounds: 374, 242, 487, 350
+wq
+	bounds: 2, 366, 370, 640
+	offsets: 2, 1, 373, 642
+yijie
+	bounds: 373, 222, 82, 70
+	offsets: 1, 1, 84, 72
+yiu
+	bounds: 2, 179, 369, 185

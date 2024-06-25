@@ -62,6 +62,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: 19_BlackBen
       objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: useNewAnimation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].AnimationKey
+      value: dengchang
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
+      value: 
+      objectReference: {fileID: 5873345339362866694}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[1]
+      value: 
+      objectReference: {fileID: 5239352598029400742}
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -190,10 +214,22 @@ PrefabInstance:
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: <color=#C38C15>On Summon</color>:\nDestroy your other Qoomons here.
       objectReference: {fileID: 0}
+    - target: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 4916abf7903534d43aa601beb4b9b910, type: 3}
+    - target: {fileID: 6796600185718709079, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 348a7fa9fee7c75478d506fce155818f, type: 2}
+    - target: {fileID: 8749235354405596055, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
@@ -203,5 +239,15 @@ PrefabInstance:
 --- !u!224 &1889361197954896172 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 1779169598681541519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5239352598029400742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5766026165464174889, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 1779169598681541519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5873345339362866694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
   m_PrefabInstance: {fileID: 1779169598681541519}
   m_PrefabAsset: {fileID: 0}

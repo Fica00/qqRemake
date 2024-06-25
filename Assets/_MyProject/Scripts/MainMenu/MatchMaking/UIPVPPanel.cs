@@ -54,6 +54,7 @@ public class UIPVPPanel : MonoBehaviour
 
         cancelButton.onClick.AddListener(Cancel);
         SocketServerCommunication.OnOpponentJoinedRoom += OpponentJoined;
+        SocketServerCommunication.OnRoomIsFull += RoomIsFull;
     }
 
     private void OnDisable()
@@ -61,7 +62,14 @@ public class UIPVPPanel : MonoBehaviour
         cancelButton.onClick.RemoveListener(Cancel);
 
         SocketServerCommunication.OnOpponentJoinedRoom -= OpponentJoined;
+        SocketServerCommunication.OnRoomIsFull += RoomIsFull;
         StopAllCoroutines();
+    }
+
+    private void RoomIsFull()
+    {
+        DialogsManager.Instance.OkDialog.Setup("Please select another room name");
+        Close();
     }
 
     private void TryShowTransition()
@@ -84,7 +92,14 @@ public class UIPVPPanel : MonoBehaviour
     {
         ManageInteractables(false);
         SocketServerCommunication.OnILeftRoom += OnLeftRoom;
-        SocketServerCommunication.Instance.CancelMatchMaking();
+        if (ModeHandler.Instance.Mode == GameMode.VsPlayer)
+        {
+            SocketServerCommunication.Instance.CancelMatchMaking();
+        }
+        else
+        {
+            SocketServerCommunication.Instance.LeaveRoom();
+        }
     }
 
     private void OnLeftRoom()

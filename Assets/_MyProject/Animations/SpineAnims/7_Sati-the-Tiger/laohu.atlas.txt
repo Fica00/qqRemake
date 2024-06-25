@@ -1,0 +1,59 @@
+laohu.png
+	size: 512, 1024
+	filter: Linear, Linear
+cccc
+	bounds: 398, 9, 103, 111
+	rotate: 180
+ddd
+	bounds: 2, 303, 210, 118
+	offsets: 1, 1, 212, 120
+dddl
+	bounds: 374, 687, 117, 178
+	offsets: 1, 1, 119, 180
+jhjjhjhrrr
+	bounds: 417, 78, 109, 93
+	rotate: 90
+jjhhe
+	bounds: 213, 61, 72, 91
+jjjj
+	bounds: 179, 153, 135, 124
+	rotate: 180
+jjjr
+	bounds: 2, 92, 97, 114
+	offsets: 0, 9, 97, 123
+	rotate: 90
+pdd2
+	bounds: 333, 12, 38, 98
+	rotate: 90
+pppdd
+	bounds: 2, 41, 163, 38
+	offsets: 1, 2, 165, 41
+ppppyyy
+	bounds: 289, 459, 219, 221
+	rotate: 180
+sssrr
+	bounds: 2, 190, 111, 188
+	rotate: 90
+ssssll
+	bounds: 330, 159, 118, 180
+	rotate: 90
+sssyyy
+	bounds: 233, 262, 205, 197
+	offsets: 0, 72, 205, 269
+tou
+	bounds: 2, 423, 288, 257
+wqqqqq
+	bounds: 2, 682, 370, 183
+	offsets: 1, 1, 372, 185
+wwwbb
+	bounds: 167, 2, 164, 77
+	rotate: 180
+xxxl
+	bounds: 287, 69, 89, 109
+	offsets: 1, 1, 91, 112
+	rotate: 90
+xxxr
+	bounds: 117, 81, 83, 78
+	offsets: 1, 1, 85, 80
+yfff22
+	bounds: 456, 280, 54, 190

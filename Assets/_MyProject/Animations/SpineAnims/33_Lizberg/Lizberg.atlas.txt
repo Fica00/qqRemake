@@ -1,0 +1,51 @@
+Lizberg.png
+	size: 2048, 512
+	filter: Linear, Linear
+daizi_l
+	bounds: 1011, 2, 74, 375
+	rotate: 90
+daizi_r
+	bounds: 1920, 132, 87, 373
+	rotate: 180
+diaozui
+	bounds: 237, 9, 88, 156
+qi
+	bounds: 1369, 195, 310, 565
+	rotate: 270
+qunzi
+	bounds: 2, 237, 497, 268
+	offsets: 0, 1, 501, 269
+shanzi
+	bounds: 449, 217, 288, 541
+	rotate: 270
+ssbl
+	bounds: 1655, 59, 134, 216
+	offsets: 2, 1, 137, 218
+	rotate: 90
+ssbr
+	bounds: 911, 85, 141, 229
+	offsets: 1, 2, 143, 232
+	rotate: 90
+sszl
+	bounds: 569, 122, 141, 85
+	rotate: 90
+sszr
+	bounds: 2, 249, 97, 71
+st
+	bounds: 984, 227, 383, 278
+sxbl
+	bounds: 2, 34, 233, 202
+	offsets: 2, 2, 236, 207
+sxbr
+	bounds: 703, 39, 176, 206
+	offsets: 2, 1, 180, 208
+	rotate: 90
+tou
+	bounds: 1308, 33, 345, 311
+	rotate: 180
+touguan
+	bounds: 1142, 68, 159, 157
+	offsets: 2, 1, 162, 159
+wb
+	bounds: 290, 37, 411, 257
+	rotate: 180

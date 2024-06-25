@@ -1,0 +1,86 @@
+Gunner Kanye.png
+	size: 2048, 1024
+	filter: Linear, Linear
+anniu
+	bounds: 702, 671, 46, 31
+	offsets: 1, 2, 48, 34
+daizi
+	bounds: 1951, 512, 91, 190
+danjia
+	bounds: 552, 30, 125, 187
+	offsets: 1, 4, 127, 192
+huxu_l
+	bounds: 796, 22, 94, 94
+	offsets: 1, 1, 96, 96
+huxu_r
+	bounds: 1277, 14, 90, 89
+	offsets: 1, 1, 92, 91
+jjzl
+	bounds: 1419, 202, 127, 75
+	offsets: 4, 0, 131, 75
+jjzr
+	bounds: 1128, 42, 147, 81
+jl
+	bounds: 1949, 343, 71, 168
+jr
+	bounds: 1542, 22, 64, 165
+pifeng_h
+	bounds: 1068, 271, 390, 431
+	rotate: 180
+pifeng_l
+	bounds: 702, 78, 217, 424
+	rotate: 270
+pifeng_l2
+	bounds: 1118, 56, 215, 422
+	rotate: 90
+pifeng_r
+	bounds: 1669, 2, 123, 377
+	rotate: 270
+ssbl
+	bounds: 679, 10, 115, 133
+	offsets: 1, 1, 117, 135
+ssbl2
+	bounds: 389, 62, 161, 155
+	offsets: 1, 2, 163, 158
+ssbr
+	bounds: 1815, 161, 212, 131
+	offsets: 1, 2, 215, 134
+	rotate: 90
+sszl
+	bounds: 892, 28, 59, 77
+	offsets: 1, 1, 61, 79
+sszl2
+	bounds: 1948, 266, 65, 75
+	offsets: 1, 1, 67, 77
+sszr
+	bounds: 1086, 641, 66, 61
+	offsets: 13, 1, 81, 65
+st
+	bounds: 1558, 185, 235, 255
+	rotate: 270
+sxbl
+	bounds: 1460, 279, 69, 138
+	offsets: 1, 1, 71, 140
+sxbl2
+	bounds: 2, 88, 129, 212
+	offsets: 1, 1, 131, 214
+	rotate: 90
+sxbr
+	bounds: 216, 66, 151, 171
+	offsets: 1, 1, 153, 174
+	rotate: 90
+tou
+	bounds: 702, 281, 421, 414
+	rotate: 90
+tuijia
+	bounds: 1720, 375, 327, 233
+	rotate: 90
+weiba
+	bounds: 1648, 59, 209, 398
+	rotate: 90
+wuqi
+	bounds: 2, 219, 698, 483
+	offsets: 1, 1, 700, 485
+yanjing
+	bounds: 1428, 417, 292, 285
+	rotate: 180

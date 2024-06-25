@@ -1,0 +1,57 @@
+Sage Lazzi.png
+	size: 2048, 1024
+	filter: Linear, Linear
+gunzi
+	bounds: 1722, 207, 67, 558
+	offsets: 1, 1, 69, 560
+huxu
+	bounds: 1471, 316, 249, 449
+	rotate: 180
+meimao_l
+	bounds: 2, 167, 268, 613
+	rotate: 270
+meimao_r
+	bounds: 617, 145, 193, 575
+	rotate: 90
+qun
+	bounds: 717, 302, 463, 266
+	rotate: 270
+ssbl
+	bounds: 1791, 243, 145, 244
+	offsets: 1, 1, 147, 246
+ssbr
+	bounds: 1431, 142, 172, 267
+	offsets: 3, 2, 176, 270
+	rotate: 90
+sszl
+	bounds: 212, 120, 101, 97
+sszr
+	bounds: 2, 28, 124, 85
+	offsets: 2, 5, 128, 91
+sszr2
+	bounds: 128, 5, 67, 82
+	offsets: 1, 1, 69, 84
+st
+	bounds: 937, 308, 403, 289
+	offsets: 0, 4, 403, 293
+	rotate: 90
+st2
+	bounds: 2, 2, 326, 243
+	rotate: 180
+sxbl
+	bounds: 1199, 148, 230, 224
+	offsets: 2, 2, 244, 228
+sxbr
+	bounds: 315, 63, 175, 237
+	offsets: 8, 0, 183, 237
+	rotate: 270
+tou
+	bounds: 2, 358, 411, 407
+yifu_l
+	bounds: 1226, 374, 271, 391
+zhaozi
+	bounds: 403, 374, 313, 391
+	rotate: 180
+zuiba
+	bounds: 1791, 489, 276, 174
+	rotate: 90

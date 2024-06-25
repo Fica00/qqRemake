@@ -58,12 +58,15 @@ public class ClaimReward : MonoBehaviour
             {
                if (result != GameResult.Draw)
                {
-                  DataManager.Instance.PlayerData.RankPoints += GameplayManager.Instance.CurrentBet;
+                  if (ModeHandler.ModeStatic!=GameMode.Friendly)
+                  {
+                     DataManager.Instance.PlayerData.RankPoints += BetClickHandler.Instance.CurrentBet;
+                  }
                }
             }
             else
             {
-               DataManager.Instance.PlayerData.RankPoints -= GameplayManager.Instance.CurrentBet;
+               DataManager.Instance.PlayerData.RankPoints -= BetClickHandler.Instance.CurrentBet;
             }
             levelFill.DOFillAmount(RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage, 1f);
             ShowProgress();
@@ -139,7 +142,11 @@ public class ClaimReward : MonoBehaviour
       }
       else
       {
-         DataManager.Instance.PlayerData.Exp += expReward;
+         if (ModeHandler.ModeStatic!=GameMode.Friendly)
+         {
+            DataManager.Instance.PlayerData.Exp += expReward;
+            expDisplay.gameObject.SetActive(false);
+         }
       }
       ShowProgress();
    }

@@ -1,0 +1,42 @@
+Geisha-Ko.png
+	size: 1024, 1024
+	filter: Linear, Linear
+hudiejie1
+	bounds: 589, 457, 120, 89
+	offsets: 0, 0, 127, 89
+	rotate: 90
+hudiejie2
+	bounds: 240, 2, 135, 147
+	rotate: 180
+jl
+	bounds: 2, 21, 123, 169
+jr
+	bounds: 441, 7, 104, 176
+	rotate: 90
+lingzi
+	bounds: 587, 48, 247, 94
+	rotate: 270
+shanzi1
+	bounds: 557, 591, 131, 117
+	offsets: 1, 1, 133, 120
+	rotate: 90
+shanzi2
+	bounds: 556, 297, 159, 97
+	offsets: 1, 1, 162, 100
+	rotate: 90
+sl
+	bounds: 295, 148, 245, 248
+	offsets: 0, 4, 245, 257
+sr
+	bounds: 378, 398, 209, 319
+sszr
+	bounds: 317, 682, 58, 40
+	offsets: 2, 2, 62, 43
+st
+	bounds: 28, 86, 303, 317
+	rotate: 270
+tou
+	bounds: 2, 305, 411, 417
+weiba
+	bounds: 371, 64, 231, 224
+	rotate: 90

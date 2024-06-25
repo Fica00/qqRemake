@@ -10,6 +10,8 @@ public class SocketServerCommunication : MonoBehaviour
     public static Action OnOpponentJoinedRoom;
     public static Action OnOpponentLeftRoom;
     public static Action OnILeftRoom;
+    public static Action OnRoomIsFull;
+    public static Action MatchMakingStarted;
 
     public static Action<bool> OnInitFinished;
     
@@ -52,6 +54,12 @@ public class SocketServerCommunication : MonoBehaviour
         
         Debug.Log($"Creating connection");
 
+        if (connection!=null)
+        {
+            OnInitFinished?.Invoke(true);
+            return;
+        }
+
         connection = new HubConnectionBuilder()
             .WithUrl(SERVER_URI
                 , _options =>
@@ -75,6 +83,7 @@ public class SocketServerCommunication : MonoBehaviour
         connection.On<string,string,string>(nameof(MatchFoundAsync), MatchFoundAsync);
         connection.On(nameof(MatchMakingStartedAsync),MatchMakingStartedAsync);
         connection.On(nameof(MatchMakingCanceledAsync),MatchMakingCanceledAsync);
+        connection.On(nameof(RoomIsFullAsync),RoomIsFullAsync);
 
         Debug.Log($"Trying to connect");
         try
@@ -128,13 +137,7 @@ public class SocketServerCommunication : MonoBehaviour
     
     private void MatchLeftAsyncFromJs(int _status)
     {
-        if (_status == 0)
-        {
-            Debug.Log("Failed to leave room");
-            return;
-        }
-        
-        OnILeftRoom?.Invoke();
+        MatchLeftAsync(_status==1);
     }
 
     private void ReceiveOldMessagesAsync(List<string> _messages)
@@ -176,6 +179,12 @@ public class SocketServerCommunication : MonoBehaviour
     private void MatchMakingStartedAsync()
     {
         Debug.Log($"MatchMakingStartedAsync");
+        MatchMakingStarted?.Invoke();
+    }
+
+    private void RoomIsFullAsync()
+    {
+        OnRoomIsFull?.Invoke();
     }
     
     #endregion
@@ -232,6 +241,18 @@ public class SocketServerCommunication : MonoBehaviour
         
         Debug.Log("CancelMatchMaking editor");
         connection.SendAsync("CancelMatchMakeAsync");
+    }
+
+    public void JoinFriendlyMatch(string _name)
+    {
+        if (!Application.isEditor)
+        {
+            Debug.Log("CancelMatchMaking not editor");
+            JavaScriptManager.Instance.JoinFriendlyMatch(_name);
+            return;
+        }
+        
+        connection.SendAsync("JoinFriendlyMatch", _name);
     }
     
     #endregion

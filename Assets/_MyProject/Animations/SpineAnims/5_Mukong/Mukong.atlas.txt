@@ -1,0 +1,61 @@
+Mukong.png
+	size: 2048, 512
+	filter: Linear, Linear
+bu
+	bounds: 976, 2, 333, 145
+	rotate: 180
+daizi
+	bounds: 968, 437, 71, 136
+	rotate: 90
+jdtl
+	bounds: 1625, 196, 101, 104
+	offsets: 1, 1, 103, 107
+jdtr
+	bounds: 1510, 302, 135, 100
+	offsets: 1, 1, 138, 102
+jjzl
+	bounds: 1720, 380, 128, 64
+	rotate: 90
+jjzr
+	bounds: 674, 5, 128, 51
+jxtl
+	bounds: 1653, 9, 77, 90
+	offsets: 1, 1, 79, 92
+	rotate: 90
+jxtr
+	bounds: 1712, 107, 78, 87
+	offsets: 1, 1, 80, 89
+ssbl
+	bounds: 1326, 386, 155, 122
+	offsets: 1, 1, 157, 124
+ssbr
+	bounds: 1519, 190, 104, 110
+	offsets: 1, 1, 106, 112
+sszl
+	bounds: 1647, 312, 81, 98
+	offsets: 1, 1, 84, 100
+	rotate: 90
+sszr
+	bounds: 1613, 88, 97, 100
+	offsets: 2, 1, 100, 102
+st
+	bounds: 1100, 191, 317, 224
+	rotate: 90
+sxbl
+	bounds: 1483, 404, 145, 104
+	offsets: 1, 1, 147, 109
+sxbr
+	bounds: 1647, 395, 113, 71
+	offsets: 1, 1, 116, 73
+	rotate: 90
+tou
+	bounds: 674, 45, 435, 463
+weiba
+	bounds: 1429, 44, 222, 340
+	rotate: 180
+weijin
+	bounds: 1253, 40, 334, 194
+	rotate: 270
+wuqi
+	bounds: 2, 30, 670, 478
+	offsets: 1, 1, 672, 480

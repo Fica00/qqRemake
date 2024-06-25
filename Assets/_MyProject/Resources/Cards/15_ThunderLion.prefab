@@ -66,6 +66,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: useNewAnimation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].AnimationKey
+      value: dengchang
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
+      value: 
+      objectReference: {fileID: 2813828059358480619}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[1]
+      value: 
+      objectReference: {fileID: 4484180792950539339}
     - target: {fileID: 1320126881876742923, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -199,16 +223,38 @@ PrefabInstance:
       value: '<color=#C38C15>On Summon:</color>\n+40 Power if you don''t play a \nQoomon
         here next turn.  '
       objectReference: {fileID: 0}
+    - target: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 75218e9b7a1b54fca945baef6b547929, type: 3}
+    - target: {fileID: 6796600185718709079, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4255908cdc62a9b4cb0c60cdc5319a49, type: 2}
+    - target: {fileID: 8749235354405596055, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6571277131595138300}
   m_SourcePrefab: {fileID: 100100000, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+--- !u!1 &2813828059358480619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 7943796220825949538}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4484180792950539339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5766026165464174889, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 7943796220825949538}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7833644581794066369 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 182601037169064611, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}

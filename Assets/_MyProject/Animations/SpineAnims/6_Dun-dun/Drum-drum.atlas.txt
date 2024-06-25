@@ -1,0 +1,59 @@
+Drum-drum.png
+	size: 2048, 1024
+	filter: Linear, Linear
+jdtl
+	bounds: 942, 17, 122, 138
+	offsets: 2, 1, 125, 140
+jdtr
+	bounds: 332, 87, 147, 141
+	offsets: 1, 2, 149, 144
+jjzl
+	bounds: 281, 30, 156, 55
+	offsets: 1, 1, 158, 57
+jjzr
+	bounds: 1179, 95, 195, 53
+jxtl
+	bounds: 1066, 9, 111, 139
+	offsets: 1, 1, 113, 141
+jxtr
+	bounds: 481, 48, 130, 147
+	offsets: 2, 1, 133, 149
+pidai
+	bounds: 529, 2, 412, 339
+	offsets: 0, 0, 419, 356
+	rotate: 180
+piqun
+	bounds: 679, 149, 401, 258
+	rotate: 180
+ssbl
+	bounds: 1449, 660, 215, 214
+	offsets: 1, 1, 217, 216
+	rotate: 90
+ssbr
+	bounds: 1082, 150, 202, 286
+	offsets: 2, 2, 205, 298
+	rotate: 90
+sszl
+	bounds: 136, 21, 143, 104
+	offsets: 4, 2, 148, 107
+sszr
+	bounds: 2, 6, 132, 119
+	offsets: 1, 1, 134, 121
+st
+	bounds: 529, 331, 522, 544
+sxbl
+	bounds: 1370, 202, 211, 236
+	offsets: 2, 1, 214, 239
+sxbr
+	bounds: 1452, 440, 178, 175
+	offsets: 1, 1, 180, 178
+tou
+	bounds: 1015, 354, 477, 435
+	offsets: 16, 0, 493, 435
+	rotate: 90
+wuqi
+	bounds: 2, 230, 525, 645
+	offsets: 1, 1, 527, 647
+wuqi_2
+	bounds: 2, 127, 328, 101
+	offsets: 1, 2, 330, 104

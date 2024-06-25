@@ -1,0 +1,51 @@
+zhadaneyu.png
+	size: 2048, 512
+	filter: Linear, Linear
+ssbl
+	bounds: 568, 64, 104, 196
+	offsets: 2, 1, 107, 199
+ssbr
+	bounds: 2, 353, 93, 152
+	offsets: 1, 1, 95, 154
+sszl
+	bounds: 674, 45, 90, 117
+sszr
+	bounds: 568, 432, 89, 73
+st
+	bounds: 2, 8, 497, 564
+	rotate: 90
+sxbl
+	bounds: 2, 150, 195, 189
+	offsets: 0, 2, 195, 191
+sxbr_0
+	bounds: 1776, 3, 105, 152
+	offsets: 0, 0, 105, 172
+sxbr_1
+	bounds: 1893, 24, 114, 153
+	offsets: 0, 0, 114, 172
+	rotate: 90
+tou
+	bounds: 568, 92, 526, 413
+	offsets: 2, 6, 528, 419
+tx
+	bounds: 1606, 221, 284, 204
+	offsets: 27, 15, 321, 229
+	rotate: 90
+tx2
+	bounds: 933, 404, 93, 101
+	offsets: 1, 1, 95, 104
+yifu_l
+	bounds: 1359, 89, 247, 416
+	offsets: 7, 0, 254, 416
+	rotate: 180
+yifu_n
+	bounds: 1071, 113, 308, 392
+	rotate: 180
+yifu_r
+	bounds: 699, 2, 131, 390
+	rotate: 270
+yifu_x
+	bounds: 1812, 137, 234, 275
+zhadan
+	bounds: 1608, 38, 178, 181
+	offsets: 8, 1, 187, 183

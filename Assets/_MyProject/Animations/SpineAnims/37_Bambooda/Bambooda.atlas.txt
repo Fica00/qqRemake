@@ -1,0 +1,67 @@
+Bambooda.png
+	size: 2048, 512
+	filter: Linear, Linear
+bu
+	bounds: 1637, 400, 157, 103
+	offsets: 2, 1, 160, 105
+jjzl
+	bounds: 2, 2, 127, 87
+	offsets: 2, 1, 130, 89
+jjzr
+	bounds: 131, 11, 141, 78
+	offsets: 1, 1, 144, 81
+jl
+	bounds: 1765, 153, 102, 156
+	rotate: 270
+jr
+	bounds: 1796, 401, 102, 156
+	rotate: 90
+qunbai
+	bounds: 957, 22, 481, 194
+	rotate: 270
+sr
+	bounds: 1683, 7, 149, 151
+	rotate: 180
+sr0
+	bounds: 1526, 17, 158, 216
+	offsets: 0, 0, 158, 218
+	rotate: 180
+sr2
+	bounds: 1477, 287, 158, 216
+	offsets: 0, 0, 158, 218
+	rotate: 180
+ssbl
+	bounds: 1360, 9, 149, 197
+	rotate: 270
+sszl
+	bounds: 1765, 264, 134, 116
+	offsets: 1, 1, 136, 118
+	rotate: 90
+st
+	bounds: 1152, 201, 302, 219
+	rotate: 270
+sxbl
+	bounds: 1637, 227, 126, 144
+	offsets: 1, 2, 128, 147
+tou
+	bounds: 583, 87, 416, 373
+	rotate: 90
+wuqi
+	bounds: 2, 91, 579, 412
+	offsets: 1, 1, 581, 414
+xiabai
+	bounds: 1070, 2, 327, 197
+xiabai2
+	bounds: 1370, 162, 234, 159
+	offsets: 0, 9, 234, 168
+	rotate: 270
+yezu_1
+	bounds: 274, 9, 80, 120
+	offsets: 1, 1, 82, 122
+	rotate: 90
+yezu_2
+	bounds: 583, 7, 34, 100
+	offsets: 1, 1, 36, 102
+yezu_3
+	bounds: 1834, 3, 148, 124
+	rotate: 90

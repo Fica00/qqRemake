@@ -10,6 +10,8 @@ public class CardObject : MonoBehaviour
     [field: SerializeField] public CardDisplay Display { get; private set; }
     [field: SerializeField] public CardReveal Reveal { get; private set; }
     [field: SerializeField] public List<CardEffectBase> SpecialEffects { get; private set; }
+    
+    public QoomonAnimator Animator;
 
     [HideInInspector] public CardStats Stats;
 
@@ -49,6 +51,7 @@ public class CardObject : MonoBehaviour
         cardInputInteractions.Setup(this);
         Reveal.Setup(this);
         Display.Setup(this);
+        Animator.Setup(this);
         ManageBeheviour();
 
         GameplayManager.UpdatedGameState += ManageBeheviour;
@@ -232,4 +235,5 @@ public class CardObject : MonoBehaviour
     {
         return GetComponentInParent<LaneDisplay>() != null;
     }
+    
 }

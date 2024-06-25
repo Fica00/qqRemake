@@ -9,6 +9,7 @@ public class CardStats
 
     //if bool is false means that the power decreased,if it is true, power increased
     public Action<ChangeStatus> UpdatedPower;
+    public Action<ChangeStatus> UpdatedPowerBasedOnPrevious;
     public Action<ChangeStatus> UpdatedMana;
     private int startingPower;
     private int startingMana;
@@ -27,6 +28,20 @@ public class CardStats
         }
         set
         {
+            ChangeStatus _basedOnPrevious;
+            if (power == value)
+            {
+                _basedOnPrevious = ChangeStatus.Same;
+            }
+            else if (power<value)
+            {
+                _basedOnPrevious = ChangeStatus.Increased;
+            }
+            else
+            {
+                _basedOnPrevious = ChangeStatus.Decreased;
+            }
+            
             power = value;
 
             if (power == startingPower)
@@ -41,6 +56,8 @@ public class CardStats
             {
                 UpdatedPower?.Invoke(ChangeStatus.Decreased);
             }
+            
+            UpdatedPowerBasedOnPrevious?.Invoke(_basedOnPrevious);
         }
     }
 
@@ -70,7 +87,7 @@ public class CardStats
     }
 
 
-        [HideInInspector] public int ChagePowerDueToLocation
+    [HideInInspector] public int ChagePowerDueToLocation
     {
         get
         {
@@ -80,6 +97,20 @@ public class CardStats
         {
             int _oldChangePower = chagePowerDueToLocation;
             chagePowerDueToLocation = value;
+            ChangeStatus _basedOnPrevious;
+            if (power == value)
+            {
+                _basedOnPrevious = ChangeStatus.Same;
+            }
+            else if (power<value)
+            {
+                _basedOnPrevious = ChangeStatus.Increased;
+            }
+            else
+            {
+                _basedOnPrevious = ChangeStatus.Decreased;
+            }
+            
             if (_oldChangePower== chagePowerDueToLocation)
             {
                 UpdatedPower?.Invoke(ChangeStatus.Same);
@@ -92,6 +123,8 @@ public class CardStats
             {
                 UpdatedPower?.Invoke(ChangeStatus.Decreased);
             }
+            
+            UpdatedPowerBasedOnPrevious?.Invoke(_basedOnPrevious);
         }
     }
 }

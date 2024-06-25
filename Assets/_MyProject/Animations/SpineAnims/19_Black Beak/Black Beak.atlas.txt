@@ -1,0 +1,54 @@
+Black Beak.png
+	size: 2048, 512
+	filter: Linear, Linear
+jjzl
+	bounds: 813, 34, 137, 119
+	offsets: 2, 1, 141, 121
+jjzr
+	bounds: 632, 37, 179, 116
+	offsets: 1, 1, 181, 118
+jl
+	bounds: 1386, 353, 89, 155
+	offsets: 0, 0, 112, 155
+	rotate: 180
+jr
+	bounds: 311, 13, 89, 151
+	rotate: 270
+mao
+	bounds: 1158, 9, 125, 113
+	rotate: 180
+mao2
+	bounds: 1201, 242, 228, 266
+sl
+	bounds: 1201, 101, 130, 279
+	rotate: 90
+ssbl2
+	bounds: 980, 58, 136, 176
+	offsets: 1, 1, 138, 178
+	rotate: 90
+ssbr
+	bounds: 464, 43, 152, 166
+	offsets: 1, 1, 154, 168
+	rotate: 90
+sszr
+	bounds: 1285, 2, 104, 97
+	offsets: 1, 1, 107, 99
+st
+	bounds: 464, 197, 276, 311
+sxbr
+	bounds: 133, 5, 90, 101
+	offsets: 1, 1, 92, 103
+	rotate: 90
+tou
+	bounds: 2, 97, 470, 411
+toushi
+	bounds: 2, 12, 127, 129
+	offsets: 13, 2, 141, 132
+	rotate: 90
+wuqi_l
+	bounds: 742, 155, 302, 236
+	offsets: 2, 1, 305, 238
+	rotate: 90
+wuqi_r
+	bounds: 980, 196, 219, 261
+	offsets: 1, 1, 222, 264

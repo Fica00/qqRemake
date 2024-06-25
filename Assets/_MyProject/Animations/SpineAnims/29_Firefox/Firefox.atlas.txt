@@ -1,0 +1,35 @@
+Firefox.png
+	size: 2048, 512
+	filter: Linear, Linear
+hudiejie
+	bounds: 1881, 244, 145, 153
+	offsets: 5, 0, 150, 157
+qiu
+	bounds: 403, 2, 155, 155
+	offsets: 1, 1, 157, 157
+qiu_fg
+	bounds: 1855, 50, 191, 191
+	offsets: 6, 6, 203, 203
+qunzi
+	bounds: 400, 144, 584, 253
+ssbl
+	bounds: 771, 34, 131, 211
+	offsets: 2, 1, 134, 213
+	rotate: 90
+ssbr
+	bounds: 1645, 5, 164, 175
+st
+	bounds: 969, 94, 303, 265
+	offsets: 23, 0, 326, 265
+	rotate: 90
+sxbl
+	bounds: 1635, 116, 281, 244
+	rotate: 270
+sxbr
+	bounds: 1377, 100, 266, 297
+	offsets: 0, 10, 266, 307
+	rotate: 180
+tou
+	bounds: 2, 18, 446, 379
+weiba
+	bounds: 1236, 57, 177, 340

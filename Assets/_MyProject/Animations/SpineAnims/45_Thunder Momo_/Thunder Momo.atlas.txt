@@ -1,0 +1,50 @@
+Thunder Momo.png
+	size: 1024, 1024
+	filter: Linear, Linear
+daizi
+	bounds: 940, 759, 68, 150
+jdtr
+	bounds: 607, 98, 197, 136
+	offsets: 1, 1, 199, 138
+jjzl
+	bounds: 2, 71, 156, 63
+	offsets: 1, 1, 158, 66
+jjzr
+	bounds: 607, 39, 151, 57
+	offsets: 1, 1, 153, 59
+jxrl
+	bounds: 169, 81, 171, 202
+	offsets: 0, 0, 171, 205
+	rotate: 270
+jxtr
+	bounds: 790, 519, 121, 137
+	offsets: 2, 1, 143, 139
+kua
+	bounds: 2, 253, 285, 168
+	offsets: 1, 2, 287, 172
+sl
+	bounds: 765, 630, 219, 279
+sr
+	bounds: 798, 38, 224, 168
+sszl
+	bounds: 456, 65, 149, 112
+sszr
+	bounds: 2, 136, 156, 115
+	offsets: 0, 0, 160, 115
+st
+	bounds: 350, 168, 302, 279
+	rotate: 270
+tou
+	bounds: 369, 460, 449, 433
+	offsets: 11, 0, 460, 433
+	rotate: 90
+tx_l
+	bounds: 636, 236, 271, 386
+	offsets: 12, 25, 313, 433
+	rotate: 90
+tx_r
+	bounds: 2, 423, 365, 486
+	offsets: 4, 22, 379, 541
+weiba
+	bounds: 239, 2, 164, 183
+	rotate: 90

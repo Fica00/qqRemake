@@ -11,7 +11,6 @@ public class GameplayManager : MonoBehaviour
     public static bool IsPvpGame;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
-    public static Action UpdatedBet;
     public static Action OnFinishedGameplayLoop;
     public static Action<GameResult> GameEnded;
     public static Action<int, Color, int> OnFlashPlace;
@@ -47,7 +46,6 @@ public class GameplayManager : MonoBehaviour
     protected bool iFinished;
     protected bool resolvedEndOfTheRound;
     protected int startingAmountOfCards = 3;
-    protected int currentBet = 1;
     protected List<int> excludeLaneAbilities = new List<int>();
     protected bool locationRevealed;
 
@@ -82,8 +80,6 @@ public class GameplayManager : MonoBehaviour
     }
 
     public List<LaneDisplay> Lanes => lanes;
-
-    public int CurrentBet => currentBet;
 
     public int MaxAmountOfRounds => maxRounds;
 
@@ -153,7 +149,7 @@ public class GameplayManager : MonoBehaviour
             return;
         }
 
-        if (CurrentBet>2)
+        if (BetClickHandler.Instance.CurrentBet>2)
         {
             EventsManager.WinMatchWithADouble?.Invoke();
         }
@@ -372,7 +368,10 @@ public class GameplayManager : MonoBehaviour
             OnFinishedGameplayLoop?.Invoke();
         }
 
-        AcceptAutoBet();
+        if (ModeHandler.ModeStatic!=GameMode.Friendly)
+        {
+            AcceptAutoBet();
+        }
         
         bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
         DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
@@ -396,10 +395,9 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    protected virtual void AcceptAutoBet()
+    protected void AcceptAutoBet()
     {
         BetClickHandler.Instance.AcceptAutoBet();
-        OpponentAcceptedBet();
     }
 
     protected virtual bool ReadyToStart()
@@ -584,8 +582,7 @@ public class GameplayManager : MonoBehaviour
 
     public virtual void OpponentAcceptedBet()
     {
-        currentBet *= 2;
-        UpdatedBet?.Invoke();
+        BetClickHandler.Instance.OpponentAcceptedBet();
     }
 
     public void OpponentFinished()

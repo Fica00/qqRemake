@@ -1,0 +1,35 @@
+Phantom Lion.png
+	size: 2048, 512
+	filter: Linear, Linear
+daizi
+	bounds: 428, 14, 101, 153
+	offsets: 4, 13, 105, 166
+	rotate: 90
+jdtr
+	bounds: 802, 2, 122, 148
+	offsets: 1, 1, 124, 151
+	rotate: 90
+jl
+	bounds: 955, 28, 189, 242
+	offsets: 2, 18, 203, 260
+	rotate: 180
+jxtr
+	bounds: 1132, 112, 123, 242
+	offsets: 0, 1, 123, 243
+	rotate: 180
+sl
+	bounds: 957, 354, 249, 148
+	rotate: 180
+sr
+	bounds: 582, 42, 292, 258
+	rotate: 180
+st
+	bounds: 489, 227, 275, 286
+	offsets: 0, 0, 275, 311
+	rotate: 270
+tou
+	bounds: 2, 18, 508, 484
+	offsets: 0, 0, 515, 484
+weiba
+	bounds: 775, 103, 244, 399
+	offsets: 0, 0, 254, 410

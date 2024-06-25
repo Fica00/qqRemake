@@ -76,7 +76,10 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoCopyToClipboard(string _text);
     
     [DllImport("__Internal")]
-    public static extern void DoCreateAndSetupConnection(string _token);
+    public static extern void DoCreateAndSetupConnection(string _token);    
+    
+    [DllImport("__Internal")]
+    public static extern void DoJoinFriendlyMatch(string _roomName);
 
 
     public bool IsPwaPlatform
@@ -183,6 +186,11 @@ public class JavaScriptManager : MonoBehaviour
         }
 
         DoCopyToClipboard(_text);
+    }
+
+    public void JoinFriendlyMatch(string _roomName)
+    {
+        DoJoinFriendlyMatch(_roomName);
     }
 
 
@@ -338,14 +346,5 @@ public class JavaScriptManager : MonoBehaviour
         }
         
         return CheckIsOnPc();
-    }
-
-    [SerializeField] private int xp;
-
-    [Button()]
-    private void Test()
-    {
-        DataManager.Instance.PlayerData.Exp = xp;
-        SceneManager.Instance.ReloadScene();
     }
 }

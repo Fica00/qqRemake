@@ -1,0 +1,49 @@
+Tai-Koa.png
+	size: 2048, 512
+	filter: Linear, Linear
+gu
+	bounds: 816, 98, 412, 277
+	offsets: 1, 2, 414, 280
+	rotate: 90
+jdtl
+	bounds: 1253, 106, 259, 143
+	offsets: 1, 1, 261, 146
+jdtr
+	bounds: 1253, 251, 259, 146
+	offsets: 2, 2, 262, 149
+	rotate: 90
+jjzl
+	bounds: 1552, 390, 115, 120
+	offsets: 1, 1, 117, 122
+jjzr
+	bounds: 1657, 75, 103, 122
+	offsets: 1, 1, 105, 124
+jxtl
+	bounds: 233, 4, 332, 131
+	offsets: 1, 1, 334, 134
+jxtr
+	bounds: 1095, 48, 462, 156
+	offsets: 1, 1, 465, 158
+	rotate: 90
+ssbl
+	bounds: 567, 10, 120, 205
+	offsets: 1, 1, 122, 208
+	rotate: 90
+ssbr
+	bounds: 1401, 302, 149, 208
+	offsets: 2, 1, 152, 210
+sszl
+	bounds: 774, 19, 98, 77
+	offsets: 2, 1, 102, 79
+sszr
+	bounds: 1514, 189, 149, 118
+st
+	bounds: 387, 132, 427, 378
+sxbl
+	bounds: 2, 7, 103, 221
+	offsets: 1, 1, 105, 223
+	rotate: 90
+sxbr
+	bounds: 1508, 2, 155, 179
+tou
+	bounds: 2, 112, 449, 398

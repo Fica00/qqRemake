@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,13 +19,70 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private Button button;
     private bool didOpponentInitBetIncrease;
     private bool didIBet;
-    private bool didSomeoneIncreaseInLastRound;
-    private bool didDoubledForLastStep;
-
     public bool DidIBetThisRound { get; private set; }
+    public BetStatus BetStatus { get; private set; } = BetStatus.DefaultBet;
+    public AutoBetStatus AutoBetStatus { get; private set; } = AutoBetStatus.NonInitialized;
+
+    public int CurrentBet
+    {
+        get
+        {
+            switch (BetStatus)
+            {
+                case BetStatus.DefaultBet:
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 1,
+                        AutoBetStatus.Initialized => 1,
+                        AutoBetStatus.Accepted => 2,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                case BetStatus.FirstIncreaseRequest:
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 1,
+                        AutoBetStatus.Initialized => 1,
+                        AutoBetStatus.Accepted => 2,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                case BetStatus.FirstIncreaseAccepted:
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 2,
+                        AutoBetStatus.Initialized => 2,
+                        AutoBetStatus.Accepted => 4,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                case BetStatus.SecondIncreaseRequest:
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 2,
+                        AutoBetStatus.Initialized => 2,
+                        AutoBetStatus.Accepted => 4,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                case BetStatus.SecondIncreaseAccepted:
+                    return AutoBetStatus switch
+                    {
+                        AutoBetStatus.NonInitialized => 4,
+                        AutoBetStatus.Initialized => 4,
+                        AutoBetStatus.Accepted => 8,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 
     private void Awake()
     {
+        if (ModeHandler.ModeStatic == GameMode.Friendly)
+        {
+            holder.SetActive(false);
+            return;
+        }
+        
         button = GetComponent<Button>();
         Instance = this;
     }
@@ -32,23 +90,13 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private void OnEnable()
     {
         GameplayManager.GameEnded += Disable;
-        GameplayManager.UpdatedRound += TryShowNext;
+        GameplayManager.UpdatedRound += TryAutoBet;
     }
 
     private void OnDisable()
     {
         GameplayManager.GameEnded -= Disable;
-        GameplayManager.UpdatedRound -= TryShowNext;
-    }
-
-    private void TryShowNext()
-    {
-        if (!GameplayManager.Instance.IsLastRound)
-        {
-            return;
-        }
-        
-        ShowNextRoundBet();
+        GameplayManager.UpdatedRound -= TryAutoBet;
     }
 
     private void Disable(GameResult _result)
@@ -56,9 +104,29 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         button.interactable = false;
     }
     
-    private void IncreaseBet()
+    private void TryAutoBet()
     {
-        if (!(GameplayManager.Instance.GameplayState==GameplayState.Waiting || GameplayManager.Instance.GameplayState==GameplayState.Playing))
+        if (!GameplayManager.Instance.IsLastRound)
+        {
+            return;
+        }
+
+        if (ModeHandler.ModeStatic==GameMode.Friendly)
+        {
+            return;
+        }
+        
+        IncreaseAutoBetStatus();
+    }
+
+    public void OnPointerUp(PointerEventData _eventData)
+    {
+        InitIncreaseBet();
+    }
+    
+    private void InitIncreaseBet()
+    {
+        if (GameplayManager.Instance.GameplayState is not (GameplayState.Waiting or GameplayState.Playing))
         {
             return;
         }
@@ -73,11 +141,6 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             return;
         }
-
-        if (GameplayManager.Instance.IsLastRound)
-        {
-            didSomeoneIncreaseInLastRound = true;
-        }
         
         GameplayManager.Instance.Bet();
         didIBet = true;
@@ -85,8 +148,7 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         GameplayManager.UpdatedRound += TurnOffDidIBetThisRound;
         GameplayUI.Instance.ShakeScreen(1);
         pulsingLight.gameObject.SetActive(true);
-        ShowNextRoundBet();
-        GameplayManager.UpdatedBet += OpponentAcceptedBet;
+        IncreaseBetStatus();
     }
 
     private void TurnOffDidIBetThisRound()
@@ -94,67 +156,15 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         GameplayManager.UpdatedRound -= TurnOffDidIBetThisRound;
         DidIBetThisRound = false;
     }
-
-    private void Start()
-    {
-        ShowBet();
-        nextBetDisplay.text = string.Empty;
-    }
-
-    private void OpponentAcceptedBet()
-    {
-        GameplayManager.UpdatedBet -= OpponentAcceptedBet;
-        stakeAnimator.SetTrigger(STAKE_KEY);
-        holder.transform.DOScale(Vector3.one, 1);
-        ShowBet();
-    }
-
-    private void ShowBet()
-    {
-        int _betAmount = GameplayManager.Instance.CurrentBet;
-        betDisplayAnimation.text=betDisplay.text = _betAmount.ToString();
-        nextBetDisplay.text = string.Empty;
-        if (GameplayManager.Instance.IsLastRound)
-        {
-            ShowNextRoundBet();
-        }
-    }
-
+    
     public void ShowOpponentWantsToIncreaseBet()
     {
-        if (GameplayManager.Instance.IsLastRound)
-        {
-            didSomeoneIncreaseInLastRound = true;
-        }
-
         AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_INITIATED);
         didOpponentInitBetIncrease = true;
         OnPointerDown(null);
         GameplayManager.UpdatedGameState += ManageRoundEnded;
-        ShowNextRoundBet();
         GameplayUI.Instance.ShakeScreen(1);
-        if (GameplayManager.Instance.IsLastRound && GameplayManager.IsPvpGame)
-        {
-            if (didIBet)
-            {
-                AcceptBet();
-            }
-        }
-    }
-
-    private void ManageRoundEnded()
-    {
-        if (GameplayManager.Instance.GameplayState==GameplayState.ResolvingEndOfRound)
-        {
-            AcceptBet();
-        }
-    }
-
-    public void AcceptAutoBet()
-    {
-        GameplayManager.UpdatedBet += OpponentAcceptedBet;
-        AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
-        pulsingLight.gameObject.SetActive(false);
+        IncreaseBetStatus();
     }
 
     private void AcceptBet()
@@ -167,55 +177,101 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         holder.transform.DOScale(Vector3.one,1);
         stakeAnimator.SetTrigger(STAKE_KEY);
         GameplayManager.Instance.OpponentAcceptedBet();
-
-        if (GameplayManager.Instance.IsLastRound && GameplayManager.IsPvpGame)
-        {
-            if (!didIBet)
-            {
-                IncreaseBet();
-            }
-        }
     }
-
-    private void ShowNextRoundBet()
+    
+    private void ManageRoundEnded()
     {
-        int _currentBetAmount = GetInitialBetAmount();
-        
-        if (ShouldClearNextBetDisplay())
+        if (!didOpponentInitBetIncrease)
         {
-            nextBetDisplay.text = string.Empty;
             return;
         }
-        _currentBetAmount = AdjustBetAmount(_currentBetAmount);
-
-        nextBetDisplay.text = "Next: " + _currentBetAmount;
-
-    }
-
-    private int AdjustBetAmount(int _betAmount)
-    {
-        if (didSomeoneIncreaseInLastRound && !didDoubledForLastStep)
+        
+        if (GameplayManager.Instance.GameplayState==GameplayState.ResolvingEndOfRound)
         {
-           
-            _betAmount *= 2;
-            didDoubledForLastStep=true;
+            AcceptBet();
         }
-        if(didDoubledForLastStep &&(_betAmount<4))
+    }
+    
+    private void IncreaseBetStatus()
+    {
+        BetStatus = (BetStatus)((int)BetStatus + 1);
+        ShowBet();
+    }
+    
+    private void Start()
+    {
+        ShowBet();
+    }
+    
+    private void ShowBet()
+    {
+        betDisplay.text = CurrentBet.ToString();
+        betDisplayAnimation.text = CurrentBet.ToString();
+        nextBetDisplay.text = GetNextBetText();
+    }
+
+    private string GetNextBetText()
+    {
+        switch (BetStatus)
         {
-            _betAmount *= 2;
+            case BetStatus.DefaultBet:
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => string.Empty,
+                    AutoBetStatus.Initialized => "Next 2",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            case BetStatus.FirstIncreaseRequest:
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => "Next 2",
+                    AutoBetStatus.Initialized => "Next 4",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            case BetStatus.FirstIncreaseAccepted:
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => string.Empty,
+                    AutoBetStatus.Initialized => "Next 4",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            case BetStatus.SecondIncreaseRequest:
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => "Next 4",
+                    AutoBetStatus.Initialized => "Next 8",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            case BetStatus.SecondIncreaseAccepted:
+                return AutoBetStatus switch
+                {
+                    AutoBetStatus.NonInitialized => string.Empty,
+                    AutoBetStatus.Initialized => "Next 8",
+                    AutoBetStatus.Accepted => string.Empty,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-
-        return _betAmount;
     }
 
-    private int GetInitialBetAmount()
+    public void AcceptAutoBet()
     {
-      return  GameplayManager.Instance.CurrentBet * 2;
+        AudioManager.Instance.PlaySoundEffect(AudioManager.DOUBLE_RESOLVED);
+        pulsingLight.gameObject.SetActive(false);
+        IncreaseAutoBetStatus();
+        stakeAnimator.SetTrigger(STAKE_KEY);
+        holder.transform.DOScale(Vector3.one, 1);
     }
-
-    private static bool ShouldClearNextBetDisplay()
+    
+    private void IncreaseAutoBetStatus()
     {
-        return GameplayManager.Instance.IsLastRound && GameplayManager.Instance.GameplayState == GameplayState.ResolvingEndOfRound;
+        AutoBetStatus = (AutoBetStatus)((int)AutoBetStatus + 1);
+        ShowBet();
     }
 
     public void OnPointerDown(PointerEventData _eventData)
@@ -240,8 +296,10 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         holder.transform.DOScale(Vector3.one*.8f, 1);
     }
 
-    public void OnPointerUp(PointerEventData _eventData)
+    public void OpponentAcceptedBet()
     {
-        IncreaseBet();
+        stakeAnimator.SetTrigger(STAKE_KEY);
+        holder.transform.DOScale(Vector3.one, 1);
+        IncreaseBetStatus();
     }
 }

@@ -110,6 +110,11 @@ mergeInto(LibraryManager.library,
         createAndSetupConnection(UTF8ToString(token));
     },
     
+    DoJoinFriendlyMatch: function(roomName)
+    {
+        joinFriendlyMatch(UTF8ToString(roomName));
+    },
+    
     DoCopyToClipboard: function(textPtr) {
         var text = UTF8ToString(textPtr);
     

@@ -53,6 +53,7 @@ MonoBehaviour:
   animation: {fileID: 3418756515783240439}
   powerDisplay: {fileID: 5383642110391000899}
   winningFont: {fileID: 11400000, guid: cc07f59a65e6c1840a0c0fd638cc61e5, type: 2}
+  Active: 0
 --- !u!1001 &1779169598681541519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,6 +66,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: 17_MasterOcto
       objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: useNewAnimation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].AnimationKey
+      value: dengchang
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[0]
+      value: 
+      objectReference: {fileID: 5873345339362866694}
+    - target: {fileID: 445799335054556332, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: animationHelpers.Array.data[0].Objects.Array.data[1]
+      value: 
+      objectReference: {fileID: 5239352598029400742}
     - target: {fileID: 1969521030466172549, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -193,10 +218,22 @@ PrefabInstance:
       propertyPath: <Details>k__BackingField.<Description>k__BackingField
       value: When this is discarded from hand\nput it back with +40 Power.
       objectReference: {fileID: 0}
+    - target: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6554055825559765367, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 15217204b698646a981dd3ecf38af875, type: 3}
+    - target: {fileID: 6796600185718709079, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: skeletonDataAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 3dc121edf53af354a82d56f6a7ae1d6a, type: 2}
+    - target: {fileID: 8749235354405596055, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
@@ -216,6 +253,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3860012085370513610, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
   m_PrefabInstance: {fileID: 1779169598681541519}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5239352598029400742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5766026165464174889, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 1779169598681541519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5383642110391000899 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5910526645007480012, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
@@ -227,6 +269,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5873345339362866694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5274472886470253961, guid: 896ae8d24e41d0543ba37d37cbedfc70, type: 3}
+  m_PrefabInstance: {fileID: 1779169598681541519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4980932903696398516
 PrefabInstance:
   m_ObjectHideFlags: 0

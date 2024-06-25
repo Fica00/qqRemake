@@ -1,0 +1,78 @@
+Beatle B.png
+	size: 2048, 512
+	filter: Linear, Linear
+chujiao
+	bounds: 2, 125, 323, 377
+	offsets: 1, 2, 326, 380
+daizi
+	bounds: 2, 2, 121, 193
+	rotate: 90
+jdtl
+	bounds: 197, 6, 75, 117
+	offsets: 1, 1, 77, 119
+jdtr
+	bounds: 1099, 47, 131, 81
+	offsets: 1, 1, 133, 83
+jjzl
+	bounds: 1303, 369, 69, 63
+	offsets: 1, 1, 71, 66
+jjzr
+	bounds: 327, 419, 76, 83
+jxtl
+	bounds: 1232, 31, 86, 95
+	offsets: 1, 1, 89, 97
+jxtr
+	bounds: 962, 168, 75, 92
+	offsets: 1, 1, 77, 94
+qunzi
+	bounds: 708, 262, 461, 240
+	offsets: 2, 0, 463, 240
+shengzi
+	bounds: 1439, 2, 271, 336
+	rotate: 90
+ssbl
+	bounds: 327, 13, 140, 145
+	offsets: 1, 9, 142, 155
+	rotate: 90
+ssbl2
+	bounds: 1452, 331, 171, 151
+	offsets: 2, 1, 174, 154
+	rotate: 90
+ssbr
+	bounds: 962, 22, 135, 114
+	offsets: 1, 1, 137, 116
+ssbr2
+	bounds: 474, 20, 101, 186
+	offsets: 1, 1, 104, 188
+	rotate: 90
+sszl
+	bounds: 1303, 434, 88, 68
+	offsets: 1, 1, 90, 71
+sszr
+	bounds: 1320, 47, 74, 79
+	offsets: 1, 1, 76, 81
+sxbl
+	bounds: 810, 2, 129, 108
+	offsets: 1, 1, 131, 111
+sxbl2
+	bounds: 1452, 30, 125, 144
+	offsets: 2, 1, 128, 146
+sxbr
+	bounds: 662, 10, 146, 101
+	offsets: 1, 2, 148, 104
+sxbr2
+	bounds: 1452, 176, 153, 129
+	offsets: 2, 1, 156, 131
+	rotate: 90
+tou
+	bounds: 327, 123, 414, 379
+wuqi_l
+	bounds: 724, 113, 148, 236
+	offsets: 1, 2, 150, 240
+	rotate: 90
+wuqi_r
+	bounds: 1303, 128, 147, 234
+	offsets: 1, 1, 150, 236
+yifu
+	bounds: 1049, 130, 372, 252
+	rotate: 90

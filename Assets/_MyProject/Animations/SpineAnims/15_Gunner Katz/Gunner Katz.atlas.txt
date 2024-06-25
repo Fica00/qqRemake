@@ -1,0 +1,72 @@
+Gunner Katz.png
+	size: 1024, 1024
+	filter: Linear, Linear
+bu
+	bounds: 2, 70, 209, 126
+daizi
+	bounds: 666, 204, 88, 139
+	offsets: 0, 0, 94, 139
+huxu_l
+	bounds: 920, 73, 102, 111
+	offsets: 1, 1, 104, 113
+huxu_r
+	bounds: 567, 16, 74, 97
+	offsets: 1, 1, 76, 99
+	rotate: 90
+jinghuan
+	bounds: 652, 92, 245, 92
+	offsets: 2, 1, 248, 94
+jjzl
+	bounds: 878, 10, 93, 61
+	offsets: 1, 1, 95, 64
+jjzr
+	bounds: 762, 30, 114, 60
+	offsets: 1, 1, 116, 64
+jxtl
+	bounds: 666, 14, 76, 94
+	offsets: 1, 1, 78, 96
+	rotate: 90
+jxtr
+	bounds: 2, 432, 73, 99
+	offsets: 1, 2, 75, 102
+pifeng
+	bounds: 2, 387, 521, 322
+pifeng_l
+	bounds: 345, 171, 313, 317
+	offsets: 0, 0, 313, 332
+	rotate: 270
+sr
+	bounds: 371, 62, 127, 240
+	rotate: 90
+sr2
+	bounds: 193, 123, 128, 241
+	rotate: 90
+sr3
+	bounds: 2, 2, 132, 116
+	rotate: 180
+ssbl
+	bounds: 253, 37, 92, 116
+	offsets: 2, 2, 95, 119
+	rotate: 90
+sszl
+	bounds: 488, 661, 53, 48
+	offsets: 1, 2, 56, 51
+sszr
+	bounds: 2, 552, 47, 60
+	offsets: 1, 2, 49, 73
+st
+	bounds: 2, 193, 231, 204
+sxbl
+	bounds: 235, 260, 97, 125
+	offsets: 1, 4, 99, 130
+szr
+	bounds: 845, 591, 35, 34
+	offsets: 1, 2, 37, 38
+tou
+	bounds: 507, 339, 370, 373
+	rotate: 270
+tuijia
+	bounds: 752, 186, 270, 179
+wuqi
+	bounds: 882, 409, 122, 300
+	offsets: 1, 1, 125, 302
