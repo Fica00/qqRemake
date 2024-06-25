@@ -51,7 +51,16 @@ public class JavaScriptManager : MonoBehaviour
     public static extern void DoSignOut();    
     
     [DllImport("__Internal")]
-    public static extern void DoCopyToClipboard(string _text);    
+    public static extern void DoSendMessage(string _roomName, string _message); 
+    
+    [DllImport("__Internal")]
+    public static extern void DoLeaveMatch(); 
+    
+    [DllImport("__Internal")]
+    public static extern void DoMatchMakeAsync(); 
+    
+    [DllImport("__Internal")]
+    public static extern void DoCancelMatchMake(); 
     
     [DllImport("__Internal")]
     public static extern bool DoIsAndroid();    
@@ -64,6 +73,13 @@ public class JavaScriptManager : MonoBehaviour
     
     [DllImport("__Internal")]
     public static extern bool DoTellDeviceId(string _deviceId);
+    public static extern void DoCopyToClipboard(string _text);
+    
+    [DllImport("__Internal")]
+    public static extern void DoCreateAndSetupConnection(string _token);    
+    
+    [DllImport("__Internal")]
+    public static extern void DoJoinFriendlyMatch(string _roomName);
 
 
     public bool IsPwaPlatform
@@ -102,6 +118,11 @@ public class JavaScriptManager : MonoBehaviour
         AuthWithGoogle();
     }
 
+    public void CreateAndSetupConnection(string _token)
+    {
+        DoCreateAndSetupConnection(_token);
+    }
+
     public void LoginTwitter()
     {
         AuthWithTwitter();
@@ -135,6 +156,26 @@ public class JavaScriptManager : MonoBehaviour
     {
         DoSignOut();
     }
+    
+    public void SendMessage(string _roomName, string _message)
+    {
+        DoSendMessage(_roomName, _message);
+    }
+    
+    public void LeaveMatch()
+    {
+        DoLeaveMatch();
+    }
+    
+    public void MatchMakeAsync()
+    {
+        DoMatchMakeAsync();
+    }
+    
+    public void CancelMatchMake()
+    {
+        DoCancelMatchMake();
+    }
 
     public void CopyToClipboard(string _text)
     {
@@ -145,6 +186,11 @@ public class JavaScriptManager : MonoBehaviour
         }
 
         DoCopyToClipboard(_text);
+    }
+
+    public void JoinFriendlyMatch(string _roomName)
+    {
+        DoJoinFriendlyMatch(_roomName);
     }
 
 
@@ -300,14 +346,5 @@ public class JavaScriptManager : MonoBehaviour
         }
         
         return CheckIsOnPc();
-    }
-
-    [SerializeField] private int xp;
-
-    [Button()]
-    private void Test()
-    {
-        DataManager.Instance.PlayerData.Exp = xp;
-        SceneManager.Instance.ReloadScene();
     }
 }

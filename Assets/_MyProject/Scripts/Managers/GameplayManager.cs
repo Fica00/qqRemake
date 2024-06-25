@@ -11,7 +11,6 @@ public class GameplayManager : MonoBehaviour
     public static bool IsPvpGame;
     public static Action UpdatedRound;
     public static Action UpdatedGameState;
-    public static Action UpdatedBet;
     public static Action OnFinishedGameplayLoop;
     public static Action<GameResult> GameEnded;
     public static Action<int, Color, int> OnFlashPlace;
@@ -21,6 +20,7 @@ public class GameplayManager : MonoBehaviour
     public static Action<LaneLocation, bool, Color, int> OnFlashAllSpotsOnLocation;
     public static Action<LaneLocation, bool, Color> OnHideHighlightWholePlace;
     public static Action<LaneLocation, bool> OnHideHighlightWholePlaceDotted;
+    public static Action OnGameplayStarted;
     public static bool DrewCardDirectlyToHand;
     
     public GameplayPlayer MyPlayer;
@@ -46,7 +46,6 @@ public class GameplayManager : MonoBehaviour
     protected bool iFinished;
     protected bool resolvedEndOfTheRound;
     protected int startingAmountOfCards = 3;
-    protected int currentBet = 1;
     protected List<int> excludeLaneAbilities = new List<int>();
     protected bool locationRevealed;
 
@@ -82,14 +81,12 @@ public class GameplayManager : MonoBehaviour
 
     public List<LaneDisplay> Lanes => lanes;
 
-    public int CurrentBet => currentBet;
-
     public int MaxAmountOfRounds => maxRounds;
 
     protected virtual void OnEnable()
     {
         EndTurnHandler.OnEndTurn += EndTurn;
-        FlagClickHandler.OnForefiet += Forfiet;
+        FlagClickHandler.OnForefiet += Forfeit;
         GameEnded += UpdateQommonsWinLose;
         GameEnded += TriggerGameEndEvents;
     }
@@ -98,7 +95,7 @@ public class GameplayManager : MonoBehaviour
     {
         CommandsHandler.Close();
         EndTurnHandler.OnEndTurn -= EndTurn;
-        FlagClickHandler.OnForefiet -= Forfiet;
+        FlagClickHandler.OnForefiet -= Forfeit;
         GameEnded -= UpdateQommonsWinLose;
         GameEnded -= TriggerGameEndEvents;
     }
@@ -110,7 +107,7 @@ public class GameplayManager : MonoBehaviour
         MyPlayer.FinishedTurn?.Invoke();
     }
 
-    protected virtual void Forfiet()
+    protected virtual void Forfeit()
     {
         StopAllCoroutines();
         GameEnded?.Invoke(GameResult.IForefiet);
@@ -152,7 +149,7 @@ public class GameplayManager : MonoBehaviour
             return;
         }
 
-        if (CurrentBet>2)
+        if (BetClickHandler.Instance.CurrentBet>2)
         {
             EventsManager.WinMatchWithADouble?.Invoke();
         }
@@ -288,6 +285,7 @@ public class GameplayManager : MonoBehaviour
     protected virtual IEnumerator GameplayRoutine()
     {
         yield return new WaitUntil(ReadyToStart);
+        OnGameplayStarted?.Invoke();
         yield return StartCoroutine(InitialDraw());
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
         while (CurrentRound < maxRounds)
@@ -336,7 +334,10 @@ public class GameplayManager : MonoBehaviour
             OnFinishedGameplayLoop?.Invoke();
         }
 
-        AcceptAutoBet();
+        if (ModeHandler.ModeStatic!=GameMode.Friendly)
+        {
+            AcceptAutoBet();
+        }
         
         bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
         DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
@@ -360,10 +361,9 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    protected virtual void AcceptAutoBet()
+    protected void AcceptAutoBet()
     {
         BetClickHandler.Instance.AcceptAutoBet();
-        OpponentAcceptedBet();
     }
 
     protected virtual bool ReadyToStart()
@@ -548,8 +548,7 @@ public class GameplayManager : MonoBehaviour
 
     public virtual void OpponentAcceptedBet()
     {
-        currentBet *= 2;
-        UpdatedBet?.Invoke();
+        BetClickHandler.Instance.OpponentAcceptedBet();
     }
 
     public void OpponentFinished()

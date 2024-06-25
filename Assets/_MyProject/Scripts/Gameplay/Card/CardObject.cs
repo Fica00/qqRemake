@@ -185,7 +185,7 @@ public class CardObject : MonoBehaviour
         
         if (GameplayManager.IsPvpGame)
         {
-            ((GameplayManagerPVP.Instance)as GameplayManagerPVP).ForcePlace(_command);
+            ((GameplayManagerPvp.Instance)as GameplayManagerPvp).ForcePlace(_command);
         }
     }
 

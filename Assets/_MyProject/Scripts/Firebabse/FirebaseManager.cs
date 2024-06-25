@@ -93,15 +93,6 @@ public class FirebaseManager : MonoBehaviour
         }, (_) => { _callBack?.Invoke(false); }));
     }
 
-    //private void CollectPlayerData(Action<bool> _callBack)
-    //{
-    //    StartCoroutine(Get(UserDataLink + "/.json", (_result) =>
-    //    {
-    //        DataManager.Instance.SetPlayerData(_result);
-    //        _callBack?.Invoke(true);
-    //    }, (_) => { _callBack?.Invoke(false); }));
-    //}
-
     private void CollectPlayerData(Action<bool> _callBack)
     {
         StartCoroutine(CollectPlayerDataCoroutine(_callBack));
@@ -300,23 +291,21 @@ public class FirebaseManager : MonoBehaviour
         {
             _uri = $"{_uri}?auth={userIdToken}";
         }
-        
-        using (UnityWebRequest _webRequest = UnityWebRequest.Get(_uri))
+
+        using UnityWebRequest _webRequest = UnityWebRequest.Get(_uri);
+        yield return _webRequest.SendWebRequest();
+
+        if (_webRequest.result == UnityWebRequest.Result.Success)
         {
-            yield return _webRequest.SendWebRequest();
-
-            if (_webRequest.result == UnityWebRequest.Result.Success)
-            {
-                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
-            }
-            else
-            {
-                Debug.Log(_webRequest.error);
-                _onError?.Invoke(_webRequest.error);
-            }
-
-            _webRequest.Dispose();
+            _onSuccess?.Invoke(_webRequest.downloadHandler.text);
         }
+        else
+        {
+            Debug.Log(_webRequest.error);
+            _onError?.Invoke(_webRequest.error);
+        }
+
+        _webRequest.Dispose();
     }
 
     private IEnumerator Post(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError,
@@ -330,27 +319,25 @@ public class FirebaseManager : MonoBehaviour
             }
         }
 
-        using (UnityWebRequest _webRequest = UnityWebRequest.Post(_uri, _jsonData))
+        using UnityWebRequest _webRequest = UnityWebRequest.Post(_uri, _jsonData);
+        byte[] _jsonToSend = new System.Text.UTF8Encoding().GetBytes(_jsonData);
+        _webRequest.uploadHandler = new UploadHandlerRaw(_jsonToSend);
+        _webRequest.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return _webRequest.SendWebRequest();
+
+        if (_webRequest.result == UnityWebRequest.Result.Success)
         {
-            byte[] _jsonToSend = new System.Text.UTF8Encoding().GetBytes(_jsonData);
-            _webRequest.uploadHandler = new UploadHandlerRaw(_jsonToSend);
-            _webRequest.downloadHandler = new DownloadHandlerBuffer();
-
-            yield return _webRequest.SendWebRequest();
-
-            if (_webRequest.result == UnityWebRequest.Result.Success)
-            {
-                _onSuccess?.Invoke(_webRequest.downloadHandler.text);
-            }
-            else
-            {
-                _onError?.Invoke(_webRequest.error);
-            }
-
-            _webRequest.uploadHandler.Dispose();
-            _webRequest.downloadHandler.Dispose();
-            _webRequest.Dispose();
+            _onSuccess?.Invoke(_webRequest.downloadHandler.text);
         }
+        else
+        {
+            _onError?.Invoke(_webRequest.error);
+        }
+
+        _webRequest.uploadHandler.Dispose();
+        _webRequest.downloadHandler.Dispose();
+        _webRequest.Dispose();
     }
 
     private IEnumerator Put(string _uri, string _jsonData, Action<string> _onSuccess, Action<string> _onError)

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class Initialization : MonoBehaviour
 
     private void Awake()
     {
+        Application.runInBackground = true;
         Instance = this;
         Debug.developerConsoleVisible = false;
     }
@@ -16,26 +18,12 @@ public class Initialization : MonoBehaviour
     private void Start()
     {
         RankSo.Init();
-        if (JavaScriptManager.Instance.IsDemo)
-        {
-            InitDataManager();
-            return;
-        }
-
-        InitPhoton();
+        InitDataManager();
         TryShowPwaOverlay();
-    }
-
-
-    private void InitPhoton()
-    {
-        PhotonManager.OnFinishedInit += InitDataManager;
-        PhotonManager.Instance.Init();
     }
 
     private void InitDataManager()
     {
-        PhotonManager.OnFinishedInit -= InitDataManager;
         AuthHandler.Instance.Authenticate();
     }
 
@@ -62,13 +50,10 @@ public class Initialization : MonoBehaviour
             {
                 if (_status)
                 {
-                    FinishInit();
-
+                    AuthOnServer();
                     DataManager.Instance.PlayerData.Agency = _agency;
                     DataManager.Instance.PlayerData.IsGuest = _isGuest;
                     DataManager.Instance.PlayerData.IsNewAccount = true;
-
-                    DataManager.Instance.SaveIsGuest();
 
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
                     {
@@ -84,6 +69,29 @@ public class Initialization : MonoBehaviour
             return;
         }
 
+        AuthOnServer();
+    }
+
+    private void AuthOnServer()
+    {
+        HttpCommunicationHandler.Instance.Authenticate(FirebaseManager.Instance.PlayerId, HandleServerAuthFinished);
+    }
+
+    private void HandleServerAuthFinished(bool _status, string _data)
+    {
+        if (!_status)
+        {
+            DialogsManager.Instance.OkDialog.Setup("Something went wrong while connecting to the server, try again later");
+            return;
+        }
+
+        AuthToken _token = JsonConvert.DeserializeObject<AuthToken>(_data);
+        if (_token.Token == "Invalid user")
+        {
+            DialogsManager.Instance.OkDialog.Setup("Invalid user during auth, try again later");
+            return;
+        }
+        SocketServerCommunication.Instance.SetAuthToken(_token.Token);
         FinishInit();
         DataManager.Instance.SaveIsGuest();
     }

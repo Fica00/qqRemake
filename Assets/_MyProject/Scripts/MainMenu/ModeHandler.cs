@@ -11,7 +11,7 @@ public class ModeHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI modeDisplay;
     [SerializeField] private Button changeModeButton;
 
-    private static GameMode mode = GameMode.VsAi;
+    public static GameMode ModeStatic = GameMode.VsAi;
 
     private void Awake()
     {
@@ -20,13 +20,10 @@ public class ModeHandler : MonoBehaviour
 
     public GameMode Mode
     {
-        get
-        {
-            return mode;
-        }
+        get => ModeStatic;
         set
         {
-            mode = value;
+            ModeStatic = value;
             OnUpdatedMode?.Invoke();
         }
     }
@@ -46,10 +43,20 @@ public class ModeHandler : MonoBehaviour
 
     private void ChangeMode()
     {
-        // int _modeCount = Enum.GetValues(typeof(GameMode)).Length;
-        // int _nextMode = ((int)Mode + 1) % _modeCount;
-        // Mode = (GameMode)_nextMode;
-        Mode = mode==GameMode.VsPlayer ? GameMode.VsAi : GameMode.VsPlayer;
+        switch (Mode)
+        {
+            case GameMode.VsAi:
+                Mode = GameMode.VsPlayer;
+                break;
+            case GameMode.VsPlayer:
+                Mode = GameMode.Friendly;
+                break;
+            case GameMode.Friendly:
+                Mode = GameMode.VsAi;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void ShowMode()

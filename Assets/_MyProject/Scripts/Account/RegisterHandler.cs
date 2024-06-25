@@ -11,9 +11,6 @@ public class RegisterHandler : MonoBehaviour
     [SerializeField] private GameObject loginAnimation;
     [SerializeField] private GameObject registerAnimation;
 
-
-   
-    
     public void Setup()
     {
         loginAnimation.SetActive(false);

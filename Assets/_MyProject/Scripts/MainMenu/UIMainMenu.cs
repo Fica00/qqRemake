@@ -50,6 +50,7 @@ public class UIMainMenu : MonoBehaviour
         }
         
         JavaScriptManager.Instance.CheckHasBoundAccount(SaveIsGuest);
+        SocketServerCommunication.Instance.ResetMatchData();
     }
 
     private void SaveIsGuest(bool _hasBoundedAccount)

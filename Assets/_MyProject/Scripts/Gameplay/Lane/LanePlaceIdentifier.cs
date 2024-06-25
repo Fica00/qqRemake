@@ -19,12 +19,12 @@ public class LanePlaceIdentifier : MonoBehaviour
 
     private void OnEnable()
     {
-        GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
+        GameplayManagerPvp.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
     private void OnDisable()
     {
-        GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
+        GameplayManagerPvp.OpponentCanceledCommand += CheckIfShouldDestroyChild;
     }
 
     public bool CheckIfTileIsAvailable(CardObject _cardObject)
