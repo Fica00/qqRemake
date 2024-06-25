@@ -8,10 +8,12 @@ public class AuthHandler : MonoBehaviour
     public static AuthHandler Instance;
     [SerializeField] private RegisterHandler registerHandler;
     private Action<bool> callBackForOAUTh;
-
     public static bool CanAuth;
-    
     public static bool IsGuest = true;
+
+    [Header("Unity setup")]
+    [SerializeField] private string email;
+    [SerializeField] private bool isNewAccount;
 
     private void Awake()
     {
@@ -99,8 +101,8 @@ public class AuthHandler : MonoBehaviour
         callBackForOAUTh = _callBack;
         if (Application.isEditor)
         {
-            FirebaseManager.Instance.TryLoginAndGetData("unity6@help.com", "unity123",
-                (_status) => { HandleLoginResult(_status, callBackForOAUTh, false); });
+            FirebaseManager.Instance.TryLoginAndGetData(email, "unity123",
+                (_status) => { HandleLoginResult(_status, callBackForOAUTh, isNewAccount); });
             IsGuest = true;
         }
         else
