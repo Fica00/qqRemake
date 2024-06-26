@@ -94,7 +94,15 @@ public class QoomonAnimator : MonoBehaviour
         {
             return;
         }
-        
+
+        if (_animationKey != revealKey)
+        {
+            if (!IsRevealAnimationDone)
+            {
+                return;
+            }
+        }
+
         animator.gameObject.SetActive(true);
         AnimationHelper _animationHelper = animationHelpers.Find(_animationData => _animationData.AnimationKey == _animationKey);
         if (_animationHelper!=null)
