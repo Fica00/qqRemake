@@ -14,14 +14,13 @@ public class CardEffectAddPowerToRandomInHand : CardEffectBase
             return;
         }
 
-        if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects < 1)
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
-            return;
+            AddPowerToRandom();
         }
-        AddManaToRandom();
     }
 
-    private void AddManaToRandom()
+    private void AddPowerToRandom()
     {
         if (GameplayManager.IsPvpGame && !cardObject.IsMy)
         {
@@ -29,26 +28,23 @@ public class CardEffectAddPowerToRandomInHand : CardEffectBase
         }
 
         List<CardObject> _cardsInHand = GameplayManager.Instance.MyPlayer.CurrentCardsInHand;
-        List<CardObject> _randomCards = new List<CardObject>();
+        List<int> _randomCardsId = new List<int>();
 
-        AddRandomCardsToList(_cardsInHand, _randomCards);
+        AddRandomCardsToList(_cardsInHand, _randomCardsId);
 
-        foreach (var _card in _randomCards)
-        {
-            _card.Stats.Power += power;
-        }
+        GameplayManager.Instance.ChangeInMyHandRandomCardsPower(_randomCardsId, power,GameplayManager.Instance.MyPlayer);
     }
 
-    private void AddRandomCardsToList(List<CardObject> _list, List<CardObject> _newList)
+    private void AddRandomCardsToList(List<CardObject> _list, List<int> _newList)
     {
         List<CardObject> shuffledList = _list.OrderBy(x => Random.Range(0, _list.Count)).ToList();
 
         int addedCardsCount = 0;
         foreach (CardObject card in shuffledList)
         {
-            if (!_newList.Contains(card))
+            if (!_newList.Contains(card.Details.Id))
             {
-                _newList.Add(card);
+                _newList.Add(card.Details.Id);
                 addedCardsCount++;
                 if (addedCardsCount >= numberOfQoomons)
                 {

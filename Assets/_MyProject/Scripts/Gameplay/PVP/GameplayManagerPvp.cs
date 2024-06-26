@@ -224,25 +224,49 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
     }
 
+    public override void ChangeInMyHandRandomCardsPower(List<int> _randomCardsId, int _amount, GameplayPlayer _player) 
+    {
+        AddPowerToPlaces _addPower = new AddPowerToPlaces { CardPlaces = _randomCardsId, PowerToAdd = _amount };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeMyInHandCardPower), JsonConvert.SerializeObject(_addPower));
+    }
+
     public override void ChangeAllInOpponentHandPower(int _amount, GameplayPlayer _player) 
     {
         AddPower _addPower = new AddPower { Power = _amount};
-        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeCardPower), JsonConvert.SerializeObject(_addPower));
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeAllOpponentCardsInHandPower), JsonConvert.SerializeObject(_addPower));
+    }
+
+    public override void ChangeAllInOpponentDeckPower(int _amount, GameplayPlayer _player)
+    {
+        AddPower _addPower = new AddPower { Power = _amount };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeAllCardsInOpponentDeckPower), JsonConvert.SerializeObject(_addPower));
     }
 
     public override void ChangeInOpponentHandRandomCardEnergy(int _lessThan, int _amount, GameplayPlayer _player)
     {
         AddEnergy _addEnergy = new AddEnergy { Energy = _amount , Cost = _lessThan};
-        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeCardEnergy), JsonConvert.SerializeObject(_addEnergy));
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeOpponentCardEnergy), JsonConvert.SerializeObject(_addEnergy));
     }
 
-    private void ChangeCardEnergy(string _data)
+    private void ChangeOpponentCardEnergy(string _data)
     {
         AddEnergy _addEnergy = JsonConvert.DeserializeObject<AddEnergy>(_data);
         base.ChangeInOpponentHandRandomCardEnergy(_addEnergy.Cost, _addEnergy.Energy, MyPlayer);
     }
 
-    private void ChangeCardPower(string _data)
+    private void ChangeMyInHandCardPower(string _data)
+    {
+        AddPowerToPlaces _addPower = JsonConvert.DeserializeObject<AddPowerToPlaces>(_data);
+        base.ChangeInMyHandRandomCardsPower(_addPower.CardPlaces, _addPower.PowerToAdd, MyPlayer);
+    }
+
+    private void ChangeAllOpponentCardsInHandPower(string _data)
+    {
+        AddPower _addPower = JsonConvert.DeserializeObject<AddPower>(_data);
+        base.ChangeAllInOpponentHandPower(_addPower.Power, MyPlayer);
+    }
+
+    private void ChangeAllCardsInOpponentDeckPower(string _data)
     {
         AddPower _addPower = JsonConvert.DeserializeObject<AddPower>(_data);
         base.ChangeAllInOpponentHandPower(_addPower.Power, MyPlayer);

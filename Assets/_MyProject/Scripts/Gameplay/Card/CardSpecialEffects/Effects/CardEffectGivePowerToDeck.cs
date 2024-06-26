@@ -12,11 +12,10 @@ public class CardEffectGivePowerToDeck : CardEffectBase
             return;
         }
 
-        if (GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects < 1)
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
-            return;
+            ChangePower();
         }
-        ChangePower();
     }
 
     private void ChangePower()
@@ -26,11 +25,6 @@ public class CardEffectGivePowerToDeck : CardEffectBase
             return;
         }
 
-        List<CardObject> _deckList = GameplayManager.Instance.MyPlayer.CurrentDeckCards;
-
-        foreach (var _card in _deckList)
-        {
-            _card.Stats.Power += power;
-        }
+        GameplayManager.Instance.ChangeAllInOpponentDeckPower(power, GameplayManager.Instance.OpponentPlayer);
     }
 }
