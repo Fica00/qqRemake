@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LaneAbilityCardsHerePlusXPower : LaneAbilityBase
+public class LaneAbilityAddXPowerHereToQoomonsWithNoAbility : LaneAbilityBase
 {
     [SerializeField] private int powerToAdd;
 
@@ -26,6 +26,7 @@ public class LaneAbilityCardsHerePlusXPower : LaneAbilityBase
             return;
         }
 
-        _card.Stats.Power += powerToAdd;
+        if (_card.Details.Description.Length == 0)
+            _card.Stats.Power += powerToAdd;
     }
 }
