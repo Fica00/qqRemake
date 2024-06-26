@@ -96,4 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc4c172cee1f2345b16664f4edc1630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnNum: 3
+  round: 3

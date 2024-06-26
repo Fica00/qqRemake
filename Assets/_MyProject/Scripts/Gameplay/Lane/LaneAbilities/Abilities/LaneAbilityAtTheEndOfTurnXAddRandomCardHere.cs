@@ -1,17 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LaneAbilityAtTheEndOfTurnXAddRandomCardHere : LaneAbilityBase
 {
     [SerializeField] private int round;
 
+    private bool subscribed2;
+
     public override void Subscribe()
     {
         isSubscribed = true;
-        GameplayManager.OnFinishedGameplayLoop += CheckForRound;
+        GameplayManager.OnFinishedGameplayLoop += CheckRound;
     }
 
     private void OnDisable()
@@ -20,21 +18,57 @@ public class LaneAbilityAtTheEndOfTurnXAddRandomCardHere : LaneAbilityBase
         {
             return;
         }
-        GameplayManager.OnFinishedGameplayLoop -= CheckForRound;
+        GameplayManager.OnFinishedGameplayLoop -= CheckRound;
     }
 
-    private void CheckForRound()
+    private void CheckRound()
     {
-        if (GameplayManager.Instance.CurrentRound != round)
+        if (round - 1 == GameplayManager.Instance.CurrentRound)
+        {
+            laneDisplay.AbilityShowAsActive();
+            GameplayManager.UpdatedGameState += CheckState;
+            subscribed2 = true;
+        }
+        else if (round - 1 > GameplayManager.Instance.CurrentRound)
+        {
+            if (subscribed2 == false)
+            {
+                return;
+            }
+            laneDisplay.AbilityShowAsInactive();
+            isSubscribed = false;
+            GameplayManager.UpdatedRound -= CheckRound;
+        }
+    }
+
+    private void CheckState()
+    {
+        if (GameplayManager.Instance.GameplayState != GameplayState.ResolvingEndOfRound)
         {
             return;
         }
 
-        AddRandomCard();
+        AddRandomCard(GameplayManager.Instance.MyPlayer);
+        if (!GameplayManager.IsPvpGame)
+        {
+            AddRandomCard(GameplayManager.Instance.OpponentPlayer);
+        }
+
+        GameplayManager.UpdatedGameState -= CheckState;
+        subscribed2 = false;
     }
 
-    private void AddRandomCard()
+    private void AddRandomCard(GameplayPlayer _player)
     {
-        //GameplayManager.Instance.TableHandler.
+        var _cardList = _player.CardsInDeck;
+
+        if (_cardList.Count == 0)
+        {
+            return;
+        }
+
+        CardObject _randomCard = _cardList[Random.Range(0, _cardList.Count)];
+
+        _randomCard.ForcePlace(laneDisplay);
     }
 }
