@@ -3,6 +3,7 @@ let userId = null;
 let unity = null;
 let isBreakingScript = false;
 let isEvAgency = false;
+let tutorialEventSent = false;
 const btnCancelPayment = document.querySelector("#btn-cancelPayment");
 const stripe = Stripe(
   "pk_live_51O9azOCJmlrAlGBoAojhLshRHV3rr5qqUXrdG13NYxbpkfLU69WVgypk06ZiARta7y7LSA3wEhbJNf2K6CvWP5Wf00trRX4rYy"
@@ -141,7 +142,64 @@ async function sendEventToEarnAlliance(eventType, userId) {
 
 function isEarnAllianceLink() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("test") === "earnalliance";
+  return urlParams.get("a") === "EarnAlliance";
+}
+
+async function sendCompleteTutorialEventToEarnAlliance(userId) {
+  const clientId = "31941903-89d8-4bad-8e85-9b05754eecdb";
+  const clientSecret = "pbrs3SRCUbO92iir14s8VnlBDA5uDQE9";
+  const gameId = "91e6b829-3371-4edb-b45f-93bc1bc22063";
+  const url = "https://events.earnalliance.com/v2/custom-events";
+
+  const timestamp = Date.now();
+  const body = {
+    gameId: gameId,
+    events: [
+      {
+        userId: userId,
+        event: "TUTORIAL_DONE",
+        time: new Date().toISOString(),
+      },
+    ],
+  };
+
+  const signature = await generateSignature(
+    clientId,
+    clientSecret,
+    body,
+    timestamp
+  );
+
+  try {
+    const response = await axios.post(url, body, {
+      headers: {
+        "x-client-id": clientId,
+        "x-timestamp": timestamp,
+        "x-signature": signature,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Complete tutorial event sent to EarnAlliance:", response.data);
+  } catch (error) {
+    console.error(
+      "Error sending complete tutorial event to EarnAlliance:",
+      error
+    );
+  }
+}
+
+function setupTutorialCompleteListener(userId) {
+  var ref = firebase.database().ref(`users/${userId}/Statistics/CheckPoints`);
+  ref.on("child_added", function (snapshot) {
+    const checkpoint = snapshot.val();
+    if (
+      checkpoint.Description === "Finished first game" &&
+      !tutorialEventSent
+    ) {
+      tutorialEventSent = true; // Prevent further sends
+      sendCompleteTutorialEventToEarnAlliance(userId);
+    }
+  });
 }
 
 function CheckHasBoundAccount() {
@@ -371,6 +429,13 @@ function LinkingAnonimousUser(providerName) {
       //call sign up with specific provider
       var credential = result.credential;
       var user = result.user;
+
+      // Added for EarnAlliance - check if googleAuth
+      if (providerName === "google" && isEarnAllianceLink()) {
+        sendUserIdentifierToEarnAlliance(user.uid, user.email);
+        sendEventToEarnAlliance("USER_SIGNUP", user.uid);
+      }
+
       unity.SendMessage("JavaScriptManager", "SuccessLinkingLoginAccount");
     })
     .catch((error) => {
@@ -379,7 +444,7 @@ function LinkingAnonimousUser(providerName) {
     });
 }
 
-function tellUnityUserInfo(userId, isGuest, userInfo) {
+function tellUnityUserInfo(userId, isGuest, userInfo, providerName) {
   var ref = firebase.database().ref(`users/${userId}`);
   ref
     .once("value", function (snapshot) {
@@ -400,15 +465,14 @@ function tellUnityUserInfo(userId, isGuest, userInfo) {
       } else {
         console.log("No user data available for user ID:", userId);
         console.log("Before calling conversion!!");
-
-        // Dodato: Slanje identifikatora korisnika EarnAlliance API-ju
-        if (isEarnAllianceLink()) {
+        // Added for EarnAlliance - check if googleAuth
+        if (providerName === "google" && isEarnAllianceLink()) {
           sendUserIdentifierToEarnAlliance(userId, userInfo.email);
+          sendEventToEarnAlliance("USER_SIGNUP", userId);
         }
 
-        // Dodato: Slanje događaja EarnAlliance API-ju
         if (isEarnAllianceLink()) {
-          sendEventToEarnAlliance("USER_SIGNUP", userId);
+          setupTutorialCompleteListener(userId);
         }
 
         triggerConversionScript();

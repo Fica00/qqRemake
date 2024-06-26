@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
 using Newtonsoft.Json;
 using TMPro;
@@ -21,7 +22,7 @@ public class FirebaseManager : MonoBehaviour
     private string GameDataLink => $"{projectLink}/gameData/";
     private string WithdrawalsLink => $"{projectLink}/withdrawals/";
     private string ReportLink => $"{projectLink}/reports/";
-    private string QommonStatistic => $"{projectLink}/gameData/QommonStatistic/";
+    private string DeckStatistic => $"{projectLink}/gameData/DeckStatistic/";
     private string MarketPlaceLink => $"{projectLink}/gameData/{nameof(DataManager.Instance.GameData.Marketplace)}/";
 
     public string PlayerId => userLocalId;
@@ -245,33 +246,30 @@ public class FirebaseManager : MonoBehaviour
     public void UpdateCardsWinLoseCount(List<int> _qommons, bool _didIWin)
     {
         string _sectionKey = _didIWin ? "win" : "lose";
-        foreach (var _qommon in _qommons)
+        _qommons = _qommons.OrderBy(_x => _x).ToList();
+        string _url = DeckStatistic + string.Join("-", _qommons);
+        StartCoroutine(Get(_url + "/"+_sectionKey+".json", _stringValue =>
         {
-            string _qommonName = CardsManager.Instance.GetCardObject(_qommon).Details.Name.RemoveWhitespace();
-            string _url = QommonStatistic + _qommonName;
-            StartCoroutine(Get(_url + "/"+_sectionKey+".json", _stringValue =>
+            int _amount = 0;
+            try
             {
-                int _amount = 0;
-                try
-                {
-                    _amount = Convert.ToInt32(_stringValue);
-                }
-                catch
-                {
-                    // ignored
-                }
+                _amount = Convert.ToInt32(_stringValue);
+            }
+            catch
+            {
+                // ignored
+            }
 
-                _amount++;
-                string _valueString = "{\"" + _sectionKey + "\":" + _amount + "}";
-                StartCoroutine(Patch(_url+ ".json", _valueString, _ =>
-                {
-                }, _ =>
-                {
-                }));
+            _amount++;
+            string _valueString = "{\"" + _sectionKey + "\":" + _amount + "}";
+            StartCoroutine(Patch(_url+ ".json", _valueString, _ =>
+            {
             }, _ =>
             {
             }));
-        }
+        }, _ =>
+        {
+        }));
     }
 
     public void RequestWithdrawal(WithdrawalData _data, Action<string> _onSuccess, Action<string> _onFailed)
