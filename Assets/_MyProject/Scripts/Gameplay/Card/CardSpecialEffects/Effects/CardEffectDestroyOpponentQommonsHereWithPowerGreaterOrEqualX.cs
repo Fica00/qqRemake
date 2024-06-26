@@ -51,10 +51,10 @@ public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : Card
             ((GameplayManagerPvp)GameplayManager.Instance).TellOpponentToDestroyCardsOnTable(_cardsToBeDestroyed, false);
         }
 
-        GameplayPlayer _opponentPlayer = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer : GameplayManager.Instance.MyPlayer;
-        foreach (var _card in _cardsToBeDestroyed)
-        {
-            _opponentPlayer.DestroyCardFromTable(_card);
-        }
+        //GameplayPlayer _opponentPlayer = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer : GameplayManager.Instance.MyPlayer;
+        //foreach (var _card in _cardsToBeDestroyed)
+        //{
+        //    _opponentPlayer.DestroyCardFromTable(_card);
+        //}
     }
 }
