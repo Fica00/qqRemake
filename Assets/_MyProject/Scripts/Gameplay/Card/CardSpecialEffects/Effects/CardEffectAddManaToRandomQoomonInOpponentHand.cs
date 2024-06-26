@@ -25,6 +25,7 @@ public class CardEffectAddManaToRandomQoomonInOpponentHand : CardEffectBase
             return;
         }
 
-        GameplayManager.Instance.ChangeInOpponentHandRandomCardEnergy(manaLessThan, manaToAdd, GameplayManager.Instance.OpponentPlayer);
+        GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer:GameplayManager.Instance.MyPlayer;
+        GameplayManager.Instance.ChangeInOpponentHandRandomCardEnergy(manaLessThan, manaToAdd, _player);
     }
 }

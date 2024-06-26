@@ -34,8 +34,9 @@ public class CardEffectWhenDestroyedReturnToHandWithXCost : CardEffectBase
 
     private void AddToHand()
     {
+        var _player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
         CardObject _card = CardsManager.Instance.CreateCard(cardObject.Details.Id, cardObject.IsMy);
         _card.Stats.Energy = cost;
-        GameplayManager.Instance.MyPlayer.AddCardToHand(_card);
+        _player.AddCardToHand(_card);
     }
 }

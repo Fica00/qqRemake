@@ -7,6 +7,8 @@ public class PlaceCommandJson
     public int PlaceId;
     public bool MyPlayer;
     public LaneLocation LaneLocation;
+    public int Power;
+    public int Energy;
 
     public static PlaceCommandJson Create(PlaceCommand _command)
     {
@@ -15,6 +17,8 @@ public class PlaceCommandJson
         _placeCommandJson.CardId = _command.Card.Details.Id;
         _placeCommandJson.LaneLocation = _command.Location;
         _placeCommandJson.MyPlayer = _command.IsMyPlayer;
+        _placeCommandJson.Energy = _command.Energy;
+        _placeCommandJson.Power = _command.Power;
         return _placeCommandJson;
     }
 
@@ -27,6 +31,8 @@ public class PlaceCommandJson
         _placeCommand.PlaceId = _placeCommandJson.PlaceId;
         _placeCommand.IsMyPlayer = _placeCommandJson.MyPlayer;
         _placeCommand.Location = _placeCommandJson.LaneLocation;
+        _card.Stats.Energy = _placeCommandJson.Energy;
+        _card.Stats.Power = _placeCommandJson.Power;
 
         return _placeCommand;
     }

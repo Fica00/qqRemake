@@ -32,25 +32,28 @@ public class CardEffectAddPowerToRandomInHand : CardEffectBase
 
         AddRandomCardsToList(_cardsInHand, _randomCardsId);
 
-        GameplayManager.Instance.ChangeInMyHandRandomCardsPower(_randomCardsId, power,GameplayManager.Instance.MyPlayer);
+        GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
+        GameplayManager.Instance.ChangeInMyHandRandomCardsPower(_randomCardsId, power,_player);
     }
 
     private void AddRandomCardsToList(List<CardObject> _list, List<int> _newList)
     {
-        List<CardObject> shuffledList = _list.OrderBy(x => Random.Range(0, _list.Count)).ToList();
+        List<CardObject> _shuffledList = _list.OrderBy(_x => Random.Range(0, _list.Count)).ToList();
 
-        int addedCardsCount = 0;
-        foreach (CardObject card in shuffledList)
+        int _addedCardsCount = 0;
+        foreach (CardObject _card in _shuffledList)
         {
-            if (!_newList.Contains(card.Details.Id))
+            if (_addedCardsCount >= numberOfQoomons)
             {
-                _newList.Add(card.Details.Id);
-                addedCardsCount++;
-                if (addedCardsCount >= numberOfQoomons)
-                {
-                    break;
-                }
+                break;
             }
+            if (_newList.Contains(_card.Details.Id))
+            {
+                continue;
+            }
+            
+            _newList.Add(_card.Details.Id);
+            _addedCardsCount++;
         }
     }
 }

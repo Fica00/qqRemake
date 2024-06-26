@@ -150,7 +150,9 @@ public class CardObject : MonoBehaviour
             PlaceId = _placeIdentifier.Id,
             Card = this,
             IsMyPlayer = IsMy,
-            Location = _placeIdentifier.Location
+            Location = _placeIdentifier.Location,
+            Power =  Stats.Power,
+            Energy = Stats.Energy
         };
 
         _player.Energy -= Stats.Energy;
@@ -175,7 +177,9 @@ public class CardObject : MonoBehaviour
             PlaceId = _placeIdentifier.Id,
             Card = this,
             IsMyPlayer = IsMy,
-            Location = _placeIdentifier.Location
+            Location = _placeIdentifier.Location,
+            Power =  Stats.Power,
+            Energy = Stats.Energy
         };
 
         IsForcedToBePlaced = true;

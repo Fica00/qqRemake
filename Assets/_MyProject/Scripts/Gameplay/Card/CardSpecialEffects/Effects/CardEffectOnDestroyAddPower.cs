@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectOnDestroyAddPower : CardEffectBase
@@ -22,26 +21,19 @@ public class CardEffectOnDestroyAddPower : CardEffectBase
 
     private void CheckCard(CardObject _card)
     {
-        if (GameplayManager.IsPvpGame && !_card.IsMy)
+        if (_card != cardObject)
         {
             return;
         }
-
-        if (_card == cardObject)
-        {
-            AddPower();
-        }
+        
+        AddPower();
     }
 
     private void AddPower() 
     {
-        List<CardObject> _addPowerList = new List<CardObject>();
+        var _cardsOnTable = GameplayManager.Instance.TableHandler.GetCards(cardObject.IsMy);
 
-        _addPowerList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnBot);
-        _addPowerList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnMid);
-        _addPowerList.AddRange(GameplayManager.Instance.MyPlayer.CardsOnTop);
-
-        foreach (var _card in _addPowerList)
+        foreach (var _card in _cardsOnTable)
         {
             _card.Stats.Power += power;
         }

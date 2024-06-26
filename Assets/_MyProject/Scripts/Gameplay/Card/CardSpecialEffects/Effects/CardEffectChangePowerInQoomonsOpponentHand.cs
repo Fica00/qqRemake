@@ -24,6 +24,7 @@ public class CardEffectChangePowerInQoomonsOpponentHand : CardEffectBase
             return;
         }
 
-        GameplayManager.Instance.ChangeAllInOpponentHandPower(power, GameplayManager.Instance.OpponentPlayer);
+        GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer:GameplayManager.Instance.MyPlayer;
+        GameplayManager.Instance.ChangeAllInOpponentHandPower(power, _player);
     }
 }

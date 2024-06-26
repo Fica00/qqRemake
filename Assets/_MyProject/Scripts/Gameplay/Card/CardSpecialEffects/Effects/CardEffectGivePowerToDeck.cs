@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectGivePowerToDeck : CardEffectBase
@@ -25,6 +24,7 @@ public class CardEffectGivePowerToDeck : CardEffectBase
             return;
         }
 
-        GameplayManager.Instance.ChangeAllInOpponentDeckPower(power, GameplayManager.Instance.OpponentPlayer);
+        GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
+        GameplayManager.Instance.ChangeAllInOpponentDeckPower(power, _player);
     }
 }

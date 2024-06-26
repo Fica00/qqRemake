@@ -7,4 +7,6 @@ public class PlaceCommand
     public int PlaceId;
     public bool IsMyPlayer;
     public LaneLocation Location;
+    public int Power;
+    public int Energy;
 }
