@@ -227,7 +227,7 @@ public class GameplayManagerPvp : GameplayManager
     public override void ChangeAllInOpponentHandPower(int _amount, GameplayPlayer _player) 
     {
         AddPower _addPower = new AddPower { Power = _amount};
-        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeCardEnergy), JsonConvert.SerializeObject(_addPower));
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeCardPower), JsonConvert.SerializeObject(_addPower));
     }
 
     public override void ChangeInOpponentHandRandomCardEnergy(int _lessThan, int _amount, GameplayPlayer _player)
