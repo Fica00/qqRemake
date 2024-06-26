@@ -257,7 +257,7 @@ public class GameplayManagerPvp : GameplayManager
     private void ChangeMyInHandCardPower(string _data)
     {
         AddPowerToPlaces _addPower = JsonConvert.DeserializeObject<AddPowerToPlaces>(_data);
-        base.ChangeInMyHandRandomCardsPower(_addPower.CardPlaces, _addPower.PowerToAdd, MyPlayer);
+        base.ChangeInMyHandRandomCardsPower(_addPower.CardPlaces, _addPower.PowerToAdd, OpponentPlayer);
     }
 
     private void ChangeAllOpponentCardsInHandPower(string _data)
