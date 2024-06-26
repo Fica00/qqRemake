@@ -101,8 +101,8 @@ public class UIPlayPanel : MonoBehaviour
 
     private void ShowPvp()
     {
-        SocketServerCommunication.Instance.StartMatchMaking();
         pvpPanel.Setup();
+        SocketServerCommunication.Instance.StartMatchMaking();
     }
 
     private void ShowFriendly()

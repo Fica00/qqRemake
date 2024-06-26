@@ -54,7 +54,7 @@ public class SocketServerCommunication : MonoBehaviour
         
         Debug.Log($"Creating connection");
 
-        if (connection!=null)
+        if (connection is { State: HubConnectionState.Connected })
         {
             OnInitFinished?.Invoke(true);
             return;
@@ -126,6 +126,7 @@ public class SocketServerCommunication : MonoBehaviour
     
     private void MatchLeftAsync(bool _status)
     {
+        StopConnection();
         if (!_status)
         {
             Debug.Log("Failed to leave room");
@@ -133,6 +134,12 @@ public class SocketServerCommunication : MonoBehaviour
         }
 
         OnILeftRoom?.Invoke();
+    }
+
+    private async void StopConnection()
+    {
+        await connection.StopAsync();
+        connection = null;
     }
     
     private void MatchLeftAsyncFromJs(int _status)
@@ -158,7 +165,6 @@ public class SocketServerCommunication : MonoBehaviour
     
     private void ReceiveMessageAsync(string _message)
     {
-        Debug.Log("ReceiveMessageAsync: "+_message);
         ExecuteMessage(JsonConvert.DeserializeObject<MessageData>(_message));
     }
 
@@ -200,7 +206,6 @@ public class SocketServerCommunication : MonoBehaviour
             return;
         }
         
-        Debug.Log("SendMessage editor: " + _message);
         connection.SendAsync("SendMessageAsync", MatchData.RoomName,_message);
     }
 

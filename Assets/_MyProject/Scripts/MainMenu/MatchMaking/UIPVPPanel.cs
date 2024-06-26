@@ -76,14 +76,17 @@ public class UIPVPPanel : MonoBehaviour
     {
         if (SocketServerCommunication.Instance.MatchData==null)
         {
+            Debug.Log(111);
             return;
         }
 
         if (SocketServerCommunication.Instance.MatchData.Players.Count!=2)
         {
+            Debug.Log(222);
             return;
         }
         
+        Debug.Log(333);
         LoadGameplay();
         RequestOpponentData();
     }

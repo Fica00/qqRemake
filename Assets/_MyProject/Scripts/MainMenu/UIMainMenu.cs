@@ -33,6 +33,7 @@ public class UIMainMenu : MonoBehaviour
 
         transition.EndTransition(null);
         ShowStartingAnimation = false;
+        SocketServerCommunication.Instance.ResetMatchData();
     }
     private void Start()
     {

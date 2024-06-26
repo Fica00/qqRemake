@@ -1,4 +1,5 @@
 let connection;
+
 const createAndSetupConnection = async (token) => {
     connection = new signalR.HubConnectionBuilder()
         .withUrl("https://api.qoomonquest.com/hubs/game", {
@@ -50,7 +51,6 @@ const createAndSetupConnection = async (token) => {
 
     connection.on('MatchLeftAsync', (success) => {
         console.log("MatchLeftAsync: " + success);
-
         const successInt = success ? 1 : 0;
         unity.SendMessage("SocketCommunication", "MatchLeftAsyncFromJs", successInt);
     });
@@ -66,7 +66,12 @@ const createAndSetupConnection = async (token) => {
 
 const start = async () => {
     try {
-        await connection.start();
+
+        if (connection.state !== signalR.HubConnectionState.Connected)
+        {
+            await connection.start();
+        }
+
         unity.SendMessage("SocketCommunication", "ReceiveConnectionOutcome", 1);
         console.log("SignalR Connected.");
     } catch (err) {
