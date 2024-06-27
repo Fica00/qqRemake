@@ -15,7 +15,10 @@ public class PlayerStatistics
     public List<TimeSpent> TimeSpent = new();
     public List<CheckPoint> CheckPoints = new();
     public List<MatchPlayed> MatchesPlayed = new ();
-    public static List<int> SeenCards = new List<int>();
+    public static List<int> SeenCards = new();
+    public int AmountOfGamesWon;
+    public int AmountOfGamesLost;
+    public int AmountOfGamesDraw;
 
     private bool didCheckForTimeSpent;
 
@@ -181,4 +184,39 @@ public class PlayerStatistics
         PlayerData.UpdatedStatistics?.Invoke();
     }
 
+    public void IncreaseAmountOfMatches(GameResult _result)
+    {
+        if (MatchesPlayed.Count==0)
+        {
+            if (CheckPoints.Find(_checkPoint => _checkPoint.Description == "Finished first game")==null)
+            {
+                return;
+            }
+        }
+        
+        switch (_result)
+        {
+            case GameResult.IWon:
+                AmountOfGamesWon++;
+                break;
+            case GameResult.ILost:
+                AmountOfGamesLost++;
+                break;
+            case GameResult.Draw:
+                AmountOfGamesDraw++;
+                break;
+            case GameResult.IForefiet:
+                AmountOfGamesLost++;
+                break;
+            case GameResult.Escaped:
+                AmountOfGamesWon++;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(_result), _result, null);
+        }
+        
+        PlayerData.UpdatedStatistics?.Invoke();
+    }
+
+    [JsonIgnore] public int GamesPlayed => AmountOfGamesDraw + AmountOfGamesLost + AmountOfGamesWon;
 }

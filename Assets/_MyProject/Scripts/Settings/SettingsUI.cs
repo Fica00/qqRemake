@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class SettingsUI : MonoBehaviour
 {
     [SerializeField] private Button logoutButton;
-    [SerializeField] private InputField nameInput;
     [SerializeField] private Button redeemCode;
     [SerializeField] private Button reportABug;
     [SerializeField] private Button playerSupport;
@@ -17,6 +16,7 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Button tutorial;
     [SerializeField] private TextMeshProUGUI playerIDDisplay;
     [SerializeField] private Button copyPlayerId;
+    [SerializeField] private Button profile;
     [SerializeField] private SocialOverlayHandler socialOverlayHandler;
 
 
@@ -32,6 +32,7 @@ public class SettingsUI : MonoBehaviour
         close.onClick.AddListener(Close);
         tutorial.onClick.AddListener(ShowTutorial);
         copyPlayerId.onClick.AddListener(CopyPlayerId);
+        profile.onClick.AddListener(ShowProfile);
 
         playerIDDisplay.text = "Player id: " + FirebaseManager.Instance.PlayerId;
     }
@@ -48,6 +49,7 @@ public class SettingsUI : MonoBehaviour
         close.onClick.RemoveListener(Close);
         tutorial.onClick.RemoveListener(ShowTutorial);
         copyPlayerId.onClick.RemoveListener(CopyPlayerId);
+        profile.onClick.RemoveListener(ShowProfile);
     }
 
     private void CopyPlayerId()
@@ -112,7 +114,6 @@ public class SettingsUI : MonoBehaviour
 
     private void Start()
     {
-        nameInput.text = DataManager.Instance.PlayerData.Name;
 
         JavaScriptManager.Instance.CheckHasBoundAccount(_hasBoundAccount =>
         {
@@ -129,11 +130,6 @@ public class SettingsUI : MonoBehaviour
 
     private void Close()
     {
-        if (!TryUpdateName())
-        {
-            return;
-        }
-
         if (DataManager.Instance.PlayerData.SettingsFirstTimeShown == PwaOverlay.DidNotOpen)
         {
             DataManager.Instance.PlayerData.SettingsFirstTimeShown = PwaOverlay.DidNotShow;
@@ -141,28 +137,9 @@ public class SettingsUI : MonoBehaviour
 
         SceneManager.Instance.LoadMainMenu();
     }
-
-    private bool TryUpdateName()
+    
+    private void ShowProfile()
     {
-        string _name = nameInput.text;
-        if (string.IsNullOrEmpty(_name))
-        {
-            DialogsManager.Instance.OkDialog.Setup("Please enter name");
-            return false;
-        }
-
-        if (_name.Length < 3 || _name.Length > 10)
-        {
-            DialogsManager.Instance.OkDialog.Setup("Name must contain more than 3 characters and less than 10");
-            return false;
-        }
-
-        if (DataManager.Instance.PlayerData.Name == _name)
-        {
-            return true;
-        }
-
-        DataManager.Instance.PlayerData.Name = _name;
-        return true;
+        SceneManager.Instance.LoadProfile();
     }
 }
