@@ -347,8 +347,8 @@ public class GameplayManagerPvp : GameplayManager
     private void OpponentDestroyedCardsOnTable(string _data)
     {
         DestroyCards _destroyCards = JsonConvert.DeserializeObject<DestroyCards>(_data);
-        //List<int> _invertedIds = InverteQoomonIdOnLane(_destroyCards.PlaceIds);
-        base.DestroyCardsOnTable(_destroyCards.DestroyMyCards, null, _destroyCards.PlaceIds);
+        List<int> _invertedIds = InverteQoomonIdOnLane(_destroyCards.PlaceIds, _destroyCards.DestroyMyCards);
+        base.DestroyCardsOnTable(_destroyCards.DestroyMyCards, null, _invertedIds);
     }
 
     private void OpponentWantsCardFromYourDeck()

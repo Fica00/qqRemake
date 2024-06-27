@@ -744,13 +744,14 @@ public class GameplayManager : MonoBehaviour
         return _placeIds;
     }
 
-    public List<int> InverteQoomonIdOnLane(List<int> _placeId) 
+    public List<int> InverteQoomonIdOnLane(List<int> _placeId, bool _destroyMyCards) 
     {
         List<int> _invertedId = new List<int>();
 
         foreach (var _id in _placeId)
         {
-            int _invert = _id + 8;
+            int _invert = _id;
+            _invert += _destroyMyCards ? 8 : -8;
             _invertedId.Add(_invert);
         }
 
