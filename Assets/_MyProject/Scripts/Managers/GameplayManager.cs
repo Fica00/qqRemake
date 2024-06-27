@@ -282,7 +282,7 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
     }
 
-    public virtual void DestroyCardsOnTable(List<int> _idList, bool _destroyMyCards = false)
+    public virtual void DestroyCardsOnTable(List<int> _idList)
     {
         List<CardObject> _cards = new List<CardObject>();
         List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();

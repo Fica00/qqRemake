@@ -206,9 +206,9 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
     }
 
-    public override void DestroyCardsOnTable(List<int> _idList, bool _destroyMyCards)
+    public override void DestroyCardsOnTable(List<int> _idList)
     {
-        DestroyCards _cards = new DestroyCards {PlaceIds = _idList, DestroyMyCards = !_destroyMyCards};
+        DestroyCards _cards = new DestroyCards {PlaceIds = _idList};
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
     }
 
@@ -346,7 +346,7 @@ public class GameplayManagerPvp : GameplayManager
     private void OpponentDestroyedCardsOnTable(string _data)
     {
         DestroyCards _destroyCards = JsonConvert.DeserializeObject<DestroyCards>(_data);
-        List<int> _invertedIds = InverteQoomonIdOnLane(_destroyCards.PlaceIds, _destroyCards.DestroyMyCards);
+        List<int> _invertedIds = InverteQoomonIdOnLane(_destroyCards.PlaceIds, true);
         base.DestroyCardsOnTable(_destroyCards.PlaceIds);
     }
 
