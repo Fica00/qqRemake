@@ -20,6 +20,11 @@ public class QoomonAnimator : MonoBehaviour
     [HideInInspector]public bool IsRevealAnimationDone;
     private string currentAnimation;
     
+    private void Awake()
+    {
+        animator=null;
+    }
+    
     public void Setup(CardObject _cardObject)
     {
         if (animator==null)

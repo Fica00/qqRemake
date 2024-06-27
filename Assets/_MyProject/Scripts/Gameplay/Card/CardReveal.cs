@@ -15,7 +15,7 @@ public class CardReveal : MonoBehaviour
     public void Setup(CardObject _cardObject)
     {
         cardObject = _cardObject;
-        revealImage.sprite = cardObject.Details.Sprite;
+        // revealImage.sprite = cardObject.Details.Sprite;
         float _rotationY = _cardObject.IsMy ? 0 : 180;
         transform.eulerAngles = new Vector3(0, _rotationY, 0);
     }
