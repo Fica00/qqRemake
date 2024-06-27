@@ -54,7 +54,7 @@ public class CardEffectDestroyEnemysNRandomXCostQommonsHere : CardEffectBase
 
         if (GameplayManager.IsPvpGame)
         {
-            GameplayManager.Instance.DestroyCardsOnTable(_cardsToBeDestroyed, false);
+            GameplayManager.Instance.DestroyCardsOnTable(false, _cardsToBeDestroyed);
         }
         else
         {

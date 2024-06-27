@@ -1,11 +1,10 @@
-using System.Collections;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System;
-using UnityEngine;
-using System.Linq;
 using MessageHelpers;
-using static UnityEngine.EventSystems.EventTrigger;
+using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class GameplayManagerPvp : GameplayManager
 {
@@ -209,7 +208,8 @@ public class GameplayManagerPvp : GameplayManager
 
     public override void DestroyCardsOnTable(List<CardObject> _qommons, bool _destroyMyCards)
     {
-        DestroyCards _cards = new DestroyCards {_cardsToDestroy = _qommons, DestroyMyCards = _destroyMyCards};
+        List<int> _placeId = LaneIdForQoomonsToDestroy(_qommons, !_destroyMyCards);
+        DestroyCards _cards = new DestroyCards {PlaceIds = _placeId, DestroyMyCards = !_destroyMyCards};
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
     }
 
@@ -347,7 +347,8 @@ public class GameplayManagerPvp : GameplayManager
     private void OpponentDestroyedCardsOnTable(string _data)
     {
         DestroyCards _destroyCards = JsonConvert.DeserializeObject<DestroyCards>(_data);
-        base.DestroyCardsOnTable(_destroyCards._cardsToDestroy, !_destroyCards.DestroyMyCards);
+        List<int> _invertedIds = InverteQoomonIdOnLane(_destroyCards.PlaceIds);
+        base.DestroyCardsOnTable(_destroyCards.DestroyMyCards, null, _invertedIds);
     }
 
     private void OpponentWantsCardFromYourDeck()

@@ -8,6 +8,5 @@ namespace MessageHelpers
     {
         public List<int> PlaceIds;
         public bool DestroyMyCards;
-        public List<CardObject> _cardsToDestroy;
     }
 }
