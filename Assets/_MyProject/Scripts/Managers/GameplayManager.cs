@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using DG.Tweening;
+using MessageHelpers;
+using Newtonsoft.Json;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -280,6 +282,23 @@ public class GameplayManager : MonoBehaviour
         int _cardId = _drawnCard.Details.Id;
         Destroy(_drawnCard.gameObject);
         _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
+    }
+
+    public virtual void DestroyCardsOnTable(List<CardObject> _qommons, bool _destroyMyCards) 
+    {
+        List<int> _placeIds = LaneIdForQoomonsToDestroy(_qommons, _destroyMyCards);
+        List<CardObject> _cards = new List<CardObject>();
+        List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
+        foreach (var _placeId in _placeIds)
+        {
+            LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
+            _cards.Add(_place.GetComponentInChildren<CardObject>());
+        }
+
+        foreach (var _card in _cards)
+        {
+            MyPlayer.DestroyCardFromTable(_card);
+        }
     }
 
     public virtual void ChangeInMyHandRandomCardsPower(List<int> _randomCardsId, int _amount, GameplayPlayer _player)
@@ -700,5 +719,20 @@ public class GameplayManager : MonoBehaviour
     public void SetCurrentRoundWithoutUpdate(int _amount)
     {
         currentRound = _amount;
+    }
+
+    public List<int> LaneIdForQoomonsToDestroy(List<CardObject> _qommons, bool _destroyMyCards)
+    {
+        List<int> _placeIds = new List<int>();
+
+        foreach (var _qommon in _qommons)
+        {
+            LanePlaceIdentifier _identifier = _qommon.GetComponentInParent<LanePlaceIdentifier>();
+            int _placeId = _identifier.Id;
+            _placeId += _destroyMyCards ? 4 : -4;
+            _placeIds.Add(_placeId);
+        }
+
+        return _placeIds;
     }
 }

@@ -39,7 +39,7 @@ public class CardEffectDestroyYourOtherQommonsHereAndGainXPowerForEach : CardEff
             
         if (GameplayManager.IsPvpGame)
         {
-            ((GameplayManagerPvp)GameplayManager.Instance).TellOpponentToDestroyCardsOnTable(_myCardsOnLane,true);
+            GameplayManager.Instance.DestroyCardsOnTable(_myCardsOnLane,true);
         }
       
         GameplayPlayer _myPlayer = cardObject.IsMy ?  GameplayManager.Instance.MyPlayer:GameplayManager.Instance.OpponentPlayer;

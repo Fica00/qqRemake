@@ -48,7 +48,7 @@ public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : Card
 
         if (GameplayManager.IsPvpGame)
         {
-            ((GameplayManagerPvp)GameplayManager.Instance).TellOpponentToDestroyCardsOnTable(_cardsToBeDestroyed, false);
+            GameplayManager.Instance.DestroyCardsOnTable(_cardsToBeDestroyed, false);
         }
         else 
         {

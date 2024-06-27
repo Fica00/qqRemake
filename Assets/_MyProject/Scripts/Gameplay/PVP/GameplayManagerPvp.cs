@@ -177,23 +177,6 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentForcePlacedCard), JsonConvert.SerializeObject(_commandJSON));
     }
 
-    public void TellOpponentToDestroyCardsOnTable(List<CardObject> _qommons,bool _destroyMyCards)
-    {
-        List<int> _placeIds = new List<int>();
-        
-        foreach (var _qommon in _qommons)
-        {
-            LanePlaceIdentifier _identifier = _qommon.GetComponentInParent<LanePlaceIdentifier>();
-            int _placeId = _identifier.Id;
-            _placeId += _destroyMyCards ? 4 : -4;
-            _placeIds.Add(_placeId);
-        }
-
-        DestroyCards _cards = new DestroyCards { PlaceIds = _placeIds };
-        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
-
-    }
-
     public override void DrawCardFromOpponentsDeck(bool _isMy)
     {
         int _amountOfCardsInHand = MyPlayer.AmountOfCardsInHand;
@@ -222,6 +205,12 @@ public class GameplayManagerPvp : GameplayManager
     {
         DiscardCard _discard = new DiscardCard { CardId = _card.Details.Id };
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
+    }
+
+    public override void DestroyCardsOnTable(List<CardObject> _qommons, bool _destroyMyCards)
+    {
+        DestroyCards _cards = new DestroyCards {_cardsToDestroy = _qommons, DestroyMyCards = _destroyMyCards};
+        SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
     }
 
     public override void ChangeInMyHandRandomCardsPower(List<int> _randomCardsId, int _amount, GameplayPlayer _player) 
@@ -357,20 +346,8 @@ public class GameplayManagerPvp : GameplayManager
 
     private void OpponentDestroyedCardsOnTable(string _data)
     {
-        DestroyCards _cardsToDestroy = JsonConvert.DeserializeObject<DestroyCards>(_data);
-        List<int> _placeIds = _cardsToDestroy.PlaceIds;
-        List<CardObject> _cards = new List<CardObject>();
-        List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
-        foreach (var _placeId in _placeIds)
-        {
-            LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
-            _cards.Add(_place.GetComponentInChildren<CardObject>());
-        }
-        
-        foreach (var _card in _cards)
-        {
-            MyPlayer.DestroyCardFromTable(_card);
-        }
+        DestroyCards _destroyCards = JsonConvert.DeserializeObject<DestroyCards>(_data);
+        base.DestroyCardsOnTable(_destroyCards._cardsToDestroy, !_destroyCards.DestroyMyCards);
     }
 
     private void OpponentWantsCardFromYourDeck()
