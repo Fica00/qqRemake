@@ -292,7 +292,7 @@ public class GameplayManager : MonoBehaviour
         }
         else 
         {
-            _placeIds = LaneIdForQoomonsToDestroy(_qommons, _destroyMyCards);
+            _placeIds = LaneIdForQoomonsToDestroy(_qommons, !_destroyMyCards);
         }
 
         List<CardObject> _cards = new List<CardObject>();
