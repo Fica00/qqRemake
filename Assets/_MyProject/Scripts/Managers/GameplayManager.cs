@@ -751,7 +751,7 @@ public class GameplayManager : MonoBehaviour
         foreach (var _id in _placeId)
         {
             int _invert = _id;
-            _invert += _destroyMyCards ? 8 : -8;
+            _invert += _destroyMyCards ? -8 : 8;
             _invertedId.Add(_invert);
         }
 
