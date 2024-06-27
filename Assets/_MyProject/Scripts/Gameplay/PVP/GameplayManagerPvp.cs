@@ -206,10 +206,9 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
     }
 
-    public override void DestroyCardsOnTable(bool _destroyMyCards, List<CardObject> _qommons = null, List<int> _idList = null)
+    public override void DestroyCardsOnTable(List<int> _idList, bool _destroyMyCards)
     {
-        List<int> _placeId = LaneIdForQoomonsToDestroy(_qommons, !_destroyMyCards);
-        DestroyCards _cards = new DestroyCards {PlaceIds = _placeId, DestroyMyCards = !_destroyMyCards};
+        DestroyCards _cards = new DestroyCards {PlaceIds = _idList, DestroyMyCards = !_destroyMyCards};
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
     }
 
@@ -348,7 +347,7 @@ public class GameplayManagerPvp : GameplayManager
     {
         DestroyCards _destroyCards = JsonConvert.DeserializeObject<DestroyCards>(_data);
         List<int> _invertedIds = InverteQoomonIdOnLane(_destroyCards.PlaceIds, _destroyCards.DestroyMyCards);
-        base.DestroyCardsOnTable(_destroyCards.DestroyMyCards, null, _invertedIds);
+        base.DestroyCardsOnTable(_destroyCards.PlaceIds);
     }
 
     private void OpponentWantsCardFromYourDeck()

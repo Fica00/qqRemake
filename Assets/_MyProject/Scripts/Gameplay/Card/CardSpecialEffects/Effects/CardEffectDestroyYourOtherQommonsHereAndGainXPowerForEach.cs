@@ -36,16 +36,19 @@ public class CardEffectDestroyYourOtherQommonsHereAndGainXPowerForEach : CardEff
         }
 
         cardObject.Stats.Power += (_myCardsOnLane.Count * powerPerQommon);
-            
+
         if (GameplayManager.IsPvpGame)
         {
-            GameplayManager.Instance.DestroyCardsOnTable(true, _myCardsOnLane);
+            var _placeId = GameplayManager.Instance.LaneIdForQoomonsToDestroy(_myCardsOnLane, false);
+            GameplayManager.Instance.DestroyCardsOnTable(_placeId);
         }
-      
-        GameplayPlayer _myPlayer = cardObject.IsMy ?  GameplayManager.Instance.MyPlayer:GameplayManager.Instance.OpponentPlayer;
-        foreach (var _card in _myCardsOnLane.ToList())
+        else 
         {
-            _myPlayer.DestroyCardFromTable(_card);
+            GameplayPlayer _myPlayer = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
+            foreach (var _card in _myCardsOnLane.ToList())
+            {
+                _myPlayer.DestroyCardFromTable(_card);
+            }
         }
     }
 }

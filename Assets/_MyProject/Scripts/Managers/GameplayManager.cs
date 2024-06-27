@@ -282,22 +282,11 @@ public class GameplayManager : MonoBehaviour
         _player.AddCardToHand(CardsManager.Instance.CreateCard(_cardId, _isMy));
     }
 
-    public virtual void DestroyCardsOnTable(bool _destroyMyCards, List<CardObject> _qommons = null, List<int> _idList = null) 
+    public virtual void DestroyCardsOnTable(List<int> _idList, bool _destroyMyCards = false)
     {
-        List<int> _placeIds = new List<int>();
-       
-        if (_qommons is null)
-        {
-            _placeIds = _idList;
-        }
-        else 
-        {
-            _placeIds = LaneIdForQoomonsToDestroy(_qommons, !_destroyMyCards);
-        }
-
         List<CardObject> _cards = new List<CardObject>();
         List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
-        foreach (var _placeId in _placeIds)
+        foreach (var _placeId in _idList)
         {
             LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
             _cards.Add(_place.GetComponentInChildren<CardObject>());
