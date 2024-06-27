@@ -15,7 +15,7 @@ public class PlayerStatistics
     public List<TimeSpent> TimeSpent = new();
     public List<CheckPoint> CheckPoints = new();
     public List<MatchPlayed> MatchesPlayed = new ();
-    public static List<int> SeenCards = new List<int>();
+    public List<int> SeenCards = new();
 
     private bool didCheckForTimeSpent;
 
