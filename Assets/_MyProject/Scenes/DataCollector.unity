@@ -2037,6 +2037,8 @@ MonoBehaviour:
     Level: 3
   - Name: BlackMamba
     Level: 3
+  - Name: EarnAlliance
+    Level: 3
 --- !u!4 &740290316
 Transform:
   m_ObjectHideFlags: 0
