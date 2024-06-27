@@ -22,6 +22,10 @@ public class LaneVizualizator : MonoBehaviour
     [SerializeField] private Image myLaneDotted;
     [SerializeField] private Image opponentLaneDotted;
 
+    [SerializeField] private LaneDisplay laneDisplay;
+    [SerializeField] private GameObject tornadoAnimation;
+    [SerializeField] private GameObject smokeAnimation;
+
     private void OnEnable()
     {
         GameplayManager.OnFlashPlace += FlashSpot;
@@ -33,6 +37,7 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnFlashAllSpotsOnLocation += FlashAllSpotsOnLocation;
         CardInteractions.DragStarted += CheckIfLaneIsAvailable;
         CardInteractions.DragEnded += TurnOffAvailableColor;
+        LaneAbilityBase.OnActivated += CheckForEffect;
     }
 
 
@@ -47,8 +52,8 @@ public class LaneVizualizator : MonoBehaviour
         GameplayManager.OnFlashAllSpotsOnLocation -= FlashAllSpotsOnLocation;
         CardInteractions.DragStarted -= CheckIfLaneIsAvailable;
         CardInteractions.DragEnded -= TurnOffAvailableColor;
+        LaneAbilityBase.OnActivated -= CheckForEffect;
     }
-
 
     private void FlashSpot(int _locatoinId, Color _color, int _amount)
     {
@@ -251,5 +256,54 @@ public class LaneVizualizator : MonoBehaviour
     private void TurnOffAvailableColor()
     {
         laneIndicator.SetActive(false);
+    }
+    
+    private void CheckForEffect(LaneDisplay _lane)
+    {
+        if (_lane != laneDisplay)
+        {
+            return;
+        }
+        
+        HandleAnimationObject(true, LaneVizualizatorTrigger.Activation);
+    }
+
+    public void HandleAnimationObject(bool _status, LaneVizualizatorTrigger _tiger = LaneVizualizatorTrigger.None)
+    {
+        GameObject _animationObject = GetAnimationObject();
+        if (_animationObject==null)
+        {
+            return;
+        }
+        
+        _animationObject.SetActive(_status);
+        
+        GameObject GetAnimationObject()
+        {
+            if (!GameplayManager.Instance.LaneAbilities.ContainsKey(laneDisplay))
+            {
+                return null;
+            }
+
+            LaneAbility _lane = GameplayManager.Instance.LaneAbilities[laneDisplay];
+            switch (_lane.Id)
+            {
+                case 21:
+                    if (_tiger == LaneVizualizatorTrigger.Drag || _tiger == LaneVizualizatorTrigger.None)
+                    {
+                        return tornadoAnimation;
+                    }
+                    return null;
+
+                case 18:
+                    if (_tiger == LaneVizualizatorTrigger.Activation || _tiger == LaneVizualizatorTrigger.None)
+                    {
+                        return smokeAnimation;
+                    }
+                    return null;
+                default:
+                    return null;
+            }
+        }
     }
 }
