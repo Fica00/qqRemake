@@ -286,6 +286,7 @@ public class GameplayManager : MonoBehaviour
     {
         List<CardObject> _cards = new List<CardObject>();
         List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
+
         foreach (var _placeId in _idList)
         {
             LanePlaceIdentifier _place = _placeIdentifiers.Find(_element => _element.Id == _placeId);
