@@ -154,6 +154,7 @@ public class TableHandler : MonoBehaviour
         {
             yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
             yield return StartCoroutine(_command.Card.RevealCard());
+            DataManager.Instance.PlayerData.Statistics.NoteSeenQoomon(_command.Card.Details.Id);
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
             {

@@ -15,6 +15,7 @@ public class PlayerStatistics
     public List<TimeSpent> TimeSpent = new();
     public List<CheckPoint> CheckPoints = new();
     public List<MatchPlayed> MatchesPlayed = new ();
+    public List<int> SeenQoomons = new();
 
 
     private bool didCheckForTimeSpent;
@@ -167,6 +168,17 @@ public class PlayerStatistics
         }
 
         _dayData.Count++;
+        PlayerData.UpdatedStatistics?.Invoke();
+    }
+    
+    public void NoteSeenQoomon(int _cardId)
+    {
+        if (SeenQoomons.Contains(_cardId))
+        {
+            return;
+        }
+        
+        SeenQoomons.Add(_cardId);
         PlayerData.UpdatedStatistics?.Invoke();
     }
 
