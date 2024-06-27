@@ -206,7 +206,7 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDiscardedACard), JsonConvert.SerializeObject(_discard));
     }
 
-    public override void DestroyCardsOnTable(List<CardObject> _qommons, bool _destroyMyCards)
+    public override void DestroyCardsOnTable(bool _destroyMyCards, List<CardObject> _qommons = null, List<int> _idList = null)
     {
         List<int> _placeId = LaneIdForQoomonsToDestroy(_qommons, !_destroyMyCards);
         DestroyCards _cards = new DestroyCards {PlaceIds = _placeId, DestroyMyCards = !_destroyMyCards};
