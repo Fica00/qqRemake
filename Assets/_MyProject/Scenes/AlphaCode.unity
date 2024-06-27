@@ -240,8 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d264d14b2c2d4064b90ff5da3ac85f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Version: 0.0.77
+  Version: 0.0.86
   <IsDemo>k__BackingField: 1
+  xp: 0
 --- !u!4 &301907328
 Transform:
   m_ObjectHideFlags: 0
