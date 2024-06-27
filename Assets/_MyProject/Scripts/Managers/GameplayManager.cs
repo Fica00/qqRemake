@@ -349,7 +349,7 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    public virtual void ChangeAllInOpponentDeckPower(int _amount, GameplayPlayer _player)
+    public virtual void ChangeAllMyDeckPower(int _amount, GameplayPlayer _player)
     {
         var _opponentsCardsInHand = _player.CardsInDeck;
 

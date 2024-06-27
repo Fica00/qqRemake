@@ -25,6 +25,6 @@ public class CardEffectGivePowerToDeck : CardEffectBase
         }
 
         GameplayPlayer _player = cardObject.IsMy ? GameplayManager.Instance.MyPlayer : GameplayManager.Instance.OpponentPlayer;
-        GameplayManager.Instance.ChangeAllInOpponentDeckPower(power, _player);
+        GameplayManager.Instance.ChangeAllMyDeckPower(power, _player);
     }
 }
