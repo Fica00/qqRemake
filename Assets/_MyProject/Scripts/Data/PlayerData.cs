@@ -91,7 +91,7 @@ public class PlayerData
     public static Action UpdatedSelectedAvatar;
     public static Action UpdatedOwnedAvatars;
     
-    public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
+    public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750,1500,2250,3000,3750,4500,5250,6000,6750};
 
     public void CreateNewPlayer()
     {

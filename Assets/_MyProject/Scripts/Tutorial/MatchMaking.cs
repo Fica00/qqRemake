@@ -20,9 +20,12 @@ namespace Tutorial
 
         public static string OpponentsName = "Ninja Frog";
         public static string OpponentsDeck = "Opponents deck";
+        public static int OpponentAvatarId = 0;
+
         
         public static string MyName = "Sati-the-tiger";
         public static string MyDeck = "";
+        public static int MyAvatarId = 3;
         
         private Action callBack;
         
@@ -54,12 +57,12 @@ namespace Tutorial
         {
             Utils.DoColor(vsImage,1,1,0, () =>
             {
-                myPlayer.Setup(MyName, MyDeck);
+                myPlayer.Setup(MyName, MyDeck, MyAvatarId);
                 myPlayer.transform.localScale = Vector3.one;
                 Utils.DoColor(searchingForOpponent,1,1,0);
                 myPlayer.transform.DOMove(myPlayerPosition.position, 1).OnComplete(() =>
                 {
-                    opponentPlayer.Setup(OpponentsName, OpponentsDeck);
+                    opponentPlayer.Setup(OpponentsName, OpponentsDeck, OpponentAvatarId);
                     Utils.DoColor(searchingForOpponent,1,0,1, () =>
                     {
                         opponentPlayer.transform.localScale = Vector3.one;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -93,6 +94,18 @@ public class ProfileUI : MonoBehaviour
             AvatarDisplay _avatarDisplay = Instantiate(avatarPrefab, avatarHolder);
             AvatarSo _avatarSo = AvatarSo.Get(_ownedAvatar);
             _avatarDisplay.Setup(_avatarSo);
+            shownObjects.Add(_avatarDisplay.gameObject);
+        }
+        
+        foreach (var _avatar in AvatarSo.Get().ToList().OrderBy(_avatar => _avatar.Id).ToList())
+        {
+            if (DataManager.Instance.PlayerData.OwnedAvatars.Contains(_avatar.Id))
+            {
+                continue;
+            }
+            AvatarDisplay _avatarDisplay = Instantiate(avatarPrefab, avatarHolder);
+            _avatarDisplay.Setup(_avatar);
+            _avatarDisplay.GreyOut();
             shownObjects.Add(_avatarDisplay.gameObject);
         }
     }

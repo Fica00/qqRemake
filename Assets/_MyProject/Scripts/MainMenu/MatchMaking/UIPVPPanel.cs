@@ -22,7 +22,8 @@ public class UIPVPPanel : MonoBehaviour
         matchingLabel.SetActive(true);
         opponentPlayer.gameObject.SetActive(false);
         ManageInteractables(true);
-        myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
+        myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name, DataManager.Instance
+        .PlayerData.SelectedAvatar);
         header.text = "Searching for opponent";
         gameObject.SetActive(true);
         TryShowTransition();
@@ -154,7 +155,8 @@ public class UIPVPPanel : MonoBehaviour
         Debug.Log("Sending my data to opponent");
         OpponentData _data = new OpponentData
         {
-            Name = DataManager.Instance.PlayerData.Name, DeckName = DataManager.Instance.PlayerData.GetSelectedDeck().Name
+            Name = DataManager.Instance.PlayerData.Name, DeckName = DataManager.Instance.PlayerData.GetSelectedDeck().Name,
+            AvatarId = DataManager.Instance.PlayerData.SelectedAvatar
         };
         
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(ShowOpponentData), JsonConvert.SerializeObject(_data));
@@ -164,9 +166,7 @@ public class UIPVPPanel : MonoBehaviour
     {
         Debug.Log("Received data from opponent: "+_dataJson);
         OpponentData _data = JsonConvert.DeserializeObject<OpponentData>(_dataJson);
-        opponentPlayer.Setup(
-            _data.Name,
-            _data.DeckName);
+        opponentPlayer.Setup(_data.Name, _data.DeckName, _data.AvatarId);
         opponentPlayer.gameObject.SetActive(true);
         header.text = "Opponent found!";
     }

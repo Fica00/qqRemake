@@ -18,5 +18,15 @@ public class AvatarSo : ScriptableObject
     public static AvatarSo Get(int _id)
     {
         return allAvatars.Find(_avatar => _avatar.Id == _id);
+    }    
+    
+    public static List<AvatarSo> Get()
+    {
+        return allAvatars;
+    }
+
+    public static AvatarSo GetRandom()
+    {
+        return allAvatars[Random.Range(0, allAvatars.Count)];
     }
 }

@@ -7,5 +7,6 @@ namespace MessageHelpers
    {
       public string Name;
       public string DeckName;
+      public int AvatarId;
    }
 }

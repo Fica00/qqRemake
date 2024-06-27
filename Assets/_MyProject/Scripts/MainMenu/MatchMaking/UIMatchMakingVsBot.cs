@@ -16,7 +16,8 @@ public class UIMatchMakingVsBot : MonoBehaviour
         matchingLabel.SetActive(true);
         opponentPlayer.gameObject.SetActive(false);
         ManageInteractables(true);
-        myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name);
+        myPlayer.Setup(DataManager.Instance.PlayerData.Name, DataManager.Instance.PlayerData.GetSelectedDeck().Name, DataManager.Instance
+        .PlayerData.SelectedAvatar);
         header.text = "Searching for opponent";
         gameObject.SetActive(true);
 
@@ -29,7 +30,7 @@ public class UIMatchMakingVsBot : MonoBehaviour
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MATCHMAKING);
         yield return new WaitForSeconds(_waitTime);
         BotPlayer.GenerateNewData();
-        opponentPlayer.Setup(BotPlayer.Name, BotPlayer.DeckName);
+        opponentPlayer.Setup(BotPlayer.Name, BotPlayer.DeckName, BotPlayer.AvatarId);
         opponentPlayer.gameObject.SetActive(true);
         header.text = "Opponent found!";
         yield return new WaitForSeconds(2);
