@@ -44,7 +44,7 @@ public class CardEffectDestroyYourOtherQommonsHereAndGainXPowerForEach : CardEff
 
         if (GameplayManager.IsPvpGame)
         {
-            var _placeId = GameplayManager.Instance.LaneIdForQoomonsToDestroy(_myCardsOnLane, false);
+            var _placeId = GameplayManager.Instance.LaneIdForQoomonsToDestroy(_myCardsOnLane);
             GameplayManager.Instance.DestroyCardsOnTable(_placeId);
         }
         else 

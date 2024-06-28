@@ -66,6 +66,7 @@ public class FirebaseManager : MonoBehaviour
             }, (_result) =>
             {
                 Debug.Log("Register failed");
+                Debug.Log(_result);
                 _callBack?.Invoke(false);
             }));
     }

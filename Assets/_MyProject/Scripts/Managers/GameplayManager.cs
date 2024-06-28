@@ -285,7 +285,7 @@ public class GameplayManager : MonoBehaviour
     public virtual void DestroyCardsOnTable(List<int> _idList)
     {
         List<CardObject> _cards = new List<CardObject>();
-        List<LanePlaceIdentifier> _placeIdentifiers = GameObject.FindObjectsOfType<LanePlaceIdentifier>().ToList();
+        List<LanePlaceIdentifier> _placeIdentifiers = FindObjectsOfType<LanePlaceIdentifier>().ToList();
 
         foreach (var _placeId in _idList)
         {
@@ -719,7 +719,7 @@ public class GameplayManager : MonoBehaviour
         currentRound = _amount;
     }
 
-    public List<int> LaneIdForQoomonsToDestroy(List<CardObject> _qommons, bool _destroyMyCards)
+    public List<int> LaneIdForQoomonsToDestroy(List<CardObject> _qommons)
     {
         List<int> _placeIds = new List<int>();
 
@@ -727,24 +727,9 @@ public class GameplayManager : MonoBehaviour
         {
             LanePlaceIdentifier _identifier = _qommon.GetComponentInParent<LanePlaceIdentifier>();
             int _placeId = _identifier.Id;
-            _placeId += _destroyMyCards ? 4 : -4;
             _placeIds.Add(_placeId);
         }
 
         return _placeIds;
-    }
-
-    public List<int> InverteQoomonIdOnLane(List<int> _placeId, bool _destroyMyCards) 
-    {
-        List<int> _invertedId = new List<int>();
-
-        foreach (var _id in _placeId)
-        {
-            int _invert = _id;
-            _invert += _destroyMyCards ? -8 : 8;
-            _invertedId.Add(_invert);
-        }
-
-        return _invertedId;
     }
 }

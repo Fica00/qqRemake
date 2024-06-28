@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : CardEffectBase
@@ -20,18 +21,24 @@ public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : Card
 
     void DestroyQommons()
     {
+        Debug.Log(1);
         if (GameplayManager.IsPvpGame && !cardObject.IsMy)
         {
+            Debug.Log(2);
             return;
         }
 
+        Debug.Log(3);
         List<CardObject> _cardsToBeDestroyed = new List<CardObject>();
         List<CardObject> _oppoentsCardsOnLine = GameplayManager.Instance.TableHandler.GetCards(!cardObject.IsMy, cardObject.LaneLocation);
 
         if (_oppoentsCardsOnLine.Count == 0)
-        {
+        {        
+            Debug.Log(4);
             return;
         }
+        
+        Debug.Log(5);
 
         foreach (var _cardOnLane in _oppoentsCardsOnLine)
         {
@@ -43,12 +50,13 @@ public class CardEffectDestroyOpponentQommonsHereWithPowerGreaterOrEqualX : Card
 
         if (_cardsToBeDestroyed.Count == 0)
         {
+            Debug.Log(6);
             return;
         }
 
         if (GameplayManager.IsPvpGame)
         {
-            var _placeId = GameplayManager.Instance.LaneIdForQoomonsToDestroy(_cardsToBeDestroyed, false);
+            var _placeId = GameplayManager.Instance.LaneIdForQoomonsToDestroy(_cardsToBeDestroyed);
             GameplayManager.Instance.DestroyCardsOnTable(_placeId);
         }
         else 
