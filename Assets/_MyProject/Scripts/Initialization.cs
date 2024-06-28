@@ -73,7 +73,7 @@ public class Initialization : MonoBehaviour
                     if (AgencyManager.Instance.DoesAgencyExist(_agency))
                     {
                         DataManager.Instance.PlayerData.Exp =
-                            PlayerData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level - 1];
+                            DataManager.Instance.GameData.ExpBorders[AgencyManager.Instance.Agencies.First(_ => _.Name == _agency).Level - 1];
                     }
                 }
                 else
