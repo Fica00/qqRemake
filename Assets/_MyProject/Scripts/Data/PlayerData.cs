@@ -41,6 +41,8 @@ public class PlayerData
     private bool hasFinishedFirstGame;
     private bool hasPickedUpPwaReward;
     private PlayerStatistics statistics = new ();
+    private int selectedAvatar;
+    private List<int> ownedAvatars = new List<int>(){0,1,2,3};
 
     private bool beforeFirstGameOverlayShown;
     private bool afterFirstGameOverlayShown;
@@ -86,6 +88,8 @@ public class PlayerData
     public static Action UpdatedHasPickedUpPwaReward;
     public static Action UpdatedSettingsFirstTimeShown;
     public static Action UpdatedStatistics;
+    public static Action UpdatedSelectedAvatar;
+    public static Action UpdatedOwnedAvatars;
     
     public void CreateNewPlayer()
     {
@@ -773,5 +777,32 @@ public class PlayerData
             statistics = value;
             UpdatedStatistics?.Invoke();
         }
+    }
+
+    public int SelectedAvatar
+    {
+        get => selectedAvatar;
+        set
+        {
+            selectedAvatar = value;
+            UpdatedSelectedAvatar?.Invoke();
+        }
+    }
+
+    public List<int> OwnedAvatars
+    {
+        get => ownedAvatars;
+        set => ownedAvatars = value;
+    }
+
+    public void AddOwnedAvatars(int _avatar)
+    {
+        if (ownedAvatars.Contains(_avatar))
+        {
+            return;
+        }
+
+        ownedAvatars.Add(_avatar);
+        UpdatedOwnedAvatars?.Invoke();
     }
 }

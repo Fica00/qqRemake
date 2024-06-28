@@ -18,6 +18,7 @@ public class BotPlayer : GameplayPlayer
 
     public static string Name;
     public static string DeckName= "";
+    public static int AvatarId;
     
     public override void Setup()
     {
@@ -208,6 +209,7 @@ public class BotPlayer : GameplayPlayer
     public static void GenerateNewData()
     {
         Name = "Player"+Random.Range(1000,10000);
+        AvatarId = AvatarSo.GetRandom().Id;
     }
 
     public DeckData ChooseRandomDeck()

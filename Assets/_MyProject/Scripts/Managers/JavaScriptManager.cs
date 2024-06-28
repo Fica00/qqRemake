@@ -347,4 +347,13 @@ public class JavaScriptManager : MonoBehaviour
         
         return CheckIsOnPc();
     }
+
+    [SerializeField] private int exp;
+
+    [Button()]
+    private void SetExp()
+    {
+        DataManager.Instance.PlayerData.Exp = exp;
+        SceneManager.Instance.ReloadScene();
+    }
 }

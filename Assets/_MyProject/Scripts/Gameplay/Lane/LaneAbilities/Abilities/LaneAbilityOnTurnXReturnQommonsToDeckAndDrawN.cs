@@ -34,6 +34,8 @@ public class LaneAbilityOnTurnXReturnQommonsToDeckAndDrawN : LaneAbilityBase
             {
                 GameplayManager.Instance.DrawCard();
             }
+            
+            OnActivated?.Invoke(laneDisplay);
         }
         if (GameplayManager.Instance.CurrentRound == round-1)
         {

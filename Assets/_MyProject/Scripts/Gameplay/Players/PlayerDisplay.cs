@@ -10,6 +10,7 @@ public class PlayerDisplay : MonoBehaviour
     [SerializeField] private Button showStats;
     [SerializeField] private PlayerStatsDisplay statsDisplay;
     [SerializeField] private Transform holder;
+    [SerializeField] private AvatarDisplay avatarDisplay;
     private GameplayPlayer player;
     
     private void OnEnable()
@@ -100,6 +101,7 @@ public class PlayerDisplay : MonoBehaviour
     {
         player = _player;
         ShowName();
+        avatarDisplay.Setup(_player.IsMy ? AvatarSo.Get(DataManager.Instance.PlayerData.SelectedAvatar) : AvatarSo.Get(BotPlayer.AvatarId));
     }
 
     private void ShowName()
@@ -137,7 +139,7 @@ public class PlayerDisplay : MonoBehaviour
 
     private void RequestName()
     {
-        OpponentStats _stats = new OpponentStats() { Name = DataManager.Instance.PlayerData.Name };
+        OpponentStats _stats = new OpponentStats() { Name = DataManager.Instance.PlayerData.Name, AvatarId = DataManager.Instance.PlayerData.SelectedAvatar};
         SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ShowOpponentName), JsonConvert.SerializeObject(_stats));
     }
 
@@ -145,5 +147,6 @@ public class PlayerDisplay : MonoBehaviour
     {
         OpponentStats _stats = JsonConvert.DeserializeObject<OpponentStats>(_data);
         nameDisplay.text = _stats.Name;
+        avatarDisplay.Setup(AvatarSo.Get(_stats.AvatarId));
     }
 }

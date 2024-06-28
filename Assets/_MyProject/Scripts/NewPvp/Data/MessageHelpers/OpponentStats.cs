@@ -8,4 +8,5 @@ public class OpponentStats
     public int AmountOfDiscardedCards;
     public int AmountOfCCardsInDeck;
     public int AmountOfDestroyedCards;
+    public int AvatarId;
 }

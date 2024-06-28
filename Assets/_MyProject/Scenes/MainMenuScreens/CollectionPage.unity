@@ -5368,10 +5368,6 @@ PrefabInstance:
       propertyPath: m_Colors.m_HighlightedColor.r
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2775507163765265257, guid: cb85210fe238648479d758ff2fdc18f3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ec529bf435d5f164f8380574f3bf1323, type: 3}
     - target: {fileID: 2775507163765265271, guid: cb85210fe238648479d758ff2fdc18f3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5404,10 +5400,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2775507163778782541, guid: cb85210fe238648479d758ff2fdc18f3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f7328cec25680fa47a89e352e00ac584, type: 3}
     - target: {fileID: 2775507164052651585, guid: cb85210fe238648479d758ff2fdc18f3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5424,10 +5416,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2775507164052651587, guid: cb85210fe238648479d758ff2fdc18f3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0c974f69360899747a51f94afeb6e8b9, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: cb85210fe238648479d758ff2fdc18f3, type: 3}

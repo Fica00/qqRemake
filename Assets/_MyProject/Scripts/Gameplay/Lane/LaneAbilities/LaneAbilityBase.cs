@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class LaneAbilityBase : MonoBehaviour
 {
+    public static Action<LaneDisplay> OnActivated;
     protected LaneDisplay laneDisplay;
     protected bool isSubscribed;
 

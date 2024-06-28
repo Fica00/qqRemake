@@ -100,6 +100,8 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasPickedUpPwaReward += SaveHasPickedUpPwaReward;
         PlayerData.UpdatedSettingsFirstTimeShown += SaveSettingsFirstTimeShown;
         PlayerData.UpdatedStatistics += SaveStatistics;
+        PlayerData.UpdatedSelectedAvatar += SaveSelectedAvatar;
+        PlayerData.UpdatedOwnedAvatars += SaveOwnedAvatars;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -188,6 +190,8 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedHasPickedUpPwaReward -= SaveHasPickedUpPwaReward;
         PlayerData.UpdatedSettingsFirstTimeShown -= SaveSettingsFirstTimeShown;
         PlayerData.UpdatedStatistics -= SaveStatistics;
+        PlayerData.UpdatedSelectedAvatar -= SaveSelectedAvatar;
+        PlayerData.UpdatedOwnedAvatars -= SaveOwnedAvatars;
     }
 
     private void SaveTutorial()
@@ -379,5 +383,15 @@ public class DataManager : MonoBehaviour
     private void SaveStatistics()
     {
         FirebaseManager.Instance.SaveValue(nameof(PlayerData.Statistics),JsonConvert.SerializeObject(PlayerData.Statistics));
+    }
+
+    private void SaveSelectedAvatar()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.SelectedAvatar),JsonConvert.SerializeObject(PlayerData.SelectedAvatar));
+    }
+
+    private void SaveOwnedAvatars()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.OwnedAvatars),JsonConvert.SerializeObject(PlayerData.OwnedAvatars));
     }
 }
