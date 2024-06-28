@@ -39,7 +39,10 @@ public class MissionPanel : MonoBehaviour
         LoginProgressDisplay.OnClicked += TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
 
-        pwaOverlay.onClick.AddListener(ClosePwaOverlay);
+        if (pwaOverlay)
+        {
+            pwaOverlay.onClick.AddListener(ClosePwaOverlay);
+        }
     }
     
     private void OnDisable()
@@ -51,7 +54,10 @@ public class MissionPanel : MonoBehaviour
         LoginProgressDisplay.OnClicked -= TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
 
-        pwaOverlay.onClick.RemoveListener(ClosePwaOverlay);
+        if (pwaOverlay)
+        {
+            pwaOverlay.onClick.RemoveListener(ClosePwaOverlay);
+        }
     }
 
     private void ShowCompletedText(MissionProgress _obj)
@@ -72,7 +78,6 @@ public class MissionPanel : MonoBehaviour
     private void Start()
     {
         ShowLoginRewards();
-        loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7 days";
         ShowDailyCompletedText();
         if (loggedInText)
         {
@@ -95,12 +100,12 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowDailyCompletedText()
     {
-        willRefreshInText.text = $"Will be refreshed in {GetRefreshTime()}";
-        numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
         if (numberOfTasksCompleted==null)
         {
             return;
         }
+        willRefreshInText.text = $"Will be refreshed in {GetRefreshTime()}";
+        numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
         numberOfTasksCompleted.text = $"<size=62>Daily missions</size>\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
@@ -184,6 +189,10 @@ public class MissionPanel : MonoBehaviour
     
     private void SetSeasonalElementsActive(bool _isActive)
     {
+        if (seasonalHeader==null)
+        {
+            return;
+        }
         seasonalHeader.SetActive(_isActive);
         seasonalHolder.gameObject.SetActive(_isActive);
         seasonalSeparator.SetActive(_isActive);

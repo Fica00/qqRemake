@@ -22231,10 +22231,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8713476827535965754, guid: 30c9115bc2bb4db4ea135c249d6b440e, type: 3}
-      propertyPath: qoomonUnlockingPanel
-      value: 
-      objectReference: {fileID: 1590220840}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 30c9115bc2bb4db4ea135c249d6b440e, type: 3}
