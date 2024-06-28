@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 654187449574724284}
     - target: {fileID: 3996993568058973520, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: m_Name
-      value: 28_DestroyWeakestCardAtTheEndOfEachTurn
+      value: 28_DestroyWeakestCardsAtTheEndOfEachTurn
       objectReference: {fileID: 0}
     - target: {fileID: 6103397167715187461, guid: b23355e7325fd3a4f9732bc5b18ca134, type: 3}
       propertyPath: m_RootOrder

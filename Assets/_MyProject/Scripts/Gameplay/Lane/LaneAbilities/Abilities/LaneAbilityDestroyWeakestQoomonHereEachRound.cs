@@ -32,17 +32,25 @@ public class LaneAbilityDestroyWeakestQoomonHereEachRound : LaneAbilityBase
             return;
         }
 
-        CardObject _weakestCard = _allCardsOnLane[0];
+        List<CardObject> _weakestCards = new List<CardObject>();
+        _weakestCards.Add(_myCardsOnLane[0]);
 
         for (int i = 1; i < _allCardsOnLane.Count; i++)
         {
-            if (_weakestCard.Stats.Power > _allCardsOnLane[i].Stats.Power) 
+            if (_weakestCards[0].Stats.Power > _allCardsOnLane[i].Stats.Power)
             {
-                _weakestCard = _allCardsOnLane[i];
+                _weakestCards.Clear();
+                _weakestCards.Add(_allCardsOnLane[i]);
+            }
+            else if(_weakestCards[0].Stats.Power == _allCardsOnLane[i].Stats.Power)
+            {
+                _weakestCards.Add(_allCardsOnLane[i]);
             }
         }
 
-        GameplayManager.Instance.MyPlayer.DestroyCardFromTable(_weakestCard);
-        // Dodaj za multiplayer u slucaju da ima vise karata sa istim powerom, mora jedna samo da se unisti
+        foreach (var _card in _weakestCards)
+        {
+            GameplayManager.Instance.MyPlayer.DestroyCardFromTable(_card);
+        }
     }
 }

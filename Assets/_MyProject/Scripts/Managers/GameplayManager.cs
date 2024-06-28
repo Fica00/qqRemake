@@ -368,14 +368,14 @@ public class GameplayManager : MonoBehaviour
 
     public virtual void ChangeAllMyDeckPower(int _amount, GameplayPlayer _player)
     {
-        var _opponentsCardsInHand = _player.CardsInDeck;
+        var _deckCards = _player.CardsInDeck;
 
-        if (_opponentsCardsInHand.Count == 0)
+        if (_deckCards.Count == 0)
         {
             return;
         }
 
-        foreach (var _card in _opponentsCardsInHand)
+        foreach (var _card in _deckCards)
         {
             _card.Stats.Power += _amount;
         }

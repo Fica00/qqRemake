@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CardEffectWhenDiscardedAddCardsToHand : CardEffectBase
+public class CardEffectWhenDiscardedAddCopyCardsToHand : CardEffectBase
 {
     [SerializeField] private int amount;
     [SerializeField] private int cost;
