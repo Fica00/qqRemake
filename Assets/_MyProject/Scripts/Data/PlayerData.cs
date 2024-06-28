@@ -35,7 +35,8 @@ public class PlayerData
     private string userWalletAddress;
     private bool didRequestUserWallet;
     private string agency;
-    private List<DateTime> usdtGiveAwayEntriesEntries;
+    private List<DateTime> usdtGiveAwayEntriesEntries = new();
+    private bool hasCollectedUsdtRetentionReward;
 
     public DateTime DateCreatedAccount;
 
@@ -68,6 +69,7 @@ public class PlayerData
     public static Action UpdatedDidRequestUserWallet;
     public static Action UpdatedAgency;
     public static Action UpdatedUsdtGiveAway;
+    public static Action UpdatedCollectedUsdtRetentionReward;
 
 
     public void CreateNewPlayer()
@@ -664,7 +666,15 @@ public class PlayerData
         set => usdtGiveAwayEntriesEntries = value;
     }
 
-    public bool HasCollectedUsdtRetentionReward;
+    public bool HasCollectedUsdtRetentionReward
+    {
+        get => hasCollectedUsdtRetentionReward;
+        set
+        {
+            hasCollectedUsdtRetentionReward = value;
+            UpdatedCollectedUsdtRetentionReward?.Invoke();
+        }
+    }
 
     public void AddUsdtGiveAwayEntry(DateTime _date)
     {
@@ -679,14 +689,13 @@ public class PlayerData
         }
 
         usdtGiveAwayEntriesEntries.Add(_date);
+        UpdatedUsdtGiveAway?.Invoke();
 
-        // Check if the 7-day period has ended
-        if (DateTime.UtcNow.Date <= DateCreatedAccount.Date.AddDays(7))
+        if (DateTime.UtcNow.Date < DateCreatedAccount.Date.AddDays(7))
         {
             return;
         }
 
-        // Calculate the number of login days
         int _amountOfDaysLoggedIn = usdtGiveAwayEntriesEntries.Count;
         int _rewardAmount = 0;
 
@@ -704,5 +713,6 @@ public class PlayerData
         }
 
         HasCollectedUsdtRetentionReward = true;
+        FirebaseManager.Instance.TryRewardUsdtGiveawey(_rewardAmount); 
     }
 }

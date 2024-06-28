@@ -92,6 +92,8 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlayerDevices += SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet += SaveWalletRequest;
         PlayerData.UpdatedAgency += SaveAgency;
+        PlayerData.UpdatedUsdtGiveAway += SaveUsdtEntryDates;
+        PlayerData.UpdatedCollectedUsdtRetentionReward += SaveCollectedUstRetention;
 
         StartCoroutine(CheckForNewGameDay());
         PlayerData.IsDemoPlayer = JavaScriptManager.Instance.IsDemo ? 1 : 0;
@@ -111,6 +113,8 @@ public class DataManager : MonoBehaviour
             {
                 continue;
             }
+
+            PlayerData.AddUsdtGiveAwayEntry(_currentDate);
 
             if ((_nextDate-_currentDate).TotalDays<1)
             {
@@ -171,6 +175,18 @@ public class DataManager : MonoBehaviour
         PlayerData.UpdatedPlayerDevices -= SaveDevices;
         PlayerData.UpdatedDidRequestUserWallet -= SaveWalletRequest;
         PlayerData.UpdatedAgency -= SaveAgency;
+        PlayerData.UpdatedUsdtGiveAway -= SaveUsdtEntryDates;
+        PlayerData.UpdatedCollectedUsdtRetentionReward -= SaveCollectedUstRetention;
+    }
+
+    private void SaveCollectedUstRetention()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.HasCollectedUsdtRetentionReward),JsonConvert.SerializeObject(PlayerData.HasCollectedUsdtRetentionReward));
+    }
+
+    private void SaveUsdtEntryDates()
+    {
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.UsdtGiveAwayEntries),JsonConvert.SerializeObject(PlayerData.UsdtGiveAwayEntries));
     }
 
     private void SaveTutorial()

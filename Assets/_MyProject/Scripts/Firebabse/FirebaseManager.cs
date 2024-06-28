@@ -294,8 +294,7 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(Patch(_url, JsonConvert.SerializeObject(_reportData), _onSuccess, _onFailed));
     }
 
-    [Button()]
-    public void TryRewardUsdtGiveawey(int _amount=5)
+    public void TryRewardUsdtGiveawey(int _amount)
     {
         string _retentionPoolKey = "RetentionGiveawayPool";
         StartCoroutine(Get(GameDataLink + _retentionPoolKey+"/.json", _amountString =>
@@ -317,18 +316,17 @@ public class FirebaseManager : MonoBehaviour
             }
 
             _amountInPool -= _amountToReward;
-            // DataManager.Instance.PlayerData.USDC+= _amountToReward;
-            StartCoroutine(Patch(GameDataLink + _retentionPoolKey + "/.json", 
-                _amountInPool.ToString(), _suc =>
+            DataManager.Instance.PlayerData.USDC += _amountToReward;
+            string _valueString = "{\"" + _retentionPoolKey + "\":" + _amountInPool + "}";
+
+            StartCoroutine(Patch(GameDataLink+".json", 
+                _valueString, _suc =>
                 {
-                    
                 }, _error =>
                 {
-                    
                 }));
         }, _error =>
         {
-            Debug.Log(_error);
         }));
     }
 
