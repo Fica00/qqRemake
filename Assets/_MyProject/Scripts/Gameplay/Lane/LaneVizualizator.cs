@@ -291,14 +291,15 @@ public class LaneVizualizator : MonoBehaviour
                 case 21:
                     if (_tiger == LaneVizualizatorTrigger.Drag || _tiger == LaneVizualizatorTrigger.None)
                     {
-                        return tornadoAnimation;
+                        return smokeAnimation;
                     }
+                    
                     return null;
 
                 case 18:
                     if (_tiger == LaneVizualizatorTrigger.Activation || _tiger == LaneVizualizatorTrigger.None)
                     {
-                        return smokeAnimation;
+                        return tornadoAnimation;
                     }
                     return null;
                 default:
