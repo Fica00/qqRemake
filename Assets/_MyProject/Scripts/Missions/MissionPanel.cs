@@ -17,14 +17,20 @@ public class MissionPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        close.onClick.AddListener(Close);
+        if (close)
+        {
+            close.onClick.AddListener(Close);
+        }
         LoginProgressDisplay.OnClicked += TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
     }
 
     private void OnDisable()
     {
-        close.onClick.RemoveListener(Close);
+        if (close)
+        {
+            close.onClick.RemoveListener(Close);
+        }
         LoginProgressDisplay.OnClicked -= TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
     }
@@ -43,7 +49,10 @@ public class MissionPanel : MonoBehaviour
     private void Start()
     {
         ShowLoginRewards();
-        loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7 days";
+        if (loggedInText)
+        {
+            loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7 days";
+        }
         ShowCompletedText();
         ShowMissions();
         StartCoroutine(ShowText());
@@ -60,6 +69,10 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowCompletedText()
     {
+        if (numberOfTasksCompleted==null)
+        {
+            return;
+        }
         numberOfTasksCompleted.text = $"<size=62>Daily missions</size>\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
@@ -86,6 +99,10 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowLoginRewards()
     {
+        if (progressHolder == null)
+        {
+            return;
+        }
         foreach (var _reward in DataManager.Instance.GameData.LoginRewards.OrderBy(_mission => _mission.Days))
         {
             LoginProgressDisplay _rewardDisplay = Instantiate(loginProgressDisplay, progressHolder);
@@ -96,6 +113,10 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowMissions()
     {
+        if (missionDisplay==null)
+        {
+            return;
+        }
         foreach (var _missionProgress in DataManager.Instance.PlayerData.MissionsProgress)
         {
             MissionDisplay _missionDisplay = Instantiate(missionDisplay, missionHolder);

@@ -19,7 +19,6 @@ public class CarousleHandler : MonoBehaviour
     public float swipeThreshold = 50f;
     private Vector2 touchStartPos;
 
-    // Reference to the RectTransform of the content area
     public RectTransform contentArea;
 
     void Start()
@@ -31,20 +30,6 @@ public class CarousleHandler : MonoBehaviour
             timer = autoMoveTime;
             InvokeRepeating("AutoMoveContent", 1f, 1f); // Invoke every second to update the timer
         }
-    }
-    IEnumerator SmoothFill(Image image, float targetFillAmount, float duration)
-    {
-        float startFillAmount = image.fillAmount;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            image.fillAmount = Mathf.Lerp(startFillAmount, targetFillAmount, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        image.fillAmount = targetFillAmount; // Ensure it reaches the exact target
     }
 
     void Update()
