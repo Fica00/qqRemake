@@ -101,7 +101,10 @@ public class PlayerDisplay : MonoBehaviour
     {
         player = _player;
         ShowName();
-        avatarDisplay.Setup(_player.IsMy ? AvatarSo.Get(DataManager.Instance.PlayerData.SelectedAvatar) : AvatarSo.Get(BotPlayer.AvatarId));
+        if (avatarDisplay!=null)
+        {
+            avatarDisplay.Setup(_player.IsMy ? AvatarSo.Get(DataManager.Instance.PlayerData.SelectedAvatar) : AvatarSo.Get(BotPlayer.AvatarId));
+        }
     }
 
     private void ShowName()

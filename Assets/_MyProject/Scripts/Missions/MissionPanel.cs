@@ -85,6 +85,7 @@ public class MissionPanel : MonoBehaviour
         }
         ShowDailyCompletedText();
         ShowMissions();
+        Debug.Log("aa");
         TryShowSeasonalTasks();
         StartCoroutine(ShowText());
     }
@@ -106,7 +107,6 @@ public class MissionPanel : MonoBehaviour
         }
         willRefreshInText.text = $"Will be refreshed in {GetRefreshTime()}";
         numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
-        numberOfTasksCompleted.text = $"<size=62>Daily missions</size>\nwill be refreshed in {GetRefreshTime()}\n{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
     private string GetRefreshTime()
@@ -159,11 +159,12 @@ public class MissionPanel : MonoBehaviour
 
     private void TryShowSeasonalTasks()
     {
-        if (Application.isEditor)
+        if (seasonalTaskDisplay==null)
         {
-            SetSeasonalElementsActive(false);
+            Debug.Log(1);
             return;
         }
+            Debug.Log(2);
 
         foreach (SeasonalTaskType _seasonalTask in Enum.GetValues(typeof(SeasonalTaskType)))
         {
@@ -181,8 +182,10 @@ public class MissionPanel : MonoBehaviour
             _seasonalTaskDisplay.Setup(_seasonalTask);
         }
         
+        Debug.Log(3);
         if (seasonalHolder.childCount == 0)
         {
+        Debug.Log(4);
             SetSeasonalElementsActive(false);
         }
     }

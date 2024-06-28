@@ -29,6 +29,8 @@ public class SeasonalTaskDisplay : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        gameObject.SetActive(true);
     }
     
     private void ShowSettings()
