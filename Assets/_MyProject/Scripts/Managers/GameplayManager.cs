@@ -299,39 +299,6 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    public virtual void ChangeInMyHandRandomCardsPower(List<int> _randomCardsId, int _amount, GameplayPlayer _player)
-    {
-        var _myCardsInHand = _player.CurrentCardsInHand;
-
-        if (_myCardsInHand.Count == 0)
-        {
-            return;
-        }
-
-        List<CardObject> _randomCards = new List<CardObject>();
-
-        for (int i = 0; i < _randomCardsId.Count; i++)
-        {
-            foreach (var _card in _myCardsInHand)
-            {
-                if (_card.Details.Id == _randomCardsId[i])
-                {
-                    _randomCards.Add(_card);
-                }
-            }
-        }
-
-        if (_randomCards.Count == 0)
-        {
-            return;
-        }
-
-        foreach (var _card in _randomCards) 
-        {
-            _card.Stats.Power += _amount;
-        }
-    }
-
     public virtual void ChangeInOpponentHandRandomCardEnergy(int _lessThan, int _amount, GameplayPlayer _player) 
     {
         var _opponentsCardsInHand = _player.CurrentCardsInHand;
@@ -695,6 +662,40 @@ public class GameplayManager : MonoBehaviour
     {
         OnHideHighlightWholePlaceDotted?.Invoke(_location,_mySide);
     }
+
+    public void ChangeInMyHandRandomCardsPower(List<int> _randomCardsId, int _amount, GameplayPlayer _player)
+    {
+        var _myCardsInHand = _player.CurrentCardsInHand;
+
+        if (_myCardsInHand.Count == 0)
+        {
+            return;
+        }
+
+        List<CardObject> _randomCards = new List<CardObject>();
+
+        for (int i = 0; i < _randomCardsId.Count; i++)
+        {
+            foreach (var _card in _myCardsInHand)
+            {
+                if (_card.Details.Id == _randomCardsId[i])
+                {
+                    _randomCards.Add(_card);
+                }
+            }
+        }
+
+        if (_randomCards.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var _card in _randomCards)
+        {
+            _card.Stats.Power += _amount;
+        }
+    }
+
     private void OnDestroy()
     {
         DOTween.KillAll();

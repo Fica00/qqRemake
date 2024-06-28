@@ -213,12 +213,6 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject,nameof(OpponentDestroyedCardsOnTable), JsonConvert.SerializeObject(_cards));
     }
 
-    public override void ChangeInMyHandRandomCardsPower(List<int> _randomCardsId, int _amount, GameplayPlayer _player) 
-    {
-        AddPowerToPlaces _addPower = new AddPowerToPlaces { CardPlaces = _randomCardsId, PowerToAdd = _amount };
-        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(ChangeMyInHandCardPower), JsonConvert.SerializeObject(_addPower));
-    }
-
     public override void ChangeAllInOpponentHandPower(int _amount, GameplayPlayer _player) 
     {
         AddPower _addPower = new AddPower { Power = _amount};
@@ -235,12 +229,6 @@ public class GameplayManagerPvp : GameplayManager
     {
         AddEnergy _addEnergy = JsonConvert.DeserializeObject<AddEnergy>(_data);
         base.ChangeInOpponentHandRandomCardEnergy(_addEnergy.Cost, _addEnergy.Energy, MyPlayer);
-    }
-
-    private void ChangeMyInHandCardPower(string _data)
-    {
-        AddPowerToPlaces _addPower = JsonConvert.DeserializeObject<AddPowerToPlaces>(_data);
-        base.ChangeInMyHandRandomCardsPower(_addPower.CardPlaces, _addPower.PowerToAdd, OpponentPlayer);
     }
 
     private void ChangeAllOpponentCardsInHandPower(string _data)
