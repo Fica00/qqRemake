@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
@@ -291,6 +292,44 @@ public class FirebaseManager : MonoBehaviour
     public void ReportBug(ReportDate _reportData, Action<string> _onSuccess, Action<string> _onFailed) {
         string _url = ReportLink + Guid.NewGuid().ToString()+ ".json";
         StartCoroutine(Patch(_url, JsonConvert.SerializeObject(_reportData), _onSuccess, _onFailed));
+    }
+
+    [Button()]
+    public void TryRewardUsdtGiveawey(int _amount=5)
+    {
+        string _retentionPoolKey = "RetentionGiveawayPool";
+        StartCoroutine(Get(GameDataLink + _retentionPoolKey+"/.json", _amountString =>
+        {
+            int _amountInPool = Convert.ToInt32(_amountString);
+            if (_amountInPool<=0)
+            {
+                return;
+            }
+            
+            int _amountToReward;
+            if (_amountInPool>_amount)
+            {
+                _amountToReward = _amount;
+            }
+            else
+            {
+                _amountToReward = _amountInPool;
+            }
+
+            _amountInPool -= _amountToReward;
+            // DataManager.Instance.PlayerData.USDC+= _amountToReward;
+            StartCoroutine(Patch(GameDataLink + _retentionPoolKey + "/.json", 
+                _amountInPool.ToString(), _suc =>
+                {
+                    
+                }, _error =>
+                {
+                    
+                }));
+        }, _error =>
+        {
+            Debug.Log(_error);
+        }));
     }
 
     private IEnumerator Get(string _uri, Action<string> _onSuccess, Action<string> _onError)

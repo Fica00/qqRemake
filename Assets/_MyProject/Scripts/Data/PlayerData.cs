@@ -35,6 +35,7 @@ public class PlayerData
     private string userWalletAddress;
     private bool didRequestUserWallet;
     private string agency;
+    private List<DateTime> usdtGiveAwayEntriesEntries;
 
     public DateTime DateCreatedAccount;
 
@@ -66,6 +67,7 @@ public class PlayerData
     public static Action UpdatedUserWalletAddress;
     public static Action UpdatedDidRequestUserWallet;
     public static Action UpdatedAgency;
+    public static Action UpdatedUsdtGiveAway;
 
 
     public void CreateNewPlayer()
@@ -654,5 +656,53 @@ public class PlayerData
             didRequestUserWallet = value;
             UpdatedDidRequestUserWallet?.Invoke();
         }
+    }
+
+    public List<DateTime> UsdtGiveAwayEntries
+    {
+        get => usdtGiveAwayEntriesEntries;
+        set => usdtGiveAwayEntriesEntries = value;
+    }
+
+    public bool HasCollectedUsdtRetentionReward;
+
+    public void AddUsdtGiveAwayEntry(DateTime _date)
+    {
+        if (HasCollectedUsdtRetentionReward)
+        {
+            return;
+        }
+        
+        if (usdtGiveAwayEntriesEntries.Contains(_date))
+        {
+            return;
+        }
+
+        usdtGiveAwayEntriesEntries.Add(_date);
+
+        // Check if the 7-day period has ended
+        if (DateTime.UtcNow.Date <= DateCreatedAccount.Date.AddDays(7))
+        {
+            return;
+        }
+
+        // Calculate the number of login days
+        int _amountOfDaysLoggedIn = usdtGiveAwayEntriesEntries.Count;
+        int _rewardAmount = 0;
+
+        if (_amountOfDaysLoggedIn >= 1)
+        {
+            _rewardAmount += 1;
+        }
+        if (_amountOfDaysLoggedIn >= 3)
+        {
+            _rewardAmount += 2; 
+        }
+        if (_amountOfDaysLoggedIn >= 7)
+        {
+            _rewardAmount += 3; 
+        }
+
+        HasCollectedUsdtRetentionReward = true;
     }
 }
