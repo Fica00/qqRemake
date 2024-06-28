@@ -11,6 +11,8 @@ public class GameData
     public List<LoginReward> LoginRewards = new ();
     public List<RankReward> RankRewards = new ();
     public List<MissionData> Missions = new ();
+    public List<int> ExpBorders = new ();
+
 
     public void RemoveOfferFromMarketplace(GamePassOffer _offer)
     {

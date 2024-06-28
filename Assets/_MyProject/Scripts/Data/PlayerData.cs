@@ -87,8 +87,6 @@ public class PlayerData
     public static Action UpdatedSettingsFirstTimeShown;
     public static Action UpdatedStatistics;
     
-    public static int[] ExpBorders = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 550, 650, 750 };
-
     public void CreateNewPlayer()
     {
         name = "Player" + UnityEngine.Random.Range(0, 10000);
@@ -331,9 +329,9 @@ public class PlayerData
         set
         {
             exp = value;
-            if (exp>ExpBorders[^1])
+            if (exp>DataManager.Instance.GameData.ExpBorders[^1])
             {
-                exp = ExpBorders[^1];
+                exp = DataManager.Instance.GameData.ExpBorders[^1];
             }
             UpdatedExp?.Invoke();
         }
@@ -347,13 +345,13 @@ public class PlayerData
             int _level = 0;
             while (true)
             {
-                if (exp < ExpBorders[_level])
+                if (exp < DataManager.Instance.GameData.ExpBorders[_level])
                 {
                     return _level;
                 }
 
                 _level++;
-                if (_level >= ExpBorders.Length)
+                if (_level >= DataManager.Instance.GameData.ExpBorders.Count)
                 {
                     return _level;
                 }
@@ -400,7 +398,7 @@ public class PlayerData
     {
         if (Level == 0)
         {
-            return ExpBorders[Level];
+            return DataManager.Instance.GameData.ExpBorders[Level];
         }
 
         if (IsMaxLevel)
@@ -408,10 +406,10 @@ public class PlayerData
             return 1;
         }
         
-        return ExpBorders[Level] - ExpBorders[Level - 1];
+        return DataManager.Instance.GameData.ExpBorders[Level] - DataManager.Instance.GameData.ExpBorders[Level - 1];
     }
 
-    public bool IsMaxLevel => Level > ExpBorders.Length - 1;
+    public bool IsMaxLevel => Level > DataManager.Instance.GameData.ExpBorders.Count - 1;
 
     public int GetXpForLevel(int _level)
     {
@@ -419,7 +417,7 @@ public class PlayerData
         {
             return 1;
         }
-        return ExpBorders[_level];
+        return DataManager.Instance.GameData.ExpBorders[_level];
     }
 
     public List<ClaimedLevelReward> ClaimedLevelProgressRewards => claimedLevelProgressRewards;
