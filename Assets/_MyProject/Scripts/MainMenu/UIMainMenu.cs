@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ public class UIMainMenu : MonoBehaviour
 {
     public static UIMainMenu Instance;
     public static Action OnFirstTimeExitSettings;
+    public static Action OnShowLineup;
+    public static Action OnGoToCollection;
 
     [SerializeField] private TransitionAnimation transition;
     [SerializeField] private Button deckQuickButton;
@@ -19,10 +22,16 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private Button discordButton;
     [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
     [SerializeField] private UIPlayPanel uiPlayPanel;
+    [SerializeField] private UIHereIsLineupPanel uiHereIsLineupPanel;
+    [SerializeField] private UIGoToCollectionPanel uiGoToCollectionPanel;
 
+    
     public static bool ShowStartingAnimation;
+    public static bool HasPlayedFirstAiGame;
+    public static bool HasShowenDeckTutorial;
     private bool hasPickedUpFirstGameReward;
     private bool gotBackToHomeFromSettings;
+    private bool hasGoToCollectionShowed;
 
     private void Awake()
     {
@@ -31,21 +40,44 @@ public class UIMainMenu : MonoBehaviour
         {
             return;
         }
-
-        transition.EndTransition(null);
+        
+        if (HasPlayedFirstAiGame)
+        {
+            transition.EndTransition(OnGoToCollection);
+            hasGoToCollectionShowed = true;
+            HasPlayedFirstAiGame = true;
+            Debug.Log(1.1);
+        }
+        else
+        {
+            transition.EndTransition(OnShowLineup);
+        }
         ShowStartingAnimation = false;
+        
     }
+    
+  
+    
+    
     private void Start()
     {
+        // if (hasGoToCollectionShowed)
+        // {
+        //     uiGoToCollectionPanel.Setup();
+        //     hasGoToCollectionShowed = false;
+        // }
         AudioManager.Instance.ChangeBackgroundMusic(AudioManager.MAIN_MENU);
 
-        bool _didReward = TryRewardAfterFirstGame();
-        if (!_didReward)
+        if (HasShowenDeckTutorial)
         {
-            bool _canRewardPwa = TryRewardForPwaAndBid();
-            if (!_canRewardPwa)
+            bool _didReward = TryRewardAfterFirstGame();
+            if (!_didReward)
             {
-                TryToAutoMatch();
+                bool _canRewardPwa = TryRewardForPwaAndBid();
+                if (!_canRewardPwa)
+                {
+                    TryToAutoMatch();
+                }
             }
         }
         
@@ -155,6 +187,8 @@ public class UIMainMenu : MonoBehaviour
 
     private void OnEnable()
     {
+       
+        
         PlayerData.UpdatedDeckName += ShowDeckName;
         PlayerData.UpdatedSelectedDeck += ShowDeckName;
         deckQuickButton.onClick.AddListener(ShowQuickDeck);

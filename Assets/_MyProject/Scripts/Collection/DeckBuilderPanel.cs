@@ -63,6 +63,7 @@ public class DeckBuilderPanel : BasePanel
     {
         DataManager.Instance.PlayerData.RemoveCardFromSelectedDeck(_cardId);
         Show(DataManager.Instance.PlayerData.SelectedDeck);
+        UIReplacePanel.OnClose?.Invoke();
     }
 
     private void AddQommon(int _cardId)
@@ -72,7 +73,7 @@ public class DeckBuilderPanel : BasePanel
             DialogsManager.Instance.OkDialog.Setup("Your lineup is full!");
             return;
         }
-
+        UIAddPanel.OnClose?.Invoke();
         DataManager.Instance.PlayerData.AddCardToSelectedDeck(_cardId);
         Show(DataManager.Instance.PlayerData.SelectedDeck);
     }
@@ -85,6 +86,7 @@ public class DeckBuilderPanel : BasePanel
         ShowQommonsInCollection();
         qommonDetails.Close();
         holder.SetActive(true);
+        UIPopOpenYourDeckPanel.OnClose?.Invoke();
     }
 
     private void ShowQommonsInDeck()

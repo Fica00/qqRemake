@@ -12,13 +12,15 @@ public class UIPlayPanel : MonoBehaviour
     [Space()]
     [SerializeField] private UIPVPPanel pvpPanel;
     [SerializeField] private UIMatchMakingVsBot matchMakingVsBot;
+    [SerializeField] private UIEnterNamePanel enterNamePanel;
 
     public static bool PlayAgain;
 
     private void OnEnable()
     {
-        playButton.onClick.AddListener(StartMatch);
-        overlayPlayButton.onClick.AddListener(StartMatch);
+        playButton.onClick.AddListener(Play);
+        overlayPlayButton.onClick.AddListener(Play);
+        UINewChallengerAwaitsPanel.OnChallangerAwaitsClick += Play;
 
         PhotonManager.OnIJoinedRoom += JoinedRoom;
         PhotonManager.OnILeftRoom += ILeftRoom;
@@ -26,8 +28,9 @@ public class UIPlayPanel : MonoBehaviour
 
     private void OnDisable()
     {
-        playButton.onClick.RemoveListener(StartMatch);
-        overlayPlayButton.onClick.RemoveListener(StartMatch);
+        playButton.onClick.RemoveListener(Play);
+        overlayPlayButton.onClick.RemoveListener(Play);
+        UINewChallengerAwaitsPanel.OnChallangerAwaitsClick -= Play;
 
         PhotonManager.OnIJoinedRoom -= JoinedRoom;
         PhotonManager.OnILeftRoom -= ILeftRoom;
@@ -41,6 +44,19 @@ public class UIPlayPanel : MonoBehaviour
         }
         PlayAgain = false;
         StartMatch();
+    }
+    
+    private void Play()
+    {
+        if (SceneManager.IsMainMenuTutorialScene) // Ako je tutoriajl 
+        {
+            enterNamePanel.Show(StartMatch);
+            UINewChallengerAwaitsPanel.OnChallangerAwaitsClick -= Play;
+        }
+        else
+        {
+            StartMatch();
+        }
     }
 
     private void StartMatch()

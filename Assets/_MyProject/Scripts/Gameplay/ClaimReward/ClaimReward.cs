@@ -27,6 +27,8 @@ public class ClaimReward : MonoBehaviour
    [SerializeField] private int expReward;
    [SerializeField] private TextMeshProUGUI expDisplay;
    [SerializeField] private Image rankImage;
+   [SerializeField] private UiTutorialFlowGamePlay UiTutorialFlowGamePlay;
+   private bool isFirstAiScene = false;
    private bool didIWin;
    private GameResult result;
    
@@ -46,6 +48,12 @@ public class ClaimReward : MonoBehaviour
 
    private void ShowLevel()
    {
+      if (SceneManager.IsAIScene && !UIMainMenu.HasPlayedFirstAiGame)
+      {
+         Debug.Log(" Invokovao je ");
+         UiTutorialFlowGamePlay.OnShow?.Invoke();
+      }
+      
       levelFill.fillAmount = RankSo.GetRankData(DataManager.Instance.PlayerData.RankPoints).Percentage;
       treasureFade.FadeOut(1, null);
       claimFade.FadeOut(1,() =>
@@ -75,9 +83,29 @@ public class ClaimReward : MonoBehaviour
    {
       home.interactable=false;
       nextMatch.interactable = false;
+      
       GameplayUI.Instance.ClosingAnimation(() =>
       {
          UIMainMenu.ShowStartingAnimation = true;
+         
+         Debug.Log("SceneManager.IsAIScene "+SceneManager.IsAIScene);
+         Debug.Log("IsFirstAiScene "+isFirstAiScene);
+         
+
+         if (SceneManager.IsGameplayTutorialScene)
+         {
+            SceneManager.Instance.LoadMainMenuTutorial(false);
+            UIMainMenu.HasPlayedFirstAiGame = false;
+            return;
+         }
+
+         if (SceneManager.IsAIScene && !UIMainMenu.HasPlayedFirstAiGame)
+         {
+            SceneManager.Instance.LoadLevelPage(false);
+            UIMainMenu.HasPlayedFirstAiGame = true;
+            return;
+         }
+         
          SceneManager.Instance.LoadMainMenu(false);
       });
    }

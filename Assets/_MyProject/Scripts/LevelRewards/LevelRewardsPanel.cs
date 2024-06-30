@@ -12,6 +12,7 @@ public class LevelRewardsPanel : MonoBehaviour
    [SerializeField] private TextMeshProUGUI currentLevelDisplay;
    [SerializeField] private QoomonUnlockingPanel qoomonUnlockingPanel;
    [SerializeField] ScrollRect scrollRect;
+   [SerializeField] private UITutorialLevelPagePanel uiTutorialLevelPagePanel;
    private List<GameObject> shownRewards = new();
 
    private void Start()
@@ -39,6 +40,11 @@ public class LevelRewardsPanel : MonoBehaviour
    {
       LevelRewardDisplay.OnClicked += TryToClaim;
       close.onClick.AddListener(Close);
+      
+      if (UIMainMenu.HasPlayedFirstAiGame)
+      {
+         uiTutorialLevelPagePanel.OnShow?.Invoke();
+      }
    }
 
    private void OnDisable()
@@ -74,6 +80,12 @@ public class LevelRewardsPanel : MonoBehaviour
 
    private void Close()
    {
+      uiTutorialLevelPagePanel.OnClose?.Invoke();
+      if (UIMainMenu.HasPlayedFirstAiGame)
+      {
+         SceneManager.Instance.LoadMainMenuTutorial();
+         return;
+      }
       SceneManager.Instance.LoadMainMenu();
    }
 }

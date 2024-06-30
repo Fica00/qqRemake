@@ -32,10 +32,10 @@ public class MainMenuOverlaysHandler : MonoBehaviour
 
     private void Start()
     {
-        if (DataManager.Instance.PlayerData.IsNewAccount)
-        {
-            SetupFirstTimeOverlays();
-        }
+        // if (DataManager.Instance.PlayerData.IsNewAccount)
+        // {
+        //     SetupFirstTimeOverlays();
+        // }
 
         SetupOverlays();
     }

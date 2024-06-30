@@ -18,9 +18,11 @@ public class SceneManager : SceneLoader
     private const string TUTORIAL = "Tutorial";
     private const string SIMPLE_TUTORIAL = "SimpleTutorial";
     private const string GAMEPLAY_TUTORIAL = "GameplayTutorial";
+    private const string MAIN_MENU_TUTORIAL = "MainMenuTutorial";
 
     public static bool IsAIScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_AI;
     public static bool IsGameplayTutorialScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == GAMEPLAY_TUTORIAL;
+    public static bool IsMainMenuTutorialScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == MAIN_MENU_TUTORIAL;
     public static bool IsAuthScene => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == DATA_COLLECTOR;
    
     public static string CurrentSceneName => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
@@ -47,6 +49,11 @@ public class SceneManager : SceneLoader
     {
         DoLoadScene(LEVEL_PAGE,_useAsyncLoading);
     }     
+    
+    public void LoadMainMenuTutorial(bool _useAsyncLoading=true)
+    {
+        DoLoadScene(MAIN_MENU_TUTORIAL,_useAsyncLoading);
+    }   
     
     public void LoadMissionsPage(bool _useAsyncLoading=true)
     {

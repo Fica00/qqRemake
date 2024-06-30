@@ -13,6 +13,7 @@ public class GameplayTutorial : GameplayManager
     [SerializeField] private GameObject opponentsEffect;
     
     public bool cardsPlayed;
+    public bool skip = false;
 
     protected override void Awake()
     {
@@ -26,6 +27,9 @@ public class GameplayTutorial : GameplayManager
         SetupTutorialLocation();
         yield return StartCoroutine(InitialDraw());
         yield return new WaitForSeconds(1); //wait for cards in hand to get to position
+        
+        if (skip) 
+            CurrentRound = 6; //TODO: Ovde ugasiti runde
         while (CurrentRound < maxRounds)
         {
             CommandsHandler.MyOriginalCommandsThisTurn.Clear();
