@@ -207,6 +207,13 @@ public class GameplayManager : MonoBehaviour
         _cardOnPlace.Stats.Power += _power;
     }
 
+    public virtual void AddPowerToQoomon(int _placeId, int _power)
+    {
+        LanePlaceIdentifier _place = FindObjectsOfType<LanePlaceIdentifier>().ToList().Find(_place => _place.Id == _placeId);
+        CardObject _cardOnPlace = _place.GetComponentInChildren<CardObject>();
+        _cardOnPlace.Stats.Power += _power;
+    }
+
     protected virtual void StartGameplay()
     {
         CommandsHandler.Setup();

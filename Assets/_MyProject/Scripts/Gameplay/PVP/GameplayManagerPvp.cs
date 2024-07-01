@@ -87,10 +87,23 @@ public class GameplayManagerPvp : GameplayManager
         SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(DoAddPowerToQoomonOnPlace), JsonConvert.SerializeObject(_addPower));
     }
 
+    public override void AddPowerToQoomon(int _placeId, int _power)
+    {
+        base.AddPowerToQoomon(_placeId, _power);
+        AddPower _addPower = new AddPower { PlaceId = _placeId, Power = _power };
+        SocketServerCommunication.Instance.RegisterMessage(gameObject, nameof(AddPowerOnOpponentSide), JsonConvert.SerializeObject(_addPower));
+    }
+
     private void DoAddPowerToQoomonOnPlace(string _data)
     {
         AddPower _addPower = JsonConvert.DeserializeObject<AddPower>(_data);
         base.AddPowerOfQoomonOnPlace(_addPower.PlaceId, _addPower.Power);
+    }
+
+    private void AddPowerOnOpponentSide(string _data)
+    {
+        AddPower _addPower = JsonConvert.DeserializeObject<AddPower>(_data);
+        base.AddPowerOfQoomonOnPlace(_addPower.PlaceId + 4, _addPower.Power);
     }
 
     protected override void SetupPlayers()
