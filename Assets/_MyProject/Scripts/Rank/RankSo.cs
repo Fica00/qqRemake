@@ -63,13 +63,31 @@ public class RankSo : ScriptableObject
 
     public static int GetRankLevel(int _points)
     {
-        int _level = 1;
-        while (_points >= 7)
+        int _currentLevel = 1;
+        int _rankIndex = 0;
+
+        while (_points > 0)
         {
-            _points -= 7;
-            _level++;
+            int _currentAmountOfOrbs = (_rankIndex < allRanks.Count && _currentLevel >= allRanks[_rankIndex].Level)
+                ? allRanks[_rankIndex].AmountOfOrbs
+                : allRanks[_rankIndex - 1].AmountOfOrbs;
+
+            if (_rankIndex + 1 < allRanks.Count && _currentLevel + 1 == allRanks[_rankIndex + 1].Level)
+            {
+                _rankIndex++;
+            }
+
+            if (_points >= _currentAmountOfOrbs)
+            {
+                _points -= _currentAmountOfOrbs;
+                _currentLevel++;
+            }
+            else
+            {
+                break;
+            }
         }
 
-        return _level;
+        return _currentLevel;
     }
 }

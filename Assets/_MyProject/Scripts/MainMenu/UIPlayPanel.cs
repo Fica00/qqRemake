@@ -45,6 +45,10 @@ public class UIPlayPanel : MonoBehaviour
 
     private void StartMatch()
     {
+        if (!DataManager.Instance.PlayerData.CanLoseRankPoints)
+        {
+            ModeHandler.Instance.Mode = GameMode.VsAi;
+        }
         switch (ModeHandler.Instance.Mode)
         {
             case GameMode.VsAi:
