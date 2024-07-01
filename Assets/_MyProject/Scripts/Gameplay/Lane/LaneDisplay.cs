@@ -164,48 +164,6 @@ public class LaneDisplay : MonoBehaviour
         AbilityDisplay.AbilityFlash();
     }
 
-    public void ShowWinner(Action _callBack)
-    {
-        int _myPower = GameplayManager.Instance.TableHandler.GetPower(true, Location);
-        int _opponentPower = GameplayManager.Instance.TableHandler.GetPower(false, Location);
-        powerDisplay.ShowWinner(_myPower,_opponentPower,_callBack);
-        if (_myPower>_opponentPower)
-        {
-            ShowQoomonAnimations(true);
-        }
-        else if (_opponentPower > _myPower)
-        {
-            ShowQoomonAnimations(false);
-        }
-    }
-
-    private void ShowQoomonAnimations(bool _didIWin)
-    {
-        foreach (var _qoomon in GameplayManager.Instance.TableHandler.GetCards(true,Location))
-        {
-            if (_didIWin)
-            {
-                _qoomon.Animator.PlayWinAnimation();
-            }
-            else
-            {
-                _qoomon.Animator.PlayLoseAnimation();
-            }
-        }
-        
-        foreach (var _qoomon in GameplayManager.Instance.TableHandler.GetCards(false,Location))
-        {
-            if (_didIWin)
-            {
-                _qoomon.Animator.PlayLoseAnimation();
-            }
-            else
-            {
-                _qoomon.Animator.PlayWinAnimation();
-            }
-        }
-    }
-
     public void ShowEnlargedPowerAnimation(bool _showMyPower)
     {
         powerDisplay.EnlargedPowerAnimation(_showMyPower);

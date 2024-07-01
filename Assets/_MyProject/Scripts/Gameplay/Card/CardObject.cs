@@ -11,8 +11,6 @@ public class CardObject : MonoBehaviour
     [field: SerializeField] public CardReveal Reveal { get; private set; }
     [field: SerializeField] public List<CardEffectBase> SpecialEffects { get; private set; }
     
-    public QoomonAnimator Animator;
-
     [HideInInspector] public CardStats Stats;
 
     [HideInInspector] public bool IsMy;
@@ -51,7 +49,6 @@ public class CardObject : MonoBehaviour
         cardInputInteractions.Setup(this);
         Reveal.Setup(this);
         Display.Setup(this);
-        Animator.Setup(this);
         ManageBeheviour();
 
         GameplayManager.UpdatedGameState += ManageBeheviour;

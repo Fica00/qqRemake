@@ -149,14 +149,7 @@ public class TableHandler : MonoBehaviour
             yield return new WaitUntil(() => !CardEffectWhenThisIsDiscardedAddXPowerAndAddItBackToHand.IsActive);
             CardObject _card = _command.Card;
             DataManager.Instance.PlayerData.Statistics.NoteSeenCard(_card.Details.Id);
-            if (_card.Animator.HasAnimations)
-            {
-                yield return StartCoroutine(_card.Animator.RevealAnimation());
-            }
-            else
-            {
-                yield return StartCoroutine(_card.RevealCard());
-            }
+            yield return StartCoroutine(_card.RevealCard());
             List<CardObject> _cardsOnLane = null;
             switch (_command.Location)
             {
