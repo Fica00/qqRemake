@@ -192,12 +192,18 @@ function setupTutorialCompleteListener(userId) {
   var ref = firebase.database().ref(`users/${userId}/Statistics/CheckPoints`);
   ref.on("child_added", function (snapshot) {
     const checkpoint = snapshot.val();
+    console.log("Checkpoint added:", checkpoint);
     if (
       checkpoint.Description === "Finished first game" &&
       !tutorialEventSent
     ) {
+      console.log("Tutorial finished for user:", userId);
       tutorialEventSent = true; // Prevent further sends
       sendCompleteTutorialEventToEarnAlliance(userId);
+      firebase
+        .database()
+        .ref(`users/${userId}`)
+        .update({ TutorialEventSent: true });
     }
   });
 }
@@ -452,6 +458,10 @@ function tellUnityUserInfo(userId, isGuest, userInfo, providerName) {
         const userData = snapshot.val();
         console.log("User Data Retrieved:", userData);
 
+        if (userData.Agency === "EarnAlliance" && !userData.TutorialEventSent) {
+          setupTutorialCompleteListener(userId);
+        }
+
         unity.SendMessage(
           "JavaScriptManager",
           "AuthFinished",
@@ -471,7 +481,11 @@ function tellUnityUserInfo(userId, isGuest, userInfo, providerName) {
           sendEventToEarnAlliance("USER_SIGNUP", userId);
         }
 
-        if (isEarnAllianceLink()) {
+        if (isEarnAllianceLink() || userInfo.Agency === "EarnAlliance") {
+          console.log(
+            "Setting up tutorial complete listener for user:",
+            userId
+          );
           setupTutorialCompleteListener(userId);
         }
 
