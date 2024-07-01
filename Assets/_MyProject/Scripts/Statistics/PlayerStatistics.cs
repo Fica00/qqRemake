@@ -10,6 +10,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerStatistics
 {
+    public static Action<int> OnSawNewQoomon;
     private const string LAST_LOGGED_TIME = "lastTime";
     public List<Login> Logins = new ();
     public List<TimeSpent> TimeSpent = new();
@@ -179,6 +180,7 @@ public class PlayerStatistics
         }
         
         SeenQoomons.Add(_cardId);
+        OnSawNewQoomon?.Invoke(_cardId);
         PlayerData.UpdatedStatistics?.Invoke();
     }
 
