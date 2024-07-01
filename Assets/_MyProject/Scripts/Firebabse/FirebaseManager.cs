@@ -187,7 +187,7 @@ public class FirebaseManager : MonoBehaviour
 
     public void AddUSDCToPlayer(double _amount, string _receiverId, Action<bool> _callBack)
     {
-        string _key = nameof(DataManager.Instance.PlayerData.USDC);
+        string _key = nameof(DataManager.Instance.PlayerData.USDT);
         string _url = UsersLink + _receiverId;
         StartCoroutine(Get(_url+"/"+_key + "/.json",
             (_result) =>
@@ -316,7 +316,7 @@ public class FirebaseManager : MonoBehaviour
             }
 
             _amountInPool -= _amountToReward;
-            DataManager.Instance.PlayerData.USDC += _amountToReward;
+            DataManager.Instance.PlayerData.USDT += _amountToReward;
             string _valueString = "{\"" + _retentionPoolKey + "\":" + _amountInPool + "}";
 
             StartCoroutine(Patch(GameDataLink+".json", 

@@ -236,7 +236,7 @@ public class DataManager : MonoBehaviour
 
     private void SaveUSDC()
     {
-        FirebaseManager.Instance.SaveValue(nameof(PlayerData.USDC),JsonConvert.SerializeObject(PlayerData.USDC));
+        FirebaseManager.Instance.SaveValue(nameof(PlayerData.USDT),JsonConvert.SerializeObject(PlayerData.USDT));
     }    
     
     private void SaveExp()

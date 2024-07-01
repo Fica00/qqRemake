@@ -19,10 +19,10 @@ public class USDCDisplay : MonoBehaviour
 
     private void Show()
     {
-        string _text = DataManager.Instance.PlayerData.USDC.ToString();
+        string _text = DataManager.Instance.PlayerData.USDT.ToString();
         if (showSuffix)
         {
-            _text += " USDC";
+            _text += " USDT";
         }
         display.text = _text;
     }

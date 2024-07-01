@@ -80,7 +80,7 @@ public class MarketplacePanel : BasePanel
             return;
         }
 
-        if (DataManager.Instance.PlayerData.USDC<_offer.Cost)
+        if (DataManager.Instance.PlayerData.USDT<_offer.Cost)
         {
             DialogsManager.Instance.OkDialog.Setup("You don't have enough USDC");
             return;
@@ -109,7 +109,7 @@ public class MarketplacePanel : BasePanel
             _result.Message = "Purchase Successful!";
             GamePass _newGamePass = new GamePass(selectedOffer.GamePass);
             DataManager.Instance.PlayerData.AddGamePass(_newGamePass);
-            DataManager.Instance.PlayerData.USDC -= selectedOffer.Cost;
+            DataManager.Instance.PlayerData.USDT -= selectedOffer.Cost;
             DataManager.Instance.GameData.RemoveOfferFromMarketplace(selectedOffer);
             Show(true);
         }

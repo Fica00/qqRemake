@@ -215,7 +215,7 @@ public class JavaScriptManager : MonoBehaviour
         
         Debug.Log("New usdc value: "+_value);
         
-        DataManager.Instance.PlayerData.USDC = Convert.ToDouble(_value);
+        DataManager.Instance.PlayerData.USDT = Convert.ToDouble(_value);
     }
 
     public void OnUpdatedWalletAddress(string _walletAddress)

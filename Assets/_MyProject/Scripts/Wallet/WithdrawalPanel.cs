@@ -42,7 +42,7 @@ public class WithdrawalPanel : MonoBehaviour
 
     private void SetAmountToMax()
     {
-        double _amount = DataManager.Instance.PlayerData.USDC;
+        double _amount = DataManager.Instance.PlayerData.USDT;
         if (_amount>MAX_AMOUNT)
         {
             _amount = MAX_AMOUNT;
@@ -110,7 +110,7 @@ public class WithdrawalPanel : MonoBehaviour
             return;
         }
 
-        if (_amount>DataManager.Instance.PlayerData.USDC)
+        if (_amount>DataManager.Instance.PlayerData.USDT)
         {
             okDialog.Setup("You don't have enough founds");
             return;
@@ -132,7 +132,7 @@ public class WithdrawalPanel : MonoBehaviour
         
         FirebaseManager.Instance.RequestWithdrawal(_withdrawalData, _ =>
         {
-            DataManager.Instance.PlayerData.USDC -= _amount;
+            DataManager.Instance.PlayerData.USDT -= _amount;
             ManageInteractables(true);
             okDialog.Setup("Withdrawal request successfully sent, withdrawal id: "+ _withdrawalData.WithdrawalId);
         }, _error =>

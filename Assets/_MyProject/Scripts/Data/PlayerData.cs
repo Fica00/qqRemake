@@ -15,7 +15,7 @@ public class PlayerData
     private List<int> ownedQoomons = new();
     private List<GamePass> gamePasses = new();
     private double coins;
-    private double usdc;
+    private double usdt;
     private List<ClaimedLevelReward> claimedLevelProgressRewards = new();
     private int weeklyLoginAmount = 1;
     private DateTime lastDayConnected;
@@ -247,12 +247,12 @@ public class PlayerData
         }
     }
 
-    public double USDC
+    public double USDT
     {
-        get => usdc;
+        get => usdt;
         set
         {
-            usdc = value;
+            usdt = value;
             UpdatedUSDC?.Invoke();
         }
     }
