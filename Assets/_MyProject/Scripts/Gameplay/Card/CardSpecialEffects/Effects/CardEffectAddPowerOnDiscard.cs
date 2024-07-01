@@ -28,7 +28,8 @@ public class CardEffectAddPowerOnDiscard : CardEffectBase
 
         if (_card != cardObject)
         {
-            cardObject.Stats.Power += power;
+            GameplayManager.Instance.AddPowerOfQoomonOnPlace(cardObject.GetComponentInParent<LanePlaceIdentifier>().Id, power);
+            //cardObject.Stats.Power += power;
         }
     }
 }
