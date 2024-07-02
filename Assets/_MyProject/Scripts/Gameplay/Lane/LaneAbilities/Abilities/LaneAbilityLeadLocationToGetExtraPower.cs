@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
@@ -9,9 +10,9 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
     public override void Subscribe()
     {
         isSubscribed = true;
-        for (int i = 0; i < appliedPower.Length; i++)
+        for (int _i = 0; _i < appliedPower.Length; _i++)
         {
-            appliedPower[i] = false;
+            appliedPower[_i] = false;
         }
 
         TableHandler.OnRevealdCard += CheckPower;
@@ -29,11 +30,7 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
 
     private void CheckPower(CardObject _cardObject)
     {
-        if (_cardObject.LaneLocation != laneDisplay.Location)
-        {
-            return;
-        }
-
+        GameplayManager.Instance.TableHandler.CalculatePower();
         CalculatePower();
     }
 
@@ -42,52 +39,55 @@ public class LaneAbilityLeadLocationToGetExtraPower : LaneAbilityBase
         int _myCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(true, laneDisplay.Location);
         int _opponentCalculatedPower = GameplayManager.Instance.TableHandler.GetPower(false, laneDisplay.Location);
 
-        TryToRevard(_myCalculatedPower, _opponentCalculatedPower, 0);
-        TryToRevard(_opponentCalculatedPower, _myCalculatedPower, 1);
+        TryToReward(_myCalculatedPower, _opponentCalculatedPower, 0);
+        TryToReward(_opponentCalculatedPower, _myCalculatedPower, 1);
 
-        void TryToRevard(int _myPower, int _opponentPower, int _playerNumber)
+        void TryToReward(int _myPower, int _opponentPower, int _playerNumber)
         {
             if (_myPower > _opponentPower)
             {
-                if (!appliedPower[_playerNumber])
+                if (appliedPower[_playerNumber])
                 {
-                    appliedPower[_playerNumber] = true;
-                    ChangePower(_playerNumber, addPower);
+                    return;
                 }
+                
+                appliedPower[_playerNumber] = true;
+                ChangePower(_playerNumber, addPower);
             }
             else
             {
-                if (appliedPower[_playerNumber])
+                if (!appliedPower[_playerNumber])
                 {
-                    appliedPower[_playerNumber] = false;
-                    ChangePower(_playerNumber, -addPower);
+                    return;
                 }
+                appliedPower[_playerNumber] = false;
+                ChangePower(_playerNumber, -addPower);
             }
         }
 
         void ChangePower(int _playerNumber, int _amount)
         {
-            LaneDisplay _lane1 = null;
-            LaneDisplay _lane2 = null;
+            LaneDisplay[] _otherLanes = GetOtherLanes(laneDisplay.Location);
 
-            switch (laneDisplay.Location)
+            foreach (var _lane in _otherLanes)
+            {
+                _lane.LaneSpecifics.ChangeExtraPower(_playerNumber, _amount);
+            }
+        }
+
+        LaneDisplay[] GetOtherLanes(LaneLocation _currentLocation)
+        {
+            switch (_currentLocation)
             {
                 case LaneLocation.Top:
-                    _lane1 = GameplayManager.Instance.Lanes[1];
-                    _lane2 = GameplayManager.Instance.Lanes[2];
-                    break;
+                    return new[] { GameplayManager.Instance.Lanes[1], GameplayManager.Instance.Lanes[2] };
                 case LaneLocation.Mid:
-                    _lane1 = GameplayManager.Instance.Lanes[0];
-                    _lane2 = GameplayManager.Instance.Lanes[2];
-                    break;
+                    return new[] { GameplayManager.Instance.Lanes[0], GameplayManager.Instance.Lanes[2] };
                 case LaneLocation.Bot:
-                    _lane1 = GameplayManager.Instance.Lanes[0];
-                    _lane2 = GameplayManager.Instance.Lanes[1];
-                    break;
+                    return new[] { GameplayManager.Instance.Lanes[0], GameplayManager.Instance.Lanes[1] };
+                default:
+                    throw new Exception();
             }
-
-            _lane1.LaneSpecifics.ChangeExtraPower(_playerNumber, _amount);
-            _lane2.LaneSpecifics.ChangeExtraPower(_playerNumber, _amount);
         }
     }
 }

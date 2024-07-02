@@ -4,6 +4,7 @@ using UnityEngine;
 public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
 {
     [SerializeField] private int amountOfPower;
+    private Dictionary<CardObject, int> changes = new();
     
     public override void Subscribe()
     {
@@ -23,11 +24,7 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
 
         foreach (var _cardOnLane in _cardsOnLane)
         {
-            for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
-            {
-                _cardOnLane.Stats.Power += amountOfPower;
-            }
-            _cardOnLane.Display.EnlargedPowerAnimation(_cardOnLane.IsMy);
+            AddPowerToCard(_cardOnLane);
         }
     }
 
@@ -47,12 +44,25 @@ public class CardEffectAddNPowerToYourQommonsHere : CardEffectBase
         {
             return;
         }
-        
-        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
+
+        AddPowerToCard(_card);
+    }
+    
+    private void AddPowerToCard(CardObject _card)
+    {
+        if (changes.ContainsKey(_card))
         {
-            _card.Stats.Power += amountOfPower;
+            _card.Stats.Power -= changes[_card];
+            changes.Remove(_card);
         }
-        
+
+        int _powerToAdd = 0;
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+        {
+            _powerToAdd += amountOfPower;
+        }
+        changes.Add(_card, _powerToAdd);
+        _card.Stats.Power += _powerToAdd;
         _card.Display.EnlargedPowerAnimation(_card.IsMy);
     }
 }

@@ -15,6 +15,7 @@ public class CardEffectAddNPowerForEachQoomonInHand : CardEffectBase
         GameplayPlayer.DiscardedCard += CountCardsInHand;
         player.RemovedCardFromHand += CountCardsInHand;
         player.AddedCardToHand += CountCardsInHand;
+        LaneSpecifics.UpdatedAmountOfOngoingEffects += CountCardsInHand;
         isSubscribed = true;
     }
 
@@ -30,6 +31,7 @@ public class CardEffectAddNPowerForEachQoomonInHand : CardEffectBase
         GameplayPlayer.DiscardedCard -= CountCardsInHand;
         player.RemovedCardFromHand -= CountCardsInHand;
         player.AddedCardToHand -= CountCardsInHand;
+        LaneSpecifics.UpdatedAmountOfOngoingEffects -= CountCardsInHand;
     }
 
     private void CountCardsInHand(CardObject _arg1, bool _arg2)

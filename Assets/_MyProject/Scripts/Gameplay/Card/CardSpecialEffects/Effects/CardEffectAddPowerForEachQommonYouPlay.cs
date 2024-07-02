@@ -33,7 +33,13 @@ public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
          return;
       }
 
-      cardObject.Stats.Power += powerToAdd;
+      int _powerToAdd = 0;
+      for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+      {
+         _powerToAdd += powerToAdd;
+      }
+      cardObject.Stats.Power += _powerToAdd;
+      
       GameplayManager.Instance.FlashLocation(_placeIdentifier.Id,Color.white, 3);
    }
 }

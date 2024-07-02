@@ -209,7 +209,7 @@ public class TableHandler : MonoBehaviour
         CalculatePower();
     }
 
-    private void CalculatePower()
+    public void CalculatePower()
     {
         CalculatePower(true);
         CalculatePower(false);
@@ -226,6 +226,9 @@ public class TableHandler : MonoBehaviour
                 LaneLocation _location = LaneLocation.Bot;
                 LaneDisplay _laneDisplay = null;
 
+                
+                //sums the power of all cards on this lane
+                string _output = string.Empty;
                 foreach (var _cardOnLane in _cardsOnTable[i])
                 {
                     _power += _cardOnLane.Stats.Power;

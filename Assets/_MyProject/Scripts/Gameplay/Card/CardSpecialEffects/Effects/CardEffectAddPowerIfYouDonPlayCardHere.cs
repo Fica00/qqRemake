@@ -3,55 +3,51 @@ using UnityEngine;
 public class CardEffectAddPowerIfYouDonPlayCardHere : CardEffectBase
 {
     [SerializeField] private int powerToAdd;
-
-    private bool firstPhase = false;
-
+    private bool isActive;
+    private bool addPower = true;
+    private bool disableOnNextTurn;
 
     public override void Subscribe()
     {
         GameplayManager.Instance.HighlihtWholeLocationDotted(cardObject.LaneLocation, cardObject.IsMy);
-        GameplayManager.UpdatedGameState += SubscribeForEventsOnNextRound;
+        TableHandler.OnRevealdCard += CheckPlayedCard;
+        GameplayManager.UpdatedGameState += CheckGameState;
+        isActive = true;
     }
 
     private void OnDisable()
     {
-        try
-        {
-            GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
-        }
-        catch
-        {
-        }
+        Unsubscribe();
+    }
 
-        try
+    private void CheckGameState()
+    {
+        if (GameplayManager.Instance.GameplayState == GameplayState.ResolvingBeginingOfRound)
+        {
+            if (!disableOnNextTurn)
+            {
+                disableOnNextTurn = true;
+                addPower = true;
+                return;
+            }
+            
+            GameplayManager.Instance.HideHighlihtWholeLocationDotted(cardObject.LaneLocation, cardObject.IsMy);
+            Unsubscribe();
+            TryAwardPoints();
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        if (isActive)
         {
             TableHandler.OnRevealdCard -= CheckPlayedCard;
+            GameplayManager.UpdatedGameState -= CheckGameState;
         }
-        catch
-        {
-        }
+
+        isActive = false;
     }
 
-    private void SubscribeForEventsOnNextRound()
-    {
-        switch (GameplayManager.Instance.GameplayState)
-        {
-            case GameplayState.ResolvingBeginingOfRound:
-                if (firstPhase)
-                {
-                    GameplayManager.UpdatedGameState -= SubscribeForEventsOnNextRound;
-                    TableHandler.OnRevealdCard -= CheckPlayedCard;
-                    GameplayManager.Instance.HideHighlihtWholeLocationDotted(cardObject.LaneLocation, cardObject.IsMy);
-                    firstPhase = false;
-                }
-                else
-                {
-                    TableHandler.OnRevealdCard += CheckPlayedCard;
-                    firstPhase = true;
-                }
-                break;
-        }
-    }
 
     private void CheckPlayedCard(CardObject _cardObject)
     {
@@ -60,13 +56,27 @@ public class CardEffectAddPowerIfYouDonPlayCardHere : CardEffectBase
             return;
         }
         
-        if (_cardObject.LaneLocation == cardObject.LaneLocation)
+        if (_cardObject.LaneLocation != cardObject.LaneLocation)
         {
-            TableHandler.OnRevealdCard -= CheckPlayedCard;
+            return;
+        }
+
+        if (_cardObject==cardObject)
+        {
             return;
         }
         
-        for (int i = 0; i < GameplayManager.Instance.Lanes[(int)_cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; i++)
+        addPower = false;
+    }
+
+    private void TryAwardPoints()
+    {
+        if (!addPower)
+        {
+            return;
+        }
+        
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
         {
             cardObject.Stats.Power += powerToAdd;
         }

@@ -6,6 +6,7 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
 {
     [SerializeField] private int amountOfPower;
     [SerializeField] private int cost;
+    private Dictionary<CardObject, int> changes = new();
     
     public override void Subscribe()
     {
@@ -31,16 +32,12 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
 
         foreach (var _cardOnLane in _cardsOnTable)
         {
-            if (_cardOnLane.Stats.Energy!=cost)
+            if (_cardOnLane.Details.Mana!=cost)
             {
                 continue;
             }
             
-            for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
-            {
-                _cardOnLane.Stats.Power += amountOfPower;
-            }
-            _cardOnLane.Display.EnlargedPowerAnimation(_cardOnLane.IsMy);
+            AddPowerToCard(_cardOnLane);
             StartCoroutine(UpdatePower(_cardOnLane));
         }
 
@@ -67,11 +64,24 @@ public class CardEffectYourNCostQommonsHereGetMPower : CardEffectBase
         {
             return;
         }
-        
-        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfRevealEffects; _i++)
+
+        AddPowerToCard(_card);
+    }
+    private void AddPowerToCard(CardObject _card)
+    {
+        if (changes.ContainsKey(_card))
         {
-            _card.Stats.Power += amountOfPower;
-            _card.Display.EnlargedPowerAnimation(cardObject.IsMy);
+            _card.Stats.Power -= changes[_card];
+            changes.Remove(_card);
         }
+
+        int _powerToAdd = 0;
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+        {
+            _powerToAdd += amountOfPower;
+        }
+        changes.Add(_card, _powerToAdd);
+        _card.Stats.Power += _powerToAdd;
+        _card.Display.EnlargedPowerAnimation(_card.IsMy);
     }
 }

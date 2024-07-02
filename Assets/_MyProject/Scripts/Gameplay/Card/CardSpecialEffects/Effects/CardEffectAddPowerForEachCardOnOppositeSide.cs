@@ -11,6 +11,7 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
         isSubscribed = true;
         amountOfCountedCards = 0;
         TableHandler.OnRevealdCard += TryToAddPower;
+        LaneSpecifics.UpdatedAmountOfOngoingEffects += CountCards;
         CountCards();
     }
 
@@ -21,6 +22,7 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
             return;
         }
         TableHandler.OnRevealdCard -= TryToAddPower;
+        LaneSpecifics.UpdatedAmountOfOngoingEffects -= CountCards;
     }
 
     private void TryToAddPower(CardObject _cardObject)
@@ -42,10 +44,17 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
     {
         List<CardObject> _opponentsCardsOnLane = GameplayManager.Instance.TableHandler.GetCards(!cardObject.IsMy, cardObject.LaneLocation);
         int _amountOfCardsOnLane = _opponentsCardsOnLane.Count;
+        Debug.Log("Amount of cards on the lane: "+_amountOfCardsOnLane);
+        Debug.Log("Amount of cards in previous count: "+amountOfCountedCards);
         int _difference = _amountOfCardsOnLane - amountOfCountedCards;
         int _powerToAdd = _difference * powerToAdd;
-        for (int i = 0; i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; i++)
+        Debug.Log("Difference "+_difference);
+        Debug.Log("Power to add "+_powerToAdd);
+        Debug.Log("Total power to add "+_powerToAdd*GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects);
+        Debug.Log(GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects);
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
         {
+            Debug.Log(1);
             cardObject.Stats.Power += _powerToAdd;
         }
         amountOfCountedCards = _amountOfCardsOnLane;

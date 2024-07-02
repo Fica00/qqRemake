@@ -67,12 +67,6 @@ public class GameplayDev : MonoBehaviour
         GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.GetCardFromDeck(18), true);
     }
 
-    [Button("Draw card")]
-    private void DrawCard()
-    {
-        GameplayManager.Instance.MyPlayer.AddCardToHand(GameplayManager.Instance.MyPlayer.DrawCard());
-    }
-
     [Button("Remove all cards in hand")]
     private void ForcePlaceTeapot()
     {

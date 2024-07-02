@@ -11,7 +11,7 @@ public class CardEffectAddPowerIfYouPlayAnotherCardHereNextTurn : CardEffectBase
     public override void Subscribe()
     {
         LaneDisplay _laneDisplay = GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation];
-        if (_laneDisplay.CanPlaceAnyQommon())
+        if (_laneDisplay.CanPlaceAnyQommon(cardObject))
         {
             GameplayManager.Instance.HighlihtWholeLocation(cardObject.LaneLocation, cardObject.IsMy, colorEffect);
         }

@@ -15,6 +15,7 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
         isSubscribed = true;
         CountCards();
         TableHandler.OnRevealdCard += CountCards;
+        LaneSpecifics.UpdatedAmountOfOngoingEffects += CountCards;
     }
 
     private void OnDisable()
@@ -25,6 +26,7 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
         }
 
         TableHandler.OnRevealdCard -= CountCards;
+        LaneSpecifics.UpdatedAmountOfOngoingEffects -= CountCards;
     }
 
     private void CountCards(CardObject _card)
@@ -51,7 +53,7 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
             {
                 appliedPower = false;
                 cardObject.Stats.Power -= amountOfAppliedPower;
-                amountOfAppliedPower = 0; // Reset the applied power when the condition is not met
+                amountOfAppliedPower = 0;
             }
             return;
         }
