@@ -22,20 +22,13 @@ public class Initialization : MonoBehaviour
             return;
         }
 
-        InitPhoton();
+        InitDataManager();
         TryShowPwaOverlay();
     }
 
 
-    private void InitPhoton()
-    {
-        PhotonManager.OnFinishedInit += InitDataManager;
-        PhotonManager.Instance.Init();
-    }
-
     private void InitDataManager()
     {
-        PhotonManager.OnFinishedInit -= InitDataManager;
         AuthHandler.Instance.Authenticate();
     }
 

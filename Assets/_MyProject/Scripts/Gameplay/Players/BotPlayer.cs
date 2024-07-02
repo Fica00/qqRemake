@@ -66,7 +66,6 @@ public class BotPlayer : GameplayPlayer
                 }
                 if (!hasPlayedThisRound)
                 {
-                    Debug.Log("BotPlayer");
                     playCoroutine = StartCoroutine(PlayCards());
                 }
                 break;

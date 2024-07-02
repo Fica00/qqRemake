@@ -19,18 +19,12 @@ public class UIPlayPanel : MonoBehaviour
     {
         playButton.onClick.AddListener(StartMatch);
         overlayPlayButton.onClick.AddListener(StartMatch);
-
-        PhotonManager.OnIJoinedRoom += JoinedRoom;
-        PhotonManager.OnILeftRoom += ILeftRoom;
     }
 
     private void OnDisable()
     {
         playButton.onClick.RemoveListener(StartMatch);
         overlayPlayButton.onClick.RemoveListener(StartMatch);
-
-        PhotonManager.OnIJoinedRoom -= JoinedRoom;
-        PhotonManager.OnILeftRoom -= ILeftRoom;
     }
 
     public void TryAutoMatch()
@@ -51,13 +45,6 @@ public class UIPlayPanel : MonoBehaviour
                 ShowAIMatchMaking();
                 break;
             case GameMode.VsPlayer:
-                if (!PhotonManager.Instance.CanStartMatch)
-                {
-                    PhotonManager.Instance.FixSelf();
-                    DialogsManager.Instance.OkDialog.Setup("Cleaning up the data, please try again in few moments");
-                    return;
-                }
-        
                 inputBlocker.SetActive(true);
                 ShowPVPPanel();
                 break;
@@ -86,16 +73,6 @@ public class UIPlayPanel : MonoBehaviour
             return;
         }
         ManageInteractables(false);
-        StartCoroutine(SearchForMatch());
-        IEnumerator SearchForMatch()
-        {
-            while (!PhotonManager.IsOnMasterServer || !PhotonManager.CanCreateRoom)
-            {
-                yield return null;
-            }
-            
-            PhotonManager.Instance.JoinRandomRoom();
-        }
     }
 
     private void JoinedRoom()

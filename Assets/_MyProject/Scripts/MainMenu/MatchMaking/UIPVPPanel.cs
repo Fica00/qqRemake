@@ -23,30 +23,11 @@ public class UIPVPPanel : MonoBehaviour
         header.text = "Searching for opponent";
         gameObject.SetActive(true);
         TryShowTransition();
-
-        if (PhotonManager.Instance.IsMasterClient)
-        {
-            botRoutine = BringBot();
-            StartCoroutine(botRoutine);
-        }
     }
 
-    private IEnumerator BringBot()
-    {
-        yield return new WaitForSeconds(7);
-        PhotonManager.Instance.CloseRoom();
-        yield return new WaitForSeconds(2);
-        if (PhotonManager.Instance.CurrentRoom.PlayerCount!=1)
-        {
-            yield break;
-        }
-        PhotonManager.OnILeftRoom += StartVsBot;
-        Cancel();
-    }
     
     private void StartVsBot()
     {
-        PhotonManager.OnILeftRoom -= StartVsBot;
         ModeHandler.Instance.Mode = GameMode.VsAi;
         playPanel.BringBot();
         gameObject.SetActive(false);
@@ -58,33 +39,21 @@ public class UIPVPPanel : MonoBehaviour
         ManageInteractables(true);
 
         cancelButton.onClick.AddListener(Cancel);
-        PhotonManager.OnIJoinedRoom += TryShowTransition;
-        PhotonManager.OnILeftRoom += Close;
-        PhotonManager.OnOpponentJoinedRoom += OpponentJoined;
     }
 
     private void OnDisable()
     {
         cancelButton.onClick.RemoveListener(Cancel);
-
-        PhotonManager.OnIJoinedRoom -= TryShowTransition;
-        PhotonManager.OnILeftRoom -= Close;
-        PhotonManager.OnOpponentJoinedRoom -= OpponentJoined;
     }
 
     private void TryShowTransition()
     {
-        if (PhotonManager.Instance.CurrentRoom.PlayerCount==2)
-        {
-            LoadGameplay();
-            ShowOpponent();
-        }
+
     }
 
     private void Cancel()
     {
         ManageInteractables(false);
-        PhotonManager.Instance.LeaveRoom();
     }
 
     private void Close()
@@ -107,29 +76,13 @@ public class UIPVPPanel : MonoBehaviour
 
     private void ShowOpponent()
     {
-        opponentPlayer.Setup(
-            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME),
-            PhotonManager.Instance.GetOpponentsProperty(PhotonManager.DECK_NAME));
         opponentPlayer.gameObject.SetActive(true);
         header.text = "Opponent found!";
     }
 
     private void LoadGameplay()
     {
-        StartCoroutine(Delay());
-        IEnumerator Delay()
-        {
-            yield return new WaitForSeconds(2);
-            if (PhotonManager.Instance.IsMasterClient)
-            {
-                UIMainMenu.Instance.ShowSceneTransition(() => { SceneManager.Instance.LoadPvpGameplay(false);});
-                PhotonManager.Instance.CloseRoom();
-            }
-            else
-            {
-                UIMainMenu.Instance.ShowSceneTransition(null);
-            }
-        }
+        
     }
 
     private void ManageInteractables(bool _status)

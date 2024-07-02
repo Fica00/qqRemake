@@ -49,12 +49,6 @@ public class CardEffectAddPowerToNQommonsOnYourField : CardEffectBase
             LanePlaceIdentifier _identifier = _availableCards[_i].GetComponentInParent<LanePlaceIdentifier>();
             GameplayManager.Instance.FlashLocation(_identifier.Id,Color.white, 3);
         }
-        
-        if (GameplayManager.IsPvpGame)
-        {
-            (GameplayManagerPVP.Instance as GameplayManagerPVP).TellOpponentToAddPowerToQommons(_effectedCards,powerToAdd);
-        }
-
 
         void CheckForAvailableCards(List<CardObject> _cards)
         {

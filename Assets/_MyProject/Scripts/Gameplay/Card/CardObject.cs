@@ -179,11 +179,6 @@ public class CardObject : MonoBehaviour
         _player.RemoveCardFromHand(this);
         _player.AddCardToTable(_command);
         PrepareForReveal();
-        
-        if (GameplayManager.IsPvpGame)
-        {
-            ((GameplayManagerPVP.Instance)as GameplayManagerPVP).ForcePlace(_command);
-        }
     }
 
     public void PrepareForReveal()

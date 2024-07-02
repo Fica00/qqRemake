@@ -17,14 +17,12 @@ public class LaneDisplay : MonoBehaviour
     private void OnEnable()
     {
         GameplayPlayer.AddedCardToTable += CheckIfCardShouldBePlacedOnThisLane;
-        GameplayManagerPVP.OpponentAddedCommand += CheckIfCardShouldBePlacedOnThisLane;
         TableHandler.UpdatedPower += ShowPower;
     }
 
     private void OnDisable()
     {
         GameplayPlayer.AddedCardToTable -= CheckIfCardShouldBePlacedOnThisLane;
-        GameplayManagerPVP.OpponentAddedCommand -= CheckIfCardShouldBePlacedOnThisLane;
         TableHandler.UpdatedPower -= ShowPower;
     }
 

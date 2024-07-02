@@ -51,11 +51,6 @@ public class CardEffectDestroyEnemysNRandomXCostQommonsHere : CardEffectBase
          _oppoentsCardsOnLine.Remove(_card);
          _cardsToBeDestroyed.Add(_card);
       }
-
-      if (GameplayManager.IsPvpGame)
-      {
-         ((GameplayManagerPVP)GameplayManager.Instance).TellOpponentToDestroyCardsOnTable(_cardsToBeDestroyed,false);
-      }
       
       GameplayPlayer _opponentPlayer = cardObject.IsMy ? GameplayManager.Instance.OpponentPlayer : GameplayManager.Instance.MyPlayer;
       foreach (var _card in _cardsToBeDestroyed)

@@ -259,7 +259,6 @@ public class FirebaseManager : MonoBehaviour
         _qommons = _qommons.OrderBy(_x => _x).ToList();
         string _url = DeckStatistic + string.Join("-", _qommons);
         _url += "/" + _sectionKey;
-        Debug.Log(_url);
         string _valueString = "{\"date\":\"" +DateTime.UtcNow  + "\"}";
         StartCoroutine(Patch(_url+"/"+Guid.NewGuid()+"/" +".json", _valueString, _stringValue =>
         {

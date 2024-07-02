@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,24 +73,8 @@ public class TableHandler : MonoBehaviour
         {
             return 1;
         }
-        else
-        {
-            if (PhotonNetwork.CurrentRoom == null)
-            {
-                return -1;
-            }
-            else
-            {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-        }
+
+        return -1;
     }
 
     public IEnumerator RevealCards(List<PlaceCommand> _commands)

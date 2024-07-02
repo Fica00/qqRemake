@@ -17,16 +17,6 @@ public class LanePlaceIdentifier : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    private void OnEnable()
-    {
-        GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
-    }
-
-    private void OnDisable()
-    {
-        GameplayManagerPVP.OpponentCanceledCommand += CheckIfShouldDestroyChild;
-    }
-
     public bool CheckIfTileIsAvailable(CardObject _cardObject)
     {
         if (!IsMine)

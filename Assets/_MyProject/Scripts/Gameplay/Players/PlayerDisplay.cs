@@ -58,13 +58,6 @@ public class PlayerDisplay : MonoBehaviour
                     statsDisplay.Show(player.AmountOfCardsInHand, player.AmountOfDiscardedCards, player.AmountOfCardsInDeck, player.AmountOfDestroyedCards);
                     return;
                 }
-
-                statsDisplay.Show(
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_HAND)),
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DISCARDED_CARDS)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_CARDS_IN_DECK)),            
-                    int.Parse(PhotonManager.Instance.GetOpponentsProperty(PhotonManager.AMOUNT_OF_DESTROYED_CARDS))            
-                );
             }
         }
     }
@@ -96,10 +89,6 @@ public class PlayerDisplay : MonoBehaviour
                 if (SceneManager.IsGameplayTutorialScene)
                 {
                     nameDisplay.text = Tutorial.MatchMaking.OpponentsName;
-                }
-                else
-                {
-                    nameDisplay.text = PhotonManager.Instance.GetOpponentsProperty(PhotonManager.NAME);
                 }
             }
         }
