@@ -248,25 +248,11 @@ public class FirebaseManager : MonoBehaviour
         string _sectionKey = _didIWin ? "win" : "lose";
         _qommons = _qommons.OrderBy(_x => _x).ToList();
         string _url = DeckStatistic + string.Join("-", _qommons);
-        StartCoroutine(Get(_url + "/"+_sectionKey+".json", _stringValue =>
+        _url += "/" + _sectionKey;
+        Debug.Log(_url);
+        string _valueString = "{\"date\":\"" +DateTime.UtcNow  + "\"}";
+        StartCoroutine(Patch(_url+"/"+Guid.NewGuid()+"/" +".json", _valueString, _stringValue =>
         {
-            int _amount = 0;
-            try
-            {
-                _amount = Convert.ToInt32(_stringValue);
-            }
-            catch
-            {
-                // ignored
-            }
-
-            _amount++;
-            string _valueString = "{\"" + _sectionKey + "\":" + _amount + "}";
-            StartCoroutine(Patch(_url+ ".json", _valueString, _ =>
-            {
-            }, _ =>
-            {
-            }));
         }, _ =>
         {
         }));
@@ -279,7 +265,7 @@ public class FirebaseManager : MonoBehaviour
     }
 
     public void ReportBug(ReportDate _reportData, Action<string> _onSuccess, Action<string> _onFailed) {
-        string _url = ReportLink + Guid.NewGuid().ToString()+ ".json";
+        string _url = ReportLink + Guid.NewGuid()+ ".json";
         StartCoroutine(Patch(_url, JsonConvert.SerializeObject(_reportData), _onSuccess, _onFailed));
     }
 
