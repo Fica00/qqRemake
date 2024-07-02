@@ -66,7 +66,7 @@ public class CardEffectAddNPowerIfYouHaveMQommons : CardEffectBase
         amountOfAppliedPower = 0;
         appliedPower = true;
 
-        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.GetAmountOfOngoingEffects(cardObject.IsMy); _i++)
         {
             amountOfAppliedPower += powerToAdd;
         }

@@ -10,12 +10,13 @@ using UnityEngine;
 [Serializable]
 public class PlayerStatistics
 {
+    public static Action<int> OnSawNewQoomon;
     private const string LAST_LOGGED_TIME = "lastTime";
     public List<Login> Logins = new ();
     public List<TimeSpent> TimeSpent = new();
     public List<CheckPoint> CheckPoints = new();
     public List<MatchPlayed> MatchesPlayed = new ();
-    public List<int> SeenCards = new();
+    public List<int> SeenQoomons = new();
     public int AmountOfGamesWon;
     public int AmountOfGamesLost;
     public int AmountOfGamesDraw;
@@ -175,12 +176,13 @@ public class PlayerStatistics
 
     public void NoteSeenCard(int _cardId)
     {
-        if (SeenCards.Contains(_cardId))
+        if (SeenQoomons.Contains(_cardId))
         {
             return;
         }
         
-        SeenCards.Add(_cardId);
+        SeenQoomons.Add(_cardId);
+        OnSawNewQoomon?.Invoke(_cardId);
         PlayerData.UpdatedStatistics?.Invoke();
     }
 

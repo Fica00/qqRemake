@@ -261,7 +261,7 @@ public class TableHandler : MonoBehaviour
                             continue;
                         }
                         int _geishasPower =0;
-                        for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.AmountOfOngoingEffects; j++)
+                        for (int j = 0; j <= GameplayManager.Instance.Lanes[(int)_location].LaneSpecifics.GetAmountOfOngoingEffects(_isMy); j++)
                         {
                             if (j==0)
                             {

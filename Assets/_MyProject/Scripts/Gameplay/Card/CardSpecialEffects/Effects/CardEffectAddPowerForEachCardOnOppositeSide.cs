@@ -50,9 +50,9 @@ public class CardEffectAddPowerForEachCardOnOppositeSide : CardEffectBase
         int _powerToAdd = _difference * powerToAdd;
         Debug.Log("Difference "+_difference);
         Debug.Log("Power to add "+_powerToAdd);
-        Debug.Log("Total power to add "+_powerToAdd*GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects);
-        Debug.Log(GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects);
-        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+        Debug.Log("Total power to add "+_powerToAdd*GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.GetAmountOfOngoingEffects(cardObject.IsMy));
+        Debug.Log(GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.GetAmountOfOngoingEffects(cardObject.IsMy));
+        for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.GetAmountOfOngoingEffects(cardObject.IsMy); _i++)
         {
             Debug.Log(1);
             cardObject.Stats.Power += _powerToAdd;

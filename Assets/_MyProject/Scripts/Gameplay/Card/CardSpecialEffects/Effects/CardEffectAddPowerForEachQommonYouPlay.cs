@@ -34,7 +34,7 @@ public class CardEffectAddPowerForEachQommonYouPlay : CardEffectBase
       }
 
       int _powerToAdd = 0;
-      for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.AmountOfOngoingEffects; _i++)
+      for (int _i = 0; _i < GameplayManager.Instance.Lanes[(int)cardObject.LaneLocation].LaneSpecifics.GetAmountOfOngoingEffects(cardObject.IsMy); _i++)
       {
          _powerToAdd += powerToAdd;
       }
