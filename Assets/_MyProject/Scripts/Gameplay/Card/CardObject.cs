@@ -15,7 +15,7 @@ public class CardObject : MonoBehaviour
 
     [HideInInspector] public bool IsMy;
 
-    [HideInInspector] public bool CanChangePlace = true; // used to determin if card can move from table back to hand
+    public bool CanChangePlace = true; //[HideInInspector] // used to determin if card can move from table back to hand
 
     private CardInteractions cardInputInteractions;
 

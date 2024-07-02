@@ -162,7 +162,7 @@ public class UIMainMenu : MonoBehaviour
 
         void RewardQoomon()
         {
-            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool();
+            int _qoomonId = DataManager.Instance.PlayerData.GetQoomonFromPool(); //TODO: {STEFAN} Ovde možeš da setuješ qoomona
 
             DataManager.Instance.PlayerData.AddQoomon(_qoomonId);
             DataManager.Instance.PlayerData.HasFinishedFirstGame = false;

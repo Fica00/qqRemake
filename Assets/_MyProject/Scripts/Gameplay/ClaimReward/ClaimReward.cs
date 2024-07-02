@@ -88,9 +88,6 @@ public class ClaimReward : MonoBehaviour
       {
          UIMainMenu.ShowStartingAnimation = true;
          
-         Debug.Log("SceneManager.IsAIScene "+SceneManager.IsAIScene);
-         Debug.Log("IsFirstAiScene "+isFirstAiScene);
-         
 
          if (SceneManager.IsGameplayTutorialScene)
          {
