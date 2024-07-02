@@ -85,7 +85,6 @@ public class MissionPanel : MonoBehaviour
         }
         ShowDailyCompletedText();
         ShowMissions();
-        Debug.Log("aa");
         TryShowSeasonalTasks();
         StartCoroutine(ShowText());
     }
@@ -161,10 +160,8 @@ public class MissionPanel : MonoBehaviour
     {
         if (seasonalTaskDisplay==null)
         {
-            Debug.Log(1);
             return;
         }
-            Debug.Log(2);
 
         foreach (SeasonalTaskType _seasonalTask in Enum.GetValues(typeof(SeasonalTaskType)))
         {
@@ -182,10 +179,8 @@ public class MissionPanel : MonoBehaviour
             _seasonalTaskDisplay.Setup(_seasonalTask);
         }
         
-        Debug.Log(3);
         if (seasonalHolder.childCount == 0)
         {
-        Debug.Log(4);
             SetSeasonalElementsActive(false);
         }
     }

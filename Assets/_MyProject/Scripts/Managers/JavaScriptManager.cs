@@ -347,4 +347,13 @@ public class JavaScriptManager : MonoBehaviour
         
         return CheckIsOnPc();
     }
+
+    [SerializeField]private int rankPoints;
+
+    [Button()]
+    private void SetRankPoints()
+    {
+        DataManager.Instance.PlayerData.RankPoints = rankPoints;
+        SceneManager.Instance.ReloadScene();
+    }
 }

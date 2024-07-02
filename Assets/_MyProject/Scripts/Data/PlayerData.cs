@@ -40,6 +40,7 @@ public class PlayerData
     private bool hasPlayedFirstGame;
     private bool hasFinishedFirstGame;
     private bool hasPickedUpPwaReward;
+    private bool sawBetTutorial;
     private PlayerStatistics statistics = new ();
     private int selectedAvatar;
     private List<int> ownedAvatars = new List<int>(){0,1,2,3};
@@ -90,6 +91,7 @@ public class PlayerData
     public static Action UpdatedStatistics;
     public static Action UpdatedSelectedAvatar;
     public static Action UpdatedOwnedAvatars;
+    public static Action UpdatedSawBetTutorial;
     
     public void CreateNewPlayer()
     {
@@ -483,11 +485,20 @@ public class PlayerData
         get => rankPoints;
         set
         {
+            bool _wasOver10 = rankPoints > 10;
             rankPoints = value;
             if (rankPoints < 0)
             {
                 rankPoints = 0;
             }
+
+            // if (_wasOver10)
+            // {
+            //     if (rankPoints<10)
+            //     {
+            //         rankPoints = 10;
+            //     }
+            // }
 
             UpdatedRankPoints?.Invoke();
         }
@@ -805,4 +816,16 @@ public class PlayerData
         ownedAvatars.Add(_avatar);
         UpdatedOwnedAvatars?.Invoke();
     }
+
+    public bool SawBetTutorial
+    {
+        get => sawBetTutorial;
+        set
+        {
+            sawBetTutorial = value;
+            UpdatedSawBetTutorial?.Invoke();
+        }
+    }
+    
+    [JsonIgnore] public bool CanLoseRankPoints => RankSo.GetRankLevel(rankPoints) > 10;
 }

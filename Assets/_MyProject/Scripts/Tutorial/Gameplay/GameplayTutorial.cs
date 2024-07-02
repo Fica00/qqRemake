@@ -121,23 +121,10 @@ public class GameplayTutorial : GameplayManager
         
         bool _playBackgroundMusic = DataManager.Instance.PlayerData.PlayBackgroundMusic;
         DataManager.Instance.PlayerData.PlayBackgroundMusic = false;
-
-        bool _canContinue = false;
-        for (int i = 0; i < Lanes.Count; i++)
-        {
-            Lanes[i].ShowWinner(Continue);
-            yield return new WaitUntil(() => _canContinue);
-            _canContinue = false;
-        }
         yield return new WaitForSeconds(1);
         DataManager.Instance.PlayerData.PlayBackgroundMusic = _playBackgroundMusic;
         GameResult _result = TableHandler.CalculateWinner();
         GameEnded?.Invoke(_result);
-        
-        void Continue()
-        {
-            _canContinue = true;
-        }
     }
 
     private void SetupTutorialLocation()  //Reci ne magicnim brojevima

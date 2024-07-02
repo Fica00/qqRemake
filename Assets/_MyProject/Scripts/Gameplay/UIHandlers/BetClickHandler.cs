@@ -114,6 +114,11 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             return;
         }
+
+        if (!SceneManager.IsGameplayTutorialScene & !DataManager.Instance.PlayerData.CanLoseRankPoints)
+        {
+            return;
+        }
         
         IncreaseAutoBetStatus();
     }
@@ -127,6 +132,12 @@ public class BetClickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (GameplayManager.Instance.GameplayState is not (GameplayState.Waiting or GameplayState.Playing))
         {
+            return;
+        }
+
+        if (!SceneManager.IsGameplayTutorialScene && !DataManager.Instance.PlayerData.CanLoseRankPoints)
+        {
+            DialogsManager.Instance.OkDialog.Setup("Doubling will be available after rank 10.");
             return;
         }
         
