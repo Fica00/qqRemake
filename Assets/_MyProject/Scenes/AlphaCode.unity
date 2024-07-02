@@ -242,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Version: 0.0.85
   <IsDemo>k__BackingField: 1
+  IsTelegramPlatform: 1
 --- !u!4 &301907328
 Transform:
   m_ObjectHideFlags: 0

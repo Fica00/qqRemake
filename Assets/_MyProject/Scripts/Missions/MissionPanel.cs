@@ -22,7 +22,7 @@ public class MissionPanel : MonoBehaviour
     [SerializeField] private Transform seasonalHolder;
     [SerializeField] private GameObject seasonalHeader;
     [SerializeField] private GameObject seasonalSeparator;
-    
+
     public Button pwaOverlay;
 
     private void Awake()
@@ -36,6 +36,7 @@ public class MissionPanel : MonoBehaviour
         {
             close.onClick.AddListener(Close);
         }
+
         LoginProgressDisplay.OnClicked += TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
 
@@ -44,13 +45,14 @@ public class MissionPanel : MonoBehaviour
             pwaOverlay.onClick.AddListener(ClosePwaOverlay);
         }
     }
-    
+
     private void OnDisable()
     {
         if (close)
         {
             close.onClick.RemoveListener(Close);
         }
+
         LoginProgressDisplay.OnClicked -= TryClaim;
         MissionManager.OnClaimed += ShowCompletedText;
 
@@ -83,6 +85,7 @@ public class MissionPanel : MonoBehaviour
         {
             loggedInText.text = $"{DataManager.Instance.PlayerData.WeeklyLoginAmount}/7 days";
         }
+
         ShowDailyCompletedText();
         ShowMissions();
         Debug.Log("aa");
@@ -101,12 +104,14 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowDailyCompletedText()
     {
-        if (numberOfTasksCompleted==null)
+        if (numberOfTasksCompleted == null)
         {
             return;
         }
+
         willRefreshInText.text = $"Will be refreshed in {GetRefreshTime()}";
-        numberOfTasksCompleted.text = $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
+        numberOfTasksCompleted.text =
+            $"{DataManager.Instance.PlayerData.MissionsProgress.Count(_mission => _mission.Completed)}/{DataManager.Instance.PlayerData.MissionsProgress.Count}";
     }
 
     private string GetRefreshTime()
@@ -136,6 +141,7 @@ public class MissionPanel : MonoBehaviour
         {
             return;
         }
+
         foreach (var _reward in DataManager.Instance.GameData.LoginRewards.OrderBy(_mission => _mission.Days))
         {
             LoginProgressDisplay _rewardDisplay = Instantiate(loginProgressDisplay, progressHolder);
@@ -146,10 +152,11 @@ public class MissionPanel : MonoBehaviour
 
     private void ShowMissions()
     {
-        if (missionDisplay==null)
+        if (missionDisplay == null)
         {
             return;
         }
+
         foreach (var _missionProgress in DataManager.Instance.PlayerData.MissionsProgress)
         {
             MissionDisplay _missionDisplay = Instantiate(missionDisplay, missionHolder);
@@ -159,12 +166,13 @@ public class MissionPanel : MonoBehaviour
 
     private void TryShowSeasonalTasks()
     {
-        if (seasonalTaskDisplay==null)
+        if (seasonalTaskDisplay == null)
         {
             Debug.Log(1);
             return;
         }
-            Debug.Log(2);
+
+        Debug.Log(2);
 
         foreach (SeasonalTaskType _seasonalTask in Enum.GetValues(typeof(SeasonalTaskType)))
         {
@@ -173,29 +181,35 @@ public class MissionPanel : MonoBehaviour
                 continue;
             }
 
-            if (!DataManager.Instance.PlayerData.IsGuest && _seasonalTask == SeasonalTaskType.SocialAccount)
+            if (JavaScriptManager.Instance.IsTelegramPlatform && _seasonalTask == SeasonalTaskType.Pwa)
             {
                 continue;
             }
             
+            if (!DataManager.Instance.PlayerData.IsGuest && _seasonalTask == SeasonalTaskType.SocialAccount)
+            {
+                continue;
+            }
+
             SeasonalTaskDisplay _seasonalTaskDisplay = Instantiate(seasonalTaskDisplay, seasonalHolder);
             _seasonalTaskDisplay.Setup(_seasonalTask);
         }
-        
+
         Debug.Log(3);
         if (seasonalHolder.childCount == 0)
         {
-        Debug.Log(4);
+            Debug.Log(4);
             SetSeasonalElementsActive(false);
         }
     }
-    
+
     private void SetSeasonalElementsActive(bool _isActive)
     {
-        if (seasonalHeader==null)
+        if (seasonalHeader == null)
         {
             return;
         }
+
         seasonalHeader.SetActive(_isActive);
         seasonalHolder.gameObject.SetActive(_isActive);
         seasonalSeparator.SetActive(_isActive);
@@ -208,7 +222,7 @@ public class MissionPanel : MonoBehaviour
         {
             return;
         }
-        
+
         qoomonUnlockingPanel.Setup(_choseQoomon, () => SceneManager.Instance.ReloadScene());
     }
 

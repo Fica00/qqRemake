@@ -81,12 +81,13 @@ public class JavaScriptManager : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void DoJoinFriendlyMatch(string _roomName);
 
-
+    public bool IsTelegramPlatform;
+    
     public bool IsPwaPlatform
     {
         get
         {
-            if (Application.isEditor)
+            if (Application.isEditor || IsTelegramPlatform)
             {
                 return false;
             }

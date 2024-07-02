@@ -135,6 +135,11 @@ public class UIMainMenu : MonoBehaviour
 
         void ManagePwaDialogAndOverlay()
         {
+            if (JavaScriptManager.Instance.IsTelegramPlatform)
+            {
+                return;
+            }
+            
             DialogsManager.Instance.OkDialog.OnOkPressed.AddListener(() =>
             {
                 bool _canReward = TryRewardForPwaAndBid();
